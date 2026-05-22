@@ -1,0 +1,532 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    {% trans "Your Business" as default_business_name %}
+    {% trans "Service" as default_service_type %}
+    {% trans "Your City" as default_city %}
+    {% trans "Professional service website" as default_template_label %}
+    {% trans "Northline Plumbing" as example_business_name %}
+    <div
+      class="hero-slider"
+      data-hero-slider
+      data-slider-interval="5500"
+      aria-roledescription="{% trans 'carousel' %}"
+      aria-label="{% trans 'Homepage marketing messages' %}"
+    >
+      <div class="eyebrow">{% trans "Fast websites for small service businesses" %}</div>
+      <h1 class="sr-only">{% trans "Get Online Fast websites for local service businesses" %}</h1>
+      <div class="hero-slider-track">
+        <article class="hero-slide is-active" data-hero-slide aria-hidden="false">
+          <div class="hero-slide-copy">
+            <h2 class="hero-slide-title">{% trans "Be found by local customers" %}</h2>
+            <p>{% trans "Get a fast, SEO-ready website structured for local searches, calls, WhatsApp messages and quote requests." %}</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+              <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View plans" %}</a>
+            </div>
+            <p class="hero-price-signal small">{% trans "Transport, Auto services, Construction, Business services" %}</p>
+            <p class="hero-microcopy small">{% trans "Private preview · Takes less than 60 seconds" %}</p>
+            <div class="micro-proof">
+              <span>{% trans "Plumbers" %}</span>
+              <span>{% trans "Electricians" %}</span>
+              <span>{% trans "Cleaners" %}</span>
+              <span>{% trans "Local service businesses" %}</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="hero-slide" data-hero-slide aria-hidden="true">
+          <div class="hero-slide-copy">
+            <h2 class="hero-slide-title">{% trans "More than a website" %}</h2>
+            <p>{% trans "Get a prepared website with guidance for visibility, content, ads and improvements when you need them." %}</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="{% url 'core:how_it_works' %}">{% trans "See how it works" %}</a>
+              <a class="btn btn-secondary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+            </div>
+            <p class="hero-price-signal small">{% trans "No missed opportunities" %}</p>
+            <p class="hero-microcopy small">{% trans "Simple contact paths from the first launch" %}</p>
+            <div class="micro-proof">
+              <span>{% trans "Forms" %}</span>
+              <span>{% trans "WhatsApp" %}</span>
+              <span>{% trans "Direct calls" %}</span>
+              <span>{% trans "Clear calls to action" %}</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="hero-slide" data-hero-slide aria-hidden="true">
+          <div class="hero-slide-copy">
+            <h2 class="hero-slide-title">{% trans "Turn visitors into customers" %}</h2>
+            <p>{% trans "Clear contact forms, WhatsApp buttons and direct calls, ready from day one." %}</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="{% url 'core:plans' %}">{% trans "Explore options" %}</a>
+              <a class="btn btn-secondary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+            </div>
+            <p class="hero-price-signal small">{% trans "Grow step by step" %}</p>
+            <p class="hero-microcopy small">{% trans "Support when you want to expand what is already working" %}</p>
+            <div class="micro-proof">
+              <span>{% trans "Visibility" %}</span>
+              <span>{% trans "Ads" %}</span>
+              <span>{% trans "Improvements" %}</span>
+              <span>{% trans "Practical next steps" %}</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="hero-slider-controls" aria-label="{% trans 'Hero slider controls' %}">
+        <button type="button" class="hero-slider-arrow" data-hero-prev aria-label="{% trans 'Show previous slide' %}">
+          <span aria-hidden="true">&#8592;</span>
+        </button>
+        <div class="hero-slider-dots" role="tablist" aria-label="{% trans 'Select hero message' %}">
+          <button type="button" class="hero-slider-dot is-active" data-hero-dot data-slide-index="0" role="tab" aria-selected="true" aria-label="{% trans 'Show slide 1: Be found by local customers' %}"></button>
+          <button type="button" class="hero-slider-dot" data-hero-dot data-slide-index="1" role="tab" aria-selected="false" aria-label="{% trans 'Show slide 2: More than a website' %}"></button>
+          <button type="button" class="hero-slider-dot" data-hero-dot data-slide-index="2" role="tab" aria-selected="false" aria-label="{% trans 'Show slide 3: Turn visitors into customers' %}"></button>
+        </div>
+        <button type="button" class="hero-slider-arrow" data-hero-next aria-label="{% trans 'Show next slide' %}">
+          <span aria-hidden="true">&#8594;</span>
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="preview-shell"
+      id="start"
+      data-default-name="{{ default_business_name }}"
+      data-default-type="{{ default_service_type }}"
+      data-default-city="{{ default_city }}"
+      data-default-slug="{{ default_business_name|slugify }}"
+      data-default-text="{% trans 'Explain your main service clearly so visitors know what you do and how to contact you.' %}"
+      data-title-template="{% trans 'Reliable %(type)s in %(city)s' %}"
+      data-default-template-label="{{ default_template_label }}"
+      data-template="jcw_professional"
+      data-storage-key="getonlinefast_public_preview_v1"
+    >
+      <div class="browser-bar">
+        <div class="browser-dots" aria-hidden="true">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <div class="url" id="previewUrl">{{ example_business_name|slugify }}.getonlinefast.eu</div>
+      </div>
+      <div class="preview-content">
+        <aside class="builder-panel">
+          <div class="preview-kicker small">{% trans "Website preview" %}</div>
+          <h3>{% trans "Start your private preview in 60 seconds" %}</h3>
+          <div class="small preview-helper">{% trans "Enter your business details and see a live preview instantly" %}</div>
+          <div class="field">
+            <label for="bizName">{% trans "Business name" %}</label>
+            <input id="bizName" type="text" value="{% trans 'Northline Plumbing' %}">
+          </div>
+          <div class="field">
+            <label for="bizType">{% trans "Business type" %}</label>
+            <select id="bizType">
+              <option>{% trans "Plumber" %}</option>
+              <option>{% trans "Electrician" %}</option>
+              <option>{% trans "Cleaner" %}</option>
+              <option>{% trans "Painter" %}</option>
+              <option>{% trans "Locksmith" %}</option>
+              <option>{% trans "Landscaper" %}</option>
+              <option>{% trans "Handyman" %}</option>
+              <option>{% trans "Roofer" %}</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bizCity">{% trans "City" %}</label>
+            <input id="bizCity" type="text" value="{% trans 'Breda' %}">
+          </div>
+          <div class="field">
+            <label for="bizText">{% trans "What do you do?" %}</label>
+            <textarea id="bizText">{% trans "Local plumbing for repairs, bathroom work, installations, and urgent call-outs." %}</textarea>
+          </div>
+          <div class="field">
+            <label for="templateChoice">{% trans "Template" %}</label>
+            <select id="templateChoice">
+              <option value="jcw_professional">{% trans "Professional service website" %}</option>
+            </select>
+          </div>
+          <a class="btn btn-primary full-width" href="#onboarding-modal" data-modal-open="onboarding-modal" data-preview-continue>{% trans "Continue with this preview" %}</a>
+          <p class="small preview-helper">{% trans "Your preview is private and not published publicly until activation/payment is completed." %}</p>
+        </aside>
+
+        <div class="preview-panel">
+          <div class="preview-panel-head">
+            <h3>{% trans "Live preview" %}</h3>
+            <span class="preview-template-pill" id="previewTemplateLabel">{% trans "Professional service website" %}</span>
+          </div>
+          <div class="phone-preview-wrap">
+            <div class="phone-preview">
+              <div class="phone-top">
+                <span class="phone-camera"></span>
+                <span class="phone-speaker"></span>
+              </div>
+              <div class="phone-screen">
+                <div class="phone-status">
+                  <span class="small phone-status-text">{% trans "Mobile preview" %}</span>
+                  <span class="small" id="previewCity">{% trans "Breda" %}</span>
+                </div>
+                <div class="phone-card">
+                  <div class="phone-brand" id="previewBrand">{% trans "Northline Plumbing" %}</div>
+                  <h2 class="phone-title" id="previewTitle">{% trans "Reliable plumber in Breda" %}</h2>
+                  <p class="phone-copy" id="previewText">{% trans "Local plumbing for repairs, bathroom work, installations, and urgent call-outs." %}</p>
+                  <a class="btn btn-primary phone-cta" href="{% url 'core:one_time_website_plan' %}">{% trans "Request a quote" %}</a>
+                </div>
+                <div class="phone-chips">
+                  <span class="phone-chip">{% trans "Fast Call-Outs" %}</span>
+                  <span class="phone-chip">{% trans "Core Services" %}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft feature-strip-section">
+  <div class="wrap">
+    <div class="section-head section-head-centered">
+      <div>
+        <h2>{% trans "Built to help customers find you" %}</h2>
+      </div>
+      <p>
+        {% trans "Your website is more than an online card. It is built to explain your services clearly, make contact easy, and support your visibility on Google and Bing." %}
+      </p>
+    </div>
+    <div class="feature-strip">
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">&#8599;</span>
+        <strong>{% trans "Clear services" %}</strong>
+        <span>{% trans "Show what you offer in a way customers understand quickly." %}</span>
+      </article>
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">&#9635;</span>
+        <strong>{% trans "Local visibility" %}</strong>
+        <span>{% trans "Structure your pages around the areas and services people search for." %}</span>
+      </article>
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">&#8364;</span>
+        <strong>{% trans "Easy contact" %}</strong>
+        <span>{% trans "Let customers call, email, or send a message without confusion." %}</span>
+      </article>
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">+</span>
+        <strong>{% trans "Mobile-ready" %}</strong>
+        <span>{% trans "Make your business look professional on phones, tablets, and desktops." %}</span>
+      </article>
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">&#10003;</span>
+        <strong>{% trans "Simple setup" %}</strong>
+        <span>{% trans "Register, confirm your details, and your website is ready to go live." %}</span>
+      </article>
+      <article class="feature-badge">
+        <span class="feature-badge-icon" aria-hidden="true">&#10148;</span>
+        <strong>{% trans "Start getting visitors" %}</strong>
+        <span>{% trans "We help you promote your website from day one with simple visibility options." %}</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "From idea to online in 3 simple steps" %}</h2>
+      </div>
+      <p>
+        {% trans "No complicated process. Just a few simple steps and your website is live." %}
+      </p>
+    </div>
+    <div class="steps">
+      <article class="card">
+        <div class="step-num">1</div>
+        <h3>{% trans "Enter your business details" %}</h3>
+        <p>{% trans "Add your business name, category, and location to get started." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">2</div>
+        <h3>{% trans "Preview your website instantly" %}</h3>
+        <p>{% trans "See your website generated in real time and adjust your content if needed." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">3</div>
+        <h3>{% trans "Launch your website" %}</h3>
+        <p>{% trans "Go live and start receiving customer enquiries right away." %}</p>
+      </article>
+    </div>
+    <p class="small section-note">{% trans "Most websites are ready in minutes, not days." %}</p>
+  </div>
+</section>
+
+<section class="section-band section-soft ai-assistant-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">{% trans "Built-in Assistant" %}</div>
+        <h2>{% trans "Work on your website like you work on your business" %}</h2>
+      </div>
+      <p>
+        {% trans "No need to wait for support or figure everything out alone. Your assistant helps you update, improve and adjust your website anytime." %}
+      </p>
+    </div>
+    <div class="ai-benefits">
+      <article class="card">
+        <div class="feature-badge-icon" aria-hidden="true">?</div>
+        <h3>{% trans "Ask questions anytime" %}</h3>
+        <p>{% trans "Get instant answers while you build and improve your website." %}</p>
+      </article>
+      <article class="card">
+        <div class="feature-badge-icon" aria-hidden="true">+</div>
+        <h3>{% trans "Improve your content faster" %}</h3>
+        <p>{% trans "Use the assistant to help with text, structure and ideas for your pages." %}</p>
+      </article>
+      <article class="card">
+        <div class="feature-badge-icon" aria-hidden="true">&#10003;</div>
+        <h3>{% trans "Stay in control" %}</h3>
+        <p>{% trans "Make progress yourself without needing technical skills or support tickets." %}</p>
+      </article>
+    </div>
+    <div class="ai-assistant-note">
+      <p class="small">{% trans "Available inside your dashboard whenever you need it" %}</p>
+      <strong>{% trans "Designed to help you move faster, not slow you down." %}</strong>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Why this helps your business grow" %}</h2>
+      </div>
+      <p>
+        {% trans "A clear website makes it easier for visitors to understand what you offer, trust your business, and contact you." %}
+      </p>
+    </div>
+    <div class="proof-grid">
+      <div class="card">
+        <h3>{% trans "Clear offer" %}</h3>
+        <p>{% trans "Visitors understand your services quickly and know what to do next." %}</p>
+      </div>
+      <div class="card">
+        <h3>{% trans "Built for local businesses" %}</h3>
+        <p>{% trans "Useful for transport, auto services, construction, and other local services." %}</p>
+      </div>
+      <div class="card">
+        <h3>{% trans "Simple pricing" %}</h3>
+        <p>{% trans "Start with the option that fits your budget and upgrade when you are ready." %}</p>
+      </div>
+      <div class="card">
+        <h3>{% trans "Room to grow" %}</h3>
+        <p>{% trans "Start simple, then add a catalog, online shop, or marketing campaigns when you're ready." %}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="examples" class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Choose a starting design for your business" %}</h2>
+      </div>
+      <p>
+        {% trans "Pick a template that fits your business and test your website preview instantly." %}
+      </p>
+    </div>
+    <div class="examples">
+      <article class="card template-card" data-template="plumbing">
+        <div class="example-shot">{% trans "Plumbing" %}</div>
+        <h3>{% trans "Plumbing" %}</h3>
+        <p>{% trans "A clear starting design for repairs, installations, urgent jobs, and local service areas." %}</p>
+        <a class="btn btn-secondary" href="#onboarding-modal" data-modal-open="onboarding-modal" data-template="plumbing">{% trans "Test this template" %}</a>
+      </article>
+      <article class="card template-card" data-template="cleaning">
+        <div class="example-shot">{% trans "Cleaning Services" %}</div>
+        <h3>{% trans "Cleaning Services" %}</h3>
+        <p>{% trans "A practical layout for home cleaning, office cleaning, service packages, and quote requests." %}</p>
+        <a class="btn btn-secondary" href="#onboarding-modal" data-modal-open="onboarding-modal" data-template="cleaning">{% trans "Test this template" %}</a>
+      </article>
+      <article class="card template-card" data-template="electrician">
+        <div class="example-shot">{% trans "Electrician" %}</div>
+        <h3>{% trans "Electrician" %}</h3>
+        <p>{% trans "A focused template for call-outs, inspections, repairs, installations, and fast contact." %}</p>
+        <a class="btn btn-secondary" href="#onboarding-modal" data-modal-open="onboarding-modal" data-template="electrician">{% trans "Test this template" %}</a>
+      </article>
+    </div>
+    <p class="small examples-note">{% trans "You can switch templates while testing." %}</p>
+  </div>
+</section>
+
+<section class="pricing-section section-emphasis" id="pricing">
+  <div class="container">
+    <div class="pricing-head">
+      <div>
+        <h2>{% trans "Choose how you want to run your website" %}</h2>
+      </div>
+      <div>
+        <p>
+          {% trans "Pay once or let us handle everything monthly." %}
+        </p>
+        <p class="small">
+          {% trans "Start small, then add features when your business needs them." %}
+        </p>
+      </div>
+    </div>
+    <div class="pricing-grid">
+      <article class="pricing-card pricing-card-muted">
+        <h3>{% trans "Starter Page" %}</h3>
+        <div class="price">{% trans "EUR 20/month" %}</div>
+        <div class="price-note">{% trans "Start with a starter page and upgrade when you are ready." %}</div>
+        <ul>
+          <li>{% trans "Starter page" %}</li>
+          <li>{% trans "Temporary Get Online Fast subdomain" %}</li>
+          <li>{% trans "Basic editable content" %}</li>
+          <li>{% trans "WhatsApp or contact button" %}</li>
+          <li>{% trans "Upgrade to a full WordPress website anytime" %}</li>
+        </ul>
+        <a href="{% url 'core:ai_website' %}" class="pricing-btn pricing-btn-outline">{% trans "Start with Starter Page" %}</a>
+      </article>
+
+      <article class="pricing-card pricing-card-featured">
+        <div class="pricing-badge">{% trans "Most chosen" %}</div>
+        <h3>{% trans "One-Time Website" %}</h3>
+        <div class="price">{% trans "€325 + VAT" %}</div>
+        <div class="price-note">{% trans "One-time setup. No subscriptions." %}</div>
+        <ul>
+          <li>{% trans "Full business website" %}</li>
+          <li>{% trans "Structured SEO setup" %}</li>
+          <li>{% trans "Assisted content editing" %}</li>
+          <li>{% trans "Built to help visitors contact your business" %}</li>
+          <li>{% trans "Yours to use and grow over time with catalog, online shop, extra pages, languages, or marketing." %}</li>
+        </ul>
+        <a href="{% url 'core:one_time_website_plan' %}" class="pricing-btn pricing-btn-solid">{% trans "See One-Time Plan" %}</a>
+      </article>
+
+      <article class="pricing-card">
+        <h3>{% trans "Monthly Plan" %}</h3>
+        <div class="price">{% trans "From EUR 49.90" %}</div>
+        <div class="price-note">{% trans "per month" %}</div>
+        <ul>
+          <li>{% trans "Hosting included" %}</li>
+          <li>{% trans "Website stays online" %}</li>
+          <li>{% trans "Small updates and support" %}</li>
+          <li>{% trans "Ongoing website care" %}</li>
+          <li>{% trans "Optional Facebook posts add-on" %}</li>
+        </ul>
+        <a href="{% url 'core:monthly_plan' %}" class="pricing-btn pricing-btn-outline">{% trans "See Monthly Plan" %}</a>
+      </article>
+
+      <article class="pricing-card pricing-card-muted pricing-card-coming-soon">
+        <div class="pricing-badge pricing-badge-muted">{% trans "Add-on" %}</div>
+        <h3>{% trans "eCommerce Add-on" %}</h3>
+        <div class="price-note">{% trans "Turn your website into an online shop anytime." %}</div>
+        <ul>
+          <li>{% trans "Add products and accept payments" %}</li>
+          <li>{% trans "Simple checkout setup" %}</li>
+          <li>{% trans "Works with your existing website" %}</li>
+        </ul>
+        <a href="{% url 'core:ecommerce_plan' %}" class="pricing-btn pricing-btn-outline">{% trans "Ask about eCommerce" %}</a>
+      </article>
+    </div>
+
+    <div class="pricing-addon">
+      <div>
+        <h3>{% trans "Optional visibility boost" %}</h3>
+        <p>
+          <strong>{% trans "Facebook posts: EUR 79 / month" %}</strong>
+          {% trans "2 posts per week to keep your business active online and increase chances of customer calls." %}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Helpful guides" %}</h2>
+      </div>
+      <p>
+        {% trans "Quick explanations for common questions before and after your website goes online." %}
+      </p>
+    </div>
+    <div class="examples">
+      {% for post in latest_public_blog_posts %}
+      <article class="card template-card blog-home-card">
+        {% if post.display_image %}
+        <img class="blog-card-media" src="{{ post.display_image }}" alt="{{ post.title }}">
+        {% else %}
+        <div class="blog-card-placeholder" aria-hidden="true">{{ post.title|slice:":1" }}</div>
+        {% endif %}
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt }}</p>
+        <a class="btn btn-secondary" href="{% url 'blog:detail' slug=post.slug %}">{% trans "Open guide" %}</a>
+      </article>
+      {% empty %}
+      <article class="card template-card">
+        <h3>{% trans "No public guides yet" %}</h3>
+        <p>{% trans "Publish public blog posts in the admin to show the latest guides here." %}</p>
+        <a class="btn btn-secondary" href="{% url 'blog:index' %}">{% trans "Open blog" %}</a>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section-band section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "FAQ" %}</h2>
+      </div>
+      <p>{% trans "Short answers for the practical questions business owners usually ask before they commit." %}</p>
+    </div>
+    <div class="faq">
+      <article class="card">
+        <h3>{% trans "Which package should most businesses choose?" %}</h3>
+        <p>{% trans "One-Time Website is a strong fit if you want a professional website without monthly care. Monthly Plan is better if you want hosting, support, and updates handled for you." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "What is the difference between One-Time Website and Monthly Plan?" %}</h3>
+        <p>{% trans "The one-time option lets you pay once to keep your website active. The monthly plan includes ongoing care, hosting, and support so you do not have to manage anything." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Are Facebook posts included?" %}</h3>
+        <p>{% trans "No. Facebook posts are an optional add-on available for an additional monthly cost." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Can I switch later?" %}</h3>
+        <p>{% trans "Yes, you can move between plans or add services later." %}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-cta-shell">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Start your website preview now" %}</h2>
+        <p>{% trans "Build your website in minutes and see exactly how it looks before you decide." %}</p>
+        <div class="cta-contact">
+          <a href="mailto:info@getonlinefast.eu">info@getonlinefast.eu</a>
+          <span class="cta-contact-divider">&middot;</span>
+          <a href="tel:+31617014936">+31 617 014936</a>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+    </div>
+  </div>
+</section>
+{% include "includes/onboarding_modal.html" %}
+{% endblock %}

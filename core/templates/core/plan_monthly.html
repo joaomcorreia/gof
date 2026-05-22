@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Monthly Website" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{% trans 'A monthly website plan for small businesses that want a complete website setup, ongoing support, and predictable monthly costs.' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero plan-page-hero">
+  <div class="wrap plan-hero-grid">
+    <div class="plan-hero-copy">
+      <div class="eyebrow">{% trans "Monthly website" %}</div>
+      <h1>{% trans "Start your website without a large upfront cost" %}</h1>
+      <p class="page-copy">{% trans "A complete website setup with ongoing support, updates, and improvements." %}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start monthly plan" %}</a>
+        <a class="btn btn-secondary" href="{% url 'core:one_time_website_plan' %}">{% trans "Compare with one-time website" %}</a>
+      </div>
+      <div class="micro-proof">
+        <span class="hero-price-chip">
+          <span class="hero-price-chip-current">{% trans "€49.90 / month" %}</span>
+        </span>
+        <span>{% trans "No large upfront payment" %}</span>
+        <span>{% trans "Ongoing support included" %}</span>
+        <span>{% trans "Cancel anytime" %}</span>
+      </div>
+    </div>
+    <div class="plan-hero-media">
+      <img
+        class="plan-hero-image"
+        src="{% static 'core/img/one-time-website-hero.png' %}"
+        alt="{% trans 'Website preview on laptop and phone' %}"
+      >
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-summary-band">
+  <div class="wrap detail-grid">
+    <article class="card plan-summary-card">
+      <h2>{% trans "A complete website with lower starting cost" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "Website built for your business" %}</li>
+        <li>{% trans "Continuous updates and improvements" %}</li>
+        <li>{% trans "Support included" %}</li>
+        <li>{% trans "No technical work needed" %}</li>
+      </ul>
+    </article>
+    <article class="card price-card plan-price-card">
+      <h2>{% trans "€49.90 / month" %}</h2>
+      <p>{% trans "Monthly website plan" %}</p>
+      <p class="small plan-price-note">{% trans "A predictable monthly option for businesses that want support and steady progress." %}</p>
+      <p class="small">{% trans "A simple way to launch without a large upfront investment." %}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-included-band">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "What is included in your setup" %}</h2>
+      </div>
+      <p>{% trans "Everything you need to launch with support, plus room to improve your website over time." %}</p>
+    </div>
+    <div class="plan-included-layout">
+      <div class="plan-feature-list">
+        <article class="card plan-feature-row plan-feature-row-website">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M3.5 9H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Website & content" %}</h3>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Full business website" %}</li>
+              <li>{% trans "Updates included" %}</li>
+              <li>{% trans "Pages adjusted as your business changes" %}</li>
+              <li>{% trans "Ready to grow over time" %}</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-search">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M15 15L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Search visibility" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge plan-feature-badge-channel">{% trans "Google" %}</span>
+                <span class="plan-feature-badge plan-feature-badge-channel">{% trans "Bing" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Google and Bing setup" %}</li>
+              <li>{% trans "Ongoing improvements" %}</li>
+              <li>{% trans "Local visibility foundation" %}</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-contact">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 7.5C5 6.12 6.12 5 7.5 5H16.5C17.88 5 19 6.12 19 7.5V14.5C19 15.88 17.88 17 16.5 17H10L6 20V17.5C5.45 17.27 5 16.81 5 16.25V7.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Customer contact" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge">{% trans "Form" %}</span>
+                <span class="plan-feature-badge">{% trans "WhatsApp" %}</span>
+                <span class="plan-feature-badge">{% trans "Email" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Contact forms ready" %}</li>
+              <li>{% trans "WhatsApp or email options" %}</li>
+              <li>{% trans "Clear ways for customers to reach you" %}</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-hosting">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="5" rx="1.8" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="4" y="14" width="16" height="5" rx="1.8" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 7.5H8.01M8 16.5H8.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Hosting & infrastructure" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge">{% trans "Active plan included" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Hosting included as long as your plan is active" %}</li>
+              <li>{% trans "Domain connected and maintained" %}</li>
+              <li>{% trans "Stable website access" %}</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <aside class="card plan-launch-boost-card">
+        <p class="plan-launch-boost-label">{% trans "Part of your monthly plan" %}</p>
+        <div class="plan-launch-boost-head">
+          <span class="plan-feature-icon plan-launch-boost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.5 20V12H16.2L16.6 9.5H13.5V8.1C13.5 7.38 13.74 6.9 14.78 6.9H16.7V4.55C16.37 4.5 15.65 4.4 14.8 4.4C12.64 4.4 11.2 5.64 11.2 7.92V9.5H8.9V12H11.2V20H13.5Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <h3>{% trans "Ongoing support included" %}</h3>
+        </div>
+        <div class="plan-launch-boost-stats" aria-hidden="true">
+          <span class="plan-launch-boost-stat">{% trans "updates" %}</span>
+          <span class="plan-launch-boost-arrow">→</span>
+          <span class="plan-launch-boost-stat">{% trans "support" %}</span>
+          <span class="plan-launch-boost-arrow">→</span>
+          <span class="plan-launch-boost-stat">{% trans "improvements" %}</span>
+        </div>
+        <ul class="clean-list">
+          <li>{% trans "Continuous updates and improvements" %}</li>
+          <li>{% trans "Support included" %}</li>
+          <li>{% trans "No technical work needed" %}</li>
+        </ul>
+        <p class="plan-launch-boost-footnote">{% trans "A practical way to keep your website moving forward every month." %}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-benefits-band">
+  <div class="wrap">
+    <article class="card plan-benefits-card">
+      <h2>{% trans "Why choose monthly?" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "No upfront cost" %}</li>
+        <li>{% trans "Continuous improvements" %}</li>
+        <li>{% trans "Ideal for businesses starting out" %}</li>
+        <li>{% trans "Less risk" %}</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-steps-band">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "How it works" %}</h2>
+      </div>
+      <p>{% trans "A simple path from your business details to a website that can keep improving over time." %}</p>
+    </div>
+    <div class="steps compact-steps">
+      <article class="card">
+        <div class="step-num">1</div>
+        <h3>{% trans "Enter your business details" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">2</div>
+        <h3>{% trans "Choose a starting design" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">3</div>
+        <h3>{% trans "Preview your website instantly" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">4</div>
+        <h3>{% trans "Go live and keep improving" %}</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-after-band">
+  <div class="wrap">
+    <article class="card plan-after-card">
+      <h2>{% trans "After launch" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "Your website stays online while your plan is active" %}</li>
+        <li>{% trans "Updates and support stay included" %}</li>
+        <li>{% trans "Improvements can be added over time" %}</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-growth-band">
+  <div class="wrap">
+    <article class="card plan-growth-shell">
+      <div class="plan-growth-copy">
+        <h2>{% trans "Built to grow with your business" %}</h2>
+        <p>{% trans "Use the monthly plan as your starting point, then keep improving your website as your business grows." %}</p>
+      </div>
+      <div class="plan-growth-list">
+        <ul class="clean-list">
+          <li>{% trans "Adjust pages and services over time" %}</li>
+          <li>{% trans "Add more visibility support when needed" %}</li>
+          <li>{% trans "Keep your website current without technical work" %}</li>
+          <li>{% trans "Switch to a larger setup later if your business needs it" %}</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-cta-shell plan-cta-shell">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Start with a monthly website plan" %}</h2>
+        <p>{% trans "Launch with lower starting cost and keep improving your website over time." %}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start monthly plan" %}</a>
+        <a class="btn btn-secondary" href="{% url 'core:one_time_website_plan' %}">{% trans "Compare with one-time website" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% include "includes/onboarding_modal.html" %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load i18n %}
+<section class="site-section site-section-hero">
+  <div>
+    <span class="site-section-kicker">{{ values.kicker }}</span>
+    <h1>{{ values.title }}</h1>
+    <p>{{ values.description }}</p>
+    <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
+  </div>
+  <div class="site-section-card">
+    <span>{% trans "Suggested website setup" %}</span>
+    <strong>{{ values.highlight_title }}</strong>
+    <p>{{ values.highlight_text }}</p>
+  </div>
+</section>

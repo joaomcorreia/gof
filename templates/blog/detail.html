@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ post.seo_title }} | {% trans "Blog" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ post.seo_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="section-band section-plain">
+  <div class="wrap">
+    <article class="blog-detail-shell">
+      <div class="blog-detail-copy">
+        <div class="eyebrow">{{ post.category.title }}</div>
+        <h1>{{ post.title }}</h1>
+        {% if post.excerpt %}
+        <p class="page-copy">{{ post.excerpt }}</p>
+        {% endif %}
+        <p class="small blog-card-meta">
+          {% if post.published_at %}{{ post.published_at|date:"d M Y" }}{% else %}{% trans "Not published yet" %}{% endif %}
+        </p>
+      </div>
+      <div class="blog-detail-media">
+        {% if post.display_image %}
+        <img class="blog-detail-image" src="{{ post.display_image }}" alt="{{ post.title }}">
+        {% else %}
+        <div class="blog-card-placeholder blog-card-placeholder-large" aria-hidden="true">{{ post.title|slice:":1" }}</div>
+        {% endif %}
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <article class="card blog-rich-content">
+      {{ post.body|linebreaks }}
+    </article>
+    <p class="small blog-back-link"><a href="{% url 'blog:index' %}">{% trans "Back to blog" %}</a></p>
+  </div>
+</section>
+{% endblock %}
+

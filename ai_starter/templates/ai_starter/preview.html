@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ site.business_name }} | {% trans "Website preview" %}{% endblock %}
+
+{% block content %}
+<section class="public-preview-page site-editor-page">
+  <div class="wrap site-editor-layout">
+    <aside class="public-preview-sidebar site-editor-sidebar">
+      <div class="eyebrow">{% trans "Your preview" %}</div>
+      <h1>{% trans "Review and edit your generated website" %}</h1>
+      <p>{% trans "Your website starts with suggestion-based content from three onboarding fields. You can edit any field below and regenerate suggestions anytime." %}</p>
+
+      <dl class="preview-detail-list">
+        <div>
+          <dt>{% trans "Business name" %}</dt>
+          <dd>{{ site.business_name }}</dd>
+        </div>
+        <div>
+          <dt>{% trans "Service type" %}</dt>
+          <dd>{{ site.service_type }}</dd>
+        </div>
+        <div>
+          <dt>{% trans "City" %}</dt>
+          <dd>{{ site.city }}</dd>
+        </div>
+      </dl>
+
+      <form method="post" class="site-editor-form">
+        {% csrf_token %}
+        <section class="site-editor-section site-editor-template-panel">
+          <h2>{% trans "Choose a starting design" %}</h2>
+          <div class="site-editor-field">
+            <label for="template_slug">{% trans "Template" %}</label>
+            <select id="template_slug" name="template_slug">
+              {% for option in template_options %}
+              <option value="{{ option.slug }}"{% if option.slug == site.template_slug %} selected{% endif %}>{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <p class="small">{% trans "Changing design may refresh the suggested content." %}</p>
+          <button class="btn btn-secondary full-width" type="submit" name="action" value="apply_template">{% trans "Apply design" %}</button>
+        </section>
+
+        <section class="site-editor-section site-editor-template-panel">
+          <h2>{% trans "Choose colors" %}</h2>
+          <div class="site-editor-field">
+            <label for="color_palette">{% trans "Color palette" %}</label>
+            <select id="color_palette" name="color_palette">
+              {% for option in palette_options %}
+              <option value="{{ option.slug }}"{% if option.slug == site.color_palette %} selected{% endif %}>{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn btn-secondary full-width" type="submit" name="action" value="apply_palette">{% trans "Apply colors" %}</button>
+        </section>
+
+        {% for section in editor_sections %}
+        <section class="site-editor-section">
+          <h2>{{ section.label }}</h2>
+          {% for field in section.fields %}
+          <div class="site-editor-field">
+            <label for="content_{{ field.id }}">{{ field.label }}</label>
+            <textarea
+              id="content_{{ field.id }}"
+              name="content__{{ field.id }}"
+              rows="{% if field.key == 'description' or field.key == 'highlight_text' or field.key == 'intro' %}3{% else %}2{% endif %}"
+            >{{ field.value }}</textarea>
+          </div>
+          {% endfor %}
+        </section>
+        {% endfor %}
+
+        <div class="preview-sidebar-actions">
+          <button class="btn btn-primary full-width" type="submit" name="action" value="save">{% trans "Save changes" %}</button>
+          <button class="btn btn-secondary full-width" type="submit" name="action" value="regenerate">{% trans "Regenerate suggestions" %}</button>
+          <a class="btn btn-secondary full-width" href="{% url 'core:plans' %}">{% trans "Back to plans" %}</a>
+        </div>
+      </form>
+    </aside>
+
+    <div class="public-preview-stage site-editor-stage" aria-label="{% trans 'Website template preview' %}">
+        <div class="preview-browser site-frame-browser">
+          <div class="browser-bar">
+            <div class="browser-dots" aria-hidden="true">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="url">{{ site_slug }}.getonlinefast.eu</div>
+          </div>
+        <iframe
+          class="site-preview-frame"
+          src="{% url 'ai_starter:preview_frame' public_id=site.public_id %}"
+          title="{% trans 'Generated website preview' %}"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

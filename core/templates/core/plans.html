@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Plans" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Website plans" %}</div>
+    <h1>{% trans "Choose the right plan for your business" %}</h1>
+    <p class="page-copy">{% trans "Choose a one-time website, a monthly plan, or keep eCommerce in view for later growth. Each plan is built around a clear, practical website setup for small businesses." %}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="pricing-grid">
+      {% for plan in plans %}
+      <article class="pricing-card{% if plan.featured %} pricing-card-featured{% endif %}{% if plan.coming_soon %} pricing-card-muted pricing-card-coming-soon{% endif %}">
+        {% if plan.badge %}
+        <div class="pricing-badge{% if plan.coming_soon %} pricing-badge-muted{% endif %}">{{ plan.badge }}</div>
+        {% endif %}
+        <h2 class="plan-card-title">{{ plan.title }}</h2>
+        <div class="price{% if plan.coming_soon %} price-soon{% endif %}">{{ plan.price }}</div>
+        <p>{{ plan.text }}</p>
+        <ul>
+          {% for item in plan.items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url plan.url_name %}" class="pricing-btn {% if plan.featured %}pricing-btn-solid{% else %}pricing-btn-outline{% endif %}">{{ plan.cta }}</a>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="pricing-microcopy small">{% trans "Start with the plan that fits now. You can add services, a catalog, an online shop, or marketing campaigns later as your business grows." %}</p>
+    <div class="pricing-addon">
+      <h3>{% trans "Growth options" %}</h3>
+      <div class="pricing-addon-grid">
+        <article class="pricing-addon-item">
+          <strong>{% trans "Catalog add-on" %}</strong>
+          <p>{% trans "Show products or services online and let customers request more information." %}</p>
+        </article>
+        <article class="pricing-addon-item">
+          <strong>{% trans "Online shop" %}</strong>
+          <p>{% trans "Add checkout and payments when you are ready to sell directly online." %}</p>
+        </article>
+        <article class="pricing-addon-item">
+          <strong>{% trans "Marketing" %}</strong>
+          <p>{% trans "Use Facebook posts and Google Ads campaigns to increase visibility and enquiries." %}</p>
+        </article>
+      </div>
+      <p class="small">{% trans "A catalog helps customers browse and enquire. An online shop adds checkout and payments. Marketing helps bring visitors to your website." %}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

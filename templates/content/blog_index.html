@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Blog" %}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    {% if articles %}
+      <div class="examples">
+        {% for article in articles %}
+          <article class="card template-card">
+            {% if article.category %}
+              <div class="eyebrow">{{ article.category.name }}</div>
+            {% endif %}
+            <h3>
+              <a href="{% url 'content:blog_detail' article.slug %}">{{ article.title }}</a>
+            </h3>
+            {% if article.excerpt %}
+              <p>{{ article.excerpt }}</p>
+            {% elif article.meta_description %}
+              <p>{{ article.meta_description }}</p>
+            {% else %}
+              <p>{% trans "Read the full article for the complete update." %}</p>
+            {% endif %}
+            <a class="btn btn-secondary" href="{% url 'content:blog_detail' article.slug %}">{% trans "Read article" %}</a>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <article class="card">
+        <h3>{% trans "Blog posts are coming soon" %}</h3>
+        <p>{% trans "The blog route is live, but no published public articles are marked for blog display yet." %}</p>
+      </article>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

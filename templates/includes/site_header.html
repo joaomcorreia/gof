@@ -1,0 +1,52 @@
+{% load i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="logo" href="{% url 'core:home' %}" aria-label="{% trans 'Get Online Fast home' %}">
+      <span class="logo-secondary">
+        <span class="logo-word">{% trans "Get" %}</span>
+        <span class="logo-word">{% trans "Online" %}</span>
+      </span>
+      <span class="logo-word logo-word-fast">{% trans "Fast" %}</span>
+    </a>
+    <div class="header-actions">
+      <nav class="nav" aria-label="{% trans 'Primary navigation' %}">
+        <a href="{% url 'core:home' %}">{% trans "Home" %}</a>
+        <a href="{% url 'core:how_it_works' %}">{% trans "How it works" %}</a>
+        <a href="{% url 'core:examples' %}">{% trans "Examples" %}</a>
+        <a href="{% url 'core:plans' %}">{% trans "Plans" %}</a>
+        <a href="{% url 'blog:index' %}">{% trans "Blog" %}</a>
+        <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
+        {# TODO: switch to a named URL when the help page route exists. #}
+        <a href="/help/">{% trans "Help" %}</a>
+        <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start now" %}</a>
+      </nav>
+      <div class="language-switcher" role="group" aria-label="{% trans 'Language switcher' %}">
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="language" value="en">
+          <input type="hidden" name="next" value="/en{{ request.get_full_path|slice:'3:' }}">
+          <button class="{% if CURRENT_LANGUAGE == 'en' %}is-active{% endif %}" type="submit">EN</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="language" value="fr">
+          <input type="hidden" name="next" value="/fr{{ request.get_full_path|slice:'3:' }}">
+          <button class="{% if CURRENT_LANGUAGE == 'fr' %}is-active{% endif %}" type="submit">FR</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="language" value="nl">
+          <input type="hidden" name="next" value="/nl{{ request.get_full_path|slice:'3:' }}">
+          <button class="{% if CURRENT_LANGUAGE == 'nl' %}is-active{% endif %}" type="submit">NL</button>
+        </form>
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="language" value="pt">
+          <input type="hidden" name="next" value="/pt{{ request.get_full_path|slice:'3:' }}">
+          <button class="{% if CURRENT_LANGUAGE == 'pt' %}is-active{% endif %}" type="submit">PT</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>

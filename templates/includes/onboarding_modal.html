@@ -1,0 +1,120 @@
+{% load i18n %}
+{% trans "Your Business" as default_business_name %}
+{% trans "Service" as default_service_type %}
+{% trans "Your City" as default_city %}
+<div
+  class="modal{% if onboarding_modal_open %} is-open{% endif %}"
+  id="onboarding-modal"
+  aria-hidden="{% if onboarding_modal_open %}false{% else %}true{% endif %}"
+>
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-dialog modal-dialog-preview" role="dialog" aria-modal="true" aria-labelledby="onboarding-modal-title">
+    <button class="modal-close" type="button" data-modal-close aria-label="{% trans 'Close modal' %}">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="modal-content">
+      <div class="modal-eyebrow">{% trans "First step" %}</div>
+      <h2 id="onboarding-modal-title">{% trans "Start your preview" %}</h2>
+      <p class="modal-copy">
+        {% blocktrans trimmed %}
+        Enter your business details and see your website preview update instantly.
+        {% endblocktrans %}
+      </p>
+
+      <div
+        class="modal-preview-layout"
+        data-template="jcw_professional"
+        data-default-name="{{ default_business_name }}"
+        data-default-type="{{ default_service_type }}"
+        data-default-city="{{ default_city }}"
+        data-default-slug="{{ default_business_name|slugify }}"
+        data-default-text="{% trans 'Describe your main service so customers quickly understand what you do.' %}"
+        data-title-template="{% trans 'Reliable %(type)s in %(city)s' %}"
+        data-service-line-template="{% trans '%(type)s services for customers in %(city)s and nearby areas.' %}"
+      >
+        <form method="post" action="{% url 'ai_starter:start' %}" class="onboarding-form modal-preview-form">
+          {% csrf_token %}
+          <div class="modal-form-grid">
+            {% for field in onboarding_form %}
+            <div class="modal-field{% if field.name == 'short_description' %} modal-field-wide{% endif %}">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+              <div class="field-errors">
+                {% for error in field.errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-primary full-width" type="submit">{% trans "Continue with this preview" %}</button>
+            <p
+              class="small modal-preview-status"
+              data-modal-preview-status
+              data-saved-message="{% trans 'Preview saved. The next login, payment, or dashboard step can use this data.' %}"
+            >
+              {% trans "Your preview details are saved in this browser for the next step." %}
+            </p>
+          </div>
+        </form>
+
+        <div class="modal-preview-panel" aria-label="{% trans 'Live website preview' %}">
+          <div class="preview-panel-head">
+            <h3>{% trans "Live preview" %}</h3>
+            <span class="preview-template-pill">{% trans "Professional service website" %}</span>
+          </div>
+          <div class="preview-browser modal-template-browser">
+            <div class="browser-bar">
+              <div class="browser-dots" aria-hidden="true">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <div class="url" data-modal-preview-url>{{ default_business_name|slugify }}.getonlinefast.eu</div>
+            </div>
+
+            <article class="jcw-preview-template modal-jcw-preview" data-template-preview="jcw_professional">
+              <header class="jcw-preview-header">
+                <strong data-modal-preview-business-name>{{ default_business_name }}</strong>
+                <nav aria-label="{% trans 'Preview navigation' %}">
+                  <span>{% trans "Services" %}</span>
+                  <span>{% trans "About" %}</span>
+                  <span>{% trans "Contact" %}</span>
+                </nav>
+              </header>
+
+              <section class="jcw-preview-hero">
+                <div>
+                  <span class="jcw-preview-kicker" data-modal-preview-location>{{ default_city }}</span>
+                  <h2 data-modal-preview-title>{% blocktrans trimmed with type=default_service_type|lower city=default_city %}Reliable {{ type }} in {{ city }}{% endblocktrans %}</h2>
+                  <p data-modal-preview-description>{% trans "Describe your main service so customers quickly understand what you do." %}</p>
+                  <a class="btn btn-primary" href="#">{% trans "Request a quote" %}</a>
+                </div>
+                <div class="jcw-preview-card">
+                  <span>{% trans "Professional template" %}</span>
+                  <strong data-modal-preview-business-type>{{ default_service_type }}</strong>
+                  <p>{% trans "Clear pages, mobile-ready structure, and simple customer enquiries." %}</p>
+                </div>
+              </section>
+
+              <section class="jcw-preview-services">
+                <div>
+                  <h3>{% trans "Services" %}</h3>
+                  <p data-modal-preview-service-line>{% blocktrans trimmed with type=default_service_type city=default_city %}{{ type }} services for customers in {{ city }} and nearby areas.{% endblocktrans %}</p>
+                </div>
+                <div class="jcw-preview-service-grid">
+                  <span>{% trans "Fast response" %}</span>
+                  <span>{% trans "Clear pricing" %}</span>
+                  <span>{% trans "Local service" %}</span>
+                </div>
+              </section>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "FAQ" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "FAQ" %}</div>
+    <h1>{% trans "Practical answers before you start" %}</h1>
+    <p class="page-copy">{% trans "Short answers about previews, plans, AI assistance, and launching your small-business website." %}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="faq">
+      <article class="card">
+        <h3>{% trans "Do I need technical skills?" %}</h3>
+        <p>{% trans "No. The flow is designed for business owners who want to enter their details, test a preview, and make clear choices." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Can I preview before choosing a plan?" %}</h3>
+        <p>{% trans "Yes. The preview helps you understand the direction before you decide how you want to launch." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Which package should most businesses choose?" %}</h3>
+        <p>{% trans "One-Time Website is a strong fit if you want a professional website without monthly care. Monthly Plan is better if you want hosting and ongoing website care." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "What does the AI Assistant do?" %}</h3>
+        <p>{% trans "It helps you understand, edit, and improve your website content while you work. It supports progress, but you stay in control." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Are the templates fixed?" %}</h3>
+        <p>{% trans "No. Templates are starting points. You can test a direction and adjust the content as your preview develops." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Are Facebook posts included?" %}</h3>
+        <p>{% trans "No. Facebook posts are an optional add-on available for an additional monthly cost." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Can I switch plans later?" %}</h3>
+        <p>{% trans "Yes. You can move between plans or add services later when your business needs more." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Is eCommerce available now?" %}</h3>
+        <p>{% trans "The eCommerce plan is visible as a coming-soon option for businesses that want to sell products online later." %}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Still deciding?" %}</h2>
+        <p>{% trans "Start with a preview and see what your website could look like first." %}</p>
+      </div>
+      <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ post.seo_title }} | {% trans "Help & Guides" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ post.seo_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="section-band section-plain">
+  <div class="wrap dashboard-guides-layout">
+    <aside class="card dashboard-guides-sidebar">
+      <div class="eyebrow">{% trans "Dashboard" %}</div>
+      <h1>{% trans "Help & Guides" %}</h1>
+      <p>{% trans "Open another guide or go back to the full guide overview." %}</p>
+      <nav aria-label="{% trans 'Guide navigation' %}">
+        <a class="dashboard-guides-nav-link" href="{% url 'blog:guides_index' %}">{% trans "All guides" %}</a>
+        <a class="dashboard-guides-nav-link is-active" href="{% url 'blog:guides_detail' slug=post.slug %}">{{ post.title }}</a>
+        {% for item in recent_posts %}
+        <a class="dashboard-guides-nav-link" href="{% url 'blog:guides_detail' slug=item.slug %}">{{ item.title }}</a>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    <article class="card dashboard-guides-article">
+      <div class="eyebrow">{{ post.category.title }}</div>
+      <h1>{{ post.title }}</h1>
+      {% if post.display_image %}
+      <img class="blog-detail-image" src="{{ post.display_image }}" alt="{{ post.title }}">
+      {% endif %}
+      {% if post.excerpt %}
+      <p class="page-copy">{{ post.excerpt }}</p>
+      {% endif %}
+      <div class="blog-rich-content">
+        {{ post.body|linebreaks }}
+      </div>
+    </article>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "eCommerce Plan" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{% trans 'A coming soon eCommerce plan for small businesses that want to start with a website and sell products online later.' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Coming soon" %}</div>
+    <h1>{% trans "Start with a website. Upgrade to selling online later." %}</h1>
+    <p class="page-copy">{% trans "The eCommerce plan is being prepared for businesses that want product pages, checkout, and a simple path from website to online store." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="mailto:info@getonlinefast.eu">{% trans "Ask about eCommerce" %}</a>
+      <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View all plans" %}</a>
+    </div>
+    <div class="micro-proof">
+      <span>{% trans "Coming soon" %}</span>
+      <span>{% trans "Product selling" %}</span>
+      <span>{% trans "Upgrade path" %}</span>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap detail-grid">
+    <article class="card">
+      <h2>{% trans "What it is for" %}</h2>
+      <p>{% trans "For small businesses that want to begin with a clear website and later add product selling when they are ready." %}</p>
+    </article>
+    <article class="card pricing-card-coming-soon">
+      <h2>{% trans "Current status" %}</h2>
+      <p>{% trans "This plan is not fully available yet. You can still start with a website now and keep eCommerce as the next step." %}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Planned eCommerce direction" %}</h2>
+      </div>
+      <p>{% trans "The first version will stay practical: products, clear pages, checkout, and a store structure that small businesses can understand." %}</p>
+    </div>
+    <div class="steps">
+      <article class="card">
+        <h3>{% trans "Product pages" %}</h3>
+        <p>{% trans "Present products with clear descriptions, pricing, images, and buying details." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Checkout path" %}</h3>
+        <p>{% trans "Give customers a simple way to move from product interest to purchase." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Website first" %}</h3>
+        <p>{% trans "Start with your business website now, then upgrade when selling online becomes the priority." %}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-cta-shell">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Planning to sell online later?" %}</h2>
+        <p>{% trans "Start with the right website foundation now, or ask about the eCommerce roadmap before you decide." %}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="mailto:info@getonlinefast.eu">{% trans "Ask about eCommerce" %}</a>
+        <a class="btn btn-secondary" href="{% url 'core:one_time_website_plan' %}">{% trans "View One-Time Website" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

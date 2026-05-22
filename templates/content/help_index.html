@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Help Center" %}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    {% if categories %}
+      <div class="section-head">
+        <div>
+          <h2>{% trans "Browse by category" %}</h2>
+        </div>
+        <p>{% trans "Use the categories below to jump to the topics that matter most right now." %}</p>
+      </div>
+      <div class="examples">
+        {% for category in categories %}
+          <article class="card">
+            <h3>{{ category.name }}</h3>
+            {% if category.description %}
+              <p>{{ category.description }}</p>
+            {% else %}
+              <p>{% trans "Articles grouped under this topic." %}</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Help articles" %}</h2>
+      </div>
+      <p>{% trans "Published support content that is currently visible in the help center." %}</p>
+    </div>
+
+    {% if articles %}
+      <div class="faq">
+        {% for article in articles %}
+          <article class="card">
+            {% if article.category %}
+              <div class="eyebrow">{{ article.category.name }}</div>
+            {% endif %}
+            <h3>
+              <a href="{% url 'content:help_detail' article.slug %}">{{ article.title }}</a>
+            </h3>
+            {% if article.excerpt %}
+              <p>{{ article.excerpt }}</p>
+            {% elif article.meta_description %}
+              <p>{{ article.meta_description }}</p>
+            {% else %}
+              <p>{% trans "Open this article to read the full explanation." %}</p>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <article class="card">
+        <h3>{% trans "Help articles are coming soon" %}</h3>
+        <p>{% trans "The help center route is live, but no published help articles are marked for display yet." %}</p>
+      </article>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

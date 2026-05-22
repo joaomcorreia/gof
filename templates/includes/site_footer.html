@@ -1,0 +1,47 @@
+{% load i18n %}
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer-grid">
+      <div class="site-footer-brand">
+        <a class="footer-logo" href="{% url 'core:home' %}">{% trans "Get Online Fast" %}</a>
+        <p>{% trans "Fast, practical websites for small service businesses that need to get online without delays." %}</p>
+        <div class="footer-contact-list">
+          <a href="mailto:info@getonlinefast.eu">info@getonlinefast.eu</a>
+          <a href="tel:+31617014936">+31 617 014936</a>
+        </div>
+        <p class="footer-supporting-note">{% trans "Built for small businesses across Europe" %}</p>
+      </div>
+
+      <nav class="site-footer-column" aria-label="{% trans 'Product' %}">
+        <h2>{% trans "Product" %}</h2>
+        <a href="{% url 'core:how_it_works' %}">{% trans "How it works" %}</a>
+        <a href="{% url 'core:examples' %}">{% trans "Examples" %}</a>
+        <a href="{% url 'core:plans' %}">{% trans "Plans" %}</a>
+        <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
+        <a href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+      </nav>
+
+      <nav class="site-footer-column" aria-label="{% trans 'Plans and services' %}">
+        <h2>{% trans "Plans / Services" %}</h2>
+        <a href="{% url 'core:one_time_website_plan' %}">{% trans "One-Time Website" %}</a>
+        <a href="{% url 'core:monthly_plan' %}">{% trans "Monthly Plan" %}</a>
+        <a href="{% url 'core:ecommerce_plan' %}">{% trans "eCommerce Plan" %}</a>
+        <a href="{% url 'core:monthly_plan' %}">{% trans "Facebook Posts" %}</a>
+        <a href="{% url 'core:one_time_website_plan' %}">{% trans "SEO Optimization" %}</a>
+      </nav>
+
+      <nav class="site-footer-column" aria-label="{% trans 'Company and legal' %}">
+        <h2>{% trans "Company / Legal" %}</h2>
+        <a href="{% url 'core:contact' %}">{% trans "Contact" %}</a>
+        <a href="{% url 'core:privacy_policy' %}">{% trans "Privacy Policy" %}</a>
+        <a href="{% url 'core:terms' %}">{% trans "Terms" %}</a>
+        <a href="{% url 'core:privacy_policy' %}#cookies">{% trans "Cookie Policy" %}</a>
+      </nav>
+    </div>
+
+    <div class="site-footer-bottom">
+      <p>&copy; {% now "Y" %} {% trans "Get Online Fast. All rights reserved." %}</p>
+      <p class="jcw-copy">{% trans "Get Online Fast is part of the Just Code Works platform." %}</p>
+    </div>
+  </div>
+</footer>

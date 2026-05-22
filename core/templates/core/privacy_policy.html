@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Privacy Policy" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Privacy" %}</div>
+    <h1>{% trans "Privacy Policy" %}</h1>
+    <p class="page-copy">{% trans "This starter policy explains the basic privacy structure for Get Online Fast. It is written to be easy to review and improve as the platform grows." %}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap legal-content">
+    <article class="card">
+      <h3>{% trans "Information we collect" %}</h3>
+      <p>{% trans "We may collect business details, contact information, website preferences, and messages you send through the platform or by email." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "How we use information" %}</h3>
+      <p>{% trans "We use information to create previews, provide website services, respond to practical questions, improve the product, and manage billing or account needs." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "AI-assisted features" %}</h3>
+      <p>{% trans "The built-in AI Assistant may use the details you provide to help generate, edit, or improve website content. You remain responsible for reviewing content before publishing." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Sharing information" %}</h3>
+      <p>{% trans "We do not sell personal information. We may use trusted service providers for hosting, email, analytics, payments, or platform operations." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Data retention" %}</h3>
+      <p>{% trans "We keep information for as long as needed to provide the service, meet legal obligations, resolve issues, and maintain business records." %}</p>
+    </article>
+    <article class="card" id="cookies">
+      <h3>{% trans "Cookies" %}</h3>
+      <p>{% trans "We may use essential cookies and basic analytics tools to keep the website working and understand how visitors use the platform." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Your choices" %}</h3>
+      <p>{% trans "You can contact us to ask about access, correction, or deletion of your information where applicable." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Contact" %}</h3>
+      <p>{% trans "For privacy questions, contact info@getonlinefast.eu. This page should be reviewed by a legal professional before relying on it as final legal advice." %}</p>
+    </article>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Blog" %}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Browse categories" %}</h2>
+      </div>
+      <p>{% trans "Find the information that matches what you want to learn first." %}</p>
+    </div>
+    <div class="blog-category-grid">
+      {% for category in categories %}
+      <article class="card blog-category-card">
+        {% if category.image %}
+        <img class="blog-card-media" src="{{ category.image }}" alt="{{ category.title }}">
+        {% else %}
+        <div class="blog-card-placeholder" aria-hidden="true">{{ category.title|slice:":1" }}</div>
+        {% endif %}
+        <div class="blog-card-body">
+          <h3>{{ category.title }}</h3>
+          {% if category.description %}
+          <p>{{ category.description }}</p>
+          {% else %}
+          <p>{% trans "Practical articles in this category." %}</p>
+          {% endif %}
+          <a class="btn btn-secondary" href="{% url 'blog:category' slug=category.slug %}">{% trans "Open category" %}</a>
+        </div>
+      </article>
+      {% empty %}
+      <article class="card blog-empty-state">
+        <h3>{% trans "No categories yet" %}</h3>
+        <p>{% trans "Add blog categories in the admin to organize articles here." %}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Latest posts" %}</h2>
+      </div>
+      <p>{% trans "Short articles and useful explanations for visitors and customers." %}</p>
+    </div>
+    <div class="blog-post-grid">
+      {% for post in posts %}
+      <article class="card blog-post-card">
+        {% if post.display_image %}
+        <img class="blog-card-media" src="{{ post.display_image }}" alt="{{ post.title }}">
+        {% else %}
+        <div class="blog-card-placeholder" aria-hidden="true">{{ post.title|slice:":1" }}</div>
+        {% endif %}
+        <div class="blog-card-body">
+          <p class="small blog-card-meta">{{ post.category.title }}{% if post.published_at %} &middot; {{ post.published_at|date:"d M Y" }}{% endif %}</p>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.excerpt }}</p>
+          <a class="btn btn-secondary" href="{% url 'blog:detail' slug=post.slug %}">{% trans "Read article" %}</a>
+        </div>
+      </article>
+      {% empty %}
+      <article class="card blog-empty-state">
+        <h3>{% trans "No posts yet" %}</h3>
+        <p>{% trans "Use the blog admin to publish your first public article." %}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

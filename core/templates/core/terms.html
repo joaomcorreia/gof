@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Terms" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Terms" %}</div>
+    <h1>{% trans "Terms of Service" %}</h1>
+    <p class="page-copy">{% trans "These starter terms outline the basic rules for using Get Online Fast. They are structured so the legal details can be tightened before full public launch." %}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap legal-content">
+    <article class="card">
+      <h3>{% trans "Using the platform" %}</h3>
+      <p>{% trans "Get Online Fast provides a self-service website flow with AI-assisted tools to help users create, edit, and improve business websites." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Your responsibilities" %}</h3>
+      <p>{% trans "You are responsible for the accuracy of the business details, website content, images, claims, and contact information you provide or publish." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "AI-assisted content" %}</h3>
+      <p>{% trans "AI suggestions are provided to help you move faster. You should review and approve content before using it publicly." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Plans and payments" %}</h3>
+      <p>{% trans "Plan details, pricing, included services, and renewal terms should be reviewed before purchase. Some services or add-ons may be listed as coming soon." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Acceptable use" %}</h3>
+      <p>{% trans "Do not use the platform for illegal content, misleading claims, harmful activity, or content you do not have the right to use." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Service changes" %}</h3>
+      <p>{% trans "The platform, features, templates, and plans may change as the product improves. We aim to keep changes practical and clear." %}</p>
+    </article>
+    <article class="card">
+      <h3>{% trans "Contact" %}</h3>
+      <p>{% trans "For questions about these terms, contact info@getonlinefast.eu. This page should be reviewed by a legal professional before relying on it as final legal advice." %}</p>
+    </article>
+  </div>
+</section>
+{% endblock %}

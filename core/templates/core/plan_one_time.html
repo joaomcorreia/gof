@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "One-Time Website" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{% trans 'A one-time website plan for small businesses that want one clear payment, a ready website, and simple content editing after launch.' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero plan-page-hero">
+  <div class="wrap plan-hero-grid">
+    <div class="plan-hero-copy">
+      <div class="eyebrow">{% trans "One-time website" %}</div>
+      <h1>{% trans "Get a complete website setup that helps customers find you" %}</h1>
+      <p class="page-copy">{% trans "Your website, visibility, contact tools, hosting, email setup, and launch support in one clear package." %}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+        <a class="btn btn-secondary" href="{% url 'core:monthly_plan' %}">{% trans "View Monthly Plan" %}</a>
+      </div>
+      <div class="micro-proof">
+        <span class="hero-price-chip">
+          <span class="hero-price-chip-current">{% trans "€325 + VAT" %}</span>
+        </span>
+        <span>{% trans "No subscriptions" %}</span>
+        <span>{% trans "No technical setup" %}</span>
+      </div>
+    </div>
+    <div class="plan-hero-media">
+      <img
+        class="plan-hero-image"
+        src="{% static 'core/img/one-time-website-hero.png' %}"
+        alt="{% trans 'Website preview on laptop and phone' %}"
+      >
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-summary-band">
+  <div class="wrap detail-grid">
+    <article class="card plan-summary-card">
+      <h2>{% trans "Complete business setup" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "Website, search visibility, contact tools, hosting, and launch support in one setup" %}</li>
+        <li>{% trans "Built to help your business look professional and stay ready to grow" %}</li>
+        <li>{% trans "Clear structure now, with room to expand later" %}</li>
+      </ul>
+    </article>
+    <article class="card price-card plan-price-card">
+      <h2>{% trans "€325 + VAT" %}</h2>
+      <p>{% trans "One-time website setup" %}</p>
+      <p class="small plan-price-note">{% trans "Your website is already built and ready to use." %}</p>
+      <p class="small">{% trans "One new customer can already cover the cost of your website." %}</p>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-included-band">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "What is included in your setup" %}</h2>
+      </div>
+      <p>{% trans "Everything is set up to give your business a complete, practical online base from day one." %}</p>
+    </div>
+    <div class="plan-included-layout">
+      <div class="plan-feature-list">
+        <article class="card plan-feature-row plan-feature-row-website">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3.5" y="5" width="17" height="14" rx="2.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M3.5 9H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Website & content" %}</h3>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Full business website setup" %}</li>
+              <li>{% trans "Structured pages for your services" %}</li>
+              <li>{% trans "Easy content editing and updates" %}</li>
+              <li>{% trans "Ready to expand with new services" %}</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-search">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="10.5" cy="10.5" r="5.5" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M15 15L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Search visibility" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge plan-feature-badge-channel">{% trans "Google" %}</span>
+                <span class="plan-feature-badge plan-feature-badge-channel">{% trans "Bing" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Pages structured for Google and Bing" %}</li>
+              <li>{% trans "Local service targeting" %}</li>
+              <li>{% trans "Strong SEO foundation" %}</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-contact">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 7.5C5 6.12 6.12 5 7.5 5H16.5C17.88 5 19 6.12 19 7.5V14.5C19 15.88 17.88 17 16.5 17H10L6 20V17.5C5.45 17.27 5 16.81 5 16.25V7.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Customer contact" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge">{% trans "Form" %}</span>
+                <span class="plan-feature-badge">{% trans "WhatsApp" %}</span>
+                <span class="plan-feature-badge">{% trans "Email" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Contact form ready" %}</li>
+              <li>
+                <span class="icon-inline icon-inline-whatsapp" aria-label="{% trans 'WhatsApp' %}">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 4.5C8.13 4.5 5 7.46 5 11.12C5 12.56 5.49 13.88 6.31 14.95L5.25 19.5L9.92 18.28C10.87 18.77 11.95 19.03 13.09 19C16.78 18.89 19.78 15.94 19.95 12.31C20.13 8.27 16.94 4.5 12.99 4.5H12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M10 9.5C10 11.2 12.4 13.8 14.2 14.2C14.64 14.3 15.1 14.1 15.4 13.75L16 13.05" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                  <span>{% trans "WhatsApp" %}</span>
+                </span>
+                {% trans "or call options" %}
+              </li>
+              <li>
+                <span class="icon-inline icon-inline-email" aria-label="{% trans 'Email' %}">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="4" y="6.5" width="16" height="11" rx="2.2" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M5.5 8L12 12.8L18.5 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>{% trans "Email" %}</span>
+                </span>
+                <span>{% trans "2 professional email accounts" %}</span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="card plan-feature-row plan-feature-row-hosting">
+          <span class="plan-feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="5" rx="1.8" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="4" y="14" width="16" height="5" rx="1.8" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M8 7.5H8.01M8 16.5H8.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <div class="plan-feature-body">
+            <div class="plan-feature-header">
+              <h3>{% trans "Hosting & infrastructure" %}</h3>
+              <span class="plan-feature-header-icons">
+                <span class="plan-feature-badge">{% trans "1 year included" %}</span>
+              </span>
+            </div>
+            <ul class="clean-list">
+              <li>{% trans "Professional hosting for your business (1 year included)" %}</li>
+              <li>{% trans "Fast, stable, and reliable performance" %}</li>
+              <li>{% trans "Domain connected and configured" %}</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <aside class="card plan-launch-boost-card">
+        <p class="plan-launch-boost-label">{% trans "Included with your setup" %}</p>
+        <div class="plan-launch-boost-head">
+          <span class="plan-feature-icon plan-launch-boost-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.5 20V12H16.2L16.6 9.5H13.5V8.1C13.5 7.38 13.74 6.9 14.78 6.9H16.7V4.55C16.37 4.5 15.65 4.4 14.8 4.4C12.64 4.4 11.2 5.64 11.2 7.92V9.5H8.9V12H11.2V20H13.5Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <h3>{% trans "Included launch boost" %}</h3>
+        </div>
+        <div class="plan-launch-boost-stats" aria-hidden="true">
+          <span class="plan-launch-boost-stat">{% trans "10 posts" %}</span>
+          <span class="plan-launch-boost-arrow">→</span>
+          <span class="plan-launch-boost-stat">{% trans "5 weeks" %}</span>
+          <span class="plan-launch-boost-arrow">→</span>
+          <span class="plan-launch-boost-stat">{% trans "more visitors" %}</span>
+        </div>
+        <ul class="clean-list">
+          <li>
+            <span class="icon-inline icon-inline-facebook" aria-label="{% trans 'Facebook' %}">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M13.5 20V12H16.2L16.6 9.5H13.5V8.1C13.5 7.38 13.74 6.9 14.78 6.9H16.7V4.55C16.37 4.5 15.65 4.4 14.8 4.4C12.64 4.4 11.2 5.64 11.2 7.92V9.5H8.9V12H11.2V20H13.5Z" fill="currentColor"/>
+              </svg>
+              <span>{% trans "Facebook" %}</span>
+            </span>
+            <span>{% trans "posts (10 posts over 5 weeks)" %}</span>
+          </li>
+          <li>{% trans "Helps bring visitors from day one" %}</li>
+          <li>{% trans "Designed to keep your new website active online" %}</li>
+        </ul>
+        <p class="plan-launch-boost-footnote">{% trans "A simple way to start getting attention after launch." %}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-benefits-band">
+  <div class="wrap">
+    <article class="card plan-benefits-card">
+      <h2>{% trans "What this does for your business" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "Customers can find your services online" %}</li>
+        <li>{% trans "Customers can contact you easily" %}</li>
+        <li>{% trans "Your business looks professional and trustworthy" %}</li>
+        <li>{% trans "You have a base to grow with ads, SEO, services, and more languages" %}</li>
+        <li>{% trans "You can track performance with analytics access" %}</li>
+        <li>{% trans "You can order new promotion options when you are ready" %}</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-steps-band">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "How it works" %}</h2>
+      </div>
+      <p>{% trans "A short path from your business details to a website you can launch." %}</p>
+    </div>
+    <div class="steps compact-steps">
+      <article class="card">
+        <div class="step-num">1</div>
+        <h3>{% trans "Enter your business details" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">2</div>
+        <h3>{% trans "Choose a starting design" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">3</div>
+        <h3>{% trans "Preview your website instantly" %}</h3>
+      </article>
+      <article class="card">
+        <div class="step-num">4</div>
+        <h3>{% trans "Launch your website" %}</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain plan-after-band">
+  <div class="wrap">
+    <article class="card plan-after-card">
+      <h2>{% trans "After launch" %}</h2>
+      <ul class="clean-list">
+        <li>{% trans "Your website stays online and active" %}</li>
+        <li>{% trans "You can update your content anytime" %}</li>
+        <li>{% trans "You can expand with more services, pages, or promotions" %}</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-soft plan-growth-band">
+  <div class="wrap">
+    <article class="card plan-growth-shell">
+      <div class="plan-growth-copy">
+        <h2>{% trans "Grow when you are ready" %}</h2>
+        <p>{% trans "Add more reach and functionality when your business needs it." %}</p>
+      </div>
+      <div class="plan-growth-list">
+        <article class="plan-growth-option">
+          <h3>{% trans "Catalog add-on" %}</h3>
+          <p>{% trans "Show products, services, parts, or packages without a full online shop." %}</p>
+          <p class="small">{% trans "Customers can browse and contact you to request more information." %}</p>
+        </article>
+        <article class="plan-growth-option">
+          <h3>{% trans "Online shop upgrade" %}</h3>
+          <p>{% trans "Add checkout and payments later without starting from scratch." %}</p>
+          <p class="small">{% trans "Best when you want to sell directly online." %}</p>
+        </article>
+        <article class="plan-growth-option plan-growth-option-marketing">
+          <h3>{% trans "Marketing & visibility" %}</h3>
+          <p>{% trans "Bring visitors to your website and start getting customers." %}</p>
+          <ul class="clean-list">
+            <li>{% trans "Facebook posts (10 posts over 5 weeks)" %}</li>
+            <li>{% trans "Google Ads campaigns" %}</li>
+            <li>{% trans "Designed to increase visibility and enquiries" %}</li>
+          </ul>
+        </article>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section-band section-cta-shell plan-cta-shell">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Start your website today" %}</h2>
+        <p>{% trans "See your website instantly and launch when you're ready." %}</p>
+      </div>
+      <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+    </div>
+  </div>
+</section>
+{% include "includes/onboarding_modal.html" %}
+{% endblock %}

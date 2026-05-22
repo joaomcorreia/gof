@@ -1,0 +1,2832 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <info@getonlinefast.eu>, 2026.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Get Online Fast\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-04 07:31+0200\n"
+"PO-Revision-Date: 2026-04-18 17:30+0200\n"
+"Last-Translator: Get Online Fast <info@getonlinefast.eu>\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Business name"
+msgstr "Bedrijfsnaam"
+
+msgid "Service type"
+msgstr "Type dienst"
+
+msgid "City"
+msgstr "Stad"
+
+msgid "Local Service"
+msgstr "Lokale dienst"
+
+msgid "Growth Offer"
+msgstr "Groei-aanbod"
+
+msgid "Starter Page"
+msgstr "Starterpagina"
+
+msgid "Orange / Black"
+msgstr "Oranje / Zwart"
+
+msgid "Blue / Dark"
+msgstr "Blauw / Donker"
+
+msgid "Green / Neutral"
+msgstr "Groen / Neutraal"
+
+msgid "Red / Charcoal"
+msgstr "Rood / Antraciet"
+
+msgid "Hero"
+msgstr "Hero"
+
+msgid "Eyebrow"
+msgstr "Bovenregel"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Description"
+msgstr "Beschrijving"
+
+msgid "CTA text"
+msgstr "CTA-tekst"
+
+msgid "Highlight title"
+msgstr "Titel van highlight"
+
+msgid "Highlight text"
+msgstr "Tekst van highlight"
+
+msgid "Simple hero"
+msgstr "Eenvoudige hero"
+
+msgid "List section"
+msgstr "Lijstsectie"
+
+msgid "Section title"
+msgstr "Sectietitel"
+
+msgid "Intro text"
+msgstr "Introtekst"
+
+msgid "Item 1"
+msgstr "Item 1"
+
+msgid "Item 2"
+msgstr "Item 2"
+
+msgid "Item 3"
+msgstr "Item 3"
+
+msgid "Benefits section"
+msgstr "Voordelensectie"
+
+msgid "Card 1 title"
+msgstr "Titel kaart 1"
+
+msgid "Card 1 text"
+msgstr "Tekst kaart 1"
+
+msgid "Card 2 title"
+msgstr "Titel kaart 2"
+
+msgid "Card 2 text"
+msgstr "Tekst kaart 2"
+
+msgid "Card 3 title"
+msgstr "Titel kaart 3"
+
+msgid "Card 3 text"
+msgstr "Tekst kaart 3"
+
+msgid "Contact section"
+msgstr "Contactsectie"
+
+msgid "Primary contact"
+msgstr "Primair contact"
+
+msgid "Secondary contact"
+msgstr "Secundair contact"
+
+msgid "CTA section"
+msgstr "CTA-sectie"
+
+msgid "Request a quote"
+msgstr "Offerte aanvragen"
+
+msgid "Built for your business"
+msgstr "Gemaakt voor uw bedrijf"
+
+msgid "What customers can see right away"
+msgstr "Wat klanten meteen kunnen zien"
+
+msgid "Clear services and pricing direction"
+msgstr "Duidelijke diensten en prijsrichting"
+
+msgid "Local visibility structure"
+msgstr "Structuur voor lokale zichtbaarheid"
+
+msgid "Simple contact path for new enquiries"
+msgstr "Eenvoudige contactroute voor nieuwe aanvragen"
+
+msgid "Ready to hear from customers"
+msgstr "Klaar om berichten van klanten te ontvangen"
+
+msgid "Contact form ready"
+msgstr "Contactformulier klaar"
+
+msgid "Email or phone can be added anytime"
+msgstr "E-mail of telefoon kan op elk moment worden toegevoegd"
+
+msgid "Contact us"
+msgstr "Neem contact op"
+
+msgid ""
+"A simple website foundation that can be edited, expanded, and improved over "
+"time."
+msgstr ""
+"Een eenvoudige websitebasis die na verloop van tijd kan worden bewerkt, "
+"uitgebreid en verbeterd."
+
+msgid "Start with this setup"
+msgstr "Start met deze setup"
+
+msgid "Built to support growth"
+msgstr "Gemaakt om groei te ondersteunen"
+
+msgid ""
+"A stronger page structure for businesses that want a clearer offer and more "
+"response from visitors."
+msgstr ""
+"Een sterkere paginastructuur voor bedrijven die een duidelijker aanbod en "
+"meer reacties van bezoekers willen."
+
+msgid "Clear offer"
+msgstr "Duidelijk aanbod"
+
+msgid ""
+"Explain what you do quickly so visitors know why they should contact you."
+msgstr ""
+"Leg snel uit wat u doet, zodat bezoekers weten waarom ze contact met u "
+"moeten opnemen."
+
+msgid "More visibility"
+msgstr "Meer zichtbaarheid"
+
+msgid ""
+"Use a layout that supports search, promotion, and stronger first impressions."
+msgstr ""
+"Gebruik een layout die zoekbaarheid, promotie en een sterkere eerste indruk "
+"ondersteunt."
+
+msgid "Easy contact"
+msgstr "Eenvoudig contact"
+
+msgid "Keep calls, messages, and quote requests simple for new visitors."
+msgstr ""
+"Houd bellen, berichten sturen en offerteaanvragen eenvoudig voor nieuwe "
+"bezoekers."
+
+msgid ""
+"Use a stronger sales-focused layout to explain your offer, show value, and "
+"guide visitors toward action."
+msgstr ""
+"Gebruik een sterkere, verkoopgerichte layout om uw aanbod uit te leggen, "
+"waarde te tonen en bezoekers naar actie te begeleiden."
+
+msgid "Built to attract more enquiries"
+msgstr "Gemaakt om meer aanvragen aan te trekken"
+
+msgid ""
+"A stronger offer layout for businesses that want clearer visibility and "
+"promotion."
+msgstr ""
+"Een sterkere aanbodlayout voor bedrijven die duidelijkere zichtbaarheid en "
+"promotie willen."
+
+msgid ""
+"A simple one-page website start for businesses that want to launch quickly "
+"with clear contact details."
+msgstr ""
+"Een eenvoudige start met een one-page website voor bedrijven die snel willen "
+"lanceren met duidelijke contactgegevens."
+
+msgid "Preview navigation"
+msgstr "Previewnavigatie"
+
+msgid "Services"
+msgstr "Diensten"
+
+msgid "About"
+msgstr "Over ons"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Website preview"
+msgstr "Websitepreview"
+
+msgid "Your preview"
+msgstr "Uw preview"
+
+msgid "Review and edit your generated website"
+msgstr "Bekijk en bewerk uw gegenereerde website"
+
+msgid ""
+"Your website starts with suggestion-based content from three onboarding "
+"fields. You can edit any field below and regenerate suggestions anytime."
+msgstr ""
+"Uw website start met voorgestelde content op basis van drie "
+"onboardingvelden. U kunt elk veld hieronder bewerken en op elk moment nieuwe "
+"suggesties genereren."
+
+msgid "Choose a starting design"
+msgstr "Kies een startontwerp"
+
+msgid "Template"
+msgstr "Template"
+
+msgid "Changing design may refresh the suggested content."
+msgstr "Het wijzigen van het ontwerp kan de voorgestelde content vernieuwen."
+
+msgid "Apply design"
+msgstr "Ontwerp toepassen"
+
+msgid "Choose colors"
+msgstr "Kleuren kiezen"
+
+msgid "Color palette"
+msgstr "Kleurenpalet"
+
+msgid "Apply colors"
+msgstr "Kleuren toepassen"
+
+msgid "Save changes"
+msgstr "Wijzigingen opslaan"
+
+msgid "Regenerate suggestions"
+msgstr "Suggesties opnieuw genereren"
+
+msgid "Back to plans"
+msgstr "Terug naar plannen"
+
+msgid "Website template preview"
+msgstr "Preview van websitetemplate"
+
+msgid "Generated website preview"
+msgstr "Preview van gegenereerde website"
+
+msgid "Suggested website setup"
+msgstr "Voorgestelde websitesetup"
+
+msgid "Start your preview"
+msgstr "Start uw preview"
+
+msgid "Get Online Fast"
+msgstr "Get Online Fast"
+
+msgid "First step"
+msgstr "Eerste stap"
+
+msgid "Start your website preview"
+msgstr "Start uw websitepreview"
+
+msgid ""
+"Enter three details about your business and generate a first website preview "
+"you can edit."
+msgstr ""
+"Vul drie gegevens over uw bedrijf in en genereer een eerste websitepreview "
+"die u kunt bewerken."
+
+msgid "Generate preview"
+msgstr "Preview genereren"
+
+msgid "Blog category"
+msgstr "Blogcategorie"
+
+msgid "Blog categories"
+msgstr "Blogcategorieën"
+
+msgid "Draft"
+msgstr "Concept"
+
+msgid "Public"
+msgstr "Openbaar"
+
+msgid "Users only"
+msgstr "Alleen gebruikers"
+
+msgid "Blog post"
+msgstr "Blogartikel"
+
+msgid "Blog posts"
+msgstr "Blogartikelen"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid ""
+"Short articles, practical explanations, and useful information from Get "
+"Online Fast."
+msgstr ""
+"Korte artikelen, praktische uitleg en nuttige informatie van Get Online Fast."
+
+msgid "Help & Guides"
+msgstr "Hulp en gidsen"
+
+msgid ""
+"Practical guides for logged-in users who want to manage and improve their "
+"website."
+msgstr ""
+"Praktische gidsen voor ingelogde gebruikers die hun website willen beheren "
+"en verbeteren."
+
+msgid "Article category"
+msgstr "Artikelcategorie"
+
+msgid "Article categories"
+msgstr "Artikelcategorieën"
+
+msgid "Guide"
+msgstr "Gids"
+
+msgid "Service explanation"
+msgstr "Uitleg van de dienst"
+
+msgid "FAQ"
+msgstr "FAQ"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Promotion"
+msgstr "Promotie"
+
+msgid "Logged in"
+msgstr "Ingelogd"
+
+msgid "Customer only"
+msgstr "Alleen klanten"
+
+msgid "Admin only"
+msgstr "Alleen beheerder"
+
+msgid "Published"
+msgstr "Gepubliceerd"
+
+msgid "Article"
+msgstr "Artikel"
+
+msgid "Articles"
+msgstr "Artikelen"
+
+msgid "Help"
+msgstr "Hulp"
+
+msgid ""
+"Practical guides, answers, and short explanations to help you use Get Online "
+"Fast."
+msgstr ""
+"Praktische gidsen, antwoorden en korte uitleg om u te helpen Get Online Fast "
+"te gebruiken."
+
+msgid "Back to Help"
+msgstr "Terug naar Hulp"
+
+msgid "Updates, practical ideas, and short articles from Get Online Fast."
+msgstr "Updates, praktische ideeën en korte artikelen van Get Online Fast."
+
+msgid "Back to Blog"
+msgstr "Terug naar Blog"
+
+msgid "Name"
+msgstr "Naam"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Phone (optional)"
+msgstr "Telefoon (optioneel)"
+
+msgid "Message"
+msgstr "Bericht"
+
+msgid "Security question"
+msgstr "Beveiligingsvraag"
+
+msgid "Invalid submission."
+msgstr "Ongeldige inzending."
+
+msgid "Need a quick way to reach us?"
+msgstr "Snel contact met ons opnemen?"
+
+msgid ""
+"Get Online Fast is built as a self-service, AI-assisted platform. For "
+"practical questions before launch, you can reach us directly."
+msgstr ""
+"Get Online Fast is gebouwd als een self-service platform met AI-"
+"ondersteuning. Voor praktische vragen vóór de lancering kunt u direct "
+"contact met ons opnemen."
+
+msgid "Open contact form"
+msgstr "Contactformulier openen"
+
+msgid "Send a message"
+msgstr "Een bericht sturen"
+
+msgid ""
+"Use the form below for questions about plans, launch timing, or the right "
+"setup for your business."
+msgstr ""
+"Gebruik het formulier hieronder voor vragen over pakketten, lanceringstiming "
+"of de juiste setup voor uw bedrijf."
+
+msgid "Send message"
+msgstr "Bericht verzenden"
+
+msgid ""
+"Best for questions about plans, billing, or whether the platform fits your "
+"business."
+msgstr ""
+"Geschikt voor vragen over pakketten, betalingen of of het platform bij uw "
+"bedrijf past."
+
+msgid "Phone"
+msgstr "Telefoon"
+
+msgid ""
+"Use phone for simple pre-launch questions. The product itself is designed so "
+"you can manage your website independently."
+msgstr ""
+"Gebruik de telefoon voor eenvoudige vragen vóór de lancering. Het product is "
+"zo ontworpen dat u uw website zelfstandig kunt beheren."
+
+msgid "Prefer to test it first?"
+msgstr "Eerst testen?"
+
+msgid ""
+"The fastest way to understand the platform is to start a preview with your "
+"own business details."
+msgstr ""
+"De snelste manier om het platform te begrijpen is door een preview te "
+"starten met uw eigen bedrijfsgegevens."
+
+msgid "Examples"
+msgstr "Voorbeelden"
+
+msgid "Template examples"
+msgstr "Templatevoorbeelden"
+
+msgid "Choose a starting design for your business"
+msgstr "Kies een startontwerp voor uw bedrijf"
+
+msgid ""
+"These templates are practical starting points. You can test one, adjust the "
+"content, and switch direction while previewing."
+msgstr ""
+"Deze templates zijn praktische startpunten. U kunt er één testen, de inhoud "
+"aanpassen en van richting veranderen tijdens de preview."
+
+msgid "View plans"
+msgstr "Bekijk plannen"
+
+msgid "Starting templates you can test"
+msgstr "Starttemplates die u kunt testen"
+
+msgid ""
+"Pick the closest fit first. The structure can be adjusted as your website "
+"preview takes shape."
+msgstr ""
+"Kies eerst de beste match. De structuur kan worden aangepast terwijl uw "
+"websitepreview vorm krijgt."
+
+msgid "Plumbing"
+msgstr "Loodgieter"
+
+msgid ""
+"For repairs, installations, urgent jobs, service areas, and fast quote "
+"requests."
+msgstr ""
+"Voor reparaties, installaties, spoedklussen, werkgebieden en snelle "
+"offerteaanvragen."
+
+msgid "Test this template"
+msgstr "Test dit template"
+
+msgid "Cleaning Services"
+msgstr "Schoonmaakdiensten"
+
+msgid ""
+"For home cleaning, office cleaning, packages, availability, and quote "
+"enquiries."
+msgstr ""
+"Voor huishoudelijke schoonmaak, kantoorreiniging, pakketten, beschikbaarheid "
+"en offerteaanvragen."
+
+msgid "Electrician"
+msgstr "Elektricien"
+
+msgid ""
+"For call-outs, inspections, repairs, installations, and clear contact "
+"options."
+msgstr ""
+"Voor spoedklussen, inspecties, reparaties, installaties en duidelijke "
+"contactmogelijkheden."
+
+msgid "You can switch templates while testing."
+msgstr "U kunt tijdens het testen van template wisselen."
+
+msgid "Practical answers before you start"
+msgstr "Praktische antwoorden voordat u begint"
+
+msgid ""
+"Short answers about previews, plans, AI assistance, and launching your small-"
+"business website."
+msgstr ""
+"Korte antwoorden over previews, pakketten, AI-ondersteuning en het lanceren "
+"van uw bedrijfswebsite."
+
+msgid "Do I need technical skills?"
+msgstr "Heb ik technische kennis nodig?"
+
+msgid ""
+"No. The flow is designed for business owners who want to enter their "
+"details, test a preview, and make clear choices."
+msgstr ""
+"Nee. Het proces is ontworpen voor ondernemers die hun gegevens willen "
+"invoeren, een preview willen testen en duidelijke keuzes willen maken."
+
+msgid "Can I preview before choosing a plan?"
+msgstr "Kan ik eerst een preview zien voordat ik een pakket kies?"
+
+msgid ""
+"Yes. The preview helps you understand the direction before you decide how "
+"you want to launch."
+msgstr ""
+"Ja. De preview helpt u de richting te begrijpen voordat u beslist hoe u wilt "
+"lanceren."
+
+msgid "Which package should most businesses choose?"
+msgstr "Welk pakket moeten de meeste bedrijven kiezen?"
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting and ongoing website "
+"care."
+msgstr ""
+"One-Time Website is een goede keuze als u een professionele website wilt "
+"zonder maandelijkse zorg. Monthly Plan is beter als u hosting en doorlopende "
+"websitezorg wilt."
+
+msgid "What does the AI Assistant do?"
+msgstr "Wat doet de AI Assistant?"
+
+msgid ""
+"It helps you understand, edit, and improve your website content while you "
+"work. It supports progress, but you stay in control."
+msgstr ""
+"Deze helpt u om uw website-inhoud te begrijpen, bewerken en verbeteren "
+"terwijl u werkt. De assistent ondersteunt de voortgang, maar u houdt de "
+"controle."
+
+msgid "Are the templates fixed?"
+msgstr "Zijn de templates vast?"
+
+msgid ""
+"No. Templates are starting points. You can test a direction and adjust the "
+"content as your preview develops."
+msgstr ""
+"Nee. Templates zijn startpunten. U kunt een richting testen en de inhoud "
+"aanpassen terwijl uw preview zich ontwikkelt."
+
+msgid "Are Facebook posts included?"
+msgstr "Zijn Facebook-posts inbegrepen?"
+
+msgid ""
+"No. Facebook posts are an optional add-on available for an additional "
+"monthly cost."
+msgstr ""
+"Nee. Facebook-posts zijn een optionele extra tegen een aanvullende "
+"maandelijkse prijs."
+
+msgid "Can I switch plans later?"
+msgstr "Kan ik later van plan wisselen?"
+
+msgid ""
+"Yes. You can move between plans or add services later when your business "
+"needs more."
+msgstr ""
+"Ja. U kunt later van plan wisselen of diensten toevoegen wanneer uw bedrijf "
+"meer nodig heeft."
+
+msgid "Is eCommerce available now?"
+msgstr "Is eCommerce nu beschikbaar?"
+
+msgid ""
+"The eCommerce plan is visible as a coming-soon option for businesses that "
+"want to sell products online later."
+msgstr ""
+"Het eCommerce-plan is zichtbaar als een binnenkort beschikbare optie voor "
+"bedrijven die later producten online willen verkopen."
+
+msgid "Still deciding?"
+msgstr "Nog aan het twijfelen?"
+
+msgid "Start with a preview and see what your website could look like first."
+msgstr "Begin met een preview en zie eerst hoe uw website eruit kan zien."
+
+msgid "Your Business"
+msgstr "Uw bedrijf"
+
+msgid "Service"
+msgstr "Dienst"
+
+msgid "Your City"
+msgstr "Uw stad"
+
+msgid "Professional service website"
+msgstr "Professionele dienstenwebsite"
+
+msgid "Northline Plumbing"
+msgstr "Northline Plumbing"
+
+msgid "carousel"
+msgstr "carrousel"
+
+msgid "Homepage marketing messages"
+msgstr "Marketingberichten voor de homepage"
+
+msgid "Fast websites for small service businesses"
+msgstr "Snelle websites voor kleine dienstverlenende bedrijven"
+
+msgid "Get Online Fast websites for local service businesses"
+msgstr "Get Online Fast-websites voor lokale dienstverlenende bedrijven"
+
+msgid "Be found by local customers"
+msgstr "Word gevonden door lokale klanten"
+
+msgid ""
+"Get a fast, SEO-ready website structured for local searches, calls, "
+"WhatsApp messages and quote requests."
+msgstr ""
+"Krijg een snelle, SEO-klare website die is opgebouwd voor lokale "
+"zoekopdrachten, oproepen, WhatsApp-berichten en offerteaanvragen."
+
+msgid "Transport, Auto services, Construction, Business services"
+msgstr "Transport, autodiensten, bouw, zakelijke diensten"
+
+msgid "Private preview · Takes less than 60 seconds"
+msgstr "Privepreview - duurt minder dan 60 seconden"
+
+msgid "Takes less than 60 seconds"
+msgstr "Duurt minder dan 60 seconden"
+
+msgid "Plumbers"
+msgstr "Loodgieters"
+
+msgid "Electricians"
+msgstr "Elektriciens"
+
+msgid "Cleaners"
+msgstr "Schoonmakers"
+
+msgid "Local service businesses"
+msgstr "Lokale dienstverlenende bedrijven"
+
+msgid "Turn visitors into customers"
+msgstr "Maak van bezoekers klanten"
+
+msgid "Get a prepared website with guidance for visibility, content, ads and improvements when you need them."
+msgstr ""
+"Krijg een voorbereide website met begeleiding voor zichtbaarheid, inhoud, "
+"advertenties en verbeteringen wanneer u die nodig heeft."
+
+msgid "See how it works"
+msgstr "Bekijk hoe het werkt"
+
+msgid "No missed opportunities"
+msgstr "Geen gemiste kansen"
+
+msgid "Simple contact paths from the first launch"
+msgstr "Eenvoudige contactroutes vanaf de eerste lancering"
+
+msgid "Forms"
+msgstr "Formulieren"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "Direct calls"
+msgstr "Direct bellen"
+
+msgid "Clear calls to action"
+msgstr "Duidelijke oproepen tot actie"
+
+msgid "More than a website"
+msgstr "Meer dan een website"
+
+msgid "Clear contact forms, WhatsApp buttons and direct calls, ready from day one."
+msgstr ""
+"Duidelijke contactformulieren, WhatsApp-knoppen en direct bellen, klaar "
+"vanaf dag een."
+
+msgid "Explore options"
+msgstr "Opties bekijken"
+
+msgid "Grow step by step"
+msgstr "Stap voor stap groeien"
+
+msgid "Support when you want to expand what is already working"
+msgstr "Ondersteuning wanneer u wilt uitbreiden wat al werkt"
+
+msgid "Visibility"
+msgstr "Zichtbaarheid"
+
+msgid "Ads"
+msgstr "Advertenties"
+
+msgid "Improvements"
+msgstr "Verbeteringen"
+
+msgid "Practical next steps"
+msgstr "Praktische vervolgstappen"
+
+msgid "Hero slider controls"
+msgstr "Bediening van de hero-slider"
+
+msgid "Show previous slide"
+msgstr "Vorige slide tonen"
+
+msgid "Select hero message"
+msgstr "Hero-bericht selecteren"
+
+msgid "Show slide 1: Be found by local customers"
+msgstr "Toon slide 1: Word gevonden door lokale klanten"
+
+msgid "Show slide 2: More than a website"
+msgstr "Toon slide 2: Meer dan een website"
+
+msgid "Show slide 3: Turn visitors into customers"
+msgstr "Toon slide 3: Maak van bezoekers klanten"
+
+msgid "Show next slide"
+msgstr "Volgende slide tonen"
+
+msgid ""
+"Explain your main service clearly so visitors know what you do and how to "
+"contact you."
+msgstr ""
+"Leg uw belangrijkste dienst duidelijk uit, zodat bezoekers weten wat u doet "
+"en hoe ze contact met u kunnen opnemen."
+
+#, python-format
+msgid "Reliable %%(type)s in %%(city)s"
+msgstr "Betrouwbare %%(type)s in %%(city)s"
+
+msgid "Start your private preview in 60 seconds"
+msgstr "Start uw privepreview in 60 seconden"
+
+msgid "Enter your business details and see a live preview instantly"
+msgstr "Vul uw bedrijfsgegevens in en bekijk direct een live preview"
+
+msgid "Business type"
+msgstr "Type bedrijf"
+
+msgid "Plumber"
+msgstr "Loodgieter"
+
+msgid "Cleaner"
+msgstr "Schoonmaker"
+
+msgid "Painter"
+msgstr "Schilder"
+
+msgid "Locksmith"
+msgstr "Slotenmaker"
+
+msgid "Landscaper"
+msgstr "Hovenier"
+
+msgid "Handyman"
+msgstr "Klusjesman"
+
+msgid "Roofer"
+msgstr "Dakdekker"
+
+msgid "Breda"
+msgstr "Breda"
+
+msgid "What do you do?"
+msgstr "Wat doet u?"
+
+msgid ""
+"Local plumbing for repairs, bathroom work, installations, and urgent call-"
+"outs."
+msgstr ""
+"Lokaal loodgieterswerk voor reparaties, badkamers, installaties en "
+"spoedklussen."
+
+
+msgid "Your preview is private and not published publicly until activation/payment is completed."
+msgstr "Uw preview is prive en wordt niet publiek gepubliceerd totdat activatie/betaling is afgerond."
+
+msgid "Live preview"
+msgstr "Live preview"
+
+msgid "Mobile preview"
+msgstr "Mobiele preview"
+
+msgid "Reliable plumber in Breda"
+msgstr "Betrouwbare loodgieter in Breda"
+
+msgid "Fast Call-Outs"
+msgstr "Snelle interventies"
+
+msgid "Core Services"
+msgstr "Belangrijkste diensten"
+
+msgid "Built to help customers find you"
+msgstr "Gemaakt om klanten te helpen u te vinden"
+
+msgid ""
+"Your website is more than an online card. It is built to explain your "
+"services clearly, make contact easy, and support your visibility on Google "
+"and Bing."
+msgstr ""
+"Uw website is meer dan een online visitekaartje. Deze is gemaakt om uw "
+"diensten duidelijk uit te leggen, contact eenvoudig te maken en uw "
+"zichtbaarheid op Google en Bing te ondersteunen."
+
+msgid "Clear services"
+msgstr "Duidelijke diensten"
+
+msgid "Show what you offer in a way customers understand quickly."
+msgstr "Laat zien wat u aanbiedt op een manier die klanten snel begrijpen."
+
+msgid "Local visibility"
+msgstr "Lokale zichtbaarheid"
+
+msgid "Structure your pages around the areas and services people search for."
+msgstr ""
+"Structureer uw pagina's rond de gebieden en diensten waar mensen naar zoeken."
+
+msgid "Let customers call, email, or send a message without confusion."
+msgstr "Laat klanten zonder verwarring bellen, e-mailen of een bericht sturen."
+
+msgid "Mobile-ready"
+msgstr "Mobielvriendelijk"
+
+msgid "Make your business look professional on phones, tablets, and desktops."
+msgstr ""
+"Laat uw bedrijf professioneel overkomen op telefoons, tablets en desktops."
+
+msgid "Simple setup"
+msgstr "Eenvoudige setup"
+
+msgid "Register, confirm your details, and your website is ready to go live."
+msgstr ""
+"Registreer, bevestig uw gegevens en uw website is klaar om live te gaan."
+
+msgid "Start getting visitors"
+msgstr "Begin met bezoekers ontvangen"
+
+msgid ""
+"We help you promote your website from day one with simple visibility options."
+msgstr ""
+"We helpen u uw website vanaf dag één te promoten met eenvoudige opties voor "
+"zichtbaarheid."
+
+msgid "From idea to online in 3 simple steps"
+msgstr "Van idee naar online in 3 eenvoudige stappen"
+
+msgid ""
+"No complicated process. Just a few simple steps and your website is live."
+msgstr ""
+"Geen ingewikkeld proces. Slechts een paar eenvoudige stappen en uw website "
+"staat online."
+
+msgid "Enter your business details"
+msgstr "Vul uw bedrijfsgegevens in"
+
+msgid "Add your business name, category, and location to get started."
+msgstr "Voeg uw bedrijfsnaam, categorie en locatie toe om te beginnen."
+
+msgid "Preview your website instantly"
+msgstr "Bekijk direct uw websitepreview"
+
+msgid ""
+"See your website generated in real time and adjust your content if needed."
+msgstr ""
+"Zie uw website in realtime verschijnen en pas uw inhoud aan indien nodig."
+
+msgid "Launch your website"
+msgstr "Lanceer uw website"
+
+msgid "Go live and start receiving customer enquiries right away."
+msgstr "Ga live en begin direct klantaanvragen te ontvangen."
+
+msgid "Most websites are ready in minutes, not days."
+msgstr "De meeste websites zijn in minuten klaar, niet in dagen."
+
+msgid "Built-in Assistant"
+msgstr "Ingebouwde assistent"
+
+msgid "Work on your website like you work on your business"
+msgstr "Werk aan uw website zoals u aan uw bedrijf werkt"
+
+msgid ""
+"No need to wait for support or figure everything out alone. Your assistant "
+"helps you update, improve and adjust your website anytime."
+msgstr ""
+"U hoeft niet te wachten op support of alles zelf uit te zoeken. Uw assistent "
+"helpt u om uw website op elk moment bij te werken, te verbeteren en aan te "
+"passen."
+
+msgid "Ask questions anytime"
+msgstr "Stel op elk moment vragen"
+
+msgid "Get instant answers while you build and improve your website."
+msgstr "Krijg direct antwoorden terwijl u uw website bouwt en verbetert."
+
+msgid "Improve your content faster"
+msgstr "Verbeter uw content sneller"
+
+msgid ""
+"Use the assistant to help with text, structure and ideas for your pages."
+msgstr ""
+"Gebruik de assistent voor hulp met teksten, structuur en ideeën voor uw "
+"pagina’s."
+
+msgid "Stay in control"
+msgstr "Houd de controle"
+
+msgid ""
+"Make progress yourself without needing technical skills or support tickets."
+msgstr ""
+"Maak zelf vooruitgang zonder technische kennis of supporttickets nodig te "
+"hebben."
+
+msgid "Available inside your dashboard whenever you need it"
+msgstr "Beschikbaar in uw dashboard wanneer u het nodig heeft"
+
+msgid "Designed to help you move faster, not slow you down."
+msgstr "Ontworpen om u sneller vooruit te helpen, niet om u te vertragen."
+
+msgid "Why this helps your business grow"
+msgstr "Waarom dit uw bedrijf helpt groeien"
+
+msgid ""
+"A clear website makes it easier for visitors to understand what you offer, "
+"trust your business, and contact you."
+msgstr ""
+"Een duidelijke website maakt het voor bezoekers makkelijker om te begrijpen "
+"wat u aanbiedt, uw bedrijf te vertrouwen en contact met u op te nemen."
+
+msgid "Visitors understand your services quickly and know what to do next."
+msgstr ""
+"Bezoekers begrijpen uw diensten snel en weten wat ze daarna moeten doen."
+
+msgid "Built for local businesses"
+msgstr "Gemaakt voor lokale bedrijven"
+
+msgid ""
+"Useful for transport, auto services, construction, and other local services."
+msgstr "Handig voor transport, autodiensten, bouw en andere lokale diensten."
+
+msgid "Simple pricing"
+msgstr "Eenvoudige prijzen"
+
+msgid ""
+"Start with the option that fits your budget and upgrade when you are ready."
+msgstr ""
+"Begin met de optie die bij uw budget past en upgrade wanneer u er klaar voor "
+"bent."
+
+msgid "Room to grow"
+msgstr "Ruimte om te groeien"
+
+msgid ""
+"Start simple, then add a catalog, online shop, or marketing campaigns when "
+"you're ready."
+msgstr ""
+"Begin eenvoudig en voeg later een catalogus, online shop of "
+"marketingcampagnes toe wanneer u er klaar voor bent."
+
+msgid ""
+"Pick a template that fits your business and test your website preview "
+"instantly."
+msgstr ""
+"Kies een template dat bij uw bedrijf past en test direct uw websitepreview."
+
+msgid ""
+"A clear starting design for repairs, installations, urgent jobs, and local "
+"service areas."
+msgstr ""
+"Een duidelijk startontwerp voor reparaties, installaties, spoedklussen en "
+"lokale werkgebieden."
+
+msgid ""
+"A practical layout for home cleaning, office cleaning, service packages, and "
+"quote requests."
+msgstr ""
+"Een praktische layout voor huishoudelijke schoonmaak, kantoorreiniging, "
+"dienstenpakketten en offerteaanvragen."
+
+msgid ""
+"A focused template for call-outs, inspections, repairs, installations, and "
+"fast contact."
+msgstr ""
+"Een gericht template voor spoedklussen, inspecties, reparaties, installaties "
+"en snel contact."
+
+msgid "Choose how you want to run your website"
+msgstr "Kies hoe u uw website wilt beheren"
+
+msgid "Pay once or let us handle everything monthly."
+msgstr "Betaal één keer of laat ons alles maandelijks regelen."
+
+msgid "Start small, then add features when your business needs them."
+msgstr "Begin klein en voeg functies toe wanneer uw bedrijf ze nodig heeft."
+
+msgid "EUR 20/month"
+msgstr "EUR 20/maand"
+
+msgid "Start with a starter page and upgrade when you are ready."
+msgstr "Begin met een starterpagina en upgrade wanneer u er klaar voor bent."
+
+msgid "Starter page"
+msgstr "Starterpagina"
+
+msgid "Temporary Get Online Fast subdomain"
+msgstr "Tijdelijk Get Online Fast-subdomein"
+
+msgid "Basic editable content"
+msgstr "Eenvoudige bewerkbare content"
+
+msgid "WhatsApp or contact button"
+msgstr "WhatsApp- of contactknop"
+
+msgid "Upgrade to a full WordPress website anytime"
+msgstr "Upgrade op elk moment naar een volledige WordPress-website"
+
+msgid "Start with Starter Page"
+msgstr "Begin met Starterpagina"
+
+msgid "Most chosen"
+msgstr "Meest gekozen"
+
+msgid "One-Time Website"
+msgstr "One-Time Website"
+
+msgid "€325 + VAT"
+msgstr "€325 + btw"
+
+msgid "One-time setup. No subscriptions."
+msgstr "Eenmalige setup. Geen abonnementen."
+
+msgid "Full business website"
+msgstr "Volledige bedrijfswebsite"
+
+msgid "Structured SEO setup"
+msgstr "Gestructureerde SEO-setup"
+
+msgid "Assisted content editing"
+msgstr "Ondersteunde contentbewerking"
+
+msgid "Built to help visitors contact your business"
+msgstr "Gemaakt om bezoekers te helpen contact op te nemen met uw bedrijf"
+
+msgid ""
+"Yours to use and grow over time with catalog, online shop, extra pages, "
+"languages, or marketing."
+msgstr ""
+"Van u om te gebruiken en later uit te breiden met een catalogus, online "
+"shop, extra pagina’s, talen of marketing."
+
+msgid "See One-Time Plan"
+msgstr "Bekijk One-Time Plan"
+
+msgid "Monthly Plan"
+msgstr "Maandelijks plan"
+
+msgid "From EUR 49.90"
+msgstr "Vanaf EUR 49,90"
+
+msgid "per month"
+msgstr "per maand"
+
+msgid "Hosting included"
+msgstr "Hosting inbegrepen"
+
+msgid "Website stays online"
+msgstr "Website blijft online"
+
+msgid "Small updates and support"
+msgstr "Kleine updates en ondersteuning"
+
+msgid "Ongoing website care"
+msgstr "Doorlopende websitezorg"
+
+msgid "Optional Facebook posts add-on"
+msgstr "Optionele extra voor Facebook-posts"
+
+msgid "See Monthly Plan"
+msgstr "Bekijk Maandelijks plan"
+
+msgid "Add-on"
+msgstr "Extra"
+
+msgid "eCommerce Add-on"
+msgstr "eCommerce-extra"
+
+msgid "Turn your website into an online shop anytime."
+msgstr "Maak op elk moment van uw website een online shop."
+
+msgid "Add products and accept payments"
+msgstr "Voeg producten toe en accepteer betalingen"
+
+msgid "Simple checkout setup"
+msgstr "Eenvoudige checkout-setup"
+
+msgid "Works with your existing website"
+msgstr "Werkt met uw bestaande website"
+
+msgid "Ask about eCommerce"
+msgstr "Vraag naar eCommerce"
+
+msgid "Optional visibility boost"
+msgstr "Optionele boost voor zichtbaarheid"
+
+msgid "Facebook posts: EUR 79 / month"
+msgstr "Facebook-posts: EUR 79 / maand"
+
+msgid ""
+"2 posts per week to keep your business active online and increase chances of "
+"customer calls."
+msgstr ""
+"2 posts per week om uw bedrijf online actief te houden en de kans op "
+"klantcontact te vergroten."
+
+msgid "Helpful guides"
+msgstr "Nuttige gidsen"
+
+msgid ""
+"Quick explanations for common questions before and after your website goes "
+"online."
+msgstr ""
+"Snelle uitleg voor veelgestelde vragen vóór en nadat uw website online gaat."
+
+msgid "Open guide"
+msgstr "Gids openen"
+
+msgid "No public guides yet"
+msgstr "Nog geen openbare gidsen"
+
+msgid "Publish public blog posts in the admin to show the latest guides here."
+msgstr ""
+"Publiceer openbare blogartikelen in de admin om hier de nieuwste gidsen te "
+"tonen."
+
+msgid "Open blog"
+msgstr "Blog openen"
+
+msgid ""
+"Short answers for the practical questions business owners usually ask before "
+"they commit."
+msgstr ""
+"Korte antwoorden op praktische vragen die ondernemers meestal stellen "
+"voordat ze beslissen."
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting, support, and "
+"updates handled for you."
+msgstr ""
+"One-Time Website is een goede keuze als u een professionele website wilt "
+"zonder maandelijkse zorg. Monthly Plan is beter als u hosting, ondersteuning "
+"en updates wilt laten regelen."
+
+msgid "What is the difference between One-Time Website and Monthly Plan?"
+msgstr "Wat is het verschil tussen One-Time Website en Monthly Plan?"
+
+msgid ""
+"The one-time option lets you pay once to keep your website active. The "
+"monthly plan includes ongoing care, hosting, and support so you do not have "
+"to manage anything."
+msgstr ""
+"Met de eenmalige optie betaalt u één keer om uw website actief te houden. "
+"Het maandelijkse plan bevat doorlopende zorg, hosting en ondersteuning, "
+"zodat u niets zelf hoeft te beheren."
+
+msgid "Can I switch later?"
+msgstr "Kan ik later wisselen?"
+
+msgid "Yes, you can move between plans or add services later."
+msgstr "Ja, u kunt later van plan wisselen of diensten toevoegen."
+
+msgid "Start your website preview now"
+msgstr "Start nu uw websitepreview"
+
+msgid ""
+"Build your website in minutes and see exactly how it looks before you decide."
+msgstr ""
+"Bouw uw website in minuten en zie precies hoe deze eruitziet voordat u "
+"beslist."
+
+msgid "How it works"
+msgstr "Hoe het werkt"
+
+msgid "From business details to a live website"
+msgstr "Van bedrijfsgegevens naar een live website"
+
+msgid ""
+"A simple self-service flow for small businesses that need a clear website "
+"without a long project."
+msgstr ""
+"Een eenvoudig self-service proces voor kleine bedrijven die een duidelijke "
+"website nodig hebben zonder een lang traject."
+
+msgid "View examples"
+msgstr "Bekijk voorbeelden"
+
+msgid "A practical path to launch"
+msgstr "Een praktische weg naar lancering"
+
+msgid ""
+"Start with the essentials, test your preview, then keep improving after "
+"launch with the built-in AI Assistant."
+msgstr ""
+"Begin met de basis, test uw preview en blijf na de lancering verbeteren met "
+"de ingebouwde AI Assistant."
+
+msgid "Tell us what your business does"
+msgstr "Vertel ons wat uw bedrijf doet"
+
+msgid ""
+"Add your business name, category, location, and the services customers "
+"should know about first."
+msgstr ""
+"Voeg uw bedrijfsnaam, categorie, locatie en de diensten toe die klanten als "
+"eerste moeten kennen."
+
+msgid "Choose a starting template"
+msgstr "Kies een starttemplate"
+
+msgid ""
+"Pick a structure that fits your business type. It is a starting point, not a "
+"fixed website."
+msgstr ""
+"Kies een structuur die past bij uw type bedrijf. Het is een startpunt, geen "
+"vaste website."
+
+msgid "Test your preview"
+msgstr "Test uw preview"
+
+msgid ""
+"See the website take shape quickly and adjust the content before you decide "
+"to launch."
+msgstr ""
+"Zie hoe uw website snel vorm krijgt en pas de inhoud aan voordat u beslist "
+"om te lanceren."
+
+msgid ""
+"Go online with a mobile-ready website built around clear customer enquiries."
+msgstr ""
+"Ga online met een mobielvriendelijke website gericht op duidelijke "
+"klantaanvragen."
+
+msgid "Improve it later with AI"
+msgstr "Verbeter het later met AI"
+
+msgid ""
+"Use the built-in assistant to understand, edit, and improve your content "
+"while you work."
+msgstr ""
+"Gebruik de ingebouwde assistent om uw content te begrijpen, te bewerken en "
+"te verbeteren terwijl u werkt."
+
+msgid "Ready to see your first preview?"
+msgstr "Klaar om uw eerste preview te zien?"
+
+msgid "Enter your details and test a starting website in less than a minute."
+msgstr ""
+"Voer uw gegevens in en test een eerste website in minder dan een minuut."
+
+msgid "Public site foundation"
+msgstr "Basis voor de openbare site"
+
+msgid "Prepared for future build-out"
+msgstr "Voorbereid op toekomstige uitbreiding"
+
+msgid ""
+"This placeholder page already extends the shared layout, uses the main "
+"stylesheet, and is ready for translated content when the full page is "
+"implemented."
+msgstr ""
+"Deze placeholderpagina gebruikt al de gedeelde layout, de hoofdstijlen en is "
+"klaar voor vertaalde content wanneer de volledige pagina wordt gebouwd."
+
+msgid "Reusable structure"
+msgstr "Herbruikbare structuur"
+
+msgid ""
+"Header, footer, buttons, spacing, and cards all come from the shared "
+"template foundation."
+msgstr ""
+"Header, footer, knoppen, afstanden en kaarten komen allemaal uit de gedeelde "
+"templatebasis."
+
+msgid "Translation-ready"
+msgstr "Klaar voor vertaling"
+
+msgid ""
+"The visible template copy is prepared for Django i18n from the beginning."
+msgstr ""
+"De zichtbare templateteksten zijn vanaf het begin voorbereid voor Django "
+"i18n."
+
+msgid "Ready for expansion"
+msgstr "Klaar voor uitbreiding"
+
+msgid ""
+"Content sections, forms, or offer details can be added here later without "
+"restructuring the project."
+msgstr ""
+"Contentsecties, formulieren of aanbodsdetails kunnen hier later worden "
+"toegevoegd zonder het project te herstructureren."
+
+msgid "eCommerce Plan"
+msgstr "eCommerce-plan"
+
+msgid ""
+"A coming soon eCommerce plan for small businesses that want to start with a "
+"website and sell products online later."
+msgstr ""
+"Een binnenkort beschikbaar eCommerce-plan voor kleine bedrijven die willen "
+"starten met een website en later producten online willen verkopen."
+
+msgid "Coming soon"
+msgstr "Binnenkort"
+
+msgid "Start with a website. Upgrade to selling online later."
+msgstr "Begin met een website. Upgrade later naar online verkopen."
+
+msgid ""
+"The eCommerce plan is being prepared for businesses that want product pages, "
+"checkout, and a simple path from website to online store."
+msgstr ""
+"Het eCommerce-plan wordt voorbereid voor bedrijven die productpagina’s, een "
+"checkout en een eenvoudige overgang van website naar webshop willen."
+
+msgid "View all plans"
+msgstr "Bekijk alle plannen"
+
+msgid "Product selling"
+msgstr "Productverkoop"
+
+msgid "Upgrade path"
+msgstr "Upgradepad"
+
+msgid "What it is for"
+msgstr "Waar het voor is"
+
+msgid ""
+"For small businesses that want to begin with a clear website and later add "
+"product selling when they are ready."
+msgstr ""
+"Voor kleine bedrijven die willen beginnen met een duidelijke website en "
+"later productverkoop willen toevoegen wanneer ze er klaar voor zijn."
+
+msgid "Current status"
+msgstr "Huidige status"
+
+msgid ""
+"This plan is not fully available yet. You can still start with a website now "
+"and keep eCommerce as the next step."
+msgstr ""
+"Dit plan is nog niet volledig beschikbaar. U kunt nu al starten met een "
+"website en eCommerce als volgende stap bewaren."
+
+msgid "Planned eCommerce direction"
+msgstr "Geplande eCommerce-richting"
+
+msgid ""
+"The first version will stay practical: products, clear pages, checkout, and "
+"a store structure that small businesses can understand."
+msgstr ""
+"De eerste versie blijft praktisch: producten, duidelijke pagina’s, checkout "
+"en een webshopstructuur die kleine bedrijven begrijpen."
+
+msgid "Product pages"
+msgstr "Productpagina’s"
+
+msgid ""
+"Present products with clear descriptions, pricing, images, and buying "
+"details."
+msgstr ""
+"Presenteer producten met duidelijke beschrijvingen, prijzen, afbeeldingen en "
+"aankoopinformatie."
+
+msgid "Checkout path"
+msgstr "Checkoutproces"
+
+msgid "Give customers a simple way to move from product interest to purchase."
+msgstr ""
+"Geef klanten een eenvoudige manier om van interesse naar aankoop te gaan."
+
+msgid "Website first"
+msgstr "Eerst een website"
+
+msgid ""
+"Start with your business website now, then upgrade when selling online "
+"becomes the priority."
+msgstr ""
+"Begin nu met uw bedrijfswebsite en upgrade wanneer online verkopen "
+"prioriteit wordt."
+
+msgid "Planning to sell online later?"
+msgstr "Van plan om later online te verkopen?"
+
+msgid ""
+"Start with the right website foundation now, or ask about the eCommerce "
+"roadmap before you decide."
+msgstr ""
+"Begin nu met de juiste websitebasis of vraag naar de eCommerce-roadmap "
+"voordat u beslist."
+
+msgid "View One-Time Website"
+msgstr "Bekijk One-Time Website"
+
+msgid "Monthly Website"
+msgstr "Maandelijkse website"
+
+msgid ""
+"A monthly website plan for small businesses that want a complete website "
+"setup, ongoing support, and predictable monthly costs."
+msgstr ""
+"Een maandelijks websiteplan voor kleine bedrijven die een complete "
+"websitesetup, doorlopende ondersteuning en voorspelbare maandelijkse kosten "
+"willen."
+
+msgid "Monthly website"
+msgstr "Maandelijkse website"
+
+msgid "Start your website without a large upfront cost"
+msgstr "Start uw website zonder hoge kosten vooraf"
+
+msgid ""
+"A complete website setup with ongoing support, updates, and improvements."
+msgstr ""
+"Een complete websitesetup met doorlopende ondersteuning, updates en "
+"verbeteringen."
+
+msgid "Start monthly plan"
+msgstr "Maandplan starten"
+
+msgid "Compare with one-time website"
+msgstr "Vergelijken met eenmalige website"
+
+msgid "€49.90 / month"
+msgstr "€49,90 / maand"
+
+msgid "No large upfront payment"
+msgstr "Geen hoge betaling vooraf"
+
+msgid "Ongoing support included"
+msgstr "Doorlopende ondersteuning inbegrepen"
+
+msgid "Cancel anytime"
+msgstr "Op elk moment opzegbaar"
+
+msgid "Website preview on laptop and phone"
+msgstr "Websitepreview op laptop en telefoon"
+
+msgid "A complete website with lower starting cost"
+msgstr "Een complete website met lagere startkosten"
+
+msgid "Website built for your business"
+msgstr "Website gebouwd voor uw bedrijf"
+
+msgid "Continuous updates and improvements"
+msgstr "Doorlopende updates en verbeteringen"
+
+msgid "Support included"
+msgstr "Ondersteuning inbegrepen"
+
+msgid "No technical work needed"
+msgstr "Geen technisch werk nodig"
+
+msgid "Monthly website plan"
+msgstr "Maandelijks websiteplan"
+
+msgid ""
+"A predictable monthly option for businesses that want support and steady "
+"progress."
+msgstr ""
+"Een voorspelbare maandelijkse optie voor bedrijven die ondersteuning en "
+"gestage vooruitgang willen."
+
+msgid "A simple way to launch without a large upfront investment."
+msgstr "Een eenvoudige manier om te starten zonder grote investering vooraf."
+
+msgid "What is included in your setup"
+msgstr "Wat is inbegrepen in uw setup"
+
+msgid ""
+"Everything you need to launch with support, plus room to improve your "
+"website over time."
+msgstr ""
+"Alles wat u nodig heeft om met ondersteuning te lanceren, plus ruimte om uw "
+"website later te verbeteren."
+
+msgid "Website & content"
+msgstr "Website en content"
+
+msgid "Updates included"
+msgstr "Updates inbegrepen"
+
+msgid "Pages adjusted as your business changes"
+msgstr "Pagina’s aangepast wanneer uw bedrijf verandert"
+
+msgid "Ready to grow over time"
+msgstr "Klaar om mee te groeien"
+
+msgid "Search visibility"
+msgstr "Zichtbaarheid in zoekmachines"
+
+msgid "Google"
+msgstr "Google"
+
+msgid "Bing"
+msgstr "Bing"
+
+msgid "Google and Bing setup"
+msgstr "Setup voor Google en Bing"
+
+msgid "Ongoing improvements"
+msgstr "Doorlopende verbeteringen"
+
+msgid "Local visibility foundation"
+msgstr "Basis voor lokale zichtbaarheid"
+
+msgid "Customer contact"
+msgstr "Klantcontact"
+
+msgid "Form"
+msgstr "Formulier"
+
+msgid "Contact forms ready"
+msgstr "Contactformulieren klaar"
+
+msgid "WhatsApp or email options"
+msgstr "WhatsApp- of e-mailopties"
+
+msgid "Clear ways for customers to reach you"
+msgstr "Duidelijke manieren waarop klanten u kunnen bereiken"
+
+msgid "Hosting & infrastructure"
+msgstr "Hosting en infrastructuur"
+
+msgid "Active plan included"
+msgstr "Inbegrepen bij actief plan"
+
+msgid "Hosting included as long as your plan is active"
+msgstr "Hosting inbegrepen zolang uw plan actief is"
+
+msgid "Domain connected and maintained"
+msgstr "Domein gekoppeld en onderhouden"
+
+msgid "Stable website access"
+msgstr "Stabiele toegang tot de website"
+
+msgid "Part of your monthly plan"
+msgstr "Onderdeel van uw maandplan"
+
+msgid "updates"
+msgstr "updates"
+
+msgid "support"
+msgstr "ondersteuning"
+
+msgid "improvements"
+msgstr "verbeteringen"
+
+msgid "A practical way to keep your website moving forward every month."
+msgstr ""
+"Een praktische manier om uw website elke maand vooruit te blijven helpen."
+
+msgid "Why choose monthly?"
+msgstr "Waarom maandelijks kiezen?"
+
+msgid "No upfront cost"
+msgstr "Geen kosten vooraf"
+
+msgid "Continuous improvements"
+msgstr "Doorlopende verbeteringen"
+
+msgid "Ideal for businesses starting out"
+msgstr "Ideaal voor bedrijven die net beginnen"
+
+msgid "Less risk"
+msgstr "Minder risico"
+
+msgid ""
+"A simple path from your business details to a website that can keep "
+"improving over time."
+msgstr ""
+"Een eenvoudige weg van uw bedrijfsgegevens naar een website die in de loop "
+"van de tijd kan blijven verbeteren."
+
+msgid "Go live and keep improving"
+msgstr "Ga live en blijf verbeteren"
+
+msgid "After launch"
+msgstr "Na de lancering"
+
+msgid "Your website stays online while your plan is active"
+msgstr "Uw website blijft online zolang uw plan actief is"
+
+msgid "Updates and support stay included"
+msgstr "Updates en ondersteuning blijven inbegrepen"
+
+msgid "Improvements can be added over time"
+msgstr "Verbeteringen kunnen later worden toegevoegd"
+
+msgid "Built to grow with your business"
+msgstr "Gemaakt om met uw bedrijf mee te groeien"
+
+msgid ""
+"Use the monthly plan as your starting point, then keep improving your "
+"website as your business grows."
+msgstr ""
+"Gebruik het maandplan als startpunt en blijf uw website verbeteren terwijl "
+"uw bedrijf groeit."
+
+msgid "Adjust pages and services over time"
+msgstr "Pas pagina’s en diensten in de loop van de tijd aan"
+
+msgid "Add more visibility support when needed"
+msgstr "Voeg extra ondersteuning voor zichtbaarheid toe wanneer dat nodig is"
+
+msgid "Keep your website current without technical work"
+msgstr "Houd uw website actueel zonder technisch werk"
+
+msgid "Switch to a larger setup later if your business needs it"
+msgstr "Stap later over naar een grotere setup als uw bedrijf dat nodig heeft"
+
+msgid "Start with a monthly website plan"
+msgstr "Begin met een maandelijks websiteplan"
+
+msgid ""
+"Launch with lower starting cost and keep improving your website over time."
+msgstr ""
+"Start met lagere beginkosten en blijf uw website in de loop van de tijd "
+"verbeteren."
+
+msgid ""
+"A one-time website plan for small businesses that want one clear payment, a "
+"ready website, and simple content editing after launch."
+msgstr ""
+"Een eenmalig websiteplan voor kleine bedrijven die één duidelijke betaling, "
+"een kant-en-klare website en eenvoudige contentbewerking na de lancering "
+"willen."
+
+msgid "One-time website"
+msgstr "Eenmalige website"
+
+msgid "Get a complete website setup that helps customers find you"
+msgstr "Krijg een complete websitesetup die klanten helpt u te vinden"
+
+msgid ""
+"Your website, visibility, contact tools, hosting, email setup, and launch "
+"support in one clear package."
+msgstr ""
+"Uw website, zichtbaarheid, contacttools, hosting, e-mailsetup en "
+"lanceringssupport in één duidelijk pakket."
+
+msgid "View Monthly Plan"
+msgstr "Bekijk maandplan"
+
+msgid "No subscriptions"
+msgstr "Geen abonnementen"
+
+msgid "No technical setup"
+msgstr "Geen technische setup"
+
+msgid "Complete business setup"
+msgstr "Complete bedrijfssetup"
+
+msgid ""
+"Website, search visibility, contact tools, hosting, and launch support in "
+"one setup"
+msgstr ""
+"Website, zichtbaarheid in zoekmachines, contacttools, hosting en "
+"lanceringssupport in één setup"
+
+msgid "Built to help your business look professional and stay ready to grow"
+msgstr ""
+"Gemaakt om uw bedrijf professioneel te laten overkomen en klaar te houden "
+"voor groei"
+
+msgid "Clear structure now, with room to expand later"
+msgstr "Nu een duidelijke structuur, met ruimte om later uit te breiden"
+
+msgid "One-time website setup"
+msgstr "Eenmalige websitesetup"
+
+msgid "Your website is already built and ready to use."
+msgstr "Uw website is al gebouwd en klaar voor gebruik."
+
+msgid "One new customer can already cover the cost of your website."
+msgstr "Eén nieuwe klant kan de kosten van uw website al dekken."
+
+msgid ""
+"Everything is set up to give your business a complete, practical online base "
+"from day one."
+msgstr ""
+"Alles wordt ingesteld om uw bedrijf vanaf dag één een complete, praktische "
+"online basis te geven."
+
+msgid "Full business website setup"
+msgstr "Complete setup voor een bedrijfswebsite"
+
+msgid "Structured pages for your services"
+msgstr "Gestructureerde pagina’s voor uw diensten"
+
+msgid "Easy content editing and updates"
+msgstr "Eenvoudige contentbewerking en updates"
+
+msgid "Ready to expand with new services"
+msgstr "Klaar om uit te breiden met nieuwe diensten"
+
+msgid "Pages structured for Google and Bing"
+msgstr "Pagina’s gestructureerd voor Google en Bing"
+
+msgid "Local service targeting"
+msgstr "Gericht op lokale diensten"
+
+msgid "Strong SEO foundation"
+msgstr "Sterke SEO-basis"
+
+msgid "or call options"
+msgstr "of belopties"
+
+msgid "2 professional email accounts"
+msgstr "2 professionele e-mailaccounts"
+
+msgid "1 year included"
+msgstr "1 jaar inbegrepen"
+
+msgid "Professional hosting for your business (1 year included)"
+msgstr "Professionele hosting voor uw bedrijf (1 jaar inbegrepen)"
+
+msgid "Fast, stable, and reliable performance"
+msgstr "Snelle, stabiele en betrouwbare prestaties"
+
+msgid "Domain connected and configured"
+msgstr "Domein gekoppeld en geconfigureerd"
+
+msgid "Included with your setup"
+msgstr "Inbegrepen bij uw setup"
+
+msgid "Included launch boost"
+msgstr "Inbegrepen lanceringsboost"
+
+msgid "10 posts"
+msgstr "10 posts"
+
+msgid "5 weeks"
+msgstr "5 weken"
+
+msgid "more visitors"
+msgstr "meer bezoekers"
+
+msgid "Facebook"
+msgstr "Facebook"
+
+msgid "posts (10 posts over 5 weeks)"
+msgstr "posts (10 posts over 5 weken)"
+
+msgid "Helps bring visitors from day one"
+msgstr "Helpt vanaf dag één bezoekers aan te trekken"
+
+msgid "Designed to keep your new website active online"
+msgstr "Ontworpen om uw nieuwe website online actief te houden"
+
+msgid "A simple way to start getting attention after launch."
+msgstr "Een eenvoudige manier om na de lancering aandacht te krijgen."
+
+msgid "What this does for your business"
+msgstr "Wat dit voor uw bedrijf doet"
+
+msgid "Customers can find your services online"
+msgstr "Klanten kunnen uw diensten online vinden"
+
+msgid "Customers can contact you easily"
+msgstr "Klanten kunnen gemakkelijk contact met u opnemen"
+
+msgid "Your business looks professional and trustworthy"
+msgstr "Uw bedrijf komt professioneel en betrouwbaar over"
+
+msgid "You have a base to grow with ads, SEO, services, and more languages"
+msgstr ""
+"U heeft een basis om te groeien met advertenties, SEO, diensten en meer talen"
+
+msgid "You can track performance with analytics access"
+msgstr "U kunt prestaties volgen met toegang tot analytics"
+
+msgid "You can order new promotion options when you are ready"
+msgstr "U kunt nieuwe promotieopties bestellen wanneer u er klaar voor bent"
+
+msgid "A short path from your business details to a website you can launch."
+msgstr ""
+"Een korte weg van uw bedrijfsgegevens naar een website die u kunt lanceren."
+
+msgid "Your website stays online and active"
+msgstr "Uw website blijft online en actief"
+
+msgid "You can update your content anytime"
+msgstr "U kunt uw content op elk moment bijwerken"
+
+msgid "You can expand with more services, pages, or promotions"
+msgstr "U kunt uitbreiden met meer diensten, pagina’s of promoties"
+
+msgid "Grow when you are ready"
+msgstr "Groei wanneer u er klaar voor bent"
+
+msgid "Add more reach and functionality when your business needs it."
+msgstr ""
+"Voeg meer bereik en functionaliteit toe wanneer uw bedrijf dat nodig heeft."
+
+msgid "Catalog add-on"
+msgstr "Catalogus-extra"
+
+msgid "Show products, services, parts, or packages without a full online shop."
+msgstr ""
+"Toon producten, diensten, onderdelen of pakketten zonder volledige online "
+"shop."
+
+msgid "Customers can browse and contact you to request more information."
+msgstr ""
+"Klanten kunnen bekijken wat u aanbiedt en contact opnemen voor meer "
+"informatie."
+
+msgid "Online shop upgrade"
+msgstr "Upgrade naar online shop"
+
+msgid "Add checkout and payments later without starting from scratch."
+msgstr "Voeg later checkout en betalingen toe zonder opnieuw te beginnen."
+
+msgid "Best when you want to sell directly online."
+msgstr "Ideaal wanneer u direct online wilt verkopen."
+
+msgid "Marketing & visibility"
+msgstr "Marketing en zichtbaarheid"
+
+msgid "Bring visitors to your website and start getting customers."
+msgstr "Breng bezoekers naar uw website en begin klanten te krijgen."
+
+msgid "Facebook posts (10 posts over 5 weeks)"
+msgstr "Facebook-posts (10 posts over 5 weken)"
+
+msgid "Google Ads campaigns"
+msgstr "Google Ads-campagnes"
+
+msgid "Designed to increase visibility and enquiries"
+msgstr "Ontworpen om zichtbaarheid en aanvragen te vergroten"
+
+msgid "Start your website today"
+msgstr "Start vandaag uw website"
+
+msgid "See your website instantly and launch when you're ready."
+msgstr "Bekijk direct uw website en lanceer wanneer u er klaar voor bent."
+
+msgid "Plans"
+msgstr "Plannen"
+
+msgid "Website plans"
+msgstr "Websiteplannen"
+
+msgid "Choose the right plan for your business"
+msgstr "Kies het juiste plan voor uw bedrijf"
+
+msgid ""
+"Choose a one-time website, a monthly plan, or keep eCommerce in view for "
+"later growth. Each plan is built around a clear, practical website setup for "
+"small businesses."
+msgstr ""
+"Kies een eenmalige website, een maandplan of houd eCommerce in gedachten "
+"voor latere groei. Elk plan is opgebouwd rond een duidelijke, praktische "
+"websitesetup voor kleine bedrijven."
+
+msgid ""
+"Start with the plan that fits now. You can add services, a catalog, an "
+"online shop, or marketing campaigns later as your business grows."
+msgstr ""
+"Begin met het plan dat nu past. U kunt later diensten, een catalogus, een "
+"online shop of marketingcampagnes toevoegen naarmate uw bedrijf groeit."
+
+msgid "Growth options"
+msgstr "Groeimogelijkheden"
+
+msgid ""
+"Show products or services online and let customers request more information."
+msgstr ""
+"Toon producten of diensten online en laat klanten meer informatie aanvragen."
+
+msgid "Online shop"
+msgstr "Online shop"
+
+msgid "Add checkout and payments when you are ready to sell directly online."
+msgstr ""
+"Voeg checkout en betalingen toe wanneer u klaar bent om direct online te "
+"verkopen."
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid ""
+"Use Facebook posts and Google Ads campaigns to increase visibility and "
+"enquiries."
+msgstr ""
+"Gebruik Facebook-posts en Google Ads-campagnes om zichtbaarheid en aanvragen "
+"te vergroten."
+
+msgid ""
+"A catalog helps customers browse and enquire. An online shop adds checkout "
+"and payments. Marketing helps bring visitors to your website."
+msgstr ""
+"Een catalogus helpt klanten te bekijken wat u aanbiedt en informatie aan te "
+"vragen. Een online shop voegt checkout en betalingen toe. Marketing helpt "
+"bezoekers naar uw website te brengen."
+
+msgid "Privacy Policy"
+msgstr "Privacybeleid"
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid ""
+"This starter policy explains the basic privacy structure for Get Online "
+"Fast. It is written to be easy to review and improve as the platform grows."
+msgstr ""
+"Dit basisbeleid legt de privacystructuur van Get Online Fast uit. Het is "
+"geschreven om eenvoudig te kunnen worden beoordeeld en verbeterd naarmate "
+"het platform groeit."
+
+msgid "Information we collect"
+msgstr "Informatie die we verzamelen"
+
+msgid ""
+"We may collect business details, contact information, website preferences, "
+"and messages you send through the platform or by email."
+msgstr ""
+"We kunnen bedrijfsgegevens, contactinformatie, websitevoorkeuren en "
+"berichten verzamelen die u via het platform of per e-mail verzendt."
+
+msgid "How we use information"
+msgstr "Hoe we informatie gebruiken"
+
+msgid ""
+"We use information to create previews, provide website services, respond to "
+"practical questions, improve the product, and manage billing or account "
+"needs."
+msgstr ""
+"We gebruiken informatie om previews te maken, websitediensten te leveren, "
+"praktische vragen te beantwoorden, het product te verbeteren en facturatie "
+"of accountbeheer te regelen."
+
+msgid "AI-assisted features"
+msgstr "AI-ondersteunde functies"
+
+msgid ""
+"The built-in AI Assistant may use the details you provide to help generate, "
+"edit, or improve website content. You remain responsible for reviewing "
+"content before publishing."
+msgstr ""
+"De ingebouwde AI Assistant kan de door u verstrekte gegevens gebruiken om "
+"websitecontent te helpen genereren, bewerken of verbeteren. U blijft "
+"verantwoordelijk voor het controleren van de inhoud vóór publicatie."
+
+msgid "Sharing information"
+msgstr "Informatie delen"
+
+msgid ""
+"We do not sell personal information. We may use trusted service providers "
+"for hosting, email, analytics, payments, or platform operations."
+msgstr ""
+"We verkopen geen persoonlijke gegevens. We kunnen gebruikmaken van "
+"betrouwbare dienstverleners voor hosting, e-mail, analytics, betalingen of "
+"platformbeheer."
+
+msgid "Data retention"
+msgstr "Gegevensbewaring"
+
+msgid ""
+"We keep information for as long as needed to provide the service, meet legal "
+"obligations, resolve issues, and maintain business records."
+msgstr ""
+"We bewaren informatie zolang dat nodig is om de dienst te leveren, aan "
+"wettelijke verplichtingen te voldoen, problemen op te lossen en "
+"bedrijfsadministratie bij te houden."
+
+msgid "Cookies"
+msgstr "Cookies"
+
+msgid ""
+"We may use essential cookies and basic analytics tools to keep the website "
+"working and understand how visitors use the platform."
+msgstr ""
+"We kunnen essentiële cookies en eenvoudige analysetools gebruiken om de "
+"website goed te laten functioneren en te begrijpen hoe bezoekers het "
+"platform gebruiken."
+
+msgid "Your choices"
+msgstr "Uw keuzes"
+
+msgid ""
+"You can contact us to ask about access, correction, or deletion of your "
+"information where applicable."
+msgstr ""
+"U kunt contact met ons opnemen om toegang, correctie of verwijdering van uw "
+"gegevens aan te vragen waar dat van toepassing is."
+
+msgid ""
+"For privacy questions, contact info@getonlinefast.eu. This page should be "
+"reviewed by a legal professional before relying on it as final legal advice."
+msgstr ""
+"Voor vragen over privacy kunt u contact opnemen via info@getonlinefast.eu. "
+"Deze pagina moet door een juridisch professional worden beoordeeld voordat "
+"deze als definitief juridisch advies wordt gebruikt."
+
+msgid "Terms"
+msgstr "Voorwaarden"
+
+msgid "Terms of Service"
+msgstr "Gebruiksvoorwaarden"
+
+msgid ""
+"These starter terms outline the basic rules for using Get Online Fast. They "
+"are structured so the legal details can be tightened before full public "
+"launch."
+msgstr ""
+"Deze basisvoorwaarden beschrijven de belangrijkste regels voor het gebruik "
+"van Get Online Fast. Ze zijn zo opgesteld dat de juridische details vóór de "
+"volledige publieke lancering kunnen worden aangescherpt."
+
+msgid "Using the platform"
+msgstr "Gebruik van het platform"
+
+msgid ""
+"Get Online Fast provides a self-service website flow with AI-assisted tools "
+"to help users create, edit, and improve business websites."
+msgstr ""
+"Get Online Fast biedt een self-service websiteflow met AI-ondersteunde tools "
+"om gebruikers te helpen bij het maken, bewerken en verbeteren van "
+"bedrijfswebsites."
+
+msgid "Your responsibilities"
+msgstr "Uw verantwoordelijkheden"
+
+msgid ""
+"You are responsible for the accuracy of the business details, website "
+"content, images, claims, and contact information you provide or publish."
+msgstr ""
+"U bent verantwoordelijk voor de juistheid van de bedrijfsgegevens, "
+"websitecontent, afbeeldingen, claims en contactinformatie die u verstrekt of "
+"publiceert."
+
+msgid "AI-assisted content"
+msgstr "AI-ondersteunde content"
+
+msgid ""
+"AI suggestions are provided to help you move faster. You should review and "
+"approve content before using it publicly."
+msgstr ""
+"AI-suggesties worden aangeboden om u sneller vooruit te helpen. U moet de "
+"content controleren en goedkeuren voordat u deze publiek gebruikt."
+
+msgid "Plans and payments"
+msgstr "Plannen en betalingen"
+
+msgid ""
+"Plan details, pricing, included services, and renewal terms should be "
+"reviewed before purchase. Some services or add-ons may be listed as coming "
+"soon."
+msgstr ""
+"Details van plannen, prijzen, inbegrepen diensten en verlengingsvoorwaarden "
+"moeten vóór aankoop worden gecontroleerd. Sommige diensten of extra’s kunnen "
+"als binnenkort beschikbaar worden vermeld."
+
+msgid "Acceptable use"
+msgstr "Toegestaan gebruik"
+
+msgid ""
+"Do not use the platform for illegal content, misleading claims, harmful "
+"activity, or content you do not have the right to use."
+msgstr ""
+"Gebruik het platform niet voor illegale content, misleidende claims, "
+"schadelijke activiteiten of content waarvoor u geen rechten heeft."
+
+msgid "Service changes"
+msgstr "Wijzigingen in de dienst"
+
+msgid ""
+"The platform, features, templates, and plans may change as the product "
+"improves. We aim to keep changes practical and clear."
+msgstr ""
+"Het platform, functies, templates en plannen kunnen veranderen naarmate het "
+"product verbetert. We streven ernaar wijzigingen praktisch en duidelijk te "
+"houden."
+
+msgid ""
+"For questions about these terms, contact info@getonlinefast.eu. This page "
+"should be reviewed by a legal professional before relying on it as final "
+"legal advice."
+msgstr ""
+"Voor vragen over deze voorwaarden kunt u contact opnemen via "
+"info@getonlinefast.eu. Deze pagina moet door een juridisch professional "
+"worden beoordeeld voordat deze als definitief juridisch advies wordt "
+"gebruikt."
+
+#, python-brace-format
+msgid "{left} {operator} {right} = ?"
+msgstr "{left} {operator} {right} = ?"
+
+msgid ""
+"Compare website plans from Get Online Fast, including one-time websites, "
+"monthly support, and upcoming eCommerce options."
+msgstr ""
+"Vergelijk websiteplannen van Get Online Fast, inclusief eenmalige websites, "
+"maandelijkse ondersteuning en aankomende eCommerce-opties."
+
+msgid "Please answer the security question correctly."
+msgstr "Beantwoord de beveiligingsvraag correct."
+
+msgid "Please correct the errors below and try again."
+msgstr "Corrigeer de onderstaande fouten en probeer het opnieuw."
+
+#, python-brace-format
+msgid ""
+"Name: {name}\n"
+"Email: {email}\n"
+"Phone: {phone}\n"
+"\n"
+"Message:\n"
+"{message}"
+msgstr ""
+"Naam: {name}\n"
+"E-mail: {email}\n"
+"Telefoon: {phone}\n"
+"\n"
+"Bericht:\n"
+"{message}"
+
+msgid "Not provided"
+msgstr "Niet opgegeven"
+
+msgid "New Get Online Fast contact message"
+msgstr "Nieuw contactbericht van Get Online Fast"
+
+msgid ""
+"Your message could not be sent right now. Please try again or contact us "
+"directly by email."
+msgstr ""
+"Uw bericht kon op dit moment niet worden verzonden. Probeer het opnieuw of "
+"neem rechtstreeks contact met ons op via e-mail."
+
+msgid "Your message was sent successfully. We will get back to you soon."
+msgstr "Uw bericht is succesvol verzonden. We nemen snel contact met u op."
+
+msgid ""
+"A full business website with clear structure, search-ready foundations, and "
+"a complete launch setup."
+msgstr ""
+"Een volledige bedrijfswebsite met duidelijke structuur, zoekklare basis en "
+"een complete lanceringssetup."
+
+msgid "Structured search setup"
+msgstr "Gestructureerde setup voor zoekmachines"
+
+msgid "Launch support included"
+msgstr "Lanceringssupport inbegrepen"
+
+msgid ""
+"A complete website setup with hosting, support, and ongoing improvements in "
+"one monthly plan."
+msgstr ""
+"Een complete websitesetup met hosting, support en doorlopende verbeteringen "
+"in één maandplan."
+
+msgid "View Monthly Website"
+msgstr "Bekijk Maandelijkse website"
+
+msgid "Coming Soon"
+msgstr "Binnenkort beschikbaar"
+
+msgid "A future option for businesses that want to sell products online."
+msgstr ""
+"Een toekomstige optie voor bedrijven die producten online willen verkopen."
+
+msgid "Shopping cart and checkout"
+msgstr "Winkelwagen en checkout"
+
+msgid "Small business store setup"
+msgstr "Webshopsetup voor kleine bedrijven"
+
+msgid "View eCommerce Plan"
+msgstr "Bekijk eCommerce-plan"
+
+msgid "€399"
+msgstr "€399"
+
+msgid ""
+"A full business website with clear structure, SEO-ready foundations, and AI-"
+"assisted editing."
+msgstr ""
+"Een volledige bedrijfswebsite met duidelijke structuur, SEO-klare basis en "
+"AI-ondersteunde bewerking."
+
+msgid "AI-assisted content editing"
+msgstr "AI-ondersteunde contentbewerking"
+
+msgid "From €49.90 / month"
+msgstr "Vanaf €49,90 / maand"
+
+msgid ""
+"Hosting, website care, small updates, and practical ongoing support in one "
+"plan."
+msgstr ""
+"Hosting, websitebeheer, kleine updates en praktische doorlopende "
+"ondersteuning in één plan."
+
+msgid "Small updates"
+msgstr "Kleine updates"
+
+msgid "Support when needed"
+msgstr "Ondersteuning wanneer nodig"
+
+msgid "Fast launch option"
+msgstr "Optie voor snelle lancering"
+
+msgid "AI Starter"
+msgstr "AI Starter"
+
+msgid ""
+"A lightweight one-page website for small businesses that need to get online "
+"quickly at the lowest price."
+msgstr ""
+"Een lichte one-page website voor kleine bedrijven die snel online willen "
+"tegen de laagste prijs."
+
+msgid "€50/year"
+msgstr "€50/jaar"
+
+msgid ""
+"Best for testing a simple web presence before investing in a larger site."
+msgstr ""
+"Ideaal om een eenvoudige online aanwezigheid te testen voordat u investeert "
+"in een grotere website."
+
+msgid "See One-Time Website"
+msgstr "Bekijk One-Time Website"
+
+msgid "Back to homepage"
+msgstr "Terug naar homepage"
+
+msgid "What AI Starter is for"
+msgstr "Waar AI Starter voor bedoeld is"
+
+msgid ""
+"This plan is intentionally limited. It gives a business a clear, usable page "
+"on a subdomain without the cost of a custom build."
+msgstr ""
+"Dit plan is bewust beperkt. Het geeft een bedrijf een duidelijke, bruikbare "
+"pagina op een subdomein zonder de kosten van maatwerk."
+
+msgid "Fastest route online"
+msgstr "Snelste route online"
+
+msgid ""
+"Start with a compact one-page site generated from your business basics and "
+"service information."
+msgstr ""
+"Begin met een compacte one-page website die wordt gegenereerd op basis van "
+"uw bedrijfsgegevens en diensten."
+
+msgid ""
+"Good for businesses that need contact details, a short service summary, and "
+"a clean mobile-friendly presence."
+msgstr ""
+"Geschikt voor bedrijven die contactgegevens, een korte samenvatting van "
+"diensten en een duidelijke mobielvriendelijke aanwezigheid nodig hebben."
+
+msgid "Lower commitment"
+msgstr "Lagere verplichting"
+
+msgid ""
+"Useful when speed and budget matter more than customization, structure, or "
+"long-term flexibility."
+msgstr ""
+"Handig wanneer snelheid en budget belangrijker zijn dan maatwerk, structuur "
+"of flexibiliteit op lange termijn."
+
+msgid "What is included"
+msgstr "Wat is inbegrepen"
+
+msgid "One-page website"
+msgstr "One-page website"
+
+msgid "Hosted on a project subdomain"
+msgstr "Gehost op een projectsubdomein"
+
+msgid "Business name, location, and service summary"
+msgstr "Bedrijfsnaam, locatie en samenvatting van diensten"
+
+msgid "Mobile-friendly layout"
+msgstr "Mobielvriendelijke layout"
+
+msgid "Path to upgrade later"
+msgstr "Mogelijkheid om later te upgraden"
+
+msgid "What it is not"
+msgstr "Wat het niet is"
+
+msgid "Not a custom design build"
+msgstr "Geen maatwerkdesign"
+
+msgid "Not intended for complex service structures"
+msgstr "Niet bedoeld voor complexe dienstenstructuren"
+
+msgid "Not the best fit if SEO depth matters from day one"
+msgstr "Niet ideaal als SEO-diepte vanaf dag één belangrijk is"
+
+msgid "Not a replacement for ongoing support or content work"
+msgstr "Geen vervanging voor doorlopende ondersteuning of contentwerk"
+
+msgid "Need something stronger than the basic option?"
+msgstr "Iets sterkers nodig dan de basisoptie?"
+
+msgid ""
+"The One-Time Website plan is the better fit if you want a more professional "
+"structure, stronger messaging, and room to grow."
+msgstr ""
+"Het One-Time Website-plan is een betere keuze als u een professionelere "
+"structuur, sterkere boodschap en ruimte om te groeien wilt."
+
+msgid "Main offer"
+msgstr "Hoofdaanbod"
+
+msgid ""
+"A professional small-business website built with clear structure, stronger "
+"messaging, and a foundation for long-term growth."
+msgstr ""
+"Een professionele website voor kleine bedrijven met een duidelijke "
+"structuur, sterkere boodschap en een basis voor groei op lange termijn."
+
+msgid "€399 one-time"
+msgstr "€399 eenmalig"
+
+msgid ""
+"Best for businesses that want to pay once and launch a serious public "
+"website."
+msgstr ""
+"Ideaal voor bedrijven die één keer willen betalen en een serieuze publieke "
+"website willen lanceren."
+
+msgid "Why this works as a one-time website"
+msgstr "Waarom dit werkt als een eenmalige website"
+
+msgid ""
+"This is the offer for businesses that want a clear, complete website without "
+"ongoing website care bundled in."
+msgstr ""
+"Dit is het aanbod voor bedrijven die een duidelijke, complete website willen "
+"zonder doorlopende websitezorg in het pakket."
+
+msgid "Better structure"
+msgstr "Betere structuur"
+
+msgid ""
+"The site can be organized around your services, location, and real customer "
+"actions instead of a generic template block."
+msgstr ""
+"De website kan worden opgebouwd rond uw diensten, locatie en echte acties "
+"van klanten in plaats van een generiek templateblok."
+
+msgid "More trust from day one"
+msgstr "Meer vertrouwen vanaf dag één"
+
+msgid ""
+"A clearer layout, stronger content flow, and more professional setup help "
+"the business look established faster."
+msgstr ""
+"Een duidelijkere layout, sterkere contentopbouw en professionelere setup "
+"zorgen ervoor dat het bedrijf sneller betrouwbaar overkomt."
+
+msgid "Easier to grow later"
+msgstr "Makkelijker om later te groeien"
+
+msgid ""
+"This package gives you a cleaner base for extra pages, content updates, and "
+"future improvements when needed."
+msgstr ""
+"Dit pakket geeft u een betere basis voor extra pagina’s, contentupdates en "
+"toekomstige verbeteringen wanneer dat nodig is."
+
+msgid "Strong foundation for long-term growth"
+msgstr "Sterke basis voor groei op lange termijn"
+
+msgid "Good fit if you want"
+msgstr "Geschikt als u wilt"
+
+msgid "A professional website with one payment"
+msgstr "Een professionele website met één betaling"
+
+msgid "A clearer offer and stronger conversion flow"
+msgstr "Een duidelijker aanbod en betere conversieflow"
+
+msgid "A site you can build on later"
+msgstr "Een website waarop u later kunt voortbouwen"
+
+msgid "A better balance between speed, quality, and budget"
+msgstr "Een betere balans tussen snelheid, kwaliteit en budget"
+
+msgid "Want help every month as well?"
+msgstr "Wilt u ook maandelijks hulp?"
+
+msgid ""
+"Choose the Monthly Plan if you want hosting, support, and ongoing website "
+"care handled for you."
+msgstr ""
+"Kies het maandplan als u hosting, ondersteuning en doorlopende websitezorg "
+"voor u wilt laten regelen."
+
+msgid "Ongoing support"
+msgstr "Doorlopende ondersteuning"
+
+msgid ""
+"A monthly website plan for businesses that want hosting, updates, support, "
+"and ongoing care handled for them."
+msgstr ""
+"Een maandelijks websiteplan voor bedrijven die hosting, updates, support en "
+"doorlopende zorg willen laten verzorgen."
+
+msgid "From €49.90/month"
+msgstr "Vanaf €49,90/maand"
+
+msgid ""
+"Best for owners who want continuity instead of handling every change "
+"themselves."
+msgstr ""
+"Ideaal voor ondernemers die continuïteit willen zonder zelf elke wijziging "
+"te moeten regelen."
+
+msgid "What the monthly plan covers"
+msgstr "Wat het maandplan omvat"
+
+msgid ""
+"This plan keeps the website online and looked after after launch. It is "
+"meant for practical ongoing support, not a full rebuild every month."
+msgstr ""
+"Dit plan houdt de website online en verzorgd na de lancering. Het is bedoeld "
+"voor praktische doorlopende ondersteuning, niet voor een volledige herbouw "
+"elke maand."
+
+msgid "Content edits"
+msgstr "Contentaanpassingen"
+
+msgid ""
+"Update text, swap images, adjust key sections, and keep the website current "
+"as the business changes."
+msgstr ""
+"Pas teksten aan, vervang afbeeldingen, update belangrijke secties en houd de "
+"website actueel terwijl het bedrijf verandert."
+
+msgid "Priority support"
+msgstr "Prioritaire ondersteuning"
+
+msgid ""
+"Get a simpler path for small requests and future website improvements "
+"without starting from zero each time."
+msgstr ""
+"Krijg een eenvoudigere route voor kleine verzoeken en toekomstige "
+"websiteverbeteringen zonder telkens opnieuw te beginnen."
+
+msgid "Less owner hassle"
+msgstr "Minder gedoe voor de eigenaar"
+
+msgid ""
+"Useful for businesses that would rather stay focused on clients and "
+"operations than website maintenance."
+msgstr ""
+"Handig voor bedrijven die zich liever focussen op klanten en werk dan op "
+"websitebeheer."
+
+msgid "Someone to handle routine website updates"
+msgstr "Iemand die de routine-updates van de website verzorgt"
+
+msgid "A simpler way to request changes after launch"
+msgstr "Een eenvoudigere manier om wijzigingen aan te vragen na lancering"
+
+msgid "Support without building an in-house workflow"
+msgstr "Ondersteuning zonder interne processen te bouwen"
+
+msgid "A site that stays maintained instead of going stale"
+msgstr "Een website die up-to-date blijft in plaats van veroudert"
+
+msgid "Need the website build first?"
+msgstr "Eerst een website laten maken?"
+
+msgid ""
+"Start with the One-Time Website if you prefer to pay once and add services "
+"later."
+msgstr ""
+"Begin met One-Time Website als u liever één keer betaalt en later diensten "
+"toevoegt."
+
+msgid "Category"
+msgstr "Categorie"
+
+msgid "Useful posts in this category."
+msgstr "Nuttige artikelen in deze categorie."
+
+msgid "Read article"
+msgstr "Artikel lezen"
+
+msgid "No posts in this category yet"
+msgstr "Nog geen artikelen in deze categorie"
+
+msgid "Publish a public article in this category to show it here."
+msgstr "Publiceer een openbaar artikel in deze categorie om het hier te tonen."
+
+msgid "Not published yet"
+msgstr "Nog niet gepubliceerd"
+
+msgid "Back to blog"
+msgstr "Terug naar blog"
+
+msgid "Browse categories"
+msgstr "Categorieën bekijken"
+
+msgid "Find the information that matches what you want to learn first."
+msgstr "Vind eerst de informatie die past bij wat u wilt leren."
+
+msgid "Practical articles in this category."
+msgstr "Praktische artikelen in deze categorie."
+
+msgid "Open category"
+msgstr "Categorie openen"
+
+msgid "No categories yet"
+msgstr "Nog geen categorieën"
+
+msgid "Add blog categories in the admin to organize articles here."
+msgstr "Voeg blogcategorieën toe in de admin om artikelen hier te organiseren."
+
+msgid "Latest posts"
+msgstr "Nieuwste artikelen"
+
+msgid "Short articles and useful explanations for visitors and customers."
+msgstr "Korte artikelen en nuttige uitleg voor bezoekers en klanten."
+
+msgid "No posts yet"
+msgstr "Nog geen artikelen"
+
+msgid "Use the blog admin to publish your first public article."
+msgstr "Gebruik de blogadmin om uw eerste openbare artikel te publiceren."
+
+msgid "Blog Article"
+msgstr "Blogartikel"
+
+#, python-format
+msgid "Featured image for %(title)s"
+msgstr "Uitgelichte afbeelding voor %(title)s"
+
+msgid "Video"
+msgstr "Video"
+
+#, python-format
+msgid "Video for %(title)s"
+msgstr "Video voor %(title)s"
+
+msgid "Read the full article for the complete update."
+msgstr "Lees het volledige artikel voor de complete update."
+
+msgid "Blog posts are coming soon"
+msgstr "Blogartikelen komen binnenkort"
+
+msgid ""
+"The blog route is live, but no published public articles are marked for blog "
+"display yet."
+msgstr ""
+"De blogroute is live, maar er zijn nog geen gepubliceerde openbare artikelen "
+"gemarkeerd voor weergave in de blog."
+
+msgid "Help Article"
+msgstr "Hulpartikel"
+
+msgid "Help Center"
+msgstr "Helpcentrum"
+
+msgid "Browse by category"
+msgstr "Bladeren op categorie"
+
+msgid ""
+"Use the categories below to jump to the topics that matter most right now."
+msgstr ""
+"Gebruik de categorieën hieronder om direct naar de onderwerpen te gaan die "
+"nu het belangrijkst zijn."
+
+msgid "Articles grouped under this topic."
+msgstr "Artikelen gegroepeerd onder dit onderwerp."
+
+msgid "Help articles"
+msgstr "Hulpartikelen"
+
+msgid "Published support content that is currently visible in the help center."
+msgstr ""
+"Gepubliceerde supportcontent die momenteel zichtbaar is in het helpcentrum."
+
+msgid "Open this article to read the full explanation."
+msgstr "Open dit artikel om de volledige uitleg te lezen."
+
+msgid "Help articles are coming soon"
+msgstr "Hulpartikelen komen binnenkort"
+
+msgid ""
+"The help center route is live, but no published help articles are marked for "
+"display yet."
+msgstr ""
+"De helpcentrumroute is live, maar er zijn nog geen gepubliceerde "
+"hulpartikelen gemarkeerd voor weergave."
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Open another guide or go back to the full guide overview."
+msgstr ""
+"Open een andere gids of ga terug naar het volledige overzicht van gidsen."
+
+msgid "Guide navigation"
+msgstr "Gidsnavigatie"
+
+msgid "All guides"
+msgstr "Alle gidsen"
+
+msgid "Latest guides"
+msgstr "Nieuwste gidsen"
+
+msgid "Guides visible here are only available to logged-in users."
+msgstr ""
+"Gidsen die hier zichtbaar zijn, zijn alleen beschikbaar voor ingelogde "
+"gebruikers."
+
+msgid "No guides yet"
+msgstr "Nog geen gidsen"
+
+msgid "Create a users-only blog post in the admin to show it here."
+msgstr ""
+"Maak een blogartikel alleen voor gebruikers in de admin om het hier te tonen."
+
+msgid "Close modal"
+msgstr "Sluiten"
+
+msgid ""
+"Enter your business details and see your website preview update instantly."
+msgstr ""
+"Vul uw bedrijfsgegevens in en zie uw websitepreview direct bijgewerkt worden."
+
+msgid "Describe your main service so customers quickly understand what you do."
+msgstr ""
+"Beschrijf uw belangrijkste dienst zodat klanten snel begrijpen wat u doet."
+
+#, python-format
+msgid "%%(type)s services for customers in %%(city)s and nearby areas."
+msgstr "%%(type)s-diensten voor klanten in %%(city)s en omliggende gebieden."
+
+msgid ""
+"Preview saved. The next login, payment, or dashboard step can use this data."
+msgstr ""
+"Preview opgeslagen. De volgende stap, zoals inloggen, betalen of dashboard, "
+"kan deze gegevens gebruiken."
+
+msgid "Your preview details are saved in this browser for the next step."
+msgstr ""
+"Uw previewgegevens zijn in deze browser opgeslagen voor de volgende stap."
+
+msgid "Live website preview"
+msgstr "Live websitepreview"
+
+#, python-format
+msgid "Reliable %(type)s in %(city)s"
+msgstr "Betrouwbare %(type)s in %(city)s"
+
+msgid "Professional template"
+msgstr "Professioneel template"
+
+msgid "Clear pages, mobile-ready structure, and simple customer enquiries."
+msgstr ""
+"Duidelijke pagina’s, mobielvriendelijke structuur en eenvoudige "
+"klantaanvragen."
+
+#, python-format
+msgid "%(type)s services for customers in %(city)s and nearby areas."
+msgstr "%(type)s-diensten voor klanten in %(city)s en omliggende gebieden."
+
+msgid "Fast response"
+msgstr "Snelle reactie"
+
+msgid "Clear pricing"
+msgstr "Duidelijke prijzen"
+
+msgid "Local service"
+msgstr "Lokale dienst"
+
+msgid ""
+"Fast, practical websites for small service businesses that need to get "
+"online without delays."
+msgstr ""
+"Snelle en praktische websites voor kleine dienstverlenende bedrijven die "
+"zonder vertraging online willen gaan."
+
+msgid "Built for small businesses across Europe"
+msgstr "Gemaakt voor kleine bedrijven in heel Europa"
+
+msgid "Product"
+msgstr "Product"
+
+msgid "Plans and services"
+msgstr "Plannen en diensten"
+
+msgid "Plans / Services"
+msgstr "Plannen / Diensten"
+
+msgid "Facebook Posts"
+msgstr "Facebook-posts"
+
+msgid "SEO Optimization"
+msgstr "SEO-optimalisatie"
+
+msgid "Company and legal"
+msgstr "Bedrijf en juridisch"
+
+msgid "Company / Legal"
+msgstr "Bedrijf / Juridisch"
+
+msgid "Cookie Policy"
+msgstr "Cookiebeleid"
+
+msgid "Get Online Fast. All rights reserved."
+msgstr "Get Online Fast. Alle rechten voorbehouden."
+
+msgid "Get Online Fast is part of the Just Code Works platform."
+msgstr "Get Online Fast maakt deel uit van het Just Code Works-platform."
+
+msgid "Get Online Fast home"
+msgstr "Get Online Fast-homepage"
+
+msgid "Get"
+msgstr "Get"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Fast"
+msgstr "Fast"
+
+msgid "Primary navigation"
+msgstr "Hoofdnavigatie"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Start now"
+msgstr "Start nu"
+
+msgid "Language switcher"
+msgstr "Taalwisselaar"
+
+#~ msgid "Reliable service in your city"
+#~ msgstr "Betrouwbare dienst in uw stad"
+
+#~ msgid "Service business"
+#~ msgstr "Dienstverlenend bedrijf"
+
+#~ msgid "Service business for customers in your city and nearby areas."
+#~ msgstr ""
+#~ "Dienstverlenend bedrijf voor klanten in uw stad en omliggende gebieden."
+
+
+

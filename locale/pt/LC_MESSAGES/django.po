@@ -1,0 +1,2840 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-04 07:31+0200\n"
+"PO-Revision-Date: 18-04-2026 14:56+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Portuguese (Portugal)\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Business name"
+msgstr "Nome do negócio"
+
+msgid "Service type"
+msgstr "Tipo de serviço"
+
+msgid "City"
+msgstr "Cidade"
+
+msgid "Local Service"
+msgstr "Serviço local"
+
+msgid "Growth Offer"
+msgstr "Oferta de crescimento"
+
+msgid "Starter Page"
+msgstr "Página inicial"
+
+msgid "Orange / Black"
+msgstr "Laranja / Preto"
+
+msgid "Blue / Dark"
+msgstr "Azul / Escuro"
+
+msgid "Green / Neutral"
+msgstr "Verde / Neutro"
+
+msgid "Red / Charcoal"
+msgstr "Vermelho / Cinzento escuro"
+
+msgid "Hero"
+msgstr "Hero"
+
+msgid "Eyebrow"
+msgstr "Texto superior"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Description"
+msgstr "Descrição"
+
+msgid "CTA text"
+msgstr "Texto do botão"
+
+msgid "Highlight title"
+msgstr "Título em destaque"
+
+msgid "Highlight text"
+msgstr "Texto em destaque"
+
+msgid "Simple hero"
+msgstr "Hero simples"
+
+msgid "List section"
+msgstr "Secção de lista"
+
+msgid "Section title"
+msgstr "Título da secção"
+
+msgid "Intro text"
+msgstr "Texto introdutório"
+
+msgid "Item 1"
+msgstr "Item 1"
+
+msgid "Item 2"
+msgstr "Item 2"
+
+msgid "Item 3"
+msgstr "Item 3"
+
+msgid "Benefits section"
+msgstr "Secção de benefícios"
+
+msgid "Card 1 title"
+msgstr "Título do cartão 1"
+
+msgid "Card 1 text"
+msgstr "Texto do cartão 1"
+
+msgid "Card 2 title"
+msgstr "Título do cartão 2"
+
+msgid "Card 2 text"
+msgstr "Texto do cartão 2"
+
+msgid "Card 3 title"
+msgstr "Título do cartão 3"
+
+msgid "Card 3 text"
+msgstr "Texto do cartão 3"
+
+msgid "Contact section"
+msgstr "Secção de contacto"
+
+msgid "Primary contact"
+msgstr "Contacto principal"
+
+msgid "Secondary contact"
+msgstr "Contacto secundário"
+
+msgid "CTA section"
+msgstr "Secção de chamada à ação"
+
+msgid "Request a quote"
+msgstr "Pedir orçamento"
+
+msgid "Built for your business"
+msgstr "Criado para o seu negócio"
+
+msgid "What customers can see right away"
+msgstr "O que os clientes conseguem ver de imediato"
+
+msgid "Clear services and pricing direction"
+msgstr "Serviços claros e orientação de preços"
+
+msgid "Local visibility structure"
+msgstr "Estrutura para visibilidade local"
+
+msgid "Simple contact path for new enquiries"
+msgstr "Contacto simples para novos pedidos"
+
+msgid "Ready to hear from customers"
+msgstr "Pronto para receber contactos de clientes"
+
+msgid "Contact form ready"
+msgstr "Formulário de contacto pronto"
+
+msgid "Email or phone can be added anytime"
+msgstr "Email ou telefone podem ser adicionados a qualquer momento"
+
+msgid "Contact us"
+msgstr "Contacte-nos"
+
+msgid ""
+"A simple website foundation that can be edited, expanded, and improved over "
+"time."
+msgstr ""
+"Uma base simples para o website, que pode ser editada, expandida e melhorada "
+"ao longo do tempo."
+
+msgid "Start with this setup"
+msgstr "Começar com esta configuração"
+
+msgid "Built to support growth"
+msgstr "Criado para apoiar o crescimento"
+
+msgid ""
+"A stronger page structure for businesses that want a clearer offer and more "
+"response from visitors."
+msgstr ""
+"Uma estrutura de página mais forte para empresas que querem uma oferta mais "
+"clara e mais respostas dos visitantes."
+
+msgid "Clear offer"
+msgstr "Oferta clara"
+
+msgid ""
+"Explain what you do quickly so visitors know why they should contact you."
+msgstr ""
+"Explique rapidamente o que faz, para que os visitantes saibam porque devem "
+"entrar em contacto consigo."
+
+msgid "More visibility"
+msgstr "Mais visibilidade"
+
+msgid ""
+"Use a layout that supports search, promotion, and stronger first impressions."
+msgstr ""
+"Use um layout que apoia a pesquisa, a promoção e uma primeira impressão mais "
+"forte."
+
+msgid "Easy contact"
+msgstr "Contacto fácil"
+
+msgid "Keep calls, messages, and quote requests simple for new visitors."
+msgstr ""
+"Mantenha chamadas, mensagens e pedidos de orçamento simples para novos "
+"visitantes."
+
+msgid ""
+"Use a stronger sales-focused layout to explain your offer, show value, and "
+"guide visitors toward action."
+msgstr ""
+"Use um layout mais focado em vendas para explicar a sua oferta, mostrar "
+"valor e orientar os visitantes para a ação."
+
+msgid "Built to attract more enquiries"
+msgstr "Criado para atrair mais pedidos"
+
+msgid ""
+"A stronger offer layout for businesses that want clearer visibility and "
+"promotion."
+msgstr ""
+"Um layout de oferta mais forte para empresas que querem mais visibilidade e "
+"promoção."
+
+msgid ""
+"A simple one-page website start for businesses that want to launch quickly "
+"with clear contact details."
+msgstr ""
+"Um início simples com um website de uma página para negócios que querem "
+"lançar rapidamente com contactos claros."
+
+msgid "Preview navigation"
+msgstr "Navegação da pré-visualização"
+
+msgid "Services"
+msgstr "Serviços"
+
+msgid "About"
+msgstr "Sobre"
+
+msgid "Contact"
+msgstr "Contacto"
+
+msgid "Website preview"
+msgstr "Pré-visualização do website"
+
+msgid "Your preview"
+msgstr "A sua pré-visualização"
+
+msgid "Review and edit your generated website"
+msgstr "Reveja e edite o website gerado"
+
+msgid ""
+"Your website starts with suggestion-based content from three onboarding "
+"fields. You can edit any field below and regenerate suggestions anytime."
+msgstr ""
+"O seu website começa com conteúdo sugerido a partir de três campos do "
+"formulário inicial. Pode editar qualquer campo abaixo e gerar novas "
+"sugestões a qualquer momento."
+
+msgid "Choose a starting design"
+msgstr "Escolha um design inicial"
+
+msgid "Template"
+msgstr "Template"
+
+msgid "Changing design may refresh the suggested content."
+msgstr "Alterar o design pode atualizar o conteúdo sugerido."
+
+msgid "Apply design"
+msgstr "Aplicar design"
+
+msgid "Choose colors"
+msgstr "Escolher cores"
+
+msgid "Color palette"
+msgstr "Paleta de cores"
+
+msgid "Apply colors"
+msgstr "Aplicar cores"
+
+msgid "Save changes"
+msgstr "Guardar alterações"
+
+msgid "Regenerate suggestions"
+msgstr "Gerar novas sugestões"
+
+msgid "Back to plans"
+msgstr "Voltar aos planos"
+
+msgid "Website template preview"
+msgstr "Pré-visualização do template do website"
+
+msgid "Generated website preview"
+msgstr "Pré-visualização do website gerado"
+
+msgid "Suggested website setup"
+msgstr "Configuração sugerida do website"
+
+msgid "Start your preview"
+msgstr "Iniciar a sua pré-visualização"
+
+msgid "Get Online Fast"
+msgstr "Get Online Fast"
+
+msgid "First step"
+msgstr "Primeiro passo"
+
+msgid "Start your website preview"
+msgstr "Iniciar a pré-visualização do seu website"
+
+msgid ""
+"Enter three details about your business and generate a first website preview "
+"you can edit."
+msgstr ""
+"Insira três detalhes sobre o seu negócio e gere uma primeira pré-"
+"visualização do website que pode editar."
+
+msgid "Generate preview"
+msgstr "Gerar pré-visualização"
+
+msgid "Blog category"
+msgstr "Categoria do blog"
+
+msgid "Blog categories"
+msgstr "Categorias do blog"
+
+msgid "Draft"
+msgstr "Rascunho"
+
+msgid "Public"
+msgstr "Público"
+
+msgid "Users only"
+msgstr "Apenas utilizadores"
+
+msgid "Blog post"
+msgstr "Artigo do blog"
+
+msgid "Blog posts"
+msgstr "Artigos do blog"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid ""
+"Short articles, practical explanations, and useful information from Get "
+"Online Fast."
+msgstr ""
+"Artigos curtos, explicações práticas e informação útil da Get Online Fast."
+
+msgid "Help & Guides"
+msgstr "Ajuda e guias"
+
+msgid ""
+"Practical guides for logged-in users who want to manage and improve their "
+"website."
+msgstr ""
+"Guias práticos para utilizadores com sessão iniciada que querem gerir e "
+"melhorar o seu website."
+
+msgid "Article category"
+msgstr "Categoria do artigo"
+
+msgid "Article categories"
+msgstr "Categorias de artigos"
+
+msgid "Guide"
+msgstr "Guia"
+
+msgid "Service explanation"
+msgstr "Explicação do serviço"
+
+msgid "FAQ"
+msgstr "Perguntas frequentes"
+
+msgid "Update"
+msgstr "Atualização"
+
+msgid "Promotion"
+msgstr "Promoção"
+
+msgid "Logged in"
+msgstr "Com sessão iniciada"
+
+msgid "Customer only"
+msgstr "Apenas clientes"
+
+msgid "Admin only"
+msgstr "Apenas administradores"
+
+msgid "Published"
+msgstr "Publicado"
+
+msgid "Article"
+msgstr "Artigo"
+
+msgid "Articles"
+msgstr "Artigos"
+
+msgid "Help"
+msgstr "Ajuda"
+
+msgid ""
+"Practical guides, answers, and short explanations to help you use Get Online "
+"Fast."
+msgstr ""
+"Guias práticos, respostas e explicações curtas para o ajudar a usar a Get "
+"Online Fast."
+
+msgid "Back to Help"
+msgstr "Voltar à Ajuda"
+
+msgid "Updates, practical ideas, and short articles from Get Online Fast."
+msgstr "Atualizações, ideias práticas e artigos curtos da Get Online Fast."
+
+msgid "Back to Blog"
+msgstr "Voltar ao Blog"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Phone (optional)"
+msgstr "Telefone (opcional)"
+
+msgid "Message"
+msgstr "Mensagem"
+
+msgid "Security question"
+msgstr "Pergunta de segurança"
+
+msgid "Invalid submission."
+msgstr "Submissão inválida."
+
+msgid "Need a quick way to reach us?"
+msgstr "Precisa de uma forma rápida de nos contactar?"
+
+msgid ""
+"Get Online Fast is built as a self-service, AI-assisted platform. For "
+"practical questions before launch, you can reach us directly."
+msgstr ""
+"A Get Online Fast foi criada como uma plataforma self-service com apoio de "
+"IA. Para questões práticas antes do lançamento, pode contactar-nos "
+"diretamente."
+
+msgid "Open contact form"
+msgstr "Abrir formulário de contacto"
+
+msgid "Send a message"
+msgstr "Enviar uma mensagem"
+
+msgid ""
+"Use the form below for questions about plans, launch timing, or the right "
+"setup for your business."
+msgstr ""
+"Use o formulário abaixo para questões sobre planos, prazos de lançamento ou "
+"a configuração certa para o seu negócio."
+
+msgid "Send message"
+msgstr "Enviar mensagem"
+
+msgid ""
+"Best for questions about plans, billing, or whether the platform fits your "
+"business."
+msgstr ""
+"Ideal para questões sobre planos, faturação ou se a plataforma se adapta ao "
+"seu negócio."
+
+msgid "Phone"
+msgstr "Telefone"
+
+msgid ""
+"Use phone for simple pre-launch questions. The product itself is designed so "
+"you can manage your website independently."
+msgstr ""
+"Use o telefone para questões simples antes do lançamento. O produto foi "
+"concebido para que possa gerir o seu website de forma independente."
+
+msgid "Prefer to test it first?"
+msgstr "Prefere testar primeiro?"
+
+msgid ""
+"The fastest way to understand the platform is to start a preview with your "
+"own business details."
+msgstr ""
+"A forma mais rápida de entender a plataforma é iniciar uma pré-visualização "
+"com os dados do seu negócio."
+
+msgid "Examples"
+msgstr "Exemplos"
+
+msgid "Template examples"
+msgstr "Exemplos de templates"
+
+msgid "Choose a starting design for your business"
+msgstr "Escolha um design inicial para o seu negócio"
+
+msgid ""
+"These templates are practical starting points. You can test one, adjust the "
+"content, and switch direction while previewing."
+msgstr ""
+"Estes templates são pontos de partida práticos. Pode testar um, ajustar o "
+"conteúdo e mudar de direção durante a pré-visualização."
+
+msgid "View plans"
+msgstr "Ver planos"
+
+msgid "Starting templates you can test"
+msgstr "Templates iniciais que pode testar"
+
+msgid ""
+"Pick the closest fit first. The structure can be adjusted as your website "
+"preview takes shape."
+msgstr ""
+"Escolha primeiro o mais próximo do que precisa. A estrutura pode ser "
+"ajustada à medida que a pré-visualização do website evolui."
+
+msgid "Plumbing"
+msgstr "Canalização"
+
+msgid ""
+"For repairs, installations, urgent jobs, service areas, and fast quote "
+"requests."
+msgstr ""
+"Para reparações, instalações, trabalhos urgentes, áreas de serviço e pedidos "
+"rápidos de orçamento."
+
+msgid "Test this template"
+msgstr "Testar este template"
+
+msgid "Cleaning Services"
+msgstr "Serviços de limpeza"
+
+msgid ""
+"For home cleaning, office cleaning, packages, availability, and quote "
+"enquiries."
+msgstr ""
+"Para limpeza doméstica, limpeza de escritórios, pacotes, disponibilidade e "
+"pedidos de orçamento."
+
+msgid "Electrician"
+msgstr "Eletricista"
+
+msgid ""
+"For call-outs, inspections, repairs, installations, and clear contact "
+"options."
+msgstr ""
+"Para deslocações urgentes, inspeções, reparações, instalações e opções de "
+"contacto claras."
+
+msgid "You can switch templates while testing."
+msgstr "Pode mudar de template enquanto testa."
+
+msgid "Practical answers before you start"
+msgstr "Respostas práticas antes de começar"
+
+msgid ""
+"Short answers about previews, plans, AI assistance, and launching your small-"
+"business website."
+msgstr ""
+"Respostas curtas sobre pré-visualizações, planos, assistência por IA e o "
+"lançamento do website do seu negócio."
+
+msgid "Do I need technical skills?"
+msgstr "Preciso de conhecimentos técnicos?"
+
+msgid ""
+"No. The flow is designed for business owners who want to enter their "
+"details, test a preview, and make clear choices."
+msgstr ""
+"Não. O processo foi pensado para empresários que querem introduzir os seus "
+"dados, testar uma pré-visualização e tomar decisões claras."
+
+msgid "Can I preview before choosing a plan?"
+msgstr "Posso ver uma pré-visualização antes de escolher um plano?"
+
+msgid ""
+"Yes. The preview helps you understand the direction before you decide how "
+"you want to launch."
+msgstr ""
+"Sim. A pré-visualização ajuda a perceber a direção antes de decidir como "
+"quer lançar o website."
+
+msgid "Which package should most businesses choose?"
+msgstr "Que pacote devem escolher a maioria das empresas?"
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting and ongoing website "
+"care."
+msgstr ""
+"O Website de Pagamento Único é uma boa opção se quer um website profissional "
+"sem manutenção mensal. O Plano Mensal é melhor se pretende alojamento e "
+"gestão contínua do website."
+
+msgid "What does the AI Assistant do?"
+msgstr "O que faz o Assistente de IA?"
+
+msgid ""
+"It helps you understand, edit, and improve your website content while you "
+"work. It supports progress, but you stay in control."
+msgstr ""
+"Ajuda a compreender, editar e melhorar o conteúdo do seu website enquanto "
+"trabalha. Apoia o progresso, mas mantém sempre o controlo."
+
+msgid "Are the templates fixed?"
+msgstr "Os templates são fixos?"
+
+msgid ""
+"No. Templates are starting points. You can test a direction and adjust the "
+"content as your preview develops."
+msgstr ""
+"Não. Os templates são pontos de partida. Pode testar uma direção e ajustar o "
+"conteúdo à medida que a pré-visualização evolui."
+
+msgid "Are Facebook posts included?"
+msgstr "Os posts de Facebook estão incluídos?"
+
+msgid ""
+"No. Facebook posts are an optional add-on available for an additional "
+"monthly cost."
+msgstr ""
+"Não. Os posts de Facebook são um extra opcional disponível por um custo "
+"mensal adicional."
+
+msgid "Can I switch plans later?"
+msgstr "Posso mudar de plano mais tarde?"
+
+msgid ""
+"Yes. You can move between plans or add services later when your business "
+"needs more."
+msgstr ""
+"Sim. Pode mudar de plano ou adicionar serviços mais tarde quando o seu "
+"negócio precisar."
+
+msgid "Is eCommerce available now?"
+msgstr "O eCommerce já está disponível?"
+
+msgid ""
+"The eCommerce plan is visible as a coming-soon option for businesses that "
+"want to sell products online later."
+msgstr ""
+"O plano de eCommerce aparece como uma opção em breve para negócios que "
+"queiram vender produtos online no futuro."
+
+msgid "Still deciding?"
+msgstr "Ainda a decidir?"
+
+msgid "Start with a preview and see what your website could look like first."
+msgstr ""
+"Comece com uma pré-visualização e veja primeiro como o seu website pode "
+"ficar."
+
+msgid "Your Business"
+msgstr "O seu negócio"
+
+msgid "Service"
+msgstr "Serviço"
+
+msgid "Your City"
+msgstr "A sua cidade"
+
+msgid "Professional service website"
+msgstr "Website profissional de serviços"
+
+msgid "Northline Plumbing"
+msgstr "Northline Plumbing"
+
+msgid "carousel"
+msgstr "carrossel"
+
+msgid "Homepage marketing messages"
+msgstr "Mensagens de marketing da página inicial"
+
+msgid "Fast websites for small service businesses"
+msgstr "Websites rápidos para pequenos negócios de serviços"
+
+msgid "Get Online Fast websites for local service businesses"
+msgstr "Websites Get Online Fast para negócios locais de serviços"
+
+msgid "Be found by local customers"
+msgstr "Seja encontrado por clientes locais"
+
+msgid ""
+"Get a fast, SEO-ready website structured for local searches, calls, "
+"WhatsApp messages and quote requests."
+msgstr ""
+"Tenha um website rapido, preparado para SEO, estruturado para pesquisas "
+"locais, chamadas, mensagens WhatsApp e pedidos de orcamento."
+
+msgid "Transport, Auto services, Construction, Business services"
+msgstr "Transportes, serviços auto, construção, serviços empresariais"
+
+msgid "Private preview · Takes less than 60 seconds"
+msgstr "Pre-visualizacao privada - demora menos de 60 segundos"
+
+msgid "Takes less than 60 seconds"
+msgstr "Demora menos de 60 segundos"
+
+msgid "Plumbers"
+msgstr "Canalizadores"
+
+msgid "Electricians"
+msgstr "Eletricistas"
+
+msgid "Cleaners"
+msgstr "Limpezas"
+
+msgid "Local service businesses"
+msgstr "Negócios locais de serviços"
+
+msgid "Turn visitors into customers"
+msgstr "Transforme visitantes em clientes"
+
+msgid "Get a prepared website with guidance for visibility, content, ads and improvements when you need them."
+msgstr ""
+"Tenha um website preparado com orientacao para visibilidade, conteudo, "
+"anuncios e melhorias quando precisar."
+
+msgid "See how it works"
+msgstr "Veja como funciona"
+
+msgid "No missed opportunities"
+msgstr "Sem oportunidades perdidas"
+
+msgid "Simple contact paths from the first launch"
+msgstr "Caminhos de contacto simples desde o primeiro lançamento"
+
+msgid "Forms"
+msgstr "Formulários"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "Direct calls"
+msgstr "Chamadas diretas"
+
+msgid "Clear calls to action"
+msgstr "Chamadas à ação claras"
+
+msgid "More than a website"
+msgstr "Mais do que um website"
+
+msgid "Clear contact forms, WhatsApp buttons and direct calls, ready from day one."
+msgstr ""
+"Formularios de contacto claros, botoes WhatsApp e chamadas diretas, prontos "
+"desde o primeiro dia."
+
+msgid "Explore options"
+msgstr "Explorar opções"
+
+msgid "Grow step by step"
+msgstr "Cresça passo a passo"
+
+msgid "Support when you want to expand what is already working"
+msgstr "Apoio quando quiser expandir o que já está a funcionar"
+
+msgid "Visibility"
+msgstr "Visibilidade"
+
+msgid "Ads"
+msgstr "Anúncios"
+
+msgid "Improvements"
+msgstr "Melhorias"
+
+msgid "Practical next steps"
+msgstr "Próximos passos práticos"
+
+msgid "Hero slider controls"
+msgstr "Controlos do slider principal"
+
+msgid "Show previous slide"
+msgstr "Mostrar slide anterior"
+
+msgid "Select hero message"
+msgstr "Selecionar mensagem principal"
+
+msgid "Show slide 1: Be found by local customers"
+msgstr "Mostrar slide 1: Seja encontrado por clientes locais"
+
+msgid "Show slide 2: More than a website"
+msgstr "Mostrar slide 2: Mais do que um website"
+
+msgid "Show slide 3: Turn visitors into customers"
+msgstr "Mostrar slide 3: Transforme visitantes em clientes"
+
+msgid "Show next slide"
+msgstr "Mostrar slide seguinte"
+
+msgid ""
+"Explain your main service clearly so visitors know what you do and how to "
+"contact you."
+msgstr ""
+"Explique claramente o seu serviço principal para que os visitantes saibam o "
+"que faz e como o podem contactar."
+
+#, python-format
+msgid "Reliable %%(type)s in %%(city)s"
+msgstr "%%(type)s de confiança em %%(city)s"
+
+msgid "Start your private preview in 60 seconds"
+msgstr "Inicie a sua pre-visualizacao privada em 60 segundos"
+
+msgid "Enter your business details and see a live preview instantly"
+msgstr ""
+"Introduza os dados do seu negócio e veja uma pré-visualização ao vivo "
+"instantaneamente"
+
+msgid "Business type"
+msgstr "Tipo de negócio"
+
+msgid "Plumber"
+msgstr "Canalizador"
+
+msgid "Cleaner"
+msgstr "Profissional de limpeza"
+
+msgid "Painter"
+msgstr "Pintor"
+
+msgid "Locksmith"
+msgstr "Serralheiro"
+
+msgid "Landscaper"
+msgstr "Jardineiro"
+
+msgid "Handyman"
+msgstr "Técnico geral"
+
+msgid "Roofer"
+msgstr "Telhador"
+
+msgid "Breda"
+msgstr "Breda"
+
+msgid "What do you do?"
+msgstr "O que faz?"
+
+msgid ""
+"Local plumbing for repairs, bathroom work, installations, and urgent call-"
+"outs."
+msgstr ""
+"Serviços locais de canalização para reparações, casas de banho, instalações "
+"e intervenções urgentes."
+
+
+msgid "Your preview is private and not published publicly until activation/payment is completed."
+msgstr "A sua pre-visualizacao e privada e nao e publicada publicamente ate a ativacao/pagamento estar concluido."
+
+msgid "Live preview"
+msgstr "Pré-visualização ao vivo"
+
+msgid "Mobile preview"
+msgstr "Pré-visualização mobile"
+
+msgid "Reliable plumber in Breda"
+msgstr "Canalizador de confiança em Breda"
+
+msgid "Fast Call-Outs"
+msgstr "Intervenções rápidas"
+
+msgid "Core Services"
+msgstr "Serviços principais"
+
+msgid "Built to help customers find you"
+msgstr "Criado para ajudar os clientes a encontrá-lo"
+
+msgid ""
+"Your website is more than an online card. It is built to explain your "
+"services clearly, make contact easy, and support your visibility on Google "
+"and Bing."
+msgstr ""
+"O seu website é mais do que um cartão online. É criado para explicar os seus "
+"serviços de forma clara, facilitar o contacto e apoiar a sua visibilidade no "
+"Google e no Bing."
+
+msgid "Clear services"
+msgstr "Serviços claros"
+
+msgid "Show what you offer in a way customers understand quickly."
+msgstr ""
+"Mostre o que oferece de uma forma que os clientes compreendam rapidamente."
+
+msgid "Local visibility"
+msgstr "Visibilidade local"
+
+msgid "Structure your pages around the areas and services people search for."
+msgstr ""
+"Estruture as suas páginas com base nas zonas e nos serviços que as pessoas "
+"pesquisam."
+
+msgid "Let customers call, email, or send a message without confusion."
+msgstr ""
+"Permita que os clientes liguem, enviem email ou mandem uma mensagem sem "
+"confusão."
+
+msgid "Mobile-ready"
+msgstr "Preparado para mobile"
+
+msgid "Make your business look professional on phones, tablets, and desktops."
+msgstr ""
+"Faça o seu negócio parecer profissional em telemóveis, tablets e "
+"computadores."
+
+msgid "Simple setup"
+msgstr "Configuração simples"
+
+msgid "Register, confirm your details, and your website is ready to go live."
+msgstr ""
+"Registe-se, confirme os seus dados e o seu website fica pronto para entrar "
+"online."
+
+msgid "Start getting visitors"
+msgstr "Comece a receber visitantes"
+
+msgid ""
+"We help you promote your website from day one with simple visibility options."
+msgstr ""
+"Ajudamos a promover o seu website desde o primeiro dia com opções simples de "
+"visibilidade."
+
+msgid "From idea to online in 3 simple steps"
+msgstr "Da ideia ao online em 3 passos simples"
+
+msgid ""
+"No complicated process. Just a few simple steps and your website is live."
+msgstr ""
+"Sem processos complicados. Apenas alguns passos simples e o seu website fica "
+"online."
+
+msgid "Enter your business details"
+msgstr "Introduza os dados do seu negócio"
+
+msgid "Add your business name, category, and location to get started."
+msgstr "Adicione o nome do negócio, categoria e localização para começar."
+
+msgid "Preview your website instantly"
+msgstr "Veja o seu website instantaneamente"
+
+msgid ""
+"See your website generated in real time and adjust your content if needed."
+msgstr ""
+"Veja o seu website gerado em tempo real e ajuste o conteúdo se necessário."
+
+msgid "Launch your website"
+msgstr "Lance o seu website"
+
+msgid "Go live and start receiving customer enquiries right away."
+msgstr "Fique online e comece a receber contactos de clientes imediatamente."
+
+msgid "Most websites are ready in minutes, not days."
+msgstr "A maioria dos websites fica pronta em minutos, não em dias."
+
+msgid "Built-in Assistant"
+msgstr "Assistente integrado"
+
+msgid "Work on your website like you work on your business"
+msgstr "Trabalhe no seu website como trabalha no seu negócio"
+
+msgid ""
+"No need to wait for support or figure everything out alone. Your assistant "
+"helps you update, improve and adjust your website anytime."
+msgstr ""
+"Não precisa de esperar por suporte nem descobrir tudo sozinho. O assistente "
+"ajuda a atualizar, melhorar e ajustar o seu website a qualquer momento."
+
+msgid "Ask questions anytime"
+msgstr "Faça perguntas a qualquer momento"
+
+msgid "Get instant answers while you build and improve your website."
+msgstr "Obtenha respostas imediatas enquanto cria e melhora o seu website."
+
+msgid "Improve your content faster"
+msgstr "Melhore o seu conteúdo mais rapidamente"
+
+msgid ""
+"Use the assistant to help with text, structure and ideas for your pages."
+msgstr ""
+"Use o assistente para ajudar com texto, estrutura e ideias para as suas "
+"páginas."
+
+msgid "Stay in control"
+msgstr "Mantenha o controlo"
+
+msgid ""
+"Make progress yourself without needing technical skills or support tickets."
+msgstr ""
+"Avance por conta própria sem precisar de conhecimentos técnicos ou tickets "
+"de suporte."
+
+msgid "Available inside your dashboard whenever you need it"
+msgstr "Disponível no seu painel sempre que precisar"
+
+msgid "Designed to help you move faster, not slow you down."
+msgstr "Criado para o ajudar a avançar mais rápido, não para o atrasar."
+
+msgid "Why this helps your business grow"
+msgstr "Porque isto ajuda o seu negócio a crescer"
+
+msgid ""
+"A clear website makes it easier for visitors to understand what you offer, "
+"trust your business, and contact you."
+msgstr ""
+"Um website claro facilita aos visitantes perceber o que oferece, confiar no "
+"seu negócio e entrar em contacto consigo."
+
+msgid "Visitors understand your services quickly and know what to do next."
+msgstr ""
+"Os visitantes percebem rapidamente os seus serviços e sabem o que fazer a "
+"seguir."
+
+msgid "Built for local businesses"
+msgstr "Criado para negócios locais"
+
+msgid ""
+"Useful for transport, auto services, construction, and other local services."
+msgstr ""
+"Útil para transportes, serviços auto, construção e outros serviços locais."
+
+msgid "Simple pricing"
+msgstr "Preços simples"
+
+msgid ""
+"Start with the option that fits your budget and upgrade when you are ready."
+msgstr ""
+"Comece com a opção que se adapta ao seu orçamento e faça upgrade quando "
+"estiver pronto."
+
+msgid "Room to grow"
+msgstr "Espaço para crescer"
+
+msgid ""
+"Start simple, then add a catalog, online shop, or marketing campaigns when "
+"you're ready."
+msgstr ""
+"Comece de forma simples e adicione um catálogo, loja online ou campanhas de "
+"marketing quando estiver pronto."
+
+msgid ""
+"Pick a template that fits your business and test your website preview "
+"instantly."
+msgstr ""
+"Escolha um template que se adapte ao seu negócio e teste a pré-visualização "
+"do website imediatamente."
+
+msgid ""
+"A clear starting design for repairs, installations, urgent jobs, and local "
+"service areas."
+msgstr ""
+"Um design inicial claro para reparações, instalações, trabalhos urgentes e "
+"áreas de serviço locais."
+
+msgid ""
+"A practical layout for home cleaning, office cleaning, service packages, and "
+"quote requests."
+msgstr ""
+"Um layout prático para limpeza doméstica, limpeza de escritórios, pacotes de "
+"serviços e pedidos de orçamento."
+
+msgid ""
+"A focused template for call-outs, inspections, repairs, installations, and "
+"fast contact."
+msgstr ""
+"Um template focado em deslocações, inspeções, reparações, instalações e "
+"contacto rápido."
+
+msgid "Choose how you want to run your website"
+msgstr "Escolha como quer gerir o seu website"
+
+msgid "Pay once or let us handle everything monthly."
+msgstr "Pague uma vez ou deixe-nos tratar de tudo mensalmente."
+
+msgid "Start small, then add features when your business needs them."
+msgstr ""
+"Comece pequeno e adicione funcionalidades quando o seu negócio precisar."
+
+msgid "EUR 20/month"
+msgstr "20 EUR/mês"
+
+msgid "Start with a starter page and upgrade when you are ready."
+msgstr "Comece com uma página inicial e faça upgrade quando estiver pronto."
+
+msgid "Starter page"
+msgstr "Página inicial"
+
+msgid "Temporary Get Online Fast subdomain"
+msgstr "Subdomínio temporário Get Online Fast"
+
+msgid "Basic editable content"
+msgstr "Conteúdo básico editável"
+
+msgid "WhatsApp or contact button"
+msgstr "Botão de WhatsApp ou contacto"
+
+msgid "Upgrade to a full WordPress website anytime"
+msgstr "Faça upgrade para um website WordPress completo a qualquer momento"
+
+msgid "Start with Starter Page"
+msgstr "Começar com a Página inicial"
+
+msgid "Most chosen"
+msgstr "Mais escolhido"
+
+msgid "One-Time Website"
+msgstr "Website de pagamento único"
+
+msgid "€325 + VAT"
+msgstr "€325 + IVA"
+
+msgid "One-time setup. No subscriptions."
+msgstr "Configuração de pagamento único. Sem subscrições."
+
+msgid "Full business website"
+msgstr "Website empresarial completo"
+
+msgid "Structured SEO setup"
+msgstr "Configuração de SEO estruturada"
+
+msgid "Assisted content editing"
+msgstr "Edição de conteúdo assistida"
+
+msgid "Built to help visitors contact your business"
+msgstr "Criado para ajudar os visitantes a contactar o seu negócio"
+
+msgid ""
+"Yours to use and grow over time with catalog, online shop, extra pages, "
+"languages, or marketing."
+msgstr ""
+"Seu para usar e expandir ao longo do tempo com catálogo, loja online, "
+"páginas extra, idiomas ou marketing."
+
+msgid "See One-Time Plan"
+msgstr "Ver plano de pagamento único"
+
+msgid "Monthly Plan"
+msgstr "Plano mensal"
+
+msgid "From EUR 49.90"
+msgstr "A partir de 49,90 EUR"
+
+msgid "per month"
+msgstr "por mês"
+
+msgid "Hosting included"
+msgstr "Alojamento incluído"
+
+msgid "Website stays online"
+msgstr "O website mantém-se online"
+
+msgid "Small updates and support"
+msgstr "Pequenas atualizações e suporte"
+
+msgid "Ongoing website care"
+msgstr "Manutenção contínua do website"
+
+msgid "Optional Facebook posts add-on"
+msgstr "Extra opcional de posts no Facebook"
+
+msgid "See Monthly Plan"
+msgstr "Ver plano mensal"
+
+msgid "Add-on"
+msgstr "Extra"
+
+msgid "eCommerce Add-on"
+msgstr "Extra de eCommerce"
+
+msgid "Turn your website into an online shop anytime."
+msgstr "Transforme o seu website numa loja online a qualquer momento."
+
+msgid "Add products and accept payments"
+msgstr "Adicione produtos e aceite pagamentos"
+
+msgid "Simple checkout setup"
+msgstr "Configuração simples de checkout"
+
+msgid "Works with your existing website"
+msgstr "Funciona com o seu website existente"
+
+msgid "Ask about eCommerce"
+msgstr "Perguntar sobre eCommerce"
+
+msgid "Optional visibility boost"
+msgstr "Opção de maior visibilidade"
+
+msgid "Facebook posts: EUR 79 / month"
+msgstr "Posts de Facebook: 79 EUR / mês"
+
+msgid ""
+"2 posts per week to keep your business active online and increase chances of "
+"customer calls."
+msgstr ""
+"2 posts por semana para manter o seu negócio ativo online e aumentar as "
+"probabilidades de receber contactos de clientes."
+
+msgid "Helpful guides"
+msgstr "Guias úteis"
+
+msgid ""
+"Quick explanations for common questions before and after your website goes "
+"online."
+msgstr ""
+"Explicações rápidas para perguntas comuns antes e depois de o seu website "
+"ficar online."
+
+msgid "Open guide"
+msgstr "Abrir guia"
+
+msgid "No public guides yet"
+msgstr "Ainda não há guias públicos"
+
+msgid "Publish public blog posts in the admin to show the latest guides here."
+msgstr ""
+"Publique artigos públicos no blog através da administração para mostrar aqui "
+"os guias mais recentes."
+
+msgid "Open blog"
+msgstr "Abrir blog"
+
+msgid ""
+"Short answers for the practical questions business owners usually ask before "
+"they commit."
+msgstr ""
+"Respostas curtas para as questões práticas que os empresários normalmente "
+"fazem antes de decidir."
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting, support, and "
+"updates handled for you."
+msgstr ""
+"O Website de pagamento único é uma boa opção se quer um website profissional "
+"sem manutenção mensal. O Plano Mensal é melhor se pretende alojamento, "
+"suporte e atualizações tratadas por si."
+
+msgid "What is the difference between One-Time Website and Monthly Plan?"
+msgstr ""
+"Qual é a diferença entre o Website de pagamento único e o Plano Mensal?"
+
+msgid ""
+"The one-time option lets you pay once to keep your website active. The "
+"monthly plan includes ongoing care, hosting, and support so you do not have "
+"to manage anything."
+msgstr ""
+"A opção de pagamento único permite pagar uma vez e manter o website ativo. O "
+"Plano Mensal inclui manutenção contínua, alojamento e suporte para que não "
+"tenha de gerir nada."
+
+msgid "Can I switch later?"
+msgstr "Posso mudar mais tarde?"
+
+msgid "Yes, you can move between plans or add services later."
+msgstr "Sim, pode mudar de plano ou adicionar serviços mais tarde."
+
+msgid "Start your website preview now"
+msgstr "Inicie a pré-visualização do seu website agora"
+
+msgid ""
+"Build your website in minutes and see exactly how it looks before you decide."
+msgstr ""
+"Crie o seu website em minutos e veja exatamente como fica antes de decidir."
+
+msgid "How it works"
+msgstr "Como funciona"
+
+msgid "From business details to a live website"
+msgstr "Dos dados do negócio a um website online"
+
+msgid ""
+"A simple self-service flow for small businesses that need a clear website "
+"without a long project."
+msgstr ""
+"Um processo simples de self-service para pequenas empresas que precisam de "
+"um website claro sem um projeto longo."
+
+msgid "View examples"
+msgstr "Ver exemplos"
+
+msgid "A practical path to launch"
+msgstr "Um caminho prático para o lançamento"
+
+msgid ""
+"Start with the essentials, test your preview, then keep improving after "
+"launch with the built-in AI Assistant."
+msgstr ""
+"Comece com o essencial, teste a pré-visualização e depois continue a "
+"melhorar após o lançamento com o Assistente integrado."
+
+msgid "Tell us what your business does"
+msgstr "Diga-nos o que faz o seu negócio"
+
+msgid ""
+"Add your business name, category, location, and the services customers "
+"should know about first."
+msgstr ""
+"Adicione o nome do negócio, categoria, localização e os serviços que os "
+"clientes devem conhecer primeiro."
+
+msgid "Choose a starting template"
+msgstr "Escolha um template inicial"
+
+msgid ""
+"Pick a structure that fits your business type. It is a starting point, not a "
+"fixed website."
+msgstr ""
+"Escolha uma estrutura que se adapte ao seu tipo de negócio. É um ponto de "
+"partida, não um website fixo."
+
+msgid "Test your preview"
+msgstr "Teste a sua pré-visualização"
+
+msgid ""
+"See the website take shape quickly and adjust the content before you decide "
+"to launch."
+msgstr ""
+"Veja o website ganhar forma rapidamente e ajuste o conteúdo antes de decidir "
+"lançar."
+
+msgid ""
+"Go online with a mobile-ready website built around clear customer enquiries."
+msgstr ""
+"Fique online com um website adaptado a mobile, construído para facilitar o "
+"contacto dos clientes."
+
+msgid "Improve it later with AI"
+msgstr "Melhore mais tarde com IA"
+
+msgid ""
+"Use the built-in assistant to understand, edit, and improve your content "
+"while you work."
+msgstr ""
+"Use o assistente integrado para compreender, editar e melhorar o conteúdo "
+"enquanto trabalha."
+
+msgid "Ready to see your first preview?"
+msgstr "Pronto para ver a sua primeira pré-visualização?"
+
+msgid "Enter your details and test a starting website in less than a minute."
+msgstr ""
+"Introduza os seus dados e teste um website inicial em menos de um minuto."
+
+msgid "Public site foundation"
+msgstr "Base do website público"
+
+msgid "Prepared for future build-out"
+msgstr "Preparado para desenvolvimento futuro"
+
+msgid ""
+"This placeholder page already extends the shared layout, uses the main "
+"stylesheet, and is ready for translated content when the full page is "
+"implemented."
+msgstr ""
+"Esta página placeholder já utiliza o layout partilhado, usa o stylesheet "
+"principal e está pronta para conteúdo traduzido quando a página completa for "
+"implementada."
+
+msgid "Reusable structure"
+msgstr "Estrutura reutilizável"
+
+msgid ""
+"Header, footer, buttons, spacing, and cards all come from the shared "
+"template foundation."
+msgstr ""
+"Cabeçalho, rodapé, botões, espaçamentos e cartões vêm todos da base comum do "
+"template."
+
+msgid "Translation-ready"
+msgstr "Pronto para tradução"
+
+msgid ""
+"The visible template copy is prepared for Django i18n from the beginning."
+msgstr ""
+"O conteúdo visível do template está preparado para Django i18n desde o "
+"início."
+
+msgid "Ready for expansion"
+msgstr "Pronto para expansão"
+
+msgid ""
+"Content sections, forms, or offer details can be added here later without "
+"restructuring the project."
+msgstr ""
+"Secções de conteúdo, formulários ou detalhes da oferta podem ser adicionados "
+"mais tarde sem reestruturar o projeto."
+
+msgid "eCommerce Plan"
+msgstr "Plano eCommerce"
+
+msgid ""
+"A coming soon eCommerce plan for small businesses that want to start with a "
+"website and sell products online later."
+msgstr ""
+"Um plano de eCommerce em breve para pequenas empresas que querem começar com "
+"um website e vender produtos online mais tarde."
+
+msgid "Coming soon"
+msgstr "Em breve"
+
+msgid "Start with a website. Upgrade to selling online later."
+msgstr "Comece com um website. Faça upgrade para vender online mais tarde."
+
+msgid ""
+"The eCommerce plan is being prepared for businesses that want product pages, "
+"checkout, and a simple path from website to online store."
+msgstr ""
+"O plano de eCommerce está a ser preparado para negócios que querem páginas "
+"de produtos, checkout e um caminho simples de website para loja online."
+
+msgid "View all plans"
+msgstr "Ver todos os planos"
+
+msgid "Product selling"
+msgstr "Venda de produtos"
+
+msgid "Upgrade path"
+msgstr "Caminho de upgrade"
+
+msgid "What it is for"
+msgstr "Para que serve"
+
+msgid ""
+"For small businesses that want to begin with a clear website and later add "
+"product selling when they are ready."
+msgstr ""
+"Para pequenas empresas que querem começar com um website claro e mais tarde "
+"adicionar venda de produtos quando estiverem prontas."
+
+msgid "Current status"
+msgstr "Estado atual"
+
+msgid ""
+"This plan is not fully available yet. You can still start with a website now "
+"and keep eCommerce as the next step."
+msgstr ""
+"Este plano ainda não está totalmente disponível. Pode começar com um website "
+"agora e deixar o eCommerce como próximo passo."
+
+msgid "Planned eCommerce direction"
+msgstr "Direção planeada para eCommerce"
+
+msgid ""
+"The first version will stay practical: products, clear pages, checkout, and "
+"a store structure that small businesses can understand."
+msgstr ""
+"A primeira versão será prática: produtos, páginas claras, checkout e uma "
+"estrutura de loja fácil de entender para pequenas empresas."
+
+msgid "Product pages"
+msgstr "Páginas de produtos"
+
+msgid ""
+"Present products with clear descriptions, pricing, images, and buying "
+"details."
+msgstr ""
+"Apresente produtos com descrições claras, preços, imagens e detalhes de "
+"compra."
+
+msgid "Checkout path"
+msgstr "Processo de checkout"
+
+msgid "Give customers a simple way to move from product interest to purchase."
+msgstr "Dê aos clientes uma forma simples de passar do interesse à compra."
+
+msgid "Website first"
+msgstr "Website primeiro"
+
+msgid ""
+"Start with your business website now, then upgrade when selling online "
+"becomes the priority."
+msgstr ""
+"Comece com o website do seu negócio agora e faça upgrade quando vender "
+"online se tornar prioridade."
+
+msgid "Planning to sell online later?"
+msgstr "Planeia vender online mais tarde?"
+
+msgid ""
+"Start with the right website foundation now, or ask about the eCommerce "
+"roadmap before you decide."
+msgstr ""
+"Comece com a base certa de website agora ou pergunte sobre o plano de "
+"eCommerce antes de decidir."
+
+msgid "View One-Time Website"
+msgstr "Ver Website de pagamento único"
+
+msgid "Monthly Website"
+msgstr "Website mensal"
+
+msgid ""
+"A monthly website plan for small businesses that want a complete website "
+"setup, ongoing support, and predictable monthly costs."
+msgstr ""
+"Um plano mensal de website para pequenos negócios que querem uma "
+"configuração completa, suporte contínuo e custos mensais previsíveis."
+
+msgid "Monthly website"
+msgstr "Website mensal"
+
+msgid "Start your website without a large upfront cost"
+msgstr "Comece o seu website sem um custo inicial elevado"
+
+msgid ""
+"A complete website setup with ongoing support, updates, and improvements."
+msgstr ""
+"Uma configuração completa de website com suporte contínuo, atualizações e "
+"melhorias."
+
+msgid "Start monthly plan"
+msgstr "Começar plano mensal"
+
+msgid "Compare with one-time website"
+msgstr "Comparar com website de pagamento único"
+
+msgid "€49.90 / month"
+msgstr "€49,90 / mês"
+
+msgid "No large upfront payment"
+msgstr "Sem pagamento inicial elevado"
+
+msgid "Ongoing support included"
+msgstr "Suporte contínuo incluído"
+
+msgid "Cancel anytime"
+msgstr "Cancele a qualquer momento"
+
+msgid "Website preview on laptop and phone"
+msgstr "Pré-visualização do website em portátil e telemóvel"
+
+msgid "A complete website with lower starting cost"
+msgstr "Um website completo com menor custo inicial"
+
+msgid "Website built for your business"
+msgstr "Website criado para o seu negócio"
+
+msgid "Continuous updates and improvements"
+msgstr "Atualizações e melhorias contínuas"
+
+msgid "Support included"
+msgstr "Suporte incluído"
+
+msgid "No technical work needed"
+msgstr "Sem trabalho técnico necessário"
+
+msgid "Monthly website plan"
+msgstr "Plano mensal de website"
+
+msgid ""
+"A predictable monthly option for businesses that want support and steady "
+"progress."
+msgstr ""
+"Uma opção mensal previsível para negócios que querem suporte e progresso "
+"contínuo."
+
+msgid "A simple way to launch without a large upfront investment."
+msgstr "Uma forma simples de lançar sem um grande investimento inicial."
+
+msgid "What is included in your setup"
+msgstr "O que está incluído na sua configuração"
+
+msgid ""
+"Everything you need to launch with support, plus room to improve your "
+"website over time."
+msgstr ""
+"Tudo o que precisa para lançar com suporte, mais espaço para melhorar o seu "
+"website ao longo do tempo."
+
+msgid "Website & content"
+msgstr "Website e conteúdo"
+
+msgid "Updates included"
+msgstr "Atualizações incluídas"
+
+msgid "Pages adjusted as your business changes"
+msgstr "Páginas ajustadas à medida que o seu negócio muda"
+
+msgid "Ready to grow over time"
+msgstr "Pronto para crescer ao longo do tempo"
+
+msgid "Search visibility"
+msgstr "Visibilidade nas pesquisas"
+
+msgid "Google"
+msgstr "Google"
+
+msgid "Bing"
+msgstr "Bing"
+
+msgid "Google and Bing setup"
+msgstr "Configuração para Google e Bing"
+
+msgid "Ongoing improvements"
+msgstr "Melhorias contínuas"
+
+msgid "Local visibility foundation"
+msgstr "Base de visibilidade local"
+
+msgid "Customer contact"
+msgstr "Contacto com clientes"
+
+msgid "Form"
+msgstr "Formulário"
+
+msgid "Contact forms ready"
+msgstr "Formulários de contacto prontos"
+
+msgid "WhatsApp or email options"
+msgstr "Opções de WhatsApp ou email"
+
+msgid "Clear ways for customers to reach you"
+msgstr "Formas claras para os clientes entrarem em contacto consigo"
+
+msgid "Hosting & infrastructure"
+msgstr "Alojamento e infraestrutura"
+
+msgid "Active plan included"
+msgstr "Incluído no plano ativo"
+
+msgid "Hosting included as long as your plan is active"
+msgstr "Alojamento incluído enquanto o seu plano estiver ativo"
+
+msgid "Domain connected and maintained"
+msgstr "Domínio ligado e mantido"
+
+msgid "Stable website access"
+msgstr "Acesso estável ao website"
+
+msgid "Part of your monthly plan"
+msgstr "Parte do seu plano mensal"
+
+msgid "updates"
+msgstr "atualizações"
+
+msgid "support"
+msgstr "suporte"
+
+msgid "improvements"
+msgstr "melhorias"
+
+msgid "A practical way to keep your website moving forward every month."
+msgstr "Uma forma prática de manter o seu website a avançar todos os meses."
+
+msgid "Why choose monthly?"
+msgstr "Porquê escolher mensal?"
+
+msgid "No upfront cost"
+msgstr "Sem custo inicial"
+
+msgid "Continuous improvements"
+msgstr "Melhorias contínuas"
+
+msgid "Ideal for businesses starting out"
+msgstr "Ideal para negócios que estão a começar"
+
+msgid "Less risk"
+msgstr "Menos risco"
+
+msgid ""
+"A simple path from your business details to a website that can keep "
+"improving over time."
+msgstr ""
+"Um caminho simples desde os dados do seu negócio até um website que pode "
+"continuar a melhorar ao longo do tempo."
+
+msgid "Go live and keep improving"
+msgstr "Entre online e continue a melhorar"
+
+msgid "After launch"
+msgstr "Depois do lançamento"
+
+msgid "Your website stays online while your plan is active"
+msgstr "O seu website mantém-se online enquanto o plano estiver ativo"
+
+msgid "Updates and support stay included"
+msgstr "Atualizações e suporte continuam incluídos"
+
+msgid "Improvements can be added over time"
+msgstr "Melhorias podem ser adicionadas ao longo do tempo"
+
+msgid "Built to grow with your business"
+msgstr "Criado para crescer com o seu negócio"
+
+msgid ""
+"Use the monthly plan as your starting point, then keep improving your "
+"website as your business grows."
+msgstr ""
+"Use o plano mensal como ponto de partida e continue a melhorar o seu website "
+"à medida que o negócio cresce."
+
+msgid "Adjust pages and services over time"
+msgstr "Ajuste páginas e serviços ao longo do tempo"
+
+msgid "Add more visibility support when needed"
+msgstr "Adicione mais apoio de visibilidade quando necessário"
+
+msgid "Keep your website current without technical work"
+msgstr "Mantenha o seu website atualizado sem trabalho técnico"
+
+msgid "Switch to a larger setup later if your business needs it"
+msgstr "Mude para uma configuração maior mais tarde se o seu negócio precisar"
+
+msgid "Start with a monthly website plan"
+msgstr "Comece com um plano mensal de website"
+
+msgid ""
+"Launch with lower starting cost and keep improving your website over time."
+msgstr ""
+"Lance com um custo inicial mais baixo e continue a melhorar o seu website ao "
+"longo do tempo."
+
+msgid ""
+"A one-time website plan for small businesses that want one clear payment, a "
+"ready website, and simple content editing after launch."
+msgstr ""
+"Um plano de website de pagamento único para pequenas empresas que querem um "
+"pagamento claro, um website pronto e edição simples de conteúdo após o "
+"lançamento."
+
+msgid "One-time website"
+msgstr "Website de pagamento único"
+
+msgid "Get a complete website setup that helps customers find you"
+msgstr ""
+"Receba uma configuração completa de website que ajuda os clientes a encontrá-"
+"lo"
+
+msgid ""
+"Your website, visibility, contact tools, hosting, email setup, and launch "
+"support in one clear package."
+msgstr ""
+"O seu website, visibilidade, ferramentas de contacto, alojamento, "
+"configuração de email e apoio ao lançamento num pacote claro."
+
+msgid "View Monthly Plan"
+msgstr "Ver Plano Mensal"
+
+msgid "No subscriptions"
+msgstr "Sem subscrições"
+
+msgid "No technical setup"
+msgstr "Sem configuração técnica"
+
+msgid "Complete business setup"
+msgstr "Configuração completa para o negócio"
+
+msgid ""
+"Website, search visibility, contact tools, hosting, and launch support in "
+"one setup"
+msgstr ""
+"Website, visibilidade nas pesquisas, ferramentas de contacto, alojamento e "
+"apoio ao lançamento numa única configuração"
+
+msgid "Built to help your business look professional and stay ready to grow"
+msgstr ""
+"Criado para ajudar o seu negócio a parecer profissional e pronto para crescer"
+
+msgid "Clear structure now, with room to expand later"
+msgstr "Estrutura clara agora, com espaço para expandir mais tarde"
+
+msgid "One-time website setup"
+msgstr "Configuração de website de pagamento único"
+
+msgid "Your website is already built and ready to use."
+msgstr "O seu website já está criado e pronto a usar."
+
+msgid "One new customer can already cover the cost of your website."
+msgstr "Um novo cliente pode cobrir o custo do seu website."
+
+msgid ""
+"Everything is set up to give your business a complete, practical online base "
+"from day one."
+msgstr ""
+"Tudo fica configurado para dar ao seu negócio uma base online completa e "
+"prática desde o primeiro dia."
+
+msgid "Full business website setup"
+msgstr "Configuração completa de website empresarial"
+
+msgid "Structured pages for your services"
+msgstr "Páginas estruturadas para os seus serviços"
+
+msgid "Easy content editing and updates"
+msgstr "Edição e atualizações de conteúdo simples"
+
+msgid "Ready to expand with new services"
+msgstr "Pronto para expandir com novos serviços"
+
+msgid "Pages structured for Google and Bing"
+msgstr "Páginas estruturadas para Google e Bing"
+
+msgid "Local service targeting"
+msgstr "Segmentação de serviços locais"
+
+msgid "Strong SEO foundation"
+msgstr "Base forte de SEO"
+
+msgid "or call options"
+msgstr "ou opções de chamada"
+
+msgid "2 professional email accounts"
+msgstr "2 contas de email profissionais"
+
+msgid "1 year included"
+msgstr "1 ano incluído"
+
+msgid "Professional hosting for your business (1 year included)"
+msgstr "Alojamento profissional para o seu negócio (1 ano incluído)"
+
+msgid "Fast, stable, and reliable performance"
+msgstr "Desempenho rápido, estável e fiável"
+
+msgid "Domain connected and configured"
+msgstr "Domínio ligado e configurado"
+
+msgid "Included with your setup"
+msgstr "Incluído na sua configuração"
+
+msgid "Included launch boost"
+msgstr "Impulso de lançamento incluído"
+
+msgid "10 posts"
+msgstr "10 posts"
+
+msgid "5 weeks"
+msgstr "5 semanas"
+
+msgid "more visitors"
+msgstr "mais visitantes"
+
+msgid "Facebook"
+msgstr "Facebook"
+
+msgid "posts (10 posts over 5 weeks)"
+msgstr "posts (10 posts durante 5 semanas)"
+
+msgid "Helps bring visitors from day one"
+msgstr "Ajuda a trazer visitantes desde o primeiro dia"
+
+msgid "Designed to keep your new website active online"
+msgstr "Criado para manter o seu novo website ativo online"
+
+msgid "A simple way to start getting attention after launch."
+msgstr "Uma forma simples de começar a chamar a atenção depois do lançamento."
+
+msgid "What this does for your business"
+msgstr "O que isto faz pelo seu negócio"
+
+msgid "Customers can find your services online"
+msgstr "Os clientes conseguem encontrar os seus serviços online"
+
+msgid "Customers can contact you easily"
+msgstr "Os clientes conseguem contactá-lo facilmente"
+
+msgid "Your business looks professional and trustworthy"
+msgstr "O seu negócio fica com uma imagem profissional e credível"
+
+msgid "You have a base to grow with ads, SEO, services, and more languages"
+msgstr ""
+"Fica com uma base para crescer com anúncios, SEO, serviços e mais idiomas"
+
+msgid "You can track performance with analytics access"
+msgstr "Pode acompanhar o desempenho com acesso a analytics"
+
+msgid "You can order new promotion options when you are ready"
+msgstr "Pode pedir novas opções de promoção quando estiver pronto"
+
+msgid "A short path from your business details to a website you can launch."
+msgstr ""
+"Um caminho curto desde os dados do seu negócio até um website pronto a "
+"lançar."
+
+msgid "Your website stays online and active"
+msgstr "O seu website mantém-se online e ativo"
+
+msgid "You can update your content anytime"
+msgstr "Pode atualizar o seu conteúdo a qualquer momento"
+
+msgid "You can expand with more services, pages, or promotions"
+msgstr "Pode expandir com mais serviços, páginas ou promoções"
+
+msgid "Grow when you are ready"
+msgstr "Cresça quando estiver pronto"
+
+msgid "Add more reach and functionality when your business needs it."
+msgstr "Adicione mais alcance e funcionalidades quando o seu negócio precisar."
+
+msgid "Catalog add-on"
+msgstr "Extra de catálogo"
+
+msgid "Show products, services, parts, or packages without a full online shop."
+msgstr ""
+"Mostre produtos, serviços, peças ou pacotes sem precisar de uma loja online "
+"completa."
+
+msgid "Customers can browse and contact you to request more information."
+msgstr "Os clientes podem navegar e contactá-lo para pedir mais informações."
+
+msgid "Online shop upgrade"
+msgstr "Upgrade para loja online"
+
+msgid "Add checkout and payments later without starting from scratch."
+msgstr "Adicione checkout e pagamentos mais tarde sem começar do zero."
+
+msgid "Best when you want to sell directly online."
+msgstr "Ideal quando quer vender diretamente online."
+
+msgid "Marketing & visibility"
+msgstr "Marketing e visibilidade"
+
+msgid "Bring visitors to your website and start getting customers."
+msgstr "Traga visitantes ao seu website e comece a receber clientes."
+
+msgid "Facebook posts (10 posts over 5 weeks)"
+msgstr "Posts de Facebook (10 posts durante 5 semanas)"
+
+msgid "Google Ads campaigns"
+msgstr "Campanhas de Google Ads"
+
+msgid "Designed to increase visibility and enquiries"
+msgstr "Criado para aumentar a visibilidade e os pedidos de contacto"
+
+msgid "Start your website today"
+msgstr "Comece o seu website hoje"
+
+msgid "See your website instantly and launch when you're ready."
+msgstr "Veja o seu website instantaneamente e lance quando estiver pronto."
+
+msgid "Plans"
+msgstr "Planos"
+
+msgid "Website plans"
+msgstr "Planos de website"
+
+msgid "Choose the right plan for your business"
+msgstr "Escolha o plano certo para o seu negócio"
+
+msgid ""
+"Choose a one-time website, a monthly plan, or keep eCommerce in view for "
+"later growth. Each plan is built around a clear, practical website setup for "
+"small businesses."
+msgstr ""
+"Escolha um website de pagamento único, um plano mensal ou mantenha o "
+"eCommerce em vista para crescimento futuro. Cada plano é criado em torno de "
+"uma configuração de website clara e prática para pequenos negócios."
+
+msgid ""
+"Start with the plan that fits now. You can add services, a catalog, an "
+"online shop, or marketing campaigns later as your business grows."
+msgstr ""
+"Comece com o plano que se adapta agora. Pode adicionar serviços, um "
+"catálogo, uma loja online ou campanhas de marketing mais tarde, à medida que "
+"o negócio cresce."
+
+msgid "Growth options"
+msgstr "Opções de crescimento"
+
+msgid ""
+"Show products or services online and let customers request more information."
+msgstr ""
+"Mostre produtos ou serviços online e permita que os clientes peçam mais "
+"informações."
+
+msgid "Online shop"
+msgstr "Loja online"
+
+msgid "Add checkout and payments when you are ready to sell directly online."
+msgstr ""
+"Adicione checkout e pagamentos quando estiver pronto para vender diretamente "
+"online."
+
+msgid "Marketing"
+msgstr "Marketing"
+
+msgid ""
+"Use Facebook posts and Google Ads campaigns to increase visibility and "
+"enquiries."
+msgstr ""
+"Use posts de Facebook e campanhas de Google Ads para aumentar a visibilidade "
+"e os pedidos de contacto."
+
+msgid ""
+"A catalog helps customers browse and enquire. An online shop adds checkout "
+"and payments. Marketing helps bring visitors to your website."
+msgstr ""
+"Um catálogo ajuda os clientes a navegar e pedir informações. Uma loja online "
+"adiciona checkout e pagamentos. O marketing ajuda a trazer visitantes ao seu "
+"website."
+
+msgid "Privacy Policy"
+msgstr "Política de Privacidade"
+
+msgid "Privacy"
+msgstr "Privacidade"
+
+msgid ""
+"This starter policy explains the basic privacy structure for Get Online "
+"Fast. It is written to be easy to review and improve as the platform grows."
+msgstr ""
+"Esta política inicial explica a estrutura básica de privacidade da Get "
+"Online Fast. Foi escrita para ser fácil de rever e melhorar à medida que a "
+"plataforma cresce."
+
+msgid "Information we collect"
+msgstr "Informação que recolhemos"
+
+msgid ""
+"We may collect business details, contact information, website preferences, "
+"and messages you send through the platform or by email."
+msgstr ""
+"Podemos recolher dados do negócio, informações de contacto, preferências do "
+"website e mensagens enviadas através da plataforma ou por email."
+
+msgid "How we use information"
+msgstr "Como utilizamos a informação"
+
+msgid ""
+"We use information to create previews, provide website services, respond to "
+"practical questions, improve the product, and manage billing or account "
+"needs."
+msgstr ""
+"Utilizamos a informação para criar pré-visualizações, fornecer serviços de "
+"website, responder a questões práticas, melhorar o produto e gerir faturação "
+"ou necessidades da conta."
+
+msgid "AI-assisted features"
+msgstr "Funcionalidades com apoio de IA"
+
+msgid ""
+"The built-in AI Assistant may use the details you provide to help generate, "
+"edit, or improve website content. You remain responsible for reviewing "
+"content before publishing."
+msgstr ""
+"O Assistente de IA integrado pode usar os dados fornecidos para ajudar a "
+"gerar, editar ou melhorar o conteúdo do website. Continua responsável por "
+"rever o conteúdo antes de publicar."
+
+msgid "Sharing information"
+msgstr "Partilha de informação"
+
+msgid ""
+"We do not sell personal information. We may use trusted service providers "
+"for hosting, email, analytics, payments, or platform operations."
+msgstr ""
+"Não vendemos informações pessoais. Podemos usar fornecedores de confiança "
+"para alojamento, email, analytics, pagamentos ou operações da plataforma."
+
+msgid "Data retention"
+msgstr "Retenção de dados"
+
+msgid ""
+"We keep information for as long as needed to provide the service, meet legal "
+"obligations, resolve issues, and maintain business records."
+msgstr ""
+"Mantemos a informação pelo tempo necessário para prestar o serviço, cumprir "
+"obrigações legais, resolver problemas e manter registos do negócio."
+
+msgid "Cookies"
+msgstr "Cookies"
+
+msgid ""
+"We may use essential cookies and basic analytics tools to keep the website "
+"working and understand how visitors use the platform."
+msgstr ""
+"Podemos usar cookies essenciais e ferramentas básicas de análise para manter "
+"o website funcional e perceber como os visitantes utilizam a plataforma."
+
+msgid "Your choices"
+msgstr "As suas escolhas"
+
+msgid ""
+"You can contact us to ask about access, correction, or deletion of your "
+"information where applicable."
+msgstr ""
+"Pode contactar-nos para pedir acesso, correção ou eliminação dos seus dados, "
+"quando aplicável."
+
+msgid ""
+"For privacy questions, contact info@getonlinefast.eu. This page should be "
+"reviewed by a legal professional before relying on it as final legal advice."
+msgstr ""
+"Para questões de privacidade, contacte info@getonlinefast.eu. Esta página "
+"deve ser revista por um profissional jurídico antes de ser considerada "
+"aconselhamento legal final."
+
+msgid "Terms"
+msgstr "Termos"
+
+msgid "Terms of Service"
+msgstr "Termos de Serviço"
+
+msgid ""
+"These starter terms outline the basic rules for using Get Online Fast. They "
+"are structured so the legal details can be tightened before full public "
+"launch."
+msgstr ""
+"Estes termos iniciais definem as regras básicas de utilização da Get Online "
+"Fast. Estão estruturados para que os detalhes legais possam ser ajustados "
+"antes do lançamento público completo."
+
+msgid "Using the platform"
+msgstr "Utilizar a plataforma"
+
+msgid ""
+"Get Online Fast provides a self-service website flow with AI-assisted tools "
+"to help users create, edit, and improve business websites."
+msgstr ""
+"A Get Online Fast oferece um processo self-service de criação de websites "
+"com ferramentas assistidas por IA para ajudar os utilizadores a criar, "
+"editar e melhorar websites empresariais."
+
+msgid "Your responsibilities"
+msgstr "As suas responsabilidades"
+
+msgid ""
+"You are responsible for the accuracy of the business details, website "
+"content, images, claims, and contact information you provide or publish."
+msgstr ""
+"É responsável pela exatidão dos dados do negócio, conteúdo do website, "
+"imagens, afirmações e informações de contacto que fornecer ou publicar."
+
+msgid "AI-assisted content"
+msgstr "Conteúdo assistido por IA"
+
+msgid ""
+"AI suggestions are provided to help you move faster. You should review and "
+"approve content before using it publicly."
+msgstr ""
+"As sugestões de IA são fornecidas para o ajudar a avançar mais depressa. "
+"Deve rever e aprovar o conteúdo antes de o utilizar publicamente."
+
+msgid "Plans and payments"
+msgstr "Planos e pagamentos"
+
+msgid ""
+"Plan details, pricing, included services, and renewal terms should be "
+"reviewed before purchase. Some services or add-ons may be listed as coming "
+"soon."
+msgstr ""
+"Os detalhes do plano, preços, serviços incluídos e condições de renovação "
+"devem ser revistos antes da compra. Alguns serviços ou extras podem estar "
+"indicados como em breve."
+
+msgid "Acceptable use"
+msgstr "Utilização aceitável"
+
+msgid ""
+"Do not use the platform for illegal content, misleading claims, harmful "
+"activity, or content you do not have the right to use."
+msgstr ""
+"Não utilize a plataforma para conteúdo ilegal, afirmações enganosas, "
+"atividades prejudiciais ou conteúdo que não tenha direito de utilizar."
+
+msgid "Service changes"
+msgstr "Alterações ao serviço"
+
+msgid ""
+"The platform, features, templates, and plans may change as the product "
+"improves. We aim to keep changes practical and clear."
+msgstr ""
+"A plataforma, funcionalidades, templates e planos podem mudar à medida que o "
+"produto evolui. Procuramos manter as alterações práticas e claras."
+
+msgid ""
+"For questions about these terms, contact info@getonlinefast.eu. This page "
+"should be reviewed by a legal professional before relying on it as final "
+"legal advice."
+msgstr ""
+"Para questões sobre estes termos, contacte info@getonlinefast.eu. Esta "
+"página deve ser revista por um profissional jurídico antes de ser "
+"considerada aconselhamento legal final."
+
+#, python-brace-format
+msgid "{left} {operator} {right} = ?"
+msgstr "{left} {operator} {right} = ?"
+
+msgid ""
+"Compare website plans from Get Online Fast, including one-time websites, "
+"monthly support, and upcoming eCommerce options."
+msgstr ""
+"Compare os planos de websites da Get Online Fast, incluindo websites de "
+"pagamento único, suporte mensal e futuras opções de eCommerce."
+
+msgid "Please answer the security question correctly."
+msgstr "Responda corretamente à pergunta de segurança."
+
+msgid "Please correct the errors below and try again."
+msgstr "Corrija os erros abaixo e tente novamente."
+
+#, python-brace-format
+msgid ""
+"Name: {name}\n"
+"Email: {email}\n"
+"Phone: {phone}\n"
+"\n"
+"Message:\n"
+"{message}"
+msgstr ""
+"Nome: {name}\n"
+"Email: {email}\n"
+"Telefone: {phone}\n"
+"\n"
+"Mensagem:\n"
+"{message}"
+
+msgid "Not provided"
+msgstr "Não fornecido"
+
+msgid "New Get Online Fast contact message"
+msgstr "Nova mensagem de contacto da Get Online Fast"
+
+msgid ""
+"Your message could not be sent right now. Please try again or contact us "
+"directly by email."
+msgstr ""
+"A sua mensagem não pôde ser enviada neste momento. Tente novamente ou "
+"contacte-nos diretamente por email."
+
+msgid "Your message was sent successfully. We will get back to you soon."
+msgstr ""
+"A sua mensagem foi enviada com sucesso. Entraremos em contacto consigo em "
+"breve."
+
+msgid ""
+"A full business website with clear structure, search-ready foundations, and "
+"a complete launch setup."
+msgstr ""
+"Um website empresarial completo com estrutura clara, bases preparadas para "
+"pesquisa e uma configuração completa de lançamento."
+
+msgid "Structured search setup"
+msgstr "Configuração estruturada para pesquisa"
+
+msgid "Launch support included"
+msgstr "Apoio ao lançamento incluído"
+
+msgid ""
+"A complete website setup with hosting, support, and ongoing improvements in "
+"one monthly plan."
+msgstr ""
+"Uma configuração completa de website com alojamento, suporte e melhorias "
+"contínuas num único plano mensal."
+
+msgid "View Monthly Website"
+msgstr "Ver Website Mensal"
+
+msgid "Coming Soon"
+msgstr "Em breve"
+
+msgid "A future option for businesses that want to sell products online."
+msgstr "Uma opção futura para negócios que querem vender produtos online."
+
+msgid "Shopping cart and checkout"
+msgstr "Carrinho de compras e checkout"
+
+msgid "Small business store setup"
+msgstr "Configuração de loja para pequenas empresas"
+
+msgid "View eCommerce Plan"
+msgstr "Ver plano eCommerce"
+
+msgid "€399"
+msgstr "€399"
+
+msgid ""
+"A full business website with clear structure, SEO-ready foundations, and AI-"
+"assisted editing."
+msgstr ""
+"Um website empresarial completo com estrutura clara, bases preparadas para "
+"SEO e edição assistida por IA."
+
+msgid "AI-assisted content editing"
+msgstr "Edição de conteúdo com apoio de IA"
+
+msgid "From €49.90 / month"
+msgstr "A partir de €49,90 / mês"
+
+msgid ""
+"Hosting, website care, small updates, and practical ongoing support in one "
+"plan."
+msgstr ""
+"Alojamento, manutenção do website, pequenas atualizações e suporte prático "
+"contínuo num só plano."
+
+msgid "Small updates"
+msgstr "Pequenas atualizações"
+
+msgid "Support when needed"
+msgstr "Suporte quando necessário"
+
+msgid "Fast launch option"
+msgstr "Opção de lançamento rápido"
+
+msgid "AI Starter"
+msgstr "AI Starter"
+
+msgid ""
+"A lightweight one-page website for small businesses that need to get online "
+"quickly at the lowest price."
+msgstr ""
+"Um website leve de uma página para pequenas empresas que precisam de ficar "
+"online rapidamente ao menor custo."
+
+msgid "€50/year"
+msgstr "€50/ano"
+
+msgid ""
+"Best for testing a simple web presence before investing in a larger site."
+msgstr ""
+"Ideal para testar uma presença online simples antes de investir num website "
+"maior."
+
+msgid "See One-Time Website"
+msgstr "Ver Website de pagamento único"
+
+msgid "Back to homepage"
+msgstr "Voltar à página inicial"
+
+msgid "What AI Starter is for"
+msgstr "Para que serve o AI Starter"
+
+msgid ""
+"This plan is intentionally limited. It gives a business a clear, usable page "
+"on a subdomain without the cost of a custom build."
+msgstr ""
+"Este plano é intencionalmente limitado. Dá ao negócio uma página clara e "
+"utilizável num subdomínio sem o custo de um desenvolvimento personalizado."
+
+msgid "Fastest route online"
+msgstr "Forma mais rápida de ficar online"
+
+msgid ""
+"Start with a compact one-page site generated from your business basics and "
+"service information."
+msgstr ""
+"Comece com um website compacto de uma página gerado a partir das informações "
+"básicas do seu negócio e serviços."
+
+msgid ""
+"Good for businesses that need contact details, a short service summary, and "
+"a clean mobile-friendly presence."
+msgstr ""
+"Ideal para negócios que precisam de contactos, um resumo curto dos serviços "
+"e uma presença limpa adaptada a mobile."
+
+msgid "Lower commitment"
+msgstr "Menor compromisso"
+
+msgid ""
+"Useful when speed and budget matter more than customization, structure, or "
+"long-term flexibility."
+msgstr ""
+"Útil quando a rapidez e o orçamento são mais importantes do que "
+"personalização, estrutura ou flexibilidade a longo prazo."
+
+msgid "What is included"
+msgstr "O que está incluído"
+
+msgid "One-page website"
+msgstr "Website de uma página"
+
+msgid "Hosted on a project subdomain"
+msgstr "Alojado num subdomínio do projeto"
+
+msgid "Business name, location, and service summary"
+msgstr "Nome do negócio, localização e resumo dos serviços"
+
+msgid "Mobile-friendly layout"
+msgstr "Layout adaptado a mobile"
+
+msgid "Path to upgrade later"
+msgstr "Possibilidade de upgrade mais tarde"
+
+msgid "What it is not"
+msgstr "O que não é"
+
+msgid "Not a custom design build"
+msgstr "Não é um desenvolvimento de design personalizado"
+
+msgid "Not intended for complex service structures"
+msgstr "Não é indicado para estruturas de serviços complexas"
+
+msgid "Not the best fit if SEO depth matters from day one"
+msgstr "Não é a melhor opção se SEO profundo for importante desde o início"
+
+msgid "Not a replacement for ongoing support or content work"
+msgstr "Não substitui suporte contínuo ou trabalho de conteúdo"
+
+msgid "Need something stronger than the basic option?"
+msgstr "Precisa de algo mais forte do que a opção básica?"
+
+msgid ""
+"The One-Time Website plan is the better fit if you want a more professional "
+"structure, stronger messaging, and room to grow."
+msgstr ""
+"O plano Website de pagamento único é mais adequado se pretende uma estrutura "
+"mais profissional, uma mensagem mais forte e espaço para crescer."
+
+msgid "Main offer"
+msgstr "Oferta principal"
+
+msgid ""
+"A professional small-business website built with clear structure, stronger "
+"messaging, and a foundation for long-term growth."
+msgstr ""
+"Um website profissional para pequenas empresas, construído com estrutura "
+"clara, mensagem mais forte e uma base para crescimento a longo prazo."
+
+msgid "€399 one-time"
+msgstr "€399 pagamento único"
+
+msgid ""
+"Best for businesses that want to pay once and launch a serious public "
+"website."
+msgstr ""
+"Ideal para negócios que querem pagar uma vez e lançar um website público "
+"sério."
+
+msgid "Why this works as a one-time website"
+msgstr "Porque isto funciona como um website de pagamento único"
+
+msgid ""
+"This is the offer for businesses that want a clear, complete website without "
+"ongoing website care bundled in."
+msgstr ""
+"Esta é a oferta para negócios que querem um website claro e completo, sem "
+"manutenção contínua incluída no pacote."
+
+msgid "Better structure"
+msgstr "Melhor estrutura"
+
+msgid ""
+"The site can be organized around your services, location, and real customer "
+"actions instead of a generic template block."
+msgstr ""
+"O website pode ser organizado em torno dos seus serviços, localização e "
+"ações reais dos clientes, em vez de um bloco genérico de template."
+
+msgid "More trust from day one"
+msgstr "Mais confiança desde o primeiro dia"
+
+msgid ""
+"A clearer layout, stronger content flow, and more professional setup help "
+"the business look established faster."
+msgstr ""
+"Um layout mais claro, melhor organização do conteúdo e uma configuração mais "
+"profissional ajudam o negócio a parecer estabelecido mais rapidamente."
+
+msgid "Easier to grow later"
+msgstr "Mais fácil de expandir depois"
+
+msgid ""
+"This package gives you a cleaner base for extra pages, content updates, and "
+"future improvements when needed."
+msgstr ""
+"Este pacote oferece uma base mais limpa para adicionar páginas, atualizar "
+"conteúdo e fazer melhorias futuras quando necessário."
+
+msgid "Strong foundation for long-term growth"
+msgstr "Base sólida para crescimento a longo prazo"
+
+msgid "Good fit if you want"
+msgstr "Ideal se procura"
+
+msgid "A professional website with one payment"
+msgstr "Um website profissional com um único pagamento"
+
+msgid "A clearer offer and stronger conversion flow"
+msgstr "Uma oferta mais clara e melhor conversão"
+
+msgid "A site you can build on later"
+msgstr "Um website que pode evoluir no futuro"
+
+msgid "A better balance between speed, quality, and budget"
+msgstr "Um melhor equilíbrio entre rapidez, qualidade e orçamento"
+
+msgid "Want help every month as well?"
+msgstr "Também quer ajuda todos os meses?"
+
+msgid ""
+"Choose the Monthly Plan if you want hosting, support, and ongoing website "
+"care handled for you."
+msgstr ""
+"Escolha o Plano Mensal se quiser alojamento, suporte e manutenção contínua "
+"do website tratados por si."
+
+msgid "Ongoing support"
+msgstr "Suporte contínuo"
+
+msgid ""
+"A monthly website plan for businesses that want hosting, updates, support, "
+"and ongoing care handled for them."
+msgstr ""
+"Um plano mensal de website para negócios que querem alojamento, "
+"atualizações, suporte e manutenção contínua tratados por si."
+
+msgid "From €49.90/month"
+msgstr "A partir de €49,90/mês"
+
+msgid ""
+"Best for owners who want continuity instead of handling every change "
+"themselves."
+msgstr ""
+"Ideal para proprietários que querem continuidade em vez de tratar de cada "
+"alteração por conta própria."
+
+msgid "What the monthly plan covers"
+msgstr "O que o plano mensal inclui"
+
+msgid ""
+"This plan keeps the website online and looked after after launch. It is "
+"meant for practical ongoing support, not a full rebuild every month."
+msgstr ""
+"Este plano mantém o website online e acompanhado após o lançamento. Destina-"
+"se a suporte prático contínuo, não a reconstruções completas todos os meses."
+
+msgid "Content edits"
+msgstr "Edição de conteúdo"
+
+msgid ""
+"Update text, swap images, adjust key sections, and keep the website current "
+"as the business changes."
+msgstr ""
+"Atualize textos, troque imagens, ajuste secções principais e mantenha o "
+"website atualizado conforme o negócio evolui."
+
+msgid "Priority support"
+msgstr "Suporte prioritário"
+
+msgid ""
+"Get a simpler path for small requests and future website improvements "
+"without starting from zero each time."
+msgstr ""
+"Tenha um caminho mais simples para pequenos pedidos e melhorias futuras do "
+"website sem começar do zero todas as vezes."
+
+msgid "Less owner hassle"
+msgstr "Menos complicações para o proprietário"
+
+msgid ""
+"Useful for businesses that would rather stay focused on clients and "
+"operations than website maintenance."
+msgstr ""
+"Útil para negócios que preferem focar-se nos clientes e operações em vez da "
+"manutenção do website."
+
+msgid "Someone to handle routine website updates"
+msgstr "Alguém para tratar das atualizações de rotina do website"
+
+msgid "A simpler way to request changes after launch"
+msgstr "Uma forma mais simples de pedir alterações após o lançamento"
+
+msgid "Support without building an in-house workflow"
+msgstr "Suporte sem necessidade de criar processos internos"
+
+msgid "A site that stays maintained instead of going stale"
+msgstr "Um website que se mantém atualizado em vez de ficar desatualizado"
+
+msgid "Need the website build first?"
+msgstr "Precisa primeiro da criação do website?"
+
+msgid ""
+"Start with the One-Time Website if you prefer to pay once and add services "
+"later."
+msgstr ""
+"Comece com o Website de pagamento único se preferir pagar uma vez e "
+"adicionar serviços mais tarde."
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Useful posts in this category."
+msgstr "Artigos úteis nesta categoria."
+
+msgid "Read article"
+msgstr "Ler artigo"
+
+msgid "No posts in this category yet"
+msgstr "Ainda não há artigos nesta categoria"
+
+msgid "Publish a public article in this category to show it here."
+msgstr "Publique um artigo público nesta categoria para o mostrar aqui."
+
+msgid "Not published yet"
+msgstr "Ainda não publicado"
+
+msgid "Back to blog"
+msgstr "Voltar ao blog"
+
+msgid "Browse categories"
+msgstr "Ver categorias"
+
+msgid "Find the information that matches what you want to learn first."
+msgstr "Encontre primeiro a informação que corresponde ao que quer aprender."
+
+msgid "Practical articles in this category."
+msgstr "Artigos práticos nesta categoria."
+
+msgid "Open category"
+msgstr "Abrir categoria"
+
+msgid "No categories yet"
+msgstr "Ainda não há categorias"
+
+msgid "Add blog categories in the admin to organize articles here."
+msgstr ""
+"Adicione categorias do blog na administração para organizar os artigos aqui."
+
+msgid "Latest posts"
+msgstr "Artigos mais recentes"
+
+msgid "Short articles and useful explanations for visitors and customers."
+msgstr "Artigos curtos e explicações úteis para visitantes e clientes."
+
+msgid "No posts yet"
+msgstr "Ainda não há artigos"
+
+msgid "Use the blog admin to publish your first public article."
+msgstr ""
+"Use a administração do blog para publicar o seu primeiro artigo público."
+
+msgid "Blog Article"
+msgstr "Artigo do blog"
+
+#, python-format
+msgid "Featured image for %(title)s"
+msgstr "Imagem destacada para %(title)s"
+
+msgid "Video"
+msgstr "Vídeo"
+
+#, python-format
+msgid "Video for %(title)s"
+msgstr "Vídeo para %(title)s"
+
+msgid "Read the full article for the complete update."
+msgstr "Leia o artigo completo para ver a atualização completa."
+
+msgid "Blog posts are coming soon"
+msgstr "Os artigos do blog estão a chegar em breve"
+
+msgid ""
+"The blog route is live, but no published public articles are marked for blog "
+"display yet."
+msgstr ""
+"A rota do blog está ativa, mas ainda não há artigos públicos publicados "
+"marcados para aparecer no blog."
+
+msgid "Help Article"
+msgstr "Artigo de ajuda"
+
+msgid "Help Center"
+msgstr "Centro de ajuda"
+
+msgid "Browse by category"
+msgstr "Navegar por categoria"
+
+msgid ""
+"Use the categories below to jump to the topics that matter most right now."
+msgstr ""
+"Use as categorias abaixo para ir diretamente aos temas mais importantes "
+"neste momento."
+
+msgid "Articles grouped under this topic."
+msgstr "Artigos agrupados neste tema."
+
+msgid "Help articles"
+msgstr "Artigos de ajuda"
+
+msgid "Published support content that is currently visible in the help center."
+msgstr ""
+"Conteúdo de suporte publicado que está atualmente visível no centro de ajuda."
+
+msgid "Open this article to read the full explanation."
+msgstr "Abra este artigo para ler a explicação completa."
+
+msgid "Help articles are coming soon"
+msgstr "Os artigos de ajuda estão a chegar em breve"
+
+msgid ""
+"The help center route is live, but no published help articles are marked for "
+"display yet."
+msgstr ""
+"A rota do centro de ajuda está ativa, mas ainda não há artigos de ajuda "
+"publicados marcados para aparecer."
+
+msgid "Dashboard"
+msgstr "Painel"
+
+msgid "Open another guide or go back to the full guide overview."
+msgstr "Abra outro guia ou volte à visão geral completa dos guias."
+
+msgid "Guide navigation"
+msgstr "Navegação dos guias"
+
+msgid "All guides"
+msgstr "Todos os guias"
+
+msgid "Latest guides"
+msgstr "Guias mais recentes"
+
+msgid "Guides visible here are only available to logged-in users."
+msgstr ""
+"Os guias visíveis aqui estão disponíveis apenas para utilizadores com sessão "
+"iniciada."
+
+msgid "No guides yet"
+msgstr "Ainda não há guias"
+
+msgid "Create a users-only blog post in the admin to show it here."
+msgstr ""
+"Crie um artigo apenas para utilizadores na administração para o mostrar aqui."
+
+msgid "Close modal"
+msgstr "Fechar janela"
+
+msgid ""
+"Enter your business details and see your website preview update instantly."
+msgstr ""
+"Introduza os dados do seu negócio e veja a pré-visualização do website "
+"atualizar instantaneamente."
+
+msgid "Describe your main service so customers quickly understand what you do."
+msgstr ""
+"Descreva o seu serviço principal para que os clientes entendam rapidamente o "
+"que faz."
+
+#, python-format
+msgid "%%(type)s services for customers in %%(city)s and nearby areas."
+msgstr "Serviços de %%(type)s para clientes em %%(city)s e zonas próximas."
+
+msgid ""
+"Preview saved. The next login, payment, or dashboard step can use this data."
+msgstr ""
+"Pré-visualização guardada. O próximo passo de login, pagamento ou painel "
+"pode usar estes dados."
+
+msgid "Your preview details are saved in this browser for the next step."
+msgstr ""
+"Os dados da pré-visualização estão guardados neste browser para o próximo "
+"passo."
+
+msgid "Live website preview"
+msgstr "Pré-visualização do website"
+
+#, python-format
+msgid "Reliable %(type)s in %(city)s"
+msgstr "%(type)s de confiança em %(city)s"
+
+msgid "Professional template"
+msgstr "Template profissional"
+
+msgid "Clear pages, mobile-ready structure, and simple customer enquiries."
+msgstr ""
+"Páginas claras, estrutura adaptada a mobile e pedidos de contacto simples."
+
+#, python-format
+msgid "%(type)s services for customers in %(city)s and nearby areas."
+msgstr "Serviços de %(type)s para clientes em %(city)s e zonas próximas."
+
+msgid "Fast response"
+msgstr "Resposta rápida"
+
+msgid "Clear pricing"
+msgstr "Preços claros"
+
+msgid "Local service"
+msgstr "Serviço local"
+
+msgid ""
+"Fast, practical websites for small service businesses that need to get "
+"online without delays."
+msgstr ""
+"Websites rápidos e práticos para pequenos negócios de serviços que precisam "
+"de ficar online sem atrasos."
+
+msgid "Built for small businesses across Europe"
+msgstr "Criado para pequenas empresas em toda a Europa"
+
+msgid "Product"
+msgstr "Produto"
+
+msgid "Plans and services"
+msgstr "Planos e serviços"
+
+msgid "Plans / Services"
+msgstr "Planos / Serviços"
+
+msgid "Facebook Posts"
+msgstr "Posts de Facebook"
+
+msgid "SEO Optimization"
+msgstr "Otimização SEO"
+
+msgid "Company and legal"
+msgstr "Empresa e legal"
+
+msgid "Company / Legal"
+msgstr "Empresa / Legal"
+
+msgid "Cookie Policy"
+msgstr "Política de Cookies"
+
+msgid "Get Online Fast. All rights reserved."
+msgstr "Get Online Fast. Todos os direitos reservados."
+
+msgid "Get Online Fast is part of the Just Code Works platform."
+msgstr "Get Online Fast faz parte da plataforma Just Code Works."
+
+msgid "Get Online Fast home"
+msgstr "Página inicial Get Online Fast"
+
+msgid "Get"
+msgstr "Get"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Fast"
+msgstr "Fast"
+
+msgid "Primary navigation"
+msgstr "Navegação principal"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "Start now"
+msgstr "Começar agora"
+
+msgid "Language switcher"
+msgstr "Seletor de idioma"
+
+#~ msgid "Reliable service in your city"
+#~ msgstr "Serviço de confiança na sua cidade"
+
+#~ msgid "Service business"
+#~ msgstr "Negócio de serviços"
+
+#~ msgid "Service business for customers in your city and nearby areas."
+#~ msgstr "Negócio de serviços para clientes na sua cidade e zonas próximas."
+
+
+

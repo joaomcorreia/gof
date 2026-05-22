@@ -1,0 +1,2481 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-01 11:05+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Business name"
+msgstr ""
+
+msgid "Service type"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "Local Service"
+msgstr ""
+
+msgid "Growth Offer"
+msgstr ""
+
+msgid "Starter Page"
+msgstr ""
+
+msgid "Orange / Black"
+msgstr ""
+
+msgid "Blue / Dark"
+msgstr ""
+
+msgid "Green / Neutral"
+msgstr ""
+
+msgid "Red / Charcoal"
+msgstr ""
+
+msgid "Hero"
+msgstr ""
+
+msgid "Eyebrow"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "CTA text"
+msgstr ""
+
+msgid "Highlight title"
+msgstr ""
+
+msgid "Highlight text"
+msgstr ""
+
+msgid "Simple hero"
+msgstr ""
+
+msgid "List section"
+msgstr ""
+
+msgid "Section title"
+msgstr ""
+
+msgid "Intro text"
+msgstr ""
+
+msgid "Item 1"
+msgstr ""
+
+msgid "Item 2"
+msgstr ""
+
+msgid "Item 3"
+msgstr ""
+
+msgid "Benefits section"
+msgstr ""
+
+msgid "Card 1 title"
+msgstr ""
+
+msgid "Card 1 text"
+msgstr ""
+
+msgid "Card 2 title"
+msgstr ""
+
+msgid "Card 2 text"
+msgstr ""
+
+msgid "Card 3 title"
+msgstr ""
+
+msgid "Card 3 text"
+msgstr ""
+
+msgid "Contact section"
+msgstr ""
+
+msgid "Primary contact"
+msgstr ""
+
+msgid "Secondary contact"
+msgstr ""
+
+msgid "CTA section"
+msgstr ""
+
+msgid "Request a quote"
+msgstr ""
+
+msgid "Built for your business"
+msgstr ""
+
+msgid "What customers can see right away"
+msgstr ""
+
+msgid "Clear services and pricing direction"
+msgstr ""
+
+msgid "Local visibility structure"
+msgstr ""
+
+msgid "Simple contact path for new enquiries"
+msgstr ""
+
+msgid "Ready to hear from customers"
+msgstr ""
+
+msgid "Contact form ready"
+msgstr ""
+
+msgid "Email or phone can be added anytime"
+msgstr ""
+
+msgid "Contact us"
+msgstr ""
+
+msgid ""
+"A simple website foundation that can be edited, expanded, and improved over "
+"time."
+msgstr ""
+
+msgid "Start with this setup"
+msgstr ""
+
+msgid "Built to support growth"
+msgstr ""
+
+msgid ""
+"A stronger page structure for businesses that want a clearer offer and more "
+"response from visitors."
+msgstr ""
+
+msgid "Clear offer"
+msgstr ""
+
+msgid ""
+"Explain what you do quickly so visitors know why they should contact you."
+msgstr ""
+
+msgid "More visibility"
+msgstr ""
+
+msgid ""
+"Use a layout that supports search, promotion, and stronger first impressions."
+msgstr ""
+
+msgid "Easy contact"
+msgstr ""
+
+msgid "Keep calls, messages, and quote requests simple for new visitors."
+msgstr ""
+
+msgid ""
+"Use a stronger sales-focused layout to explain your offer, show value, and "
+"guide visitors toward action."
+msgstr ""
+
+msgid "Built to attract more enquiries"
+msgstr ""
+
+msgid ""
+"A stronger offer layout for businesses that want clearer visibility and "
+"promotion."
+msgstr ""
+
+msgid ""
+"A simple one-page website start for businesses that want to launch quickly "
+"with clear contact details."
+msgstr ""
+
+msgid "Preview navigation"
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Website preview"
+msgstr ""
+
+msgid "Your preview"
+msgstr ""
+
+msgid "Review and edit your generated website"
+msgstr ""
+
+msgid ""
+"Your website starts with suggestion-based content from three onboarding "
+"fields. You can edit any field below and regenerate suggestions anytime."
+msgstr ""
+
+msgid "Choose a starting design"
+msgstr ""
+
+msgid "Template"
+msgstr ""
+
+msgid "Changing design may refresh the suggested content."
+msgstr ""
+
+msgid "Apply design"
+msgstr ""
+
+msgid "Choose colors"
+msgstr ""
+
+msgid "Color palette"
+msgstr ""
+
+msgid "Apply colors"
+msgstr ""
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Regenerate suggestions"
+msgstr ""
+
+msgid "Back to plans"
+msgstr ""
+
+msgid "Website template preview"
+msgstr ""
+
+msgid "Generated website preview"
+msgstr ""
+
+msgid "Suggested website setup"
+msgstr ""
+
+msgid "Start your preview"
+msgstr ""
+
+msgid "Get Online Fast"
+msgstr ""
+
+msgid "First step"
+msgstr ""
+
+msgid "Start your website preview"
+msgstr ""
+
+msgid ""
+"Enter three details about your business and generate a first website preview "
+"you can edit."
+msgstr ""
+
+msgid "Generate preview"
+msgstr ""
+
+msgid "Blog category"
+msgstr ""
+
+msgid "Blog categories"
+msgstr ""
+
+msgid "Draft"
+msgstr ""
+
+msgid "Public"
+msgstr ""
+
+msgid "Users only"
+msgstr ""
+
+msgid "Blog post"
+msgstr ""
+
+msgid "Blog posts"
+msgstr ""
+
+msgid "Blog"
+msgstr ""
+
+msgid ""
+"Short articles, practical explanations, and useful information from Get "
+"Online Fast."
+msgstr ""
+
+msgid "Help & Guides"
+msgstr ""
+
+msgid ""
+"Practical guides for logged-in users who want to manage and improve their "
+"website."
+msgstr ""
+
+msgid "Article category"
+msgstr ""
+
+msgid "Article categories"
+msgstr ""
+
+msgid "Guide"
+msgstr ""
+
+msgid "Service explanation"
+msgstr ""
+
+msgid "FAQ"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Promotion"
+msgstr ""
+
+msgid "Logged in"
+msgstr ""
+
+msgid "Customer only"
+msgstr ""
+
+msgid "Admin only"
+msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Article"
+msgstr ""
+
+msgid "Articles"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid ""
+"Practical guides, answers, and short explanations to help you use Get Online "
+"Fast."
+msgstr ""
+
+msgid "Back to Help"
+msgstr ""
+
+msgid "Updates, practical ideas, and short articles from Get Online Fast."
+msgstr ""
+
+msgid "Back to Blog"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Phone (optional)"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Security question"
+msgstr ""
+
+msgid "Invalid submission."
+msgstr ""
+
+msgid "Need a quick way to reach us?"
+msgstr ""
+
+msgid ""
+"Get Online Fast is built as a self-service, AI-assisted platform. For "
+"practical questions before launch, you can reach us directly."
+msgstr ""
+
+msgid "Open contact form"
+msgstr ""
+
+msgid "Send a message"
+msgstr ""
+
+msgid ""
+"Use the form below for questions about plans, launch timing, or the right "
+"setup for your business."
+msgstr ""
+
+msgid "Send message"
+msgstr ""
+
+msgid ""
+"Best for questions about plans, billing, or whether the platform fits your "
+"business."
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid ""
+"Use phone for simple pre-launch questions. The product itself is designed so "
+"you can manage your website independently."
+msgstr ""
+
+msgid "Prefer to test it first?"
+msgstr ""
+
+msgid ""
+"The fastest way to understand the platform is to start a preview with your "
+"own business details."
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "Template examples"
+msgstr ""
+
+msgid "Choose a starting design for your business"
+msgstr ""
+
+msgid ""
+"These templates are practical starting points. You can test one, adjust the "
+"content, and switch direction while previewing."
+msgstr ""
+
+msgid "View plans"
+msgstr ""
+
+msgid "Starting templates you can test"
+msgstr ""
+
+msgid ""
+"Pick the closest fit first. The structure can be adjusted as your website "
+"preview takes shape."
+msgstr ""
+
+msgid "Plumbing"
+msgstr ""
+
+msgid ""
+"For repairs, installations, urgent jobs, service areas, and fast quote "
+"requests."
+msgstr ""
+
+msgid "Test this template"
+msgstr ""
+
+msgid "Cleaning Services"
+msgstr ""
+
+msgid ""
+"For home cleaning, office cleaning, packages, availability, and quote "
+"enquiries."
+msgstr ""
+
+msgid "Electrician"
+msgstr ""
+
+msgid ""
+"For call-outs, inspections, repairs, installations, and clear contact "
+"options."
+msgstr ""
+
+msgid "You can switch templates while testing."
+msgstr ""
+
+msgid "Practical answers before you start"
+msgstr ""
+
+msgid ""
+"Short answers about previews, plans, AI assistance, and launching your small-"
+"business website."
+msgstr ""
+
+msgid "Do I need technical skills?"
+msgstr ""
+
+msgid ""
+"No. The flow is designed for business owners who want to enter their "
+"details, test a preview, and make clear choices."
+msgstr ""
+
+msgid "Can I preview before choosing a plan?"
+msgstr ""
+
+msgid ""
+"Yes. The preview helps you understand the direction before you decide how "
+"you want to launch."
+msgstr ""
+
+msgid "Which package should most businesses choose?"
+msgstr ""
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting and ongoing website "
+"care."
+msgstr ""
+
+msgid "What does the AI Assistant do?"
+msgstr ""
+
+msgid ""
+"It helps you understand, edit, and improve your website content while you "
+"work. It supports progress, but you stay in control."
+msgstr ""
+
+msgid "Are the templates fixed?"
+msgstr ""
+
+msgid ""
+"No. Templates are starting points. You can test a direction and adjust the "
+"content as your preview develops."
+msgstr ""
+
+msgid "Are Facebook posts included?"
+msgstr ""
+
+msgid ""
+"No. Facebook posts are an optional add-on available for an additional "
+"monthly cost."
+msgstr ""
+
+msgid "Can I switch plans later?"
+msgstr ""
+
+msgid ""
+"Yes. You can move between plans or add services later when your business "
+"needs more."
+msgstr ""
+
+msgid "Is eCommerce available now?"
+msgstr ""
+
+msgid ""
+"The eCommerce plan is visible as a coming-soon option for businesses that "
+"want to sell products online later."
+msgstr ""
+
+msgid "Still deciding?"
+msgstr ""
+
+msgid "Start with a preview and see what your website could look like first."
+msgstr ""
+
+msgid "carousel"
+msgstr ""
+
+msgid "Homepage marketing messages"
+msgstr ""
+
+msgid "Fast websites for small service businesses"
+msgstr ""
+
+msgid "Get Online Fast websites for local service businesses"
+msgstr ""
+
+msgid "Be found by local customers"
+msgstr ""
+
+msgid ""
+"Get a fast, SEO-ready website structured for local searches, calls, "
+"WhatsApp messages and quote requests."
+msgstr ""
+
+msgid "Transport, Auto services, Construction, Business services"
+msgstr ""
+
+msgid "Private preview · Takes less than 60 seconds"
+msgstr ""
+
+msgid "Takes less than 60 seconds"
+msgstr ""
+
+msgid "Plumbers"
+msgstr ""
+
+msgid "Electricians"
+msgstr ""
+
+msgid "Cleaners"
+msgstr ""
+
+msgid "Local service businesses"
+msgstr ""
+
+msgid "Turn visitors into customers"
+msgstr ""
+
+msgid "Get a prepared website with guidance for visibility, content, ads and improvements when you need them."
+msgstr ""
+
+msgid "See how it works"
+msgstr ""
+
+msgid "No missed opportunities"
+msgstr ""
+
+msgid "Simple contact paths from the first launch"
+msgstr ""
+
+msgid "Forms"
+msgstr ""
+
+msgid "WhatsApp"
+msgstr ""
+
+msgid "Direct calls"
+msgstr ""
+
+msgid "Clear calls to action"
+msgstr ""
+
+msgid "More than a website"
+msgstr ""
+
+msgid "Clear contact forms, WhatsApp buttons and direct calls, ready from day one."
+msgstr ""
+
+msgid "Explore options"
+msgstr ""
+
+msgid "Grow step by step"
+msgstr ""
+
+msgid "Support when you want to expand what is already working"
+msgstr ""
+
+msgid "Visibility"
+msgstr ""
+
+msgid "Ads"
+msgstr ""
+
+msgid "Improvements"
+msgstr ""
+
+msgid "Practical next steps"
+msgstr ""
+
+msgid "Hero slider controls"
+msgstr ""
+
+msgid "Show previous slide"
+msgstr ""
+
+msgid "Select hero message"
+msgstr ""
+
+msgid "Show slide 1: Be found by local customers"
+msgstr ""
+
+msgid "Show slide 2: More than a website"
+msgstr ""
+
+msgid "Show slide 3: Turn visitors into customers"
+msgstr ""
+
+msgid "Show next slide"
+msgstr ""
+
+msgid "Your Business"
+msgstr ""
+
+msgid "Service"
+msgstr ""
+
+msgid "Your City"
+msgstr ""
+
+msgid ""
+"Explain your main service clearly so visitors know what you do and how to "
+"contact you."
+msgstr ""
+
+#, python-format
+msgid "Reliable %%(type)s in %%(city)s"
+msgstr ""
+
+msgid "Start your private preview in 60 seconds"
+msgstr ""
+
+msgid "Enter your business details and see a live preview instantly"
+msgstr ""
+
+msgid "Northline Plumbing"
+msgstr ""
+
+msgid "Business type"
+msgstr ""
+
+msgid "Plumber"
+msgstr ""
+
+msgid "Cleaner"
+msgstr ""
+
+msgid "Painter"
+msgstr ""
+
+msgid "Locksmith"
+msgstr ""
+
+msgid "Landscaper"
+msgstr ""
+
+msgid "Handyman"
+msgstr ""
+
+msgid "Roofer"
+msgstr ""
+
+msgid "Breda"
+msgstr ""
+
+msgid "What do you do?"
+msgstr ""
+
+msgid ""
+"Local plumbing for repairs, bathroom work, installations, and urgent call-"
+"outs."
+msgstr ""
+
+msgid "Professional service website"
+msgstr ""
+
+
+msgid "Your preview is private and not published publicly until activation/payment is completed."
+msgstr ""
+
+msgid "Live preview"
+msgstr ""
+
+msgid "Mobile preview"
+msgstr ""
+
+msgid "Reliable plumber in Breda"
+msgstr ""
+
+msgid "Fast Call-Outs"
+msgstr ""
+
+msgid "Core Services"
+msgstr ""
+
+msgid "Built to help customers find you"
+msgstr ""
+
+msgid ""
+"Your website is more than an online card. It is built to explain your "
+"services clearly, make contact easy, and support your visibility on Google "
+"and Bing."
+msgstr ""
+
+msgid "Clear services"
+msgstr ""
+
+msgid "Show what you offer in a way customers understand quickly."
+msgstr ""
+
+msgid "Local visibility"
+msgstr ""
+
+msgid "Structure your pages around the areas and services people search for."
+msgstr ""
+
+msgid "Let customers call, email, or send a message without confusion."
+msgstr ""
+
+msgid "Mobile-ready"
+msgstr ""
+
+msgid "Make your business look professional on phones, tablets, and desktops."
+msgstr ""
+
+msgid "Simple setup"
+msgstr ""
+
+msgid "Register, confirm your details, and your website is ready to go live."
+msgstr ""
+
+msgid "Start getting visitors"
+msgstr ""
+
+msgid ""
+"We help you promote your website from day one with simple visibility options."
+msgstr ""
+
+msgid "From idea to online in 3 simple steps"
+msgstr ""
+
+msgid ""
+"No complicated process. Just a few simple steps and your website is live."
+msgstr ""
+
+msgid "Enter your business details"
+msgstr ""
+
+msgid "Add your business name, category, and location to get started."
+msgstr ""
+
+msgid "Preview your website instantly"
+msgstr ""
+
+msgid ""
+"See your website generated in real time and adjust your content if needed."
+msgstr ""
+
+msgid "Launch your website"
+msgstr ""
+
+msgid "Go live and start receiving customer enquiries right away."
+msgstr ""
+
+msgid "Most websites are ready in minutes, not days."
+msgstr ""
+
+msgid "Built-in Assistant"
+msgstr ""
+
+msgid "Work on your website like you work on your business"
+msgstr ""
+
+msgid ""
+"No need to wait for support or figure everything out alone. Your assistant "
+"helps you update, improve and adjust your website anytime."
+msgstr ""
+
+msgid "Ask questions anytime"
+msgstr ""
+
+msgid "Get instant answers while you build and improve your website."
+msgstr ""
+
+msgid "Improve your content faster"
+msgstr ""
+
+msgid ""
+"Use the assistant to help with text, structure and ideas for your pages."
+msgstr ""
+
+msgid "Stay in control"
+msgstr ""
+
+msgid ""
+"Make progress yourself without needing technical skills or support tickets."
+msgstr ""
+
+msgid "Available inside your dashboard whenever you need it"
+msgstr ""
+
+msgid "Designed to help you move faster, not slow you down."
+msgstr ""
+
+msgid "Why this helps your business grow"
+msgstr ""
+
+msgid ""
+"A clear website makes it easier for visitors to understand what you offer, "
+"trust your business, and contact you."
+msgstr ""
+
+msgid "Visitors understand your services quickly and know what to do next."
+msgstr ""
+
+msgid "Built for local businesses"
+msgstr ""
+
+msgid ""
+"Useful for transport, auto services, construction, and other local services."
+msgstr ""
+
+msgid "Simple pricing"
+msgstr ""
+
+msgid ""
+"Start with the option that fits your budget and upgrade when you are ready."
+msgstr ""
+
+msgid "Room to grow"
+msgstr ""
+
+msgid ""
+"Start simple, then add a catalog, online shop, or marketing campaigns when "
+"you're ready."
+msgstr ""
+
+msgid ""
+"Pick a template that fits your business and test your website preview "
+"instantly."
+msgstr ""
+
+msgid ""
+"A clear starting design for repairs, installations, urgent jobs, and local "
+"service areas."
+msgstr ""
+
+msgid ""
+"A practical layout for home cleaning, office cleaning, service packages, and "
+"quote requests."
+msgstr ""
+
+msgid ""
+"A focused template for call-outs, inspections, repairs, installations, and "
+"fast contact."
+msgstr ""
+
+msgid "Choose how you want to run your website"
+msgstr ""
+
+msgid "Pay once or let us handle everything monthly."
+msgstr ""
+
+msgid "Start small, then add features when your business needs them."
+msgstr ""
+
+msgid "EUR 20/month"
+msgstr ""
+
+msgid "Start with a starter page and upgrade when you are ready."
+msgstr ""
+
+msgid "Starter page"
+msgstr ""
+
+msgid "Temporary Get Online Fast subdomain"
+msgstr ""
+
+msgid "Basic editable content"
+msgstr ""
+
+msgid "WhatsApp or contact button"
+msgstr ""
+
+msgid "Upgrade to a full WordPress website anytime"
+msgstr ""
+
+msgid "Start with Starter Page"
+msgstr ""
+
+msgid "Most chosen"
+msgstr ""
+
+msgid "One-Time Website"
+msgstr ""
+
+msgid "€325 + VAT"
+msgstr ""
+
+msgid "One-time setup. No subscriptions."
+msgstr ""
+
+msgid "Full business website"
+msgstr ""
+
+msgid "Structured SEO setup"
+msgstr ""
+
+msgid "Assisted content editing"
+msgstr ""
+
+msgid "Built to help visitors contact your business"
+msgstr ""
+
+msgid ""
+"Yours to use and grow over time with catalog, online shop, extra pages, "
+"languages, or marketing."
+msgstr ""
+
+msgid "See One-Time Plan"
+msgstr ""
+
+msgid "Monthly Plan"
+msgstr ""
+
+msgid "From EUR 49.90"
+msgstr ""
+
+msgid "per month"
+msgstr ""
+
+msgid "Hosting included"
+msgstr ""
+
+msgid "Website stays online"
+msgstr ""
+
+msgid "Small updates and support"
+msgstr ""
+
+msgid "Ongoing website care"
+msgstr ""
+
+msgid "Optional Facebook posts add-on"
+msgstr ""
+
+msgid "See Monthly Plan"
+msgstr ""
+
+msgid "Add-on"
+msgstr ""
+
+msgid "eCommerce Add-on"
+msgstr ""
+
+msgid "Turn your website into an online shop anytime."
+msgstr ""
+
+msgid "Add products and accept payments"
+msgstr ""
+
+msgid "Simple checkout setup"
+msgstr ""
+
+msgid "Works with your existing website"
+msgstr ""
+
+msgid "Ask about eCommerce"
+msgstr ""
+
+msgid "Optional visibility boost"
+msgstr ""
+
+msgid "Facebook posts: EUR 79 / month"
+msgstr ""
+
+msgid ""
+"2 posts per week to keep your business active online and increase chances of "
+"customer calls."
+msgstr ""
+
+msgid "Helpful guides"
+msgstr ""
+
+msgid ""
+"Quick explanations for common questions before and after your website goes "
+"online."
+msgstr ""
+
+msgid "Open guide"
+msgstr ""
+
+msgid "No public guides yet"
+msgstr ""
+
+msgid "Publish public blog posts in the admin to show the latest guides here."
+msgstr ""
+
+msgid "Open blog"
+msgstr ""
+
+msgid ""
+"Short answers for the practical questions business owners usually ask before "
+"they commit."
+msgstr ""
+
+msgid ""
+"One-Time Website is a strong fit if you want a professional website without "
+"monthly care. Monthly Plan is better if you want hosting, support, and "
+"updates handled for you."
+msgstr ""
+
+msgid "What is the difference between One-Time Website and Monthly Plan?"
+msgstr ""
+
+msgid ""
+"The one-time option lets you pay once to keep your website active. The "
+"monthly plan includes ongoing care, hosting, and support so you do not have "
+"to manage anything."
+msgstr ""
+
+msgid "Can I switch later?"
+msgstr ""
+
+msgid "Yes, you can move between plans or add services later."
+msgstr ""
+
+msgid "Start your website preview now"
+msgstr ""
+
+msgid ""
+"Build your website in minutes and see exactly how it looks before you decide."
+msgstr ""
+
+msgid "How it works"
+msgstr ""
+
+msgid "From business details to a live website"
+msgstr ""
+
+msgid ""
+"A simple self-service flow for small businesses that need a clear website "
+"without a long project."
+msgstr ""
+
+msgid "View examples"
+msgstr ""
+
+msgid "A practical path to launch"
+msgstr ""
+
+msgid ""
+"Start with the essentials, test your preview, then keep improving after "
+"launch with the built-in AI Assistant."
+msgstr ""
+
+msgid "Tell us what your business does"
+msgstr ""
+
+msgid ""
+"Add your business name, category, location, and the services customers "
+"should know about first."
+msgstr ""
+
+msgid "Choose a starting template"
+msgstr ""
+
+msgid ""
+"Pick a structure that fits your business type. It is a starting point, not a "
+"fixed website."
+msgstr ""
+
+msgid "Test your preview"
+msgstr ""
+
+msgid ""
+"See the website take shape quickly and adjust the content before you decide "
+"to launch."
+msgstr ""
+
+msgid ""
+"Go online with a mobile-ready website built around clear customer enquiries."
+msgstr ""
+
+msgid "Improve it later with AI"
+msgstr ""
+
+msgid ""
+"Use the built-in assistant to understand, edit, and improve your content "
+"while you work."
+msgstr ""
+
+msgid "Ready to see your first preview?"
+msgstr ""
+
+msgid "Enter your details and test a starting website in less than a minute."
+msgstr ""
+
+msgid "Public site foundation"
+msgstr ""
+
+msgid "Prepared for future build-out"
+msgstr ""
+
+msgid ""
+"This placeholder page already extends the shared layout, uses the main "
+"stylesheet, and is ready for translated content when the full page is "
+"implemented."
+msgstr ""
+
+msgid "Reusable structure"
+msgstr ""
+
+msgid ""
+"Header, footer, buttons, spacing, and cards all come from the shared "
+"template foundation."
+msgstr ""
+
+msgid "Translation-ready"
+msgstr ""
+
+msgid ""
+"The visible template copy is prepared for Django i18n from the beginning."
+msgstr ""
+
+msgid "Ready for expansion"
+msgstr ""
+
+msgid ""
+"Content sections, forms, or offer details can be added here later without "
+"restructuring the project."
+msgstr ""
+
+msgid "eCommerce Plan"
+msgstr ""
+
+msgid ""
+"A coming soon eCommerce plan for small businesses that want to start with a "
+"website and sell products online later."
+msgstr ""
+
+msgid "Coming soon"
+msgstr ""
+
+msgid "Start with a website. Upgrade to selling online later."
+msgstr ""
+
+msgid ""
+"The eCommerce plan is being prepared for businesses that want product pages, "
+"checkout, and a simple path from website to online store."
+msgstr ""
+
+msgid "View all plans"
+msgstr ""
+
+msgid "Product selling"
+msgstr ""
+
+msgid "Upgrade path"
+msgstr ""
+
+msgid "What it is for"
+msgstr ""
+
+msgid ""
+"For small businesses that want to begin with a clear website and later add "
+"product selling when they are ready."
+msgstr ""
+
+msgid "Current status"
+msgstr ""
+
+msgid ""
+"This plan is not fully available yet. You can still start with a website now "
+"and keep eCommerce as the next step."
+msgstr ""
+
+msgid "Planned eCommerce direction"
+msgstr ""
+
+msgid ""
+"The first version will stay practical: products, clear pages, checkout, and "
+"a store structure that small businesses can understand."
+msgstr ""
+
+msgid "Product pages"
+msgstr ""
+
+msgid ""
+"Present products with clear descriptions, pricing, images, and buying "
+"details."
+msgstr ""
+
+msgid "Checkout path"
+msgstr ""
+
+msgid "Give customers a simple way to move from product interest to purchase."
+msgstr ""
+
+msgid "Website first"
+msgstr ""
+
+msgid ""
+"Start with your business website now, then upgrade when selling online "
+"becomes the priority."
+msgstr ""
+
+msgid "Planning to sell online later?"
+msgstr ""
+
+msgid ""
+"Start with the right website foundation now, or ask about the eCommerce "
+"roadmap before you decide."
+msgstr ""
+
+msgid "View One-Time Website"
+msgstr ""
+
+msgid "Monthly Website"
+msgstr ""
+
+msgid ""
+"A monthly website plan for small businesses that want a complete website "
+"setup, ongoing support, and predictable monthly costs."
+msgstr ""
+
+msgid "Monthly website"
+msgstr ""
+
+msgid "Start your website without a large upfront cost"
+msgstr ""
+
+msgid ""
+"A complete website setup with ongoing support, updates, and improvements."
+msgstr ""
+
+msgid "Start monthly plan"
+msgstr ""
+
+msgid "Compare with one-time website"
+msgstr ""
+
+msgid "€49.90 / month"
+msgstr ""
+
+msgid "No large upfront payment"
+msgstr ""
+
+msgid "Ongoing support included"
+msgstr ""
+
+msgid "Cancel anytime"
+msgstr ""
+
+msgid "Website preview on laptop and phone"
+msgstr ""
+
+msgid "A complete website with lower starting cost"
+msgstr ""
+
+msgid "Website built for your business"
+msgstr ""
+
+msgid "Continuous updates and improvements"
+msgstr ""
+
+msgid "Support included"
+msgstr ""
+
+msgid "No technical work needed"
+msgstr ""
+
+msgid "Monthly website plan"
+msgstr ""
+
+msgid ""
+"A predictable monthly option for businesses that want support and steady "
+"progress."
+msgstr ""
+
+msgid "A simple way to launch without a large upfront investment."
+msgstr ""
+
+msgid "What is included in your setup"
+msgstr ""
+
+msgid ""
+"Everything you need to launch with support, plus room to improve your "
+"website over time."
+msgstr ""
+
+msgid "Website & content"
+msgstr ""
+
+msgid "Updates included"
+msgstr ""
+
+msgid "Pages adjusted as your business changes"
+msgstr ""
+
+msgid "Ready to grow over time"
+msgstr ""
+
+msgid "Search visibility"
+msgstr ""
+
+msgid "Google"
+msgstr ""
+
+msgid "Bing"
+msgstr ""
+
+msgid "Google and Bing setup"
+msgstr ""
+
+msgid "Ongoing improvements"
+msgstr ""
+
+msgid "Local visibility foundation"
+msgstr ""
+
+msgid "Customer contact"
+msgstr ""
+
+msgid "Form"
+msgstr ""
+
+msgid "Contact forms ready"
+msgstr ""
+
+msgid "WhatsApp or email options"
+msgstr ""
+
+msgid "Clear ways for customers to reach you"
+msgstr ""
+
+msgid "Hosting & infrastructure"
+msgstr ""
+
+msgid "Active plan included"
+msgstr ""
+
+msgid "Hosting included as long as your plan is active"
+msgstr ""
+
+msgid "Domain connected and maintained"
+msgstr ""
+
+msgid "Stable website access"
+msgstr ""
+
+msgid "Part of your monthly plan"
+msgstr ""
+
+msgid "updates"
+msgstr ""
+
+msgid "support"
+msgstr ""
+
+msgid "improvements"
+msgstr ""
+
+msgid "A practical way to keep your website moving forward every month."
+msgstr ""
+
+msgid "Why choose monthly?"
+msgstr ""
+
+msgid "No upfront cost"
+msgstr ""
+
+msgid "Continuous improvements"
+msgstr ""
+
+msgid "Ideal for businesses starting out"
+msgstr ""
+
+msgid "Less risk"
+msgstr ""
+
+msgid ""
+"A simple path from your business details to a website that can keep "
+"improving over time."
+msgstr ""
+
+msgid "Go live and keep improving"
+msgstr ""
+
+msgid "After launch"
+msgstr ""
+
+msgid "Your website stays online while your plan is active"
+msgstr ""
+
+msgid "Updates and support stay included"
+msgstr ""
+
+msgid "Improvements can be added over time"
+msgstr ""
+
+msgid "Built to grow with your business"
+msgstr ""
+
+msgid ""
+"Use the monthly plan as your starting point, then keep improving your "
+"website as your business grows."
+msgstr ""
+
+msgid "Adjust pages and services over time"
+msgstr ""
+
+msgid "Add more visibility support when needed"
+msgstr ""
+
+msgid "Keep your website current without technical work"
+msgstr ""
+
+msgid "Switch to a larger setup later if your business needs it"
+msgstr ""
+
+msgid "Start with a monthly website plan"
+msgstr ""
+
+msgid ""
+"Launch with lower starting cost and keep improving your website over time."
+msgstr ""
+
+msgid ""
+"A one-time website plan for small businesses that want one clear payment, a "
+"ready website, and simple content editing after launch."
+msgstr ""
+
+msgid "One-time website"
+msgstr ""
+
+msgid "Get a complete website setup that helps customers find you"
+msgstr ""
+
+msgid ""
+"Your website, visibility, contact tools, hosting, email setup, and launch "
+"support in one clear package."
+msgstr ""
+
+msgid "View Monthly Plan"
+msgstr ""
+
+msgid "No subscriptions"
+msgstr ""
+
+msgid "No technical setup"
+msgstr ""
+
+msgid "Complete business setup"
+msgstr ""
+
+msgid ""
+"Website, search visibility, contact tools, hosting, and launch support in "
+"one setup"
+msgstr ""
+
+msgid "Built to help your business look professional and stay ready to grow"
+msgstr ""
+
+msgid "Clear structure now, with room to expand later"
+msgstr ""
+
+msgid "One-time website setup"
+msgstr ""
+
+msgid "Your website is already built and ready to use."
+msgstr ""
+
+msgid "One new customer can already cover the cost of your website."
+msgstr ""
+
+msgid ""
+"Everything is set up to give your business a complete, practical online base "
+"from day one."
+msgstr ""
+
+msgid "Full business website setup"
+msgstr ""
+
+msgid "Structured pages for your services"
+msgstr ""
+
+msgid "Easy content editing and updates"
+msgstr ""
+
+msgid "Ready to expand with new services"
+msgstr ""
+
+msgid "Pages structured for Google and Bing"
+msgstr ""
+
+msgid "Local service targeting"
+msgstr ""
+
+msgid "Strong SEO foundation"
+msgstr ""
+
+msgid "or call options"
+msgstr ""
+
+msgid "2 professional email accounts"
+msgstr ""
+
+msgid "1 year included"
+msgstr ""
+
+msgid "Professional hosting for your business (1 year included)"
+msgstr ""
+
+msgid "Fast, stable, and reliable performance"
+msgstr ""
+
+msgid "Domain connected and configured"
+msgstr ""
+
+msgid "Included with your setup"
+msgstr ""
+
+msgid "Included launch boost"
+msgstr ""
+
+msgid "10 posts"
+msgstr ""
+
+msgid "5 weeks"
+msgstr ""
+
+msgid "more visitors"
+msgstr ""
+
+msgid "Facebook"
+msgstr ""
+
+msgid "posts (10 posts over 5 weeks)"
+msgstr ""
+
+msgid "Helps bring visitors from day one"
+msgstr ""
+
+msgid "Designed to keep your new website active online"
+msgstr ""
+
+msgid "A simple way to start getting attention after launch."
+msgstr ""
+
+msgid "What this does for your business"
+msgstr ""
+
+msgid "Customers can find your services online"
+msgstr ""
+
+msgid "Customers can contact you easily"
+msgstr ""
+
+msgid "Your business looks professional and trustworthy"
+msgstr ""
+
+msgid "You have a base to grow with ads, SEO, services, and more languages"
+msgstr ""
+
+msgid "You can track performance with analytics access"
+msgstr ""
+
+msgid "You can order new promotion options when you are ready"
+msgstr ""
+
+msgid "A short path from your business details to a website you can launch."
+msgstr ""
+
+msgid "Your website stays online and active"
+msgstr ""
+
+msgid "You can update your content anytime"
+msgstr ""
+
+msgid "You can expand with more services, pages, or promotions"
+msgstr ""
+
+msgid "Grow when you are ready"
+msgstr ""
+
+msgid "Add more reach and functionality when your business needs it."
+msgstr ""
+
+msgid "Catalog add-on"
+msgstr ""
+
+msgid "Show products, services, parts, or packages without a full online shop."
+msgstr ""
+
+msgid "Customers can browse and contact you to request more information."
+msgstr ""
+
+msgid "Online shop upgrade"
+msgstr ""
+
+msgid "Add checkout and payments later without starting from scratch."
+msgstr ""
+
+msgid "Best when you want to sell directly online."
+msgstr ""
+
+msgid "Marketing & visibility"
+msgstr ""
+
+msgid "Bring visitors to your website and start getting customers."
+msgstr ""
+
+msgid "Facebook posts (10 posts over 5 weeks)"
+msgstr ""
+
+msgid "Google Ads campaigns"
+msgstr ""
+
+msgid "Designed to increase visibility and enquiries"
+msgstr ""
+
+msgid "Start your website today"
+msgstr ""
+
+msgid "See your website instantly and launch when you're ready."
+msgstr ""
+
+msgid "Plans"
+msgstr ""
+
+msgid "Website plans"
+msgstr ""
+
+msgid "Choose the right plan for your business"
+msgstr ""
+
+msgid ""
+"Choose a one-time website, a monthly plan, or keep eCommerce in view for "
+"later growth. Each plan is built around a clear, practical website setup for "
+"small businesses."
+msgstr ""
+
+msgid ""
+"Start with the plan that fits now. You can add services, a catalog, an "
+"online shop, or marketing campaigns later as your business grows."
+msgstr ""
+
+msgid "Growth options"
+msgstr ""
+
+msgid ""
+"Show products or services online and let customers request more information."
+msgstr ""
+
+msgid "Online shop"
+msgstr ""
+
+msgid "Add checkout and payments when you are ready to sell directly online."
+msgstr ""
+
+msgid "Marketing"
+msgstr ""
+
+msgid ""
+"Use Facebook posts and Google Ads campaigns to increase visibility and "
+"enquiries."
+msgstr ""
+
+msgid ""
+"A catalog helps customers browse and enquire. An online shop adds checkout "
+"and payments. Marketing helps bring visitors to your website."
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Privacy"
+msgstr ""
+
+msgid ""
+"This starter policy explains the basic privacy structure for Get Online "
+"Fast. It is written to be easy to review and improve as the platform grows."
+msgstr ""
+
+msgid "Information we collect"
+msgstr ""
+
+msgid ""
+"We may collect business details, contact information, website preferences, "
+"and messages you send through the platform or by email."
+msgstr ""
+
+msgid "How we use information"
+msgstr ""
+
+msgid ""
+"We use information to create previews, provide website services, respond to "
+"practical questions, improve the product, and manage billing or account "
+"needs."
+msgstr ""
+
+msgid "AI-assisted features"
+msgstr ""
+
+msgid ""
+"The built-in AI Assistant may use the details you provide to help generate, "
+"edit, or improve website content. You remain responsible for reviewing "
+"content before publishing."
+msgstr ""
+
+msgid "Sharing information"
+msgstr ""
+
+msgid ""
+"We do not sell personal information. We may use trusted service providers "
+"for hosting, email, analytics, payments, or platform operations."
+msgstr ""
+
+msgid "Data retention"
+msgstr ""
+
+msgid ""
+"We keep information for as long as needed to provide the service, meet legal "
+"obligations, resolve issues, and maintain business records."
+msgstr ""
+
+msgid "Cookies"
+msgstr ""
+
+msgid ""
+"We may use essential cookies and basic analytics tools to keep the website "
+"working and understand how visitors use the platform."
+msgstr ""
+
+msgid "Your choices"
+msgstr ""
+
+msgid ""
+"You can contact us to ask about access, correction, or deletion of your "
+"information where applicable."
+msgstr ""
+
+msgid ""
+"For privacy questions, contact info@getonlinefast.eu. This page should be "
+"reviewed by a legal professional before relying on it as final legal advice."
+msgstr ""
+
+msgid "Terms"
+msgstr ""
+
+msgid "Terms of Service"
+msgstr ""
+
+msgid ""
+"These starter terms outline the basic rules for using Get Online Fast. They "
+"are structured so the legal details can be tightened before full public "
+"launch."
+msgstr ""
+
+msgid "Using the platform"
+msgstr ""
+
+msgid ""
+"Get Online Fast provides a self-service website flow with AI-assisted tools "
+"to help users create, edit, and improve business websites."
+msgstr ""
+
+msgid "Your responsibilities"
+msgstr ""
+
+msgid ""
+"You are responsible for the accuracy of the business details, website "
+"content, images, claims, and contact information you provide or publish."
+msgstr ""
+
+msgid "AI-assisted content"
+msgstr ""
+
+msgid ""
+"AI suggestions are provided to help you move faster. You should review and "
+"approve content before using it publicly."
+msgstr ""
+
+msgid "Plans and payments"
+msgstr ""
+
+msgid ""
+"Plan details, pricing, included services, and renewal terms should be "
+"reviewed before purchase. Some services or add-ons may be listed as coming "
+"soon."
+msgstr ""
+
+msgid "Acceptable use"
+msgstr ""
+
+msgid ""
+"Do not use the platform for illegal content, misleading claims, harmful "
+"activity, or content you do not have the right to use."
+msgstr ""
+
+msgid "Service changes"
+msgstr ""
+
+msgid ""
+"The platform, features, templates, and plans may change as the product "
+"improves. We aim to keep changes practical and clear."
+msgstr ""
+
+msgid ""
+"For questions about these terms, contact info@getonlinefast.eu. This page "
+"should be reviewed by a legal professional before relying on it as final "
+"legal advice."
+msgstr ""
+
+#, python-brace-format
+msgid "{left} {operator} {right} = ?"
+msgstr ""
+
+msgid ""
+"Compare website plans from Get Online Fast, including one-time websites, "
+"monthly support, and upcoming eCommerce options."
+msgstr ""
+
+msgid "Please answer the security question correctly."
+msgstr ""
+
+msgid "Please correct the errors below and try again."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Name: {name}\n"
+"Email: {email}\n"
+"Phone: {phone}\n"
+"\n"
+"Message:\n"
+"{message}"
+msgstr ""
+
+msgid "Not provided"
+msgstr ""
+
+msgid "New Get Online Fast contact message"
+msgstr ""
+
+msgid ""
+"Your message could not be sent right now. Please try again or contact us "
+"directly by email."
+msgstr ""
+
+msgid "Your message was sent successfully. We will get back to you soon."
+msgstr ""
+
+msgid ""
+"A full business website with clear structure, search-ready foundations, and "
+"a complete launch setup."
+msgstr ""
+
+msgid "Structured search setup"
+msgstr ""
+
+msgid "Launch support included"
+msgstr ""
+
+msgid ""
+"A complete website setup with hosting, support, and ongoing improvements in "
+"one monthly plan."
+msgstr ""
+
+msgid "View Monthly Website"
+msgstr ""
+
+msgid "Coming Soon"
+msgstr ""
+
+msgid "A future option for businesses that want to sell products online."
+msgstr ""
+
+msgid "Shopping cart and checkout"
+msgstr ""
+
+msgid "Small business store setup"
+msgstr ""
+
+msgid "View eCommerce Plan"
+msgstr ""
+
+msgid "€399"
+msgstr ""
+
+msgid ""
+"A full business website with clear structure, SEO-ready foundations, and AI-"
+"assisted editing."
+msgstr ""
+
+msgid "AI-assisted content editing"
+msgstr ""
+
+msgid "From €49.90 / month"
+msgstr ""
+
+msgid ""
+"Hosting, website care, small updates, and practical ongoing support in one "
+"plan."
+msgstr ""
+
+msgid "Small updates"
+msgstr ""
+
+msgid "Support when needed"
+msgstr ""
+
+msgid "Fast launch option"
+msgstr ""
+
+msgid "AI Starter"
+msgstr ""
+
+msgid ""
+"A lightweight one-page website for small businesses that need to get online "
+"quickly at the lowest price."
+msgstr ""
+
+msgid "€50/year"
+msgstr ""
+
+msgid ""
+"Best for testing a simple web presence before investing in a larger site."
+msgstr ""
+
+msgid "See One-Time Website"
+msgstr ""
+
+msgid "Back to homepage"
+msgstr ""
+
+msgid "What AI Starter is for"
+msgstr ""
+
+msgid ""
+"This plan is intentionally limited. It gives a business a clear, usable page "
+"on a subdomain without the cost of a custom build."
+msgstr ""
+
+msgid "Fastest route online"
+msgstr ""
+
+msgid ""
+"Start with a compact one-page site generated from your business basics and "
+"service information."
+msgstr ""
+
+msgid ""
+"Good for businesses that need contact details, a short service summary, and "
+"a clean mobile-friendly presence."
+msgstr ""
+
+msgid "Lower commitment"
+msgstr ""
+
+msgid ""
+"Useful when speed and budget matter more than customization, structure, or "
+"long-term flexibility."
+msgstr ""
+
+msgid "What is included"
+msgstr ""
+
+msgid "One-page website"
+msgstr ""
+
+msgid "Hosted on a project subdomain"
+msgstr ""
+
+msgid "Business name, location, and service summary"
+msgstr ""
+
+msgid "Mobile-friendly layout"
+msgstr ""
+
+msgid "Path to upgrade later"
+msgstr ""
+
+msgid "What it is not"
+msgstr ""
+
+msgid "Not a custom design build"
+msgstr ""
+
+msgid "Not intended for complex service structures"
+msgstr ""
+
+msgid "Not the best fit if SEO depth matters from day one"
+msgstr ""
+
+msgid "Not a replacement for ongoing support or content work"
+msgstr ""
+
+msgid "Need something stronger than the basic option?"
+msgstr ""
+
+msgid ""
+"The One-Time Website plan is the better fit if you want a more professional "
+"structure, stronger messaging, and room to grow."
+msgstr ""
+
+msgid "Main offer"
+msgstr ""
+
+msgid ""
+"A professional small-business website built with clear structure, stronger "
+"messaging, and a foundation for long-term growth."
+msgstr ""
+
+msgid "€399 one-time"
+msgstr ""
+
+msgid ""
+"Best for businesses that want to pay once and launch a serious public "
+"website."
+msgstr ""
+
+msgid "Why this works as a one-time website"
+msgstr ""
+
+msgid ""
+"This is the offer for businesses that want a clear, complete website without "
+"ongoing website care bundled in."
+msgstr ""
+
+msgid "Better structure"
+msgstr ""
+
+msgid ""
+"The site can be organized around your services, location, and real customer "
+"actions instead of a generic template block."
+msgstr ""
+
+msgid "More trust from day one"
+msgstr ""
+
+msgid ""
+"A clearer layout, stronger content flow, and more professional setup help "
+"the business look established faster."
+msgstr ""
+
+msgid "Easier to grow later"
+msgstr ""
+
+msgid ""
+"This package gives you a cleaner base for extra pages, content updates, and "
+"future improvements when needed."
+msgstr ""
+
+msgid "Strong foundation for long-term growth"
+msgstr ""
+
+msgid "Good fit if you want"
+msgstr ""
+
+msgid "A professional website with one payment"
+msgstr ""
+
+msgid "A clearer offer and stronger conversion flow"
+msgstr ""
+
+msgid "A site you can build on later"
+msgstr ""
+
+msgid "A better balance between speed, quality, and budget"
+msgstr ""
+
+msgid "Want help every month as well?"
+msgstr ""
+
+msgid ""
+"Choose the Monthly Plan if you want hosting, support, and ongoing website "
+"care handled for you."
+msgstr ""
+
+msgid "Ongoing support"
+msgstr ""
+
+msgid ""
+"A monthly website plan for businesses that want hosting, updates, support, "
+"and ongoing care handled for them."
+msgstr ""
+
+msgid "From €49.90/month"
+msgstr ""
+
+msgid ""
+"Best for owners who want continuity instead of handling every change "
+"themselves."
+msgstr ""
+
+msgid "What the monthly plan covers"
+msgstr ""
+
+msgid ""
+"This plan keeps the website online and looked after after launch. It is "
+"meant for practical ongoing support, not a full rebuild every month."
+msgstr ""
+
+msgid "Content edits"
+msgstr ""
+
+msgid ""
+"Update text, swap images, adjust key sections, and keep the website current "
+"as the business changes."
+msgstr ""
+
+msgid "Priority support"
+msgstr ""
+
+msgid ""
+"Get a simpler path for small requests and future website improvements "
+"without starting from zero each time."
+msgstr ""
+
+msgid "Less owner hassle"
+msgstr ""
+
+msgid ""
+"Useful for businesses that would rather stay focused on clients and "
+"operations than website maintenance."
+msgstr ""
+
+msgid "Someone to handle routine website updates"
+msgstr ""
+
+msgid "A simpler way to request changes after launch"
+msgstr ""
+
+msgid "Support without building an in-house workflow"
+msgstr ""
+
+msgid "A site that stays maintained instead of going stale"
+msgstr ""
+
+msgid "Need the website build first?"
+msgstr ""
+
+msgid ""
+"Start with the One-Time Website if you prefer to pay once and add services "
+"later."
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Useful posts in this category."
+msgstr ""
+
+msgid "Read article"
+msgstr ""
+
+msgid "No posts in this category yet"
+msgstr ""
+
+msgid "Publish a public article in this category to show it here."
+msgstr ""
+
+msgid "Not published yet"
+msgstr ""
+
+msgid "Back to blog"
+msgstr ""
+
+msgid "Browse categories"
+msgstr ""
+
+msgid "Find the information that matches what you want to learn first."
+msgstr ""
+
+msgid "Practical articles in this category."
+msgstr ""
+
+msgid "Open category"
+msgstr ""
+
+msgid "No categories yet"
+msgstr ""
+
+msgid "Add blog categories in the admin to organize articles here."
+msgstr ""
+
+msgid "Latest posts"
+msgstr ""
+
+msgid "Short articles and useful explanations for visitors and customers."
+msgstr ""
+
+msgid "No posts yet"
+msgstr ""
+
+msgid "Use the blog admin to publish your first public article."
+msgstr ""
+
+msgid "Blog Article"
+msgstr ""
+
+#, python-format
+msgid "Featured image for %(title)s"
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+#, python-format
+msgid "Video for %(title)s"
+msgstr ""
+
+msgid "Read the full article for the complete update."
+msgstr ""
+
+msgid "Blog posts are coming soon"
+msgstr ""
+
+msgid ""
+"The blog route is live, but no published public articles are marked for blog "
+"display yet."
+msgstr ""
+
+msgid "Help Article"
+msgstr ""
+
+msgid "Help Center"
+msgstr ""
+
+msgid "Browse by category"
+msgstr ""
+
+msgid ""
+"Use the categories below to jump to the topics that matter most right now."
+msgstr ""
+
+msgid "Articles grouped under this topic."
+msgstr ""
+
+msgid "Help articles"
+msgstr ""
+
+msgid "Published support content that is currently visible in the help center."
+msgstr ""
+
+msgid "Open this article to read the full explanation."
+msgstr ""
+
+msgid "Help articles are coming soon"
+msgstr ""
+
+msgid ""
+"The help center route is live, but no published help articles are marked for "
+"display yet."
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Open another guide or go back to the full guide overview."
+msgstr ""
+
+msgid "Guide navigation"
+msgstr ""
+
+msgid "All guides"
+msgstr ""
+
+msgid "Latest guides"
+msgstr ""
+
+msgid "Guides visible here are only available to logged-in users."
+msgstr ""
+
+msgid "No guides yet"
+msgstr ""
+
+msgid "Create a users-only blog post in the admin to show it here."
+msgstr ""
+
+msgid "Close modal"
+msgstr ""
+
+msgid ""
+"Enter your business details and see your website preview update instantly."
+msgstr ""
+
+msgid "Describe your main service so customers quickly understand what you do."
+msgstr ""
+
+#, python-format
+msgid "%%(type)s services for customers in %%(city)s and nearby areas."
+msgstr ""
+
+msgid ""
+"Preview saved. The next login, payment, or dashboard step can use this data."
+msgstr ""
+
+msgid "Your preview details are saved in this browser for the next step."
+msgstr ""
+
+msgid "Live website preview"
+msgstr ""
+
+msgid "Reliable service in your city"
+msgstr ""
+
+msgid "Professional template"
+msgstr ""
+
+msgid "Service business"
+msgstr ""
+
+msgid "Clear pages, mobile-ready structure, and simple customer enquiries."
+msgstr ""
+
+msgid "Service business for customers in your city and nearby areas."
+msgstr ""
+
+msgid "Fast response"
+msgstr ""
+
+msgid "Clear pricing"
+msgstr ""
+
+msgid "Local service"
+msgstr ""
+
+msgid ""
+"Fast, practical websites for small service businesses that need to get "
+"online without delays."
+msgstr ""
+
+msgid "Built for small businesses across Europe"
+msgstr ""
+
+msgid "Product"
+msgstr ""
+
+msgid "Plans and services"
+msgstr ""
+
+msgid "Plans / Services"
+msgstr ""
+
+msgid "Facebook Posts"
+msgstr ""
+
+msgid "SEO Optimization"
+msgstr ""
+
+msgid "Company and legal"
+msgstr ""
+
+msgid "Company / Legal"
+msgstr ""
+
+msgid "Cookie Policy"
+msgstr ""
+
+msgid "Get Online Fast. All rights reserved."
+msgstr ""
+
+msgid "Get Online Fast is part of the Just Code Works platform."
+msgstr ""
+
+msgid "Get Online Fast home"
+msgstr ""
+
+msgid "Get"
+msgstr ""
+
+msgid "Online"
+msgstr ""
+
+msgid "Fast"
+msgstr ""
+
+msgid "Primary navigation"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Start now"
+msgstr ""
+
+msgid "Language switcher"
+msgstr ""
+
+
+

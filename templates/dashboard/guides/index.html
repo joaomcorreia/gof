@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="section-band section-plain">
+  <div class="wrap dashboard-guides-layout">
+    <aside class="card dashboard-guides-sidebar">
+      <div class="eyebrow">{% trans "Dashboard" %}</div>
+      <h1>{% trans "Help & Guides" %}</h1>
+      <p>{{ page_intro }}</p>
+      <nav aria-label="{% trans 'Guide navigation' %}">
+        <a class="dashboard-guides-nav-link is-active" href="{% url 'blog:guides_index' %}">{% trans "All guides" %}</a>
+        {% for post in recent_posts %}
+        <a class="dashboard-guides-nav-link" href="{% url 'blog:guides_detail' slug=post.slug %}">{{ post.title }}</a>
+        {% endfor %}
+      </nav>
+    </aside>
+
+    <div class="dashboard-guides-content">
+      <div class="section-head">
+        <div>
+          <h2>{% trans "Latest guides" %}</h2>
+        </div>
+        <p>{% trans "Guides visible here are only available to logged-in users." %}</p>
+      </div>
+      <div class="blog-post-grid">
+        {% for post in posts %}
+        <article class="card blog-post-card">
+          {% if post.display_image %}
+          <img class="blog-card-media" src="{{ post.display_image }}" alt="{{ post.title }}">
+          {% else %}
+          <div class="blog-card-placeholder" aria-hidden="true">{{ post.title|slice:":1" }}</div>
+          {% endif %}
+          <div class="blog-card-body">
+            <p class="small blog-card-meta">{{ post.category.title }}{% if post.published_at %} &middot; {{ post.published_at|date:"d M Y" }}{% endif %}</p>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.excerpt }}</p>
+            <a class="btn btn-secondary" href="{% url 'blog:guides_detail' slug=post.slug %}">{% trans "Open guide" %}</a>
+          </div>
+        </article>
+        {% empty %}
+        <article class="card blog-empty-state">
+          <h3>{% trans "No guides yet" %}</h3>
+          <p>{% trans "Create a users-only blog post in the admin to show it here." %}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

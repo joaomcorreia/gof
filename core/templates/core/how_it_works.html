@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "How it works" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "How it works" %}</div>
+    <h1>{% trans "From business details to a live website" %}</h1>
+    <p class="page-copy">{% trans "A simple self-service flow for small businesses that need a clear website without a long project." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+      <a class="btn btn-secondary" href="{% url 'core:examples' %}">{% trans "View examples" %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "A practical path to launch" %}</h2>
+      </div>
+      <p>{% trans "Start with the essentials, test your preview, then keep improving after launch with the built-in AI Assistant." %}</p>
+    </div>
+    <div class="steps support-steps">
+      <article class="card">
+        <div class="step-num">1</div>
+        <h3>{% trans "Tell us what your business does" %}</h3>
+        <p>{% trans "Add your business name, category, location, and the services customers should know about first." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">2</div>
+        <h3>{% trans "Choose a starting template" %}</h3>
+        <p>{% trans "Pick a structure that fits your business type. It is a starting point, not a fixed website." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">3</div>
+        <h3>{% trans "Test your preview" %}</h3>
+        <p>{% trans "See the website take shape quickly and adjust the content before you decide to launch." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">4</div>
+        <h3>{% trans "Launch your website" %}</h3>
+        <p>{% trans "Go online with a mobile-ready website built around clear customer enquiries." %}</p>
+      </article>
+      <article class="card">
+        <div class="step-num">5</div>
+        <h3>{% trans "Improve it later with AI" %}</h3>
+        <p>{% trans "Use the built-in assistant to understand, edit, and improve your content while you work." %}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{% trans "Ready to see your first preview?" %}</h2>
+        <p>{% trans "Enter your details and test a starting website in less than a minute." %}</p>
+      </div>
+      <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

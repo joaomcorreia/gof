@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{{ page_eyebrow }}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url primary_cta_url_name %}">{{ primary_cta_label }}</a>
+      <a class="btn btn-secondary" href="{% url secondary_cta_url_name %}">{{ secondary_cta_label }}</a>
+    </div>
+    <div class="micro-proof">
+      <span>{{ page_price }}</span>
+      <span>{{ page_price_note }}</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{{ section_title }}</h2>
+      </div>
+      <p>{{ section_intro }}</p>
+    </div>
+    <div class="steps">
+      {% for item in feature_cards %}
+      <article class="card">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap detail-grid">
+    <article class="card">
+      <h3>{{ included_title }}</h3>
+      <ul class="clean-list">
+        {% for item in included_items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="card">
+      <h3>{{ fit_title }}</h3>
+      <ul class="clean-list">
+        {% for item in fit_items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h2>{{ bottom_cta_title }}</h2>
+        <p>{{ bottom_cta_text }}</p>
+      </div>
+      <a class="btn btn-primary" href="{% url bottom_cta_url_name %}">{{ bottom_cta_label }}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

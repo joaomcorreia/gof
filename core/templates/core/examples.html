@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Examples" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Template examples" %}</div>
+    <h1>{% trans "Choose a starting design for your business" %}</h1>
+    <p class="page-copy">{% trans "These templates are practical starting points. You can test one, adjust the content, and switch direction while previewing." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+      <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View plans" %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Starting templates you can test" %}</h2>
+      </div>
+      <p>{% trans "Pick the closest fit first. The structure can be adjusted as your website preview takes shape." %}</p>
+    </div>
+    <div class="examples">
+      <article class="card template-card" data-template="plumbing">
+        <div class="example-shot">{% trans "Plumbing" %}</div>
+        <h3>{% trans "Plumbing" %}</h3>
+        <p>{% trans "For repairs, installations, urgent jobs, service areas, and fast quote requests." %}</p>
+        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="plumbing">{% trans "Test this template" %}</a>
+      </article>
+      <article class="card template-card" data-template="cleaning">
+        <div class="example-shot">{% trans "Cleaning Services" %}</div>
+        <h3>{% trans "Cleaning Services" %}</h3>
+        <p>{% trans "For home cleaning, office cleaning, packages, availability, and quote enquiries." %}</p>
+        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="cleaning">{% trans "Test this template" %}</a>
+      </article>
+      <article class="card template-card" data-template="electrician">
+        <div class="example-shot">{% trans "Electrician" %}</div>
+        <h3>{% trans "Electrician" %}</h3>
+        <p>{% trans "For call-outs, inspections, repairs, installations, and clear contact options." %}</p>
+        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="electrician">{% trans "Test this template" %}</a>
+      </article>
+    </div>
+    <p class="small examples-note">{% trans "You can switch templates while testing." %}</p>
+  </div>
+</section>
+{% endblock %}

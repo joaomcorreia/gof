@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fast Website Landing Draft</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --panel: #ffffff;
+      --text: #1f1f1f;
+      --muted: #666;
+      --line: #e8e2d8;
+      --accent: #d86f2d;
+      --accent-dark: #b75c24;
+      --soft: #fff2e9;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--accent-dark); }
+
+    .btn-secondary {
+      background: white;
+      border-color: var(--line);
+    }
+
+    .hero {
+      padding: 64px 0 44px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      background: var(--soft);
+      color: var(--accent-dark);
+      border-radius: 999px;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 4.3rem);
+      line-height: 1.05;
+      margin: 0 0 16px;
+      letter-spacing: -.03em;
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 0 24px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .micro-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .preview-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #faf8f4;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .url {
+      margin-left: 10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      width: 100%;
+      font-size: .86rem;
+    }
+
+    .preview-content {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: 560px;
+    }
+
+    .builder-panel {
+      padding: 20px;
+      border-right: 1px solid var(--line);
+      background: #fcfbf8;
+    }
+
+    .builder-panel h3,
+    .preview-panel h3 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      font: inherit;
+    }
+
+    .field textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .preview-panel {
+      padding: 20px;
+      background: white;
+    }
+
+    .mini-site {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .mini-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mini-brand {
+      font-weight: 800;
+    }
+
+    .mini-brand span { color: var(--accent); }
+
+    .mini-hero {
+      padding: 26px 20px;
+      background: linear-gradient(135deg, #fff7f1, #fff);
+    }
+
+    .mini-hero h2 {
+      font-size: 1.7rem;
+      line-height: 1.1;
+      margin: 0 0 8px;
+    }
+
+    .mini-hero p {
+      color: var(--muted);
+      margin: 0 0 16px;
+      max-width: 560px;
+    }
+
+    .mini-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 20px;
+      background: white;
+    }
+
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    section {
+      padding: 34px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.1;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0;
+    }
+
+    .steps,
+    .examples,
+    .pricing,
+    .faq,
+    .proof-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .examples { grid-template-columns: repeat(3, 1fr); }
+    .pricing { grid-template-columns: repeat(3, 1fr); }
+    .proof-grid { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--soft);
+      color: var(--accent-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.15rem;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+    }
+
+    .example-shot {
+      aspect-ratio: 16 / 10;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #fff5ee, #f6ece5);
+      border: 1px solid var(--line);
+      margin-bottom: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .price {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 10px 0 2px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .featured {
+      border: 2px solid var(--accent);
+      position: relative;
+    }
+
+    .badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: .75rem;
+      font-weight: 800;
+    }
+
+    .faq {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cta {
+      padding: 22px;
+      background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
+      color: white;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .cta p { color: rgba(255,255,255,.78); margin: 8px 0 0; }
+
+    footer {
+      padding: 32px 0 60px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .preview-content,
+      .steps,
+      .examples,
+      .pricing,
+      .proof-grid,
+      .faq {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .preview-content { grid-template-columns: 1fr; }
+      .builder-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+
+    @media (max-width: 720px) {
+      .nav { display: none; }
+      .hero-grid,
+      .steps,
+      .examples,
+      .pricing,
+      .proof-grid,
+      .faq,
+      .mini-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head,
+      .cta {
+        display: block;
+      }
+
+      .cta .btn { margin-top: 16px; }
+    }
+  </style>
+
+<style>
+  .pricing-section {
+    padding: 80px 0;
+    background: #f4f1ec;
+  }
+
+  .container {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+  }
+
+  .pricing-head {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 36px;
+  }
+
+  .pricing-head h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 4rem);
+    line-height: 1.05;
+    color: #111;
+  }
+
+  .pricing-head p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #5f5f5f;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .pricing-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #e5ddd2;
+    border-radius: 24px;
+    padding: 28px 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+  }
+
+  .pricing-card-featured {
+    border: 2px solid #d9742f;
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #d9742f;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 999px;
+  }
+
+  .pricing-card h3 {
+    margin: 0 0 18px;
+    font-size: 1.9rem;
+    color: #111;
+  }
+
+  .price {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #111;
+    margin-bottom: 10px;
+  }
+
+  .price-note {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 22px;
+  }
+
+  .pricing-card ul {
+    margin: 0 0 28px;
+    padding-left: 22px;
+    color: #444;
+  }
+
+  .pricing-card ul li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .pricing-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+
+  .pricing-btn-solid {
+    background: #d9742f;
+    color: #fff;
+    border: 1px solid #d9742f;
+  }
+
+  .pricing-btn-solid:hover {
+    background: #bf6427;
+    border-color: #bf6427;
+  }
+
+  .pricing-btn-outline {
+    background: #fff;
+    color: #111;
+    border: 1px solid #d8cfc3;
+  }
+
+  .pricing-btn-outline:hover {
+    border-color: #d9742f;
+    color: #d9742f;
+  }
+
+  .pricing-footnote {
+    margin-top: 18px;
+  }
+
+  .pricing-footnote p {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .pricing-head,
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="logo">site<span>now</span></div>
+      <nav class="nav">
+        <a href="#how">How it works</a>
+        <a href="#examples">Examples</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#start">Start now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Made for small businesses that need speed</div>
+          <h1>Get your website online without the usual circus.</h1>
+          <p>
+            Enter your business details, preview your website instantly, and launch with a clean structure built to grow.
+            No vague corporate fog. No endless back-and-forth.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#start">Build your preview</a>
+            <a class="btn btn-secondary" href="#examples">See examples</a>
+          </div>
+          <div class="micro-proof">
+            <span>Preview before paying</span>
+            <span>Built for mobile by default</span>
+            <span>Clear upgrade path later</span>
+          </div>
+        </div>
+
+        <div class="preview-shell" id="start">
+          <div class="browser-bar">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <div class="url">https://yourbusiness.example</div>
+          </div>
+          <div class="preview-content">
+            <aside class="builder-panel">
+              <h3>Quick website setup</h3>
+              <div class="field">
+                <label for="bizName">Business name</label>
+                <input id="bizName" type="text" value="Northline Plumbing" />
+              </div>
+              <div class="field">
+                <label for="bizType">Business type</label>
+                <select id="bizType">
+                  <option>Plumber</option>
+                  <option>Garage</option>
+                  <option>Electrician</option>
+                  <option>Taxi Service</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="bizCity">City</label>
+                <input id="bizCity" type="text" value="Breda" />
+              </div>
+              <div class="field">
+                <label for="bizText">What do you do?</label>
+                <textarea id="bizText">Fast plumbing help for leaks, repairs, installations, and urgent call-outs.</textarea>
+              </div>
+              <a class="btn btn-primary" href="#pricing" style="width:100%;">Continue</a>
+            </aside>
+
+            <div class="preview-panel">
+              <h3>Live preview</h3>
+              <div class="mini-site">
+                <div class="mini-nav">
+                  <div class="mini-brand" id="previewBrand">Northline <span>Plumbing</span></div>
+                  <div class="small">Breda</div>
+                </div>
+                <div class="mini-hero">
+                  <h2 id="previewTitle">Reliable plumber in Breda</h2>
+                  <p id="previewText">Fast plumbing help for leaks, repairs, installations, and urgent call-outs.</p>
+                  <a class="btn btn-primary" href="#">Request a quote</a>
+                </div>
+                <div class="mini-cards">
+                  <div class="mini-card">
+                    <strong>Emergency Repairs</strong>
+                    <span class="small">Fast response when things start dripping like a bad jazz solo.</span>
+                  </div>
+                  <div class="mini-card">
+                    <strong>Installations</strong>
+                    <span class="small">Boilers, taps, sinks, showers, and neat finishing.</span>
+                  </div>
+                  <div class="mini-card">
+                    <strong>Local Service</strong>
+                    <span class="small">Clear contact details, service area, and easy mobile calls.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Three steps. No haunted maze.</h2>
+          </div>
+          <p>Keep the pitch brutally clear. This is where you beat vague one-page brochure sites that ask people to “request information” and vanish into the wallpaper.</p>
+        </div>
+        <div class="steps">
+          <article class="card">
+            <div class="step-num">1</div>
+            <h3>Tell us the basics</h3>
+            <p>Business name, type, location, services, and contact details. Just enough to generate something useful immediately.</p>
+          </article>
+          <article class="card">
+            <div class="step-num">2</div>
+            <h3>Preview your website</h3>
+            <p>See your content inside a real layout before anything goes live. This is the trust lever your competitors forgot to build.</p>
+          </article>
+          <article class="card">
+            <div class="step-num">3</div>
+            <h3>Launch and grow</h3>
+            <p>Start simple, then add SEO pages, better content, print, or a full system later. Fast now, smarter later.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Why this converts better</h2>
+          </div>
+          <p>Competitors with one-page corporate templates usually bury the offer. This page makes the promise obvious in under five seconds.</p>
+        </div>
+        <div class="proof-grid">
+          <div class="card"><h3>Clear promise</h3><p>Fast website setup for real businesses, not abstract “consulting”.</p></div>
+          <div class="card"><h3>Live preview</h3><p>People trust what they can already see with their own info inside it.</p></div>
+          <div class="card"><h3>Simple pricing</h3><p>Price friction is lower than mystery friction. Hidden pricing wastes leads.</p></div>
+          <div class="card"><h3>Upgrade path</h3><p>Sell the quick win first, then upsell structure, SEO, and support later.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Example website directions</h2>
+          </div>
+          <p>You do not need fifty examples at the start. Three strong verticals are enough to make the machine feel real.</p>
+        </div>
+        <div class="examples">
+          <article class="card">
+            <div class="example-shot">Garage Example</div>
+            <h3>Garage / Auto Repair</h3>
+            <p>Service list, diagnostics, opening hours, contact strip, trust badges, and map.</p>
+          </article>
+          <article class="card">
+            <div class="example-shot">Taxi Example</div>
+            <h3>Taxi / Transport</h3>
+            <p>Service zones, booking CTA, airport transfer highlights, tariffs block, mobile-first contact.</p>
+          </article>
+          <article class="card">
+            <div class="example-shot">Trades Example</div>
+            <h3>Trades / Home Services</h3>
+            <p>Local service area, emergency call CTA, service cards, and fast quote form.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="pricing-section" id="pricing">
+      <div class="container">
+        <div class="pricing-head">
+          <div class="pricing-head-left">
+            <h2>Simple pricing that does not play hide-and-seek</h2>
+          </div>
+          <div class="pricing-head-right">
+            <p>
+              Start small if you want, then upgrade when your business needs more.
+              The €50 option is fully automated and intentionally limited.
+            </p>
+          </div>
+        </div>
+    
+        <div class="pricing-grid">
+          <!-- AI STARTER -->
+          <article class="pricing-card">
+            <h3>AI Starter</h3>
+            <div class="price">€50</div>
+            <div class="price-note">Yearly</div>
+    
+            <ul>
+              <li>1-page AI-generated website</li>
+              <li>Hosted on subdomain</li>
+              <li>Fast automatic setup</li>
+              <li>Basic business information</li>
+              <li>Upgrade anytime</li>
+            </ul>
+    
+            <a href="#start-ai" class="pricing-btn pricing-btn-outline">Choose AI Starter</a>
+          </article>
+    
+          <!-- BUSINESS WEBSITE -->
+          <article class="pricing-card pricing-card-featured">
+            <div class="pricing-badge">Most useful</div>
+            <h3>Business Website</h3>
+            <div class="price">€325 + VAT</div>
+            <div class="price-note">One-time build</div>
+    
+            <ul>
+              <li>Professional WordPress website</li>
+              <li>Stronger structure from day one</li>
+              <li>Service sections or key pages</li>
+              <li>Better conversion-ready layout</li>
+              <li>Prepared for future growth</li>
+            </ul>
+    
+            <a href="#start-business" class="pricing-btn pricing-btn-solid">Choose Business Website</a>
+          </article>
+    
+          <!-- MANAGED -->
+          <article class="pricing-card">
+            <h3>Managed</h3>
+            <div class="price">€49/mo</div>
+            <div class="price-note">Ongoing support</div>
+    
+            <ul>
+              <li>Content edits and updates</li>
+              <li>Help after launch</li>
+              <li>Basic improvement support</li>
+              <li>Priority for future upgrades</li>
+              <li>Less hassle, more continuity</li>
+            </ul>
+    
+            <a href="#start-managed" class="pricing-btn pricing-btn-outline">Choose Managed</a>
+          </article>
+        </div>
+    
+        <div class="pricing-footnote">
+          <p>
+            <strong>Note:</strong> The AI Starter plan is a basic automated product.
+            It does not include custom design work, full editing freedom, or ongoing support.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>FAQ</h2>
+          </div>
+          <p>This section kills hesitation. Keep it practical, not poetic.</p>
+        </div>
+        <div class="faq">
+          <article class="card">
+            <h3>Can I preview the site before paying?</h3>
+            <p>Yes. That should be one of the strongest parts of the funnel.</p>
+          </article>
+          <article class="card">
+            <h3>Can I upgrade later?</h3>
+            <p>Yes. Start with a fast version, then expand into SEO pages, more services, or managed support.</p>
+          </article>
+          <article class="card">
+            <h3>Is it mobile-ready?</h3>
+            <p>It should be from day one. Anything else is dead on arrival.</p>
+          </article>
+          <article class="card">
+            <h3>Do I need to know anything technical?</h3>
+            <p>No. The point is to reduce friction, not hand the user a wrench set and wish them luck.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta">
+          <div>
+            <h2 style="margin:0;">Ready to build the sharper version?</h2>
+            <p>Use this file as the starting shell. Then we can strip it down, localize it, or turn it into the actual project layout.</p>
+          </div>
+          <a class="btn btn-primary" href="#start">Start the preview</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Draft landing structure for the fast-website project. Built to beat vague one-page competitors with a clearer promise, tighter UX, and a real preview flow.</div>
+  </footer>
+
+  <script>
+    const bizName = document.getElementById('bizName');
+    const bizType = document.getElementById('bizType');
+    const bizCity = document.getElementById('bizCity');
+    const bizText = document.getElementById('bizText');
+
+    const previewBrand = document.getElementById('previewBrand');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewText = document.getElementById('previewText');
+
+    function updatePreview() {
+      const name = bizName.value.trim() || 'Your Business';
+      const type = bizType.value.trim() || 'Service';
+      const city = bizCity.value.trim() || 'Your City';
+      const text = bizText.value.trim() || 'Your business description goes here.';
+
+      previewBrand.innerHTML = `${name.split(' ')[0] || name} <span>${type}</span>`;
+      previewTitle.textContent = `Reliable ${type.toLowerCase()} in ${city}`;
+      previewText.textContent = text;
+    }
+
+    [bizName, bizType, bizCity, bizText].forEach(el => {
+      el.addEventListener('input', updatePreview);
+      el.addEventListener('change', updatePreview);
+    });
+
+    updatePreview();
+  </script>
+</body>
+</html>

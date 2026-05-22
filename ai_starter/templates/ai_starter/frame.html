@@ -1,0 +1,26 @@
+{% load i18n static %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.business_name }}</title>
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body class="site-render-page site-palette-{{ site.color_palette }}">
+  <div class="site-render-shell">
+    <header class="site-render-header">
+      <strong>{{ site.business_name }}</strong>
+      <nav aria-label="{% trans 'Preview navigation' %}">
+        <span>{% trans "Services" %}</span>
+        <span>{% trans "About" %}</span>
+        <span>{% trans "Contact" %}</span>
+      </nav>
+    </header>
+
+    {% for section in render_sections %}
+      {% include section.template_name with values=section.values %}
+    {% endfor %}
+  </div>
+</body>
+</html>

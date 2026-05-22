@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Public site foundation" %}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{% url 'core:home' %}">{{ page_cta_label }}</a>
+      <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View plans" %}</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Prepared for future build-out" %}</h2>
+      </div>
+      <p>
+        {% blocktrans trimmed %}
+        This placeholder page already extends the shared layout, uses the main stylesheet, and is ready for translated content when the full page is implemented.
+        {% endblocktrans %}
+      </p>
+    </div>
+    <div class="steps">
+      <article class="card">
+        <h3>{% trans "Reusable structure" %}</h3>
+        <p>{% trans "Header, footer, buttons, spacing, and cards all come from the shared template foundation." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Translation-ready" %}</h3>
+        <p>{% trans "The visible template copy is prepared for Django i18n from the beginning." %}</p>
+      </article>
+      <article class="card">
+        <h3>{% trans "Ready for expansion" %}</h3>
+        <p>{% trans "Content sections, forms, or offer details can be added here later without restructuring the project." %}</p>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}
