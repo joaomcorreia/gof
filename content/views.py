@@ -7,9 +7,10 @@ from .models import Article
 
 
 def _visible_article_queryset(request):
-    queryset = Article.objects.filter(status=Article.Status.PUBLISHED).exclude(
-        visibility=Article.Visibility.ADMIN_ONLY
-    )
+    queryset = Article.objects.filter(status=Article.Status.PUBLISHED)
+    if request.user.is_staff or request.user.is_superuser:
+        return queryset
+    queryset = queryset.exclude(visibility=Article.Visibility.ADMIN_ONLY)
     if request.user.is_authenticated:
         return queryset
     return queryset.filter(visibility=Article.Visibility.PUBLIC)
@@ -23,7 +24,11 @@ def _get_section_article(request, slug, section_flag):
         **{section_flag: True},
     )
     if article.visibility == Article.Visibility.ADMIN_ONLY:
-        raise Http404
+        if request.user.is_staff or request.user.is_superuser:
+            return article
+        if request.user.is_authenticated:
+            raise Http404
+        return redirect_to_login(request.get_full_path(), login_url='/admin/login/')
     if article.visibility in {
         Article.Visibility.LOGGED_IN,
         Article.Visibility.CUSTOMER_ONLY,

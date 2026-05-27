@@ -1,0 +1,30 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content-main">
+  <div class="app-print-design module">
+    <h1>{{ page_title }}</h1>
+    <p>{{ page_intro }}</p>
+    <table>
+      <caption>{% trans "Private services" %}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Service" %}</th>
+          <th scope="col">{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for service in services %}
+        <tr>
+          <th scope="row">
+            <a href="{% url 'print_design:service_detail' service_slug=service.slug %}">{{ service.title }}</a>
+          </th>
+          <td>{{ placeholder_message }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

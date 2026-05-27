@@ -15,3 +15,5 @@ _archive/
 *.zip
 .tmp_*
 *.mo
+jcw-wp/
+jcw-wp-current/

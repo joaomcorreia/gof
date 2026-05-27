@@ -4,6 +4,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('admin/print-design/', include('print_design.urls')),
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
     path('help/', RedirectView.as_view(pattern_name='content:help_index', permanent=False)),

@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'blog',
     'content',
     'core',
+    'print_design',
 ]
 
 MIDDLEWARE = [
