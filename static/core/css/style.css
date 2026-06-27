@@ -3486,6 +3486,30 @@ input, textarea, select {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.starter-step1-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.starter-step1-panel {
+  padding: 26px;
+  border: 1px solid rgba(53, 40, 31, 0.12);
+  background: #fff;
+  border-radius: 0;
+}
+
+.starter-step1-panel h1 {
+  margin: 10px 0 10px;
+}
+
+.starter-step1-form .start-builder-form-section {
+  margin-top: 12px;
+}
+
+.starter-step1-form .start-wizard-actions {
+  justify-content: flex-end;
+}
+
 section { padding: 72px 0; }
 
 .section-band {
@@ -5486,6 +5510,14 @@ section { padding: 72px 0; }
 
   .start-wizard-actions .btn {
     width: 100%;
+  }
+
+  .starter-step1-panel {
+    padding: 20px 16px;
+  }
+
+  .starter-step1-form .start-wizard-actions {
+    justify-content: stretch;
   }
 
   .start-builder-sidebar {

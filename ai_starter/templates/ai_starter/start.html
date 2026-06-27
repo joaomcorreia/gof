@@ -153,6 +153,56 @@
 {% elif starter_wizard_v2 %}
 <section class="start-builder-page start-wizard-page starter-wizard-v2-page">
   <div class="wrap">
+    {% if current_step == 1 %}
+    <div class="starter-step1-shell">
+      <div class="starter-step1-panel">
+        <div class="eyebrow">{% trans "Starter wizard" %}</div>
+        <div class="start-wizard-current-step">{% blocktrans with current=1 total=6 %}Step {{ current }} of {{ total }}{% endblocktrans %}</div>
+        <h1>{% trans "Start your website preview" %}</h1>
+        <p class="page-copy">{% trans "Add the essentials first. We use this to prepare your first website preview with suggested text, services, and images." %}</p>
+
+        <form method="post" action="{% url 'ai_starter:start' %}{{ selected_design_query }}" class="start-wizard-form starter-wizard-v2-form starter-step1-form">
+          {% csrf_token %}
+          <input type="hidden" name="current_step" value="1">
+
+          {% if wizard_errors %}
+          <div class="field-errors field-errors-block">
+            {% for error in wizard_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <div class="start-builder-form-section">
+            <label class="start-wizard-field">
+              <span>{% trans "Business name" %}</span>
+              <input type="text" name="business_name" value="{{ wizard_state.business_name }}" maxlength="120">
+            </label>
+
+            <label class="start-wizard-field">
+              <span>{% trans "Business type / activity" %}</span>
+              <input type="text" name="business_type" value="{{ wizard_state.business_type }}" maxlength="120" placeholder="{% trans 'Makeup artist' %}">
+            </label>
+
+            <label class="start-wizard-field">
+              <span>{% trans "City or service area" %}</span>
+              <input type="text" name="service_area" value="{{ wizard_state.service_area }}" maxlength="120">
+            </label>
+
+            <label class="start-wizard-field">
+              <span>{% trans "Main services / offers" %}</span>
+              <textarea name="services_text" rows="6" placeholder="{% trans 'Service one&#10;Service two&#10;Service three' %}">{{ wizard_state.services_text }}</textarea>
+            </label>
+            <p class="small">{% trans "Add 3 to 6 services or offers, one per line." %}</p>
+          </div>
+
+          <div class="modal-actions start-wizard-actions">
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="create_preview">{% trans "Create my preview" %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    {% else %}
     <div class="start-wizard-workspace starter-wizard-v2" data-onboarding-preview-page>
       <div class="start-wizard-sidebar starter-wizard-v2-sidebar">
         <div class="start-wizard-sidebar-head">
@@ -550,7 +600,17 @@
             <section class="jcw-preview-services start-wizard-preview-section">
               <div>
                 <h3>{% trans "Location" %}</h3>
-                <p>{{ contact_details.address|default:contact_details.service_area_detail|default:starter_draft.service_area|default:'Your service area' }}</p>
+                <p>
+                  {% if contact_details.address %}
+                    {{ contact_details.address }}
+                  {% elif contact_details.service_area_detail %}
+                    {{ contact_details.service_area_detail }}
+                  {% elif starter_draft.service_area %}
+                    {{ starter_draft.service_area }}
+                  {% else %}
+                    {% trans "Your service area" %}
+                  {% endif %}
+                </p>
                 {% if contact_details.opening_hours %}<p><strong>{% trans "Opening hours" %}:</strong> {{ contact_details.opening_hours }}</p>{% endif %}
                 {% if contact_details.email %}<p><strong>{% trans "Email" %}:</strong> {{ contact_details.email }}</p>{% endif %}
                 {% if contact_details.phone %}<p><strong>{% trans "Phone" %}:</strong> {{ contact_details.phone }}</p>{% endif %}
@@ -581,6 +641,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </section>
 {% else %}
