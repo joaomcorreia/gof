@@ -4298,7 +4298,7 @@ section { padding: 72px 0; }
 .feature-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 1px;
 }
 
 .gof-card {
