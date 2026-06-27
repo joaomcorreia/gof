@@ -1,42 +1,927 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load static i18n %}
 
-{% block title %}{% trans "Start your preview" %} | {% trans "Get Online Fast" %}{% endblock %}
+{% block title %}{% if offer_mode %}{{ meeting_offer.title }}{% else %}{% trans "Start your preview" %}{% endif %} | {% trans "Get Online Fast" %}{% endblock %}
 
 {% block content %}
-<section class="page-hero">
-  <div class="wrap narrow">
-    <div class="eyebrow">{% trans "First step" %}</div>
-    <h1>{% trans "Start your website preview" %}</h1>
-    <p class="page-copy">{% trans "Enter three details about your business and generate a first website preview you can edit." %}</p>
+{% if offer_mode %}
+<section class="start-builder-page">
+  <div class="wrap">
+    <div class="modal-preview-layout start-builder-workspace start-builder-workspace-offer">
+      <div class="start-builder-sidebar">
+        <div class="start-builder-sidebar-head">
+          <div class="eyebrow">GEMEENTE50</div>
+          <h1>{{ meeting_offer.title }}</h1>
+          <p class="page-copy">{% trans "Get a professional WordPress business website online quickly." %}</p>
+          <div class="start-builder-offer-card">
+            <div class="start-builder-offer-pricing">
+              <div>
+                <span>{% trans "Normal price" %}</span>
+                <strong>&euro;{{ meeting_offer.normal_price }} + {% trans "VAT" %}</strong>
+              </div>
+              <div>
+                <span>{% trans "Meeting offer" %}</span>
+                <strong>&euro;{{ meeting_offer.offer_price }} + {% trans "VAT" %}</strong>
+              </div>
+              <div>
+                <span>{% trans "You save" %}</span>
+                <strong>&euro;{{ meeting_offer.discount }}</strong>
+              </div>
+            </div>
+            <p class="small">{% trans "Usually ready within 24 to 48 hours after we receive the required business details, logo/images, services, and domain information." %}</p>
+            <ul class="clean-list start-builder-offer-list">
+              <li>{% trans "Professional WordPress business website" %}</li>
+              <li>{% trans "Mobile-ready design" %}</li>
+              <li>{% trans "SEO-ready structure" %}</li>
+              <li>{% trans "Homepage, services, and contact area" %}</li>
+              <li>{% trans "Phone, email and/or WhatsApp contact options" %}</li>
+              <li>{% trans "2 Facebook launch posts per week during the first month" %}</li>
+              <li>{% trans "Upgrade path for extra languages, SEO support, shop/catalog, and AI website assistant" %}</li>
+            </ul>
+          </div>
+        </div>
+
+        {% if request_submitted %}
+        <div class="start-builder-success">
+          <h2>{% trans "Thank you. We received your website request. Get Online Fast will review your details and contact you before starting." %}</h2>
+          <p class="small">{% trans "This is a request, not automatic payment or automatic start." %}</p>
+          <p class="small">{% trans "Request ID" %}: <strong>{{ request_submitted.public_id }}</strong></p>
+        </div>
+        {% else %}
+        <div class="meeting-fallback-card">
+          <h2>{% trans "Request your website by email" %}</h2>
+          <p>{% trans "The online request form is temporarily unavailable. To use the meeting offer, email your business details, logo, photos and website request to:" %}</p>
+          <div class="meeting-fallback-actions">
+            <a class="btn btn-primary full-width" href="{% if LANGUAGE_CODE == 'nl' %}mailto:support@getonlinefast.eu?subject=Website%20aanvraag%20-%20GEMEENTE50{% else %}mailto:support@getonlinefast.eu?subject=Website%20request%20-%20GEMEENTE50{% endif %}">support@getonlinefast.eu</a>
+          </div>
+          <p class="small">{% trans "Mention code GEMEENTE50 for the EUR 50 meeting discount." %}</p>
+          <div class="start-builder-form-section">
+            <h2>{% trans "Send these details" %}</h2>
+            <ul class="clean-list meeting-fallback-list">
+              <li>{% trans "Business name" %}</li>
+              <li>{% trans "Business type" %}</li>
+              <li>{% trans "Main services" %}</li>
+              <li>{% trans "Contact name, email and phone/WhatsApp" %}</li>
+              <li>{% trans "Current domain or website, if you have one" %}</li>
+              <li>{% trans "Logo, photos, flyers, menu, price list or other useful files" %}</li>
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="modal-preview-panel start-builder-preview" aria-label="{% trans 'Live website preview' %}">
+        <div class="preview-panel-head">
+          <h3>{% trans "Live preview" %}</h3>
+          <span class="preview-template-pill">{% trans "Default starter template" %}</span>
+        </div>
+        <div class="preview-browser modal-template-browser">
+          <div class="browser-bar">
+            <div class="browser-dots" aria-hidden="true">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="url">preview.getonlinefast.eu</div>
+          </div>
+          <article class="jcw-preview-template modal-jcw-preview template-classic-service">
+            <header class="jcw-preview-header">
+              <strong>{% trans "Your Business" %}</strong>
+              <nav aria-label="{% trans 'Preview navigation' %}">
+                <span>{% trans "Services" %}</span>
+                <span>{% trans "About" %}</span>
+                <span>{% trans "Contact" %}</span>
+              </nav>
+            </header>
+            <section class="jcw-preview-hero">
+              <div>
+                <span class="jcw-preview-kicker">{% trans "Your Area" %}</span>
+                <h2>{% trans "Professional business website for your area" %}</h2>
+                <p>{% trans "Professional WordPress business website with clear service pages and direct contact options." %}</p>
+                <a class="btn btn-primary" href="#">{% trans "Request this package" %}</a>
+              </div>
+              <div class="jcw-preview-card">
+                <span>GEMEENTE50</span>
+                <strong>{% trans "Business Website" %}</strong>
+                <p>{% trans "Clear pages, mobile-ready structure, and a fast launch request for today's meeting." %}</p>
+              </div>
+            </section>
+            <section class="jcw-preview-services">
+              <div>
+                <h3>{% trans "Services" %}</h3>
+                <p>{% trans "Business website setup for your area and nearby customers." %}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                <span>{% trans "Fast launch" %}</span>
+                <span>{% trans "SEO-ready structure" %}</span>
+                <span>{% trans "Direct contact options" %}</span>
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section-band section-plain">
-  <div class="wrap narrow">
-    <article class="card">
-      <form method="post" action="{% url 'ai_starter:start' %}" class="onboarding-form">
-        {% csrf_token %}
-        <div class="modal-form-grid">
-          {% for field in form %}
-          <div class="modal-field modal-field-wide">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
-            {% if field.errors %}
-            <div class="field-errors">
-              {% for error in field.errors %}
-              <p>{{ error }}</p>
-              {% endfor %}
-            </div>
+<section class="meeting-examples-section">
+  <div class="wrap">
+    <div class="meeting-examples-shell">
+      <div class="section-head">
+        <h2>{% trans "Website examples" %}</h2>
+        <p class="page-copy">{% trans "A few examples of business websites and previews built with the Get Online Fast / Just Code Works system." %}</p>
+      </div>
+      <div class="meeting-examples-grid">
+        {% for example in meeting_examples %}
+        <article class="card meeting-example-card">
+          <div class="meeting-example-thumb">
+            <img src="{% static example.image %}" alt="{{ example.title }}">
+          </div>
+          <div class="meeting-example-body">
+            <h3>{{ example.title }}</h3>
+            <p>{{ example.description }}</p>
+            {% if example.url %}
+            <a class="btn btn-secondary" href="{{ example.url }}">{% trans "Open preview" %}</a>
             {% endif %}
           </div>
-          {% endfor %}
-        </div>
-        <div class="modal-actions">
-          <button class="btn btn-primary full-width" type="submit">{% trans "Generate preview" %}</button>
-        </div>
-      </form>
-    </article>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </section>
+{% elif starter_wizard_v2 %}
+<section class="start-builder-page start-wizard-page starter-wizard-v2-page">
+  <div class="wrap">
+    <div class="start-wizard-workspace starter-wizard-v2" data-onboarding-preview-page>
+      <div class="start-wizard-sidebar starter-wizard-v2-sidebar">
+        <div class="start-wizard-sidebar-head">
+          <div class="eyebrow">{% trans "Starter wizard" %}</div>
+          {% if current_step == 2 %}
+          <h1>{% trans "Choose your website style" %}</h1>
+          <p class="page-copy">{% trans "We prepared a first preview from your business details. Choose the style direction you prefer." %}</p>
+          {% elif current_step == 3 %}
+          <h1>{% trans "Choose how you want to launch" %}</h1>
+          <p class="page-copy">{% trans "Start with one clear page or choose a full website with separate pages." %}</p>
+          {% else %}
+          <h1>{% trans "Start your website preview" %}</h1>
+          <p class="page-copy">{% trans "A cleaner setup flow that prepares a starter draft before you continue." %}</p>
+          {% endif %}
+        </div>
+
+        <div class="start-wizard-current-step">{% blocktrans with current=current_step total=6 %}Step {{ current }} of {{ total }}{% endblocktrans %}</div>
+        <ul class="start-wizard-progress" aria-label="{% trans 'Onboarding progress' %}">
+          {% for step in wizard_steps %}
+          <li class="start-wizard-progress__item{% if step.is_active %} is-active{% elif step.is_complete %} is-complete{% endif %}">
+            <span class="start-wizard-progress__number">{{ step.number }}</span>
+            <div>
+              <strong>{{ step.title }}</strong>
+              {% if step.is_active %}<span>{% trans "Current step" %}</span>{% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <form method="post" action="{% url 'ai_starter:start' %}{{ selected_design_query }}" class="start-wizard-form starter-wizard-v2-form">
+          {% csrf_token %}
+          <input type="hidden" name="current_step" value="{{ current_step }}">
+
+          {% if wizard_errors %}
+          <div class="field-errors field-errors-block">
+            {% for error in wizard_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if current_step == 1 %}
+          <section class="start-wizard-step" data-onboarding-step="1">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Start with your business basics" %}</h2>
+              <p class="small">{% trans "Add the essentials first. We use this to prepare your first website preview with suggested text, services, and images." %}</p>
+
+              <label class="start-wizard-field">
+                <span>{% trans "Business name" %}</span>
+                <input type="text" name="business_name" value="{{ wizard_state.business_name }}" maxlength="120">
+              </label>
+
+              <label class="start-wizard-field">
+                <span>{% trans "Business type / activity" %}</span>
+                <input type="text" name="business_type" value="{{ wizard_state.business_type }}" maxlength="120" placeholder="{% trans 'Makeup artist' %}">
+              </label>
+
+              <label class="start-wizard-field">
+                <span>{% trans "City or service area" %}</span>
+                <input type="text" name="service_area" value="{{ wizard_state.service_area }}" maxlength="120">
+              </label>
+
+              <label class="start-wizard-field">
+                <span>{% trans "Main services / offers" %}</span>
+                <textarea name="services_text" rows="6" placeholder="{% trans 'Service one&#10;Service two&#10;Service three' %}">{{ wizard_state.services_text }}</textarea>
+              </label>
+              <p class="small">{% trans "Add 3 to 6 services or offers, one per line." %}</p>
+            </div>
+          </section>
+          {% elif current_step == 2 %}
+          <section class="start-wizard-step" data-onboarding-step="2">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Choose your website style" %}</h2>
+              <p class="small">{% trans "We prepared a first preview from your business details. Choose the style direction you prefer." %}</p>
+
+              <div class="start-wizard-summary">
+                <div><span>{% trans "Business" %}</span><strong>{{ starter_draft.business_name|default:'--' }}</strong></div>
+                <div><span>{% trans "Business type" %}</span><strong>{{ starter_draft.business_type|default:'--' }}</strong></div>
+                <div><span>{% trans "Service area" %}</span><strong>{{ starter_draft.service_area|default:'--' }}</strong></div>
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Template" %}</strong></p>
+                {% for option in template_options %}
+                <label class="start-wizard-option-card{% if style_values.template_key == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="template_key" value="{{ option.key }}"{% if style_values.template_key == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Color palette" %}</strong></p>
+                {% for option in palette_options %}
+                <label class="start-wizard-option-card{% if style_values.palette_key == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="palette_key" value="{{ option.key }}"{% if style_values.palette_key == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Font style" %}</strong></p>
+                {% for option in font_options %}
+                <label class="start-wizard-option-card{% if style_values.font_key == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="font_key" value="{{ option.key }}"{% if style_values.font_key == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Image set" %}</strong></p>
+                {% for option in image_set_options %}
+                <label class="start-wizard-option-card{% if style_values.image_set_key == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="image_set_key" value="{{ option.key }}"{% if style_values.image_set_key == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Main call to action" %}</strong></p>
+                {% for option in cta_options %}
+                <label class="start-wizard-option-card{% if style_values.main_cta == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="main_cta" value="{{ option.key }}"{% if style_values.main_cta == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-option-list">
+                <p class="small"><strong>{% trans "Section visibility" %}</strong></p>
+                <label class="start-wizard-option-card{% if style_values.section_visibility.show_services %} is-selected{% endif %}">
+                  <input type="checkbox" name="show_services"{% if style_values.section_visibility.show_services %} checked{% endif %}>
+                  <strong>{% trans "Show services" %}</strong>
+                </label>
+                <label class="start-wizard-option-card{% if style_values.section_visibility.show_gallery %} is-selected{% endif %}">
+                  <input type="checkbox" name="show_gallery"{% if style_values.section_visibility.show_gallery %} checked{% endif %}>
+                  <strong>{% trans "Show gallery" %}</strong>
+                </label>
+                <label class="start-wizard-option-card{% if style_values.section_visibility.show_reviews %} is-selected{% endif %}">
+                  <input type="checkbox" name="show_reviews"{% if style_values.section_visibility.show_reviews %} checked{% endif %}>
+                  <strong>{% trans "Show reviews" %}</strong>
+                </label>
+                <label class="start-wizard-option-card{% if style_values.section_visibility.show_location %} is-selected{% endif %}">
+                  <input type="checkbox" name="show_location"{% if style_values.section_visibility.show_location %} checked{% endif %}>
+                  <strong>{% trans "Show location" %}</strong>
+                </label>
+                <label class="start-wizard-option-card{% if style_values.section_visibility.show_contact_cta %} is-selected{% endif %}">
+                  <input type="checkbox" name="show_contact_cta"{% if style_values.section_visibility.show_contact_cta %} checked{% endif %}>
+                  <strong>{% trans "Show contact CTA" %}</strong>
+                </label>
+              </div>
+            </div>
+          </section>
+          {% elif current_step == 3 %}
+          <section class="start-wizard-step" data-onboarding-step="3">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Choose how you want to launch" %}</h2>
+              <p class="small">{% trans "Start with one clear page or choose a full website with separate pages." %}</p>
+              <div class="start-wizard-option-list">
+                {% for option in launch_type_options %}
+                <label class="start-wizard-option-card{% if wizard_state.launch_type == option.key %} is-selected{% endif %}">
+                  <input type="radio" name="launch_type" value="{{ option.key }}"{% if wizard_state.launch_type == option.key %} checked{% endif %}>
+                  <strong>{{ option.label }}</strong>
+                  <p>{{ option.summary }}</p>
+                  <ul class="start-wizard-details-list">
+                    {% for detail in option.details %}
+                    <li>{{ detail }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% if option.note %}
+                  <p class="small">{{ option.note }}</p>
+                  {% endif %}
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+          {% elif current_step == 4 %}
+          <section class="start-wizard-step" data-onboarding-step="4">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Choose the pages for your full website" %}</h2>
+              <p class="small">{% trans "Select the pages you want included. You can keep it simple now and add more later." %}</p>
+              <p class="small">{% trans "Full websites are prepared for full website delivery after activation." %}</p>
+
+              {% if wizard_state.launch_type == 'full_website' %}
+              <div class="start-wizard-option-list">
+                {% for page in step4_page_options %}
+                <label class="start-wizard-option-card{% if page.selected %} is-selected{% endif %}">
+                  <input type="checkbox" name="selected_pages" value="{{ page.key }}"{% if page.selected %} checked{% endif %}{% if page.required %} disabled{% endif %}>
+                  {% if page.required %}
+                  <input type="hidden" name="selected_pages" value="{{ page.key }}">
+                  {% endif %}
+                  <strong>{{ page.label }}</strong>
+                  {% if page.required %}
+                  <p>{% trans "Required" %}</p>
+                  {% elif page.recommended %}
+                  <p>{% trans "Recommended" %}</p>
+                  {% else %}
+                  <p>{% trans "Optional" %}</p>
+                  {% endif %}
+                </label>
+                {% endfor %}
+              </div>
+
+              <div class="start-wizard-summary">
+                <div>
+                  <span>{% trans "Selected pages" %}</span>
+                  <strong>{% if selected_page_labels %}{{ selected_page_labels|join:", " }}{% else %}--{% endif %}</strong>
+                </div>
+              </div>
+              {% else %}
+              <p class="small">{% trans "Starter Page flow skips this step and continues to contact details." %}</p>
+              {% endif %}
+            </div>
+          </section>
+          {% elif current_step == 5 %}
+          <section class="start-wizard-step" data-onboarding-step="5">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Add your contact details" %}</h2>
+              <p class="small">{% trans "These details help customers contact you from your preview." %}</p>
+
+              <div class="start-wizard-field-grid">
+                <label class="start-wizard-field">
+                  <span>{% trans "Contact name" %}</span>
+                  <input type="text" name="contact_name" value="{{ contact_details.contact_name }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Email address" %}</span>
+                  <input type="email" name="email" value="{{ contact_details.email }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Phone number" %}</span>
+                  <input type="text" name="phone" value="{{ contact_details.phone }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "WhatsApp number" %}</span>
+                  <input type="text" name="whatsapp" value="{{ contact_details.whatsapp }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Address" %}</span>
+                  <input type="text" name="address" value="{{ contact_details.address }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Service area detail" %}</span>
+                  <input type="text" name="service_area_detail" value="{{ contact_details.service_area_detail }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Opening hours" %}</span>
+                  <input type="text" name="opening_hours" value="{{ contact_details.opening_hours }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Facebook URL" %}</span>
+                  <input type="url" name="social_facebook" value="{{ contact_details.social_facebook }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Instagram URL" %}</span>
+                  <input type="url" name="social_instagram" value="{{ contact_details.social_instagram }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "LinkedIn URL" %}</span>
+                  <input type="url" name="social_linkedin" value="{{ contact_details.social_linkedin }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "TikTok URL" %}</span>
+                  <input type="url" name="social_tiktok" value="{{ contact_details.social_tiktok }}">
+                </label>
+              </div>
+              <p class="small">{% trans "Add at least one: email, phone, or WhatsApp." %}</p>
+            </div>
+          </section>
+          {% elif current_step == 6 %}
+          <section class="start-wizard-step" data-onboarding-step="6">
+            <div class="start-builder-form-section">
+              <h2>{% trans "Review/prepare preview" %}</h2>
+              <p class="small">{% trans "Review your setup before preparing the preview." %}</p>
+
+              <div class="start-wizard-summary">
+                <div><span>{% trans "Business name" %}</span><strong>{{ starter_draft.business_name|default:'--' }}</strong></div>
+                <div><span>{% trans "Business type" %}</span><strong>{{ starter_draft.business_type|default:'--' }}</strong></div>
+                <div><span>{% trans "Service area" %}</span><strong>{{ starter_draft.service_area|default:'--' }}</strong></div>
+                <div><span>{% trans "Launch type" %}</span><strong>{{ launch_type_label|default:'--' }}</strong></div>
+                <div><span>{% trans "Style" %}</span><strong>{{ style_summary.template }} / {{ style_summary.palette }} / {{ style_summary.font }}</strong></div>
+                {% if wizard_state.launch_type == 'full_website' %}
+                <div><span>{% trans "Selected pages" %}</span><strong>{% if selected_page_labels %}{{ selected_page_labels|join:", " }}{% else %}--{% endif %}</strong></div>
+                {% endif %}
+                <div><span>{% trans "Contact methods" %}</span><strong>{% if contact_method_summary %}{{ contact_method_summary|join:", " }}{% else %}--{% endif %}</strong></div>
+                <div><span>{% trans "Services" %}</span><strong>{% if starter_draft.services %}{{ starter_draft.services|join:", " }}{% else %}--{% endif %}</strong></div>
+                <div><span>{% trans "Main CTA" %}</span><strong>{{ style_values.main_cta_label|default:'Request information' }}</strong></div>
+              </div>
+            </div>
+          </section>
+          {% endif %}
+
+          <div class="modal-actions start-wizard-actions">
+            {% if current_step > 1 %}
+            <button class="btn btn-secondary" type="submit" name="wizard_action" value="previous">{% trans "Back" %}</button>
+            {% endif %}
+            {% if current_step == 1 %}
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="create_preview">{% trans "Create my preview" %}</button>
+            {% elif current_step < 6 %}
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="next">{% trans "Next" %}</button>
+            {% else %}
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="prepare_preview">{% trans "Prepare my preview" %}</button>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-preview-panel start-builder-preview start-wizard-preview" aria-label="{% trans 'Live website preview' %}">
+        <div class="preview-panel-head">
+          <h3>{% trans "Live preview" %}</h3>
+          <span class="preview-template-pill">{{ starter_draft.template_key|default:'classic_service' }}</span>
+        </div>
+        <div class="preview-browser modal-template-browser">
+          <div class="browser-bar">
+            <div class="browser-dots" aria-hidden="true">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="url">{{ starter_draft.business_name|default:'preview'|slugify|default:'preview' }}.getonlinefast.eu</div>
+          </div>
+
+          <article class="jcw-preview-template modal-jcw-preview start-wizard-preview-card {{ preview_classes }}" data-template="{{ style_values.template_key }}" data-palette="{{ style_values.palette_key }}" data-font="{{ style_values.font_key }}">
+            <header class="jcw-preview-header">
+              <strong>{{ starter_draft.business_name|default:'Your business' }}</strong>
+              <nav aria-label="{% trans 'Preview navigation' %}">
+                <span>{% trans "Services" %}</span>
+                <span>{% trans "About" %}</span>
+                <span>{% trans "Contact" %}</span>
+              </nav>
+            </header>
+
+            <section class="jcw-preview-hero">
+              <div>
+                <span class="jcw-preview-kicker">{{ starter_draft.business_type|default:'Business type' }}</span>
+                <h2>{{ starter_draft.hero.title|default:'Starter preview headline' }}</h2>
+                <p>{{ starter_draft.hero.description|default:'Your starter draft appears here after Step 1.' }}</p>
+                <a class="btn btn-primary" href="#">{{ style_values.main_cta_label|default:'Request information' }}</a>
+              </div>
+              <div class="jcw-preview-card">
+                <span>{% trans "Image set" %}: {{ style_values.image_set_key|default:'suggested' }}</span>
+                <strong>{% trans "Starter draft" %}</strong>
+                <p>{% trans "Based on business basics from Step 1." %}</p>
+              </div>
+            </section>
+
+            {% if style_values.section_visibility.show_services %}
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{{ starter_draft.intro.title|default:'Introduction' }}</h3>
+                <p>{{ starter_draft.intro.text|default:'Suggested intro text appears here.' }}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                {% if starter_draft.services %}
+                  {% for service in starter_draft.services|slice:":6" %}
+                  <span>{{ service }}</span>
+                  {% endfor %}
+                {% else %}
+                  <span>{% trans "Service one" %}</span>
+                  <span>{% trans "Service two" %}</span>
+                  <span>{% trans "Service three" %}</span>
+                {% endif %}
+              </div>
+            </section>
+            {% endif %}
+
+            {% if style_values.section_visibility.show_gallery %}
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{% trans "Gallery" %}</h3>
+                <p>{% trans "Image placeholders based on your selected image set." %}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                <span>{% trans "Image block 1" %}</span>
+                <span>{% trans "Image block 2" %}</span>
+                <span>{% trans "Image block 3" %}</span>
+              </div>
+            </section>
+            {% endif %}
+
+            {% if style_values.section_visibility.show_reviews %}
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{% trans "Reviews" %}</h3>
+                <p>{% trans "Customer review placeholders will be refined later." %}</p>
+              </div>
+            </section>
+            {% endif %}
+
+            {% if style_values.section_visibility.show_location %}
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{% trans "Location" %}</h3>
+                <p>{{ contact_details.address|default:contact_details.service_area_detail|default:starter_draft.service_area|default:'Your service area' }}</p>
+                {% if contact_details.opening_hours %}<p><strong>{% trans "Opening hours" %}:</strong> {{ contact_details.opening_hours }}</p>{% endif %}
+                {% if contact_details.email %}<p><strong>{% trans "Email" %}:</strong> {{ contact_details.email }}</p>{% endif %}
+                {% if contact_details.phone %}<p><strong>{% trans "Phone" %}:</strong> {{ contact_details.phone }}</p>{% endif %}
+                {% if contact_details.whatsapp %}<p><strong>{% trans "WhatsApp" %}:</strong> {{ contact_details.whatsapp }}</p>{% endif %}
+                {% if contact_details.social_facebook or contact_details.social_instagram or contact_details.social_linkedin or contact_details.social_tiktok %}
+                <p>
+                  <strong>{% trans "Social" %}:</strong>
+                  {% if contact_details.social_facebook %}Facebook {% endif %}
+                  {% if contact_details.social_instagram %}Instagram {% endif %}
+                  {% if contact_details.social_linkedin %}LinkedIn {% endif %}
+                  {% if contact_details.social_tiktok %}TikTok{% endif %}
+                </p>
+                {% endif %}
+              </div>
+            </section>
+            {% endif %}
+
+            {% if style_values.section_visibility.show_contact_cta %}
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{% trans "Next step" %}</h3>
+                <p>{% trans "Final contact call to action for your starter preview." %}</p>
+                <a class="btn btn-primary" href="#">{{ style_values.main_cta_label|default:'Request information' }}</a>
+              </div>
+            </section>
+            {% endif %}
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+{% trans "Your business type" as default_business_type %}
+{% trans "Your business" as default_business_name %}
+{% trans "Not set yet" as default_not_set %}
+<section class="start-builder-page start-wizard-page">
+  <div class="wrap">
+    <div class="start-wizard-workspace" data-onboarding-preview-page>
+      <div class="start-wizard-sidebar">
+        <div class="start-wizard-sidebar-head">
+          <div class="eyebrow">{% trans "First step" %}</div>
+          <h1>{% trans "Start your website preview" %}</h1>
+          <p class="page-copy">{% trans "Tell us about your business step by step and watch your website direction appear before the full preview is created." %}</p>
+          {% if selected_design %}
+          <div class="start-builder-selection">
+            <span class="start-builder-selection-label">
+              {% if selected_design.mode == 'template' %}{% trans "Selected template" %}{% else %}{% trans "Selected style reference" %}{% endif %}
+            </span>
+            <strong>{{ selected_design.name }}</strong>
+            <p class="page-copy">{% blocktrans trimmed with category=selected_design.category best_for=selected_design.best_for %}Category: {{ category }}. Best for: {{ best_for }}.{% endblocktrans %}</p>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="start-wizard-current-step">{% blocktrans with current=current_step total=8 %}Step {{ current }} of {{ total }}{% endblocktrans %}</div>
+        <ul class="start-wizard-progress" aria-label="{% trans 'Onboarding progress' %}">
+          {% for step in wizard_steps %}
+          <li class="start-wizard-progress__item{% if step.is_active %} is-active{% elif step.is_complete %} is-complete{% endif %}">
+            <span class="start-wizard-progress__number">{{ step.number }}</span>
+            <div>
+              <strong>{{ step.title }}</strong>
+              {% if step.is_active %}<span>{% trans "Current step" %}</span>{% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+
+        <form method="post" action="{% url 'ai_starter:start' %}{{ selected_design_query }}" class="start-wizard-form">
+          {% csrf_token %}
+          <input type="hidden" name="current_step" value="{{ current_step }}">
+          <input type="hidden" name="business_type" value="{{ wizard_state.business_type }}">
+          <input type="hidden" name="previous_business_type" value="{{ wizard_state.previous_business_type }}">
+          <input type="hidden" name="hero_title" value="{{ wizard_state.hero_title }}">
+          <input type="hidden" name="hero_description" value="{{ wizard_state.hero_description }}">
+          <input type="hidden" name="hero_cta" value="{{ wizard_state.hero_cta }}">
+          <input type="hidden" name="intro_title" value="{{ wizard_state.intro_title }}">
+          <input type="hidden" name="intro_text" value="{{ wizard_state.intro_text }}">
+          <input type="hidden" name="gallery_choice" value="{{ wizard_state.gallery_choice }}">
+          <input type="hidden" name="reviews_choice" value="{{ wizard_state.reviews_choice }}">
+          <input type="hidden" name="review_text" value="{{ wizard_state.review_text }}">
+          <input type="hidden" name="business_name" value="{{ wizard_state.business_name }}">
+          <input type="hidden" name="city" value="{{ wizard_state.city }}">
+          <input type="hidden" name="contact_email" value="{{ wizard_state.contact_email }}">
+          <input type="hidden" name="contact_phone" value="{{ wizard_state.contact_phone }}">
+          <input type="hidden" name="contact_whatsapp" value="{{ wizard_state.contact_whatsapp }}">
+          <input type="hidden" name="template_slug" value="{{ wizard_state.template_slug }}">
+          <input type="hidden" name="template_locked" value="{{ wizard_state.template_locked }}">
+          <input type="hidden" name="custom_service" value="{{ wizard_state.custom_service }}">
+          <input type="hidden" name="selected_services_csv" value="{{ wizard_state.selected_services_csv }}">
+
+          {% if wizard_errors %}
+          <div class="field-errors field-errors-block">
+            {% for error in wizard_errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <section class="start-wizard-step" data-onboarding-step="{{ current_step }}">
+            {% if current_step == 1 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "What is your website for?" %}</h2>
+              <p class="small">{% trans "Start with your business type or main activity. We use this to prepare the first hero draft." %}</p>
+              <label class="start-wizard-field">
+                <span>{% trans "Business type / activity" %}</span>
+                <input type="text" name="business_type" value="{{ wizard_state.business_type }}" placeholder="{% trans 'Makeup artist' %}">
+              </label>
+              <div class="start-wizard-suggestion-shell">
+                <h3>{% trans "Suggested hero" %}</h3>
+                <p class="small"><strong>{% trans "Business type" %}:</strong> {{ wizard_state.business_type|default:default_business_type }}</p>
+                <label class="start-wizard-field">
+                  <span>{% trans "Suggested title" %}</span>
+                  <input type="text" name="hero_title" value="{{ wizard_state.hero_title }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Suggested description" %}</span>
+                  <textarea name="hero_description">{{ wizard_state.hero_description }}</textarea>
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Suggested CTA" %}</span>
+                  <input type="text" name="hero_cta" value="{{ wizard_state.hero_cta }}">
+                </label>
+                <div class="start-wizard-inline-actions">
+                  <button class="btn btn-secondary" type="submit" name="wizard_action" value="update_hero">{% trans "Update suggestion" %}</button>
+                </div>
+              </div>
+            </div>
+            {% elif current_step == 2 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Your intro section" %}</h2>
+              <div class="start-wizard-suggestion-shell">
+                <h3>{% trans "Suggested intro" %}</h3>
+                <label class="start-wizard-field">
+                  <span>{% trans "Suggested intro heading" %}</span>
+                  <input type="text" name="intro_title" value="{{ wizard_state.intro_title }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Suggested intro text" %}</span>
+                  <textarea name="intro_text">{{ wizard_state.intro_text }}</textarea>
+                </label>
+                <p class="small">{% trans "Preview content. Final content is reviewed and completed after activation." %}</p>
+                <div class="start-wizard-inline-actions">
+                  <button class="btn btn-secondary" type="submit" name="wizard_action" value="regenerate_intro">{% trans "Regenerate intro suggestion" %}</button>
+                </div>
+              </div>
+            </div>
+            {% elif current_step == 3 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Select the services you offer" %}</h2>
+              <h3 class="start-wizard-subtitle">{% blocktrans with business_type=wizard_state.business_type|default:"your business" %}Suggested services for {{ business_type }}{% endblocktrans %}</h3>
+              <p class="small">{% trans "Choose the options that fit best and add one more if needed." %}</p>
+              <div class="start-wizard-chip-grid">
+                {% for service in wizard_service_suggestions %}
+                <label class="start-wizard-chip{% if service in wizard_state.selected_services %} is-selected{% endif %}">
+                  <input type="checkbox" name="selected_services" value="{{ service }}"{% if service in wizard_state.selected_services %} checked{% endif %}>
+                  <span>{{ service }}</span>
+                </label>
+                {% endfor %}
+              </div>
+              <label class="start-wizard-field">
+                <span>{% trans "Add another service" %}</span>
+                <input type="text" name="custom_service" value="{{ wizard_state.custom_service }}" placeholder="{% trans 'Add another service' %}">
+              </label>
+            </div>
+            {% elif current_step == 4 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Portfolio or gallery" %}</h2>
+              <div class="start-wizard-option-list">
+                {% for choice in wizard_gallery_choices %}
+                <label class="start-wizard-option-card{% if wizard_state.gallery_choice == choice.value %} is-selected{% endif %}">
+                  <input type="radio" name="gallery_choice" value="{{ choice.value }}"{% if wizard_state.gallery_choice == choice.value %} checked{% endif %}>
+                  <strong>{{ choice.label }}</strong>
+                  <p>{{ choice.description }}</p>
+                </label>
+                {% endfor %}
+              </div>
+            </div>
+            {% elif current_step == 5 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Reviews and trust" %}</h2>
+              <div class="start-wizard-option-list">
+                {% for choice in wizard_reviews_choices %}
+                <label class="start-wizard-option-card{% if wizard_state.reviews_choice == choice.value %} is-selected{% endif %}">
+                  <input type="radio" name="reviews_choice" value="{{ choice.value }}"{% if wizard_state.reviews_choice == choice.value %} checked{% endif %}>
+                  <strong>{{ choice.label }}</strong>
+                  <p>{{ choice.description }}</p>
+                </label>
+                {% endfor %}
+              </div>
+              {% if wizard_state.reviews_choice == 'add_review' %}
+              <label class="start-wizard-field">
+                <span>{% trans "Review or endorsement" %}</span>
+                <textarea name="review_text">{{ wizard_state.review_text }}</textarea>
+              </label>
+              {% endif %}
+            </div>
+            {% elif current_step == 6 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Where should customers find you?" %}</h2>
+              <div class="start-wizard-field-grid">
+                <label class="start-wizard-field">
+                  <span>{% trans "Business name" %}</span>
+                  <input type="text" name="business_name" value="{{ wizard_state.business_name }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "City or service area" %}</span>
+                  <input type="text" name="city" value="{{ wizard_state.city }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Email" %}</span>
+                  <input type="email" name="contact_email" value="{{ wizard_state.contact_email }}">
+                </label>
+                <label class="start-wizard-field">
+                  <span>{% trans "Phone" %}</span>
+                  <input type="text" name="contact_phone" value="{{ wizard_state.contact_phone }}">
+                </label>
+                <label class="start-wizard-field modal-field-wide">
+                  <span>{% trans "WhatsApp (optional)" %}</span>
+                  <input type="text" name="contact_whatsapp" value="{{ wizard_state.contact_whatsapp }}">
+                </label>
+              </div>
+            </div>
+            {% elif current_step == 7 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Choose how you want to start" %}</h2>
+              <p class="small">{% trans "Pick the direction that fits best. You can improve or upgrade later." %}</p>
+              <div class="start-wizard-direction-grid template-card-grid">
+                {% for card in wizard_direction_cards %}
+                <label class="start-wizard-direction-card{% if card.selected %} is-selected{% endif %}">
+                  <input type="radio" name="template_slug" value="{{ card.slug }}"{% if card.selected %} checked{% endif %}>
+                  <span class="start-wizard-direction-card__label">{{ card.label }}</span>
+                  <strong>{{ card.title }}</strong>
+                  <p>{{ card.description }}</p>
+                  <p class="small"><strong>{% trans "Best for" %}:</strong> {{ card.best_for }}</p>
+                </label>
+                {% endfor %}
+              </div>
+              <p class="small">{% trans "Not sure which one fits best? Start with Basic - you can upgrade later." %}</p>
+            </div>
+            {% elif current_step == 8 %}
+            <div class="start-builder-form-section">
+              <h2>{% trans "Your selected preview direction" %}</h2>
+              <div class="start-wizard-summary">
+                <div><span>{% trans "Business type" %}</span><strong>{{ wizard_state.business_type|default:default_not_set }}</strong></div>
+                <div><span>{% trans "Suggested intro" %}</span><strong>{{ wizard_state.intro_text }}</strong></div>
+                <div><span>{% trans "Selected services" %}</span><strong>{{ wizard_state.selected_services|join:", " }}</strong></div>
+                <div><span>{% trans "Gallery choice" %}</span><strong>{{ wizard_summary.gallery_label }}</strong></div>
+                <div><span>{% trans "Trust section" %}</span><strong>{{ wizard_summary.reviews_label }}</strong></div>
+                <div><span>{% trans "Contact / location" %}</span><strong>{{ wizard_state.business_name }}{% if wizard_state.city %} - {{ wizard_state.city }}{% endif %}</strong></div>
+                <div><span>{% trans "Starting direction" %}</span><strong>{{ wizard_preview.template_label }}</strong></div>
+              </div>
+            </div>
+            {% endif %}
+          </section>
+
+          <div class="modal-actions start-wizard-actions">
+            {% if current_step > 1 %}
+            <button class="btn btn-secondary" type="submit" name="wizard_action" value="previous">{% trans "Back" %}</button>
+            {% endif %}
+            {% if current_step < 8 %}
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="next">{% trans "Next" %}</button>
+            {% else %}
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="create_preview">{% trans "Create my private preview" %}</button>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-preview-panel start-builder-preview start-wizard-preview" aria-label="{% trans 'Live website preview' %}">
+        <div class="preview-panel-head">
+          <h3>{% trans "Live preview" %}</h3>
+          <span class="preview-template-pill">{{ wizard_preview.template_label }}</span>
+        </div>
+        <div class="preview-browser modal-template-browser">
+          <div class="browser-bar">
+            <div class="browser-dots" aria-hidden="true">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="url">{{ wizard_state.business_name|default:wizard_state.business_type|slugify|default:"preview" }}.getonlinefast.eu</div>
+          </div>
+
+          <article class="jcw-preview-template modal-jcw-preview start-wizard-preview-card">
+            <header class="jcw-preview-header">
+              <strong>
+                {% if wizard_preview.logo_asset %}
+                <img class="start-wizard-logo" src="{{ wizard_preview.logo_asset.url }}" alt="{% trans 'Project logo preview' %}">
+                {% else %}
+                {{ wizard_state.business_name|default:default_business_name }}
+                {% endif %}
+              </strong>
+              <nav aria-label="{% trans 'Preview navigation' %}">
+                <span>{% trans "Services" %}</span>
+                <span>{% trans "About" %}</span>
+                <span>{% trans "Contact" %}</span>
+              </nav>
+            </header>
+
+            <section class="jcw-preview-hero">
+              <div>
+                <span class="jcw-preview-kicker">{{ wizard_state.business_type|default:default_business_type }}</span>
+                <h2>{{ wizard_preview.preview_title }}</h2>
+                <p>{{ wizard_preview.preview_description }}</p>
+                <a class="btn btn-primary" href="#">{{ wizard_preview.preview_cta }}</a>
+                <p class="start-wizard-preview-note">{% trans "Preview content. Final content is reviewed and completed after activation." %}</p>
+              </div>
+              <div class="jcw-preview-card">
+                {% if wizard_preview.hero_asset %}
+                <img class="start-wizard-preview-image" src="{{ wizard_preview.hero_asset.url }}" alt="{% trans 'Project hero preview' %}">
+                {% else %}
+                <span>{% trans "Hero preview" %}</span>
+                <strong>{{ wizard_preview.template_label }}</strong>
+                <p>{% trans "A guided starter preview based on your selected business type and direction." %}</p>
+                {% endif %}
+              </div>
+            </section>
+
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{{ wizard_preview.intro_title }}</h3>
+                <p>{{ wizard_preview.intro_text }}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                {% for service in wizard_preview.selected_services %}
+                <span>{{ service }}</span>
+                {% endfor %}
+              </div>
+            </section>
+
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{{ wizard_preview.gallery_heading }}</h3>
+                <p>{{ wizard_preview.gallery_note }}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                <span>{% trans "Gallery block" %}</span>
+                <span>{% trans "Example images" %}</span>
+                <span>{% trans "Project assets if available" %}</span>
+              </div>
+            </section>
+
+            <section class="jcw-preview-services start-wizard-preview-section">
+              <div>
+                <h3>{{ wizard_preview.trust_heading }}</h3>
+                <p>{{ wizard_preview.trust_note }}</p>
+              </div>
+              <div class="jcw-preview-service-grid">
+                <span>{% trans "Trust signals" %}</span>
+                <span>{% trans "Simple review block" %}</span>
+                <span>{% trans "Quality section" %}</span>
+              </div>
+            </section>
+
+            <section class="jcw-preview-contact">
+              <div>
+                <h3>{% trans "Contact and location" %}</h3>
+                <p>{% trans "Customers should understand where you work and how to contact you." %}</p>
+              </div>
+              <div>
+                {% for line in wizard_preview.contact_lines %}
+                <span>{{ line }}</span>
+                {% endfor %}
+              </div>
+            </section>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 {% endblock %}
