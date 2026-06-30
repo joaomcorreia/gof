@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} | Get Online Fast{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{{ page_eyebrow }}</div>
+    <h1>{{ page_title }}</h1>
+    <p class="page-copy">{{ page_intro }}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap legal-content">
+    {% if related_links %}
+      <article class="card legal-page-nav">
+        <h2>Related information</h2>
+        <div class="legal-page-nav__links">
+          {% for item in related_links %}
+            <a class="btn btn-secondary" href="{{ item.url }}">{{ item.label }}</a>
+          {% endfor %}
+        </div>
+      </article>
+    {% endif %}
+
+    {% for section in page_sections %}
+      <article class="card legal-page-section">
+        <h2>{{ section.title }}</h2>
+        {% for paragraph in section.paragraphs %}
+          <p>{{ paragraph }}</p>
+        {% endfor %}
+        {% if section.bullets %}
+          <ul class="clean-list legal-page-list">
+            {% for item in section.bullets %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </article>
+    {% endfor %}
+
+    {% if service_options %}
+      <article class="card legal-page-section">
+        <h2>{{ page_title }}</h2>
+        <div class="pricing-addon-grid">
+          {% for option in service_options %}
+            <div class="pricing-addon-item">
+              <strong>{{ option.title }}</strong>
+              {% if option.price_label %}
+                <p><strong>{{ option.price_label }}</strong></p>
+              {% endif %}
+              <p>{{ option.summary }}</p>
+              <a class="btn btn-secondary" href="{{ option.cta_url }}">{{ option.cta_label }}</a>
+            </div>
+          {% endfor %}
+        </div>
+        {% if service_pricing_note %}
+          <p class="small">{{ service_pricing_note }}</p>
+        {% endif %}
+      </article>
+    {% endif %}
+
+    <article class="card legal-page-section legal-page-section--note">
+      <h2>Need clarification?</h2>
+      <p>If you have questions about package scope, renewals, or support, contact <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
+      <p>This information is practical website guidance for customers. It is not legal advice, and some rights or obligations can depend on the customer type, package, and local law.</p>
+    </article>
+  </div>
+</section>
+{% endblock %}

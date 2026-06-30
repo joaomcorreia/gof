@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Contact" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Contact" %}</div>
+    <h1>{% trans "Need a quick way to reach us?" %}</h1>
+    <p class="page-copy">{% trans "Get Online Fast is built as a self-service, AI-assisted platform. For practical questions before launch, you can reach us directly." %}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#contact-form">{% trans "Open contact form" %}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    <div class="detail-grid">
+      <article class="card contact-card" id="contact-form">
+        <h3>{% trans "Send a message" %}</h3>
+        <p>{% trans "Use the form below for questions about plans, launch timing, or the right setup for your business." %}</p>
+
+        {% if messages %}
+          <div class="field-errors">
+            {% for message in messages %}
+              <p>{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          {{ form.honeypot }}
+
+          <div class="field">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+              <div class="field-errors">
+                {% for error in form.name.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+              <div class="field-errors">
+                {% for error in form.email.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+              <div class="field-errors">
+                {% for error in form.phone.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+              <div class="field-errors">
+                {% for error in form.message.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="field">
+            <label for="{{ form.security_question.id_for_label }}">
+              {{ form.security_question.label }}: {{ contact_captcha_question }}
+            </label>
+            {{ form.security_question }}
+            {% if form.security_question.errors %}
+              <div class="field-errors">
+                {% for error in form.security_question.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          {% if form.non_field_errors %}
+            <div class="field-errors">
+              {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button>
+        </form>
+      </article>
+
+      <article class="card contact-card">
+        <h3>{% trans "Email" %}</h3>
+        <p>{% trans "Best for questions about plans, billing, or whether the platform fits your business." %}</p>
+        <a class="btn btn-secondary" href="mailto:info@getonlinefast.eu">info@getonlinefast.eu</a>
+      </article>
+      <article class="card contact-card">
+        <h3>{% trans "Phone" %}</h3>
+        <p>{% trans "Use phone for simple pre-launch questions. The product itself is designed so you can manage your website independently." %}</p>
+        <a class="btn btn-secondary" href="tel:+31617014936">+31 617 014936</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-soft">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>{% trans "Prefer to talk it through first?" %}</h2>
+      </div>
+      <p>{% trans "Contact Get Online Fast and we will help you choose the right website setup for your business." %}</p>
+    </div>
+    <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
+  </div>
+</section>
+{% endblock %}

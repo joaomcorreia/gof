@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Construction and Trades template placeholder</title>
+  <desc id="desc">Placeholder preview image for the Construction and Trades website style reference.</desc>
+  <rect width="1600" height="1100" fill="#f3eee7"/>
+  <rect x="90" y="90" width="1420" height="920" rx="34" fill="#fff" stroke="#ddd1c1"/>
+  <rect x="130" y="140" width="1340" height="60" rx="14" fill="#23211f"/>
+  <rect x="130" y="230" width="920" height="340" rx="24" fill="#d9a247"/>
+  <rect x="1080" y="230" width="350" height="340" rx="24" fill="#f0e2cc"/>
+  <rect x="130" y="610" width="300" height="180" rx="20" fill="#f6eee2"/>
+  <rect x="460" y="610" width="300" height="180" rx="20" fill="#f6eee2"/>
+  <rect x="790" y="610" width="300" height="180" rx="20" fill="#f6eee2"/>
+  <rect x="1120" y="610" width="310" height="180" rx="20" fill="#f6eee2"/>
+  <text x="130" y="930" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#2d241d">Construction &amp; Trades</text>
+  <text x="130" y="985" font-family="Arial, sans-serif" font-size="34" fill="#6d6053">Reference style placeholder</text>
+</svg>

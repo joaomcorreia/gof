@@ -1,8 +1,16 @@
-<section class="site-section site-section-hero-simple">
+<section class="site-section site-section-hero-simple {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:'hero' }}">
   <div class="site-section-simple-copy">
     <span class="site-section-kicker">{{ values.kicker }}</span>
     <h1>{{ values.title }}</h1>
     <p>{{ values.description }}</p>
-    <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
+    <div class="site-section-actions">
+      <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
+      {% if values.secondary_cta_text %}
+      <a class="btn btn-secondary" href="#services">{{ values.secondary_cta_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="site-section-image-frame">
+    <img src="{{ values.hero_image_url }}" alt="{{ values.hero_image_alt }}" class="site-section-image">
   </div>
 </section>

@@ -1,7 +1,9 @@
-<section class="site-section site-section-cta">
-  <div>
-    <h2>{{ values.title }}</h2>
-    <p>{{ values.description }}</p>
+<section class="site-section site-section-cta gof-template-row gof-template-row--dark {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:section_class }}">
+  <div class="gof-template-inner gof-template-inner--wide gof-template-inner--cta">
+    <div class="site-section-copy">
+      <h2>{{ values.title }}</h2>
+      <p>{{ values.description }}</p>
+    </div>
+    <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
   </div>
-  <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
 </section>

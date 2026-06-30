@@ -13,13 +13,12 @@
       <nav class="nav" aria-label="{% trans 'Primary navigation' %}">
         <a href="{% url 'core:home' %}">{% trans "Home" %}</a>
         <a href="{% url 'core:how_it_works' %}">{% trans "How it works" %}</a>
-        <a href="{% url 'core:examples' %}">{% trans "Examples" %}</a>
         <a href="{% url 'core:plans' %}">{% trans "Plans" %}</a>
         <a href="{% url 'blog:index' %}">{% trans "Blog" %}</a>
         <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
         {# TODO: switch to a named URL when the help page route exists. #}
         <a href="/help/">{% trans "Help" %}</a>
-        <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start now" %}</a>
+        <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact" %}</a>
       </nav>
       <div class="language-switcher" role="group" aria-label="{% trans 'Language switcher' %}">
         <form action="{% url 'set_language' %}" method="post">

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Garage and Repair template placeholder</title>
+  <desc id="desc">Placeholder preview image for the Garage and Repair website style reference.</desc>
+  <rect width="1600" height="1100" fill="#eef1f3"/>
+  <rect x="90" y="90" width="1420" height="920" rx="34" fill="#fbfcfd" stroke="#d8dfe5"/>
+  <rect x="130" y="140" width="1340" height="60" rx="14" fill="#1f2c38"/>
+  <rect x="130" y="230" width="640" height="320" rx="24" fill="#dbe6ef"/>
+  <rect x="800" y="230" width="630" height="320" rx="24" fill="#f1f5f8"/>
+  <rect x="130" y="590" width="1300" height="90" rx="18" fill="#f0f4f7"/>
+  <rect x="130" y="720" width="420" height="160" rx="20" fill="#e7edf2"/>
+  <rect x="580" y="720" width="420" height="160" rx="20" fill="#e7edf2"/>
+  <rect x="1030" y="720" width="400" height="160" rx="20" fill="#e7edf2"/>
+  <text x="130" y="930" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#22313d">Garage &amp; Repair</text>
+  <text x="130" y="985" font-family="Arial, sans-serif" font-size="34" fill="#5a6975">Reference style placeholder</text>
+</svg>

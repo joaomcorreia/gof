@@ -21,19 +21,25 @@
         {% endblocktrans %}
       </p>
 
-      <div
-        class="modal-preview-layout"
-        data-template="jcw_professional"
-        data-default-name="{{ default_business_name }}"
-        data-default-type="{{ default_service_type }}"
-        data-default-city="{{ default_city }}"
+<div
+  class="modal-preview-layout"
+  data-template="{{ selected_template_slug|default:'classic_service' }}"
+  data-default-template-label="{{ selected_template_card.label|default:'Classic Service Website' }}"
+  data-default-name="{{ default_business_name }}"
+  data-default-type="{{ default_service_type }}"
+  data-default-city="{{ default_city }}"
         data-default-slug="{{ default_business_name|slugify }}"
         data-default-text="{% trans 'Describe your main service so customers quickly understand what you do.' %}"
         data-title-template="{% trans 'Reliable %(type)s in %(city)s' %}"
         data-service-line-template="{% trans '%(type)s services for customers in %(city)s and nearby areas.' %}"
       >
-        <form method="post" action="{% url 'ai_starter:start' %}" class="onboarding-form modal-preview-form">
+      <form method="post" action="{% url 'ai_starter:start' %}" class="onboarding-form modal-preview-form">
           {% csrf_token %}
+          <section class="start-builder-form-section">
+            <h3>{% trans "Choose a starting design" %}</h3>
+            <p class="small">{% trans "Select one of these simple starting structures before creating your preview." %}</p>
+            {% include "ai_starter/includes/template_cards.html" with template_cards=template_cards selected_template_slug=selected_template_slug input_name="template_slug" card_group_class="template-choice-grid--compact" %}
+          </section>
           <div class="modal-form-grid">
             {% for field in onboarding_form %}
             <div class="modal-field{% if field.name == 'short_description' %} modal-field-wide{% endif %}">
@@ -64,7 +70,7 @@
         <div class="modal-preview-panel" aria-label="{% trans 'Live website preview' %}">
           <div class="preview-panel-head">
             <h3>{% trans "Live preview" %}</h3>
-            <span class="preview-template-pill">{% trans "Professional service website" %}</span>
+            <span class="preview-template-pill" data-modal-preview-template-label>{{ selected_template_card.label|default:'Classic Service Website' }}</span>
           </div>
           <div class="preview-browser modal-template-browser">
             <div class="browser-bar">
@@ -76,7 +82,7 @@
               <div class="url" data-modal-preview-url>{{ default_business_name|slugify }}.getonlinefast.eu</div>
             </div>
 
-            <article class="jcw-preview-template modal-jcw-preview" data-template-preview="jcw_professional">
+            <article class="jcw-preview-template modal-jcw-preview {{ selected_template_card.preview_css_class|default:'template-classic-service' }}" data-template-preview="{{ selected_template_slug|default:'classic_service' }}">
               <header class="jcw-preview-header">
                 <strong data-modal-preview-business-name>{{ default_business_name }}</strong>
                 <nav aria-label="{% trans 'Preview navigation' %}">

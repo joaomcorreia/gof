@@ -1,0 +1,18 @@
+<section class="site-section site-section-contact-details gof-template-row gof-template-row--muted {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:'contact' }}">
+  <div class="gof-template-inner gof-template-inner--split">
+    <div class="site-section-copy">
+      <span class="site-section-kicker">{{ values.kicker }}</span>
+      <h2>{{ values.title }}</h2>
+      <p>{{ values.description }}</p>
+    </div>
+    <div class="site-contact-detail-card">
+      <dl class="site-contact-detail-list">
+        <div><dt>{{ values.detail_1_label }}</dt><dd>{{ values.detail_1_value }}</dd></div>
+        <div><dt>{{ values.detail_2_label }}</dt><dd>{{ values.detail_2_value }}</dd></div>
+        <div><dt>{{ values.detail_3_label }}</dt><dd>{{ values.detail_3_value }}</dd></div>
+        <div><dt>{{ values.detail_4_label }}</dt><dd>{{ values.detail_4_value }}</dd></div>
+      </dl>
+      <a class="btn btn-primary" href="#">{{ values.cta_text }}</a>
+    </div>
+  </div>
+</section>

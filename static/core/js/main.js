@@ -1,4 +1,3 @@
-const previewShell = document.getElementById("start");
 const modal = document.getElementById("onboarding-modal");
 const publicPreviewStorageKey = "getonlinefast_public_preview_v1";
 
@@ -41,86 +40,167 @@ const saveStoredPreview = (values, storageKey = publicPreviewStorageKey) => {
   }
 };
 
-if (modal) {
-  const openTriggers = document.querySelectorAll('[data-modal-open="onboarding-modal"]');
-  const closeTriggers = modal.querySelectorAll("[data-modal-close]");
-  const onboardingForm = modal.querySelector(".onboarding-form");
-  const modalPreviewLayout = modal.querySelector(".modal-preview-layout");
-  const modalStatus = modal.querySelector("[data-modal-preview-status]");
-  const modalDefaultSlug = modalPreviewLayout?.dataset.defaultSlug || "";
+const bindOnboardingPreview = (previewLayout) => {
+  if (!previewLayout) {
+    return null;
+  }
 
-  const modalFields = {
-    name: document.getElementById("id_business_name"),
-    type: document.getElementById("id_service_type"),
-    city: document.getElementById("id_city"),
-    text: document.getElementById("id_short_description"),
+  const onboardingForm = previewLayout.querySelector(".onboarding-form");
+  if (!onboardingForm) {
+    return null;
+  }
+
+  const status = previewLayout.querySelector("[data-modal-preview-status]");
+  const defaultSlug = previewLayout.dataset.defaultSlug || "";
+  const pickField = (...selectors) =>
+    selectors
+      .map((selector) => onboardingForm.querySelector(selector))
+      .find(Boolean) || null;
+  const fields = {
+    name: pickField("#id_business_name"),
+    type: pickField("#id_service_type", "#id_business_type"),
+    city: pickField("#id_city", "#id_service_area", "#id_business_address"),
+    text: pickField("#id_short_description", "#id_main_services", "#id_business_description"),
+  };
+  const templateChoices = Array.from(
+    onboardingForm.querySelectorAll('input[name="template_slug"][data-template-choice]')
+  );
+
+  const targets = {
+    url: previewLayout.querySelector("[data-modal-preview-url]"),
+    name: previewLayout.querySelector("[data-modal-preview-business-name]"),
+    city: previewLayout.querySelector("[data-modal-preview-location]"),
+    title: previewLayout.querySelector("[data-modal-preview-title]"),
+    text: previewLayout.querySelector("[data-modal-preview-description]"),
+    type: previewLayout.querySelector("[data-modal-preview-business-type]"),
+    serviceLine: previewLayout.querySelector("[data-modal-preview-service-line]"),
+    templateLabel: previewLayout.querySelector("[data-modal-preview-template-label]"),
+    templatePreview: previewLayout.querySelector("[data-template-preview]"),
   };
 
-  const modalPreviewTargets = {
-    url: modal.querySelector("[data-modal-preview-url]"),
-    name: modal.querySelector("[data-modal-preview-business-name]"),
-    city: modal.querySelector("[data-modal-preview-location]"),
-    title: modal.querySelector("[data-modal-preview-title]"),
-    text: modal.querySelector("[data-modal-preview-description]"),
-    type: modal.querySelector("[data-modal-preview-business-type]"),
-    serviceLine: modal.querySelector("[data-modal-preview-service-line]"),
-  };
+  const previewTemplateClasses = [
+    "template-classic-service",
+    "template-visual-hero",
+    "template-card-grid",
+  ];
 
-  const getModalPreviewValues = () => ({
-    name: modalFields.name?.value.trim() || modalPreviewLayout?.dataset.defaultName || "",
-    type: modalFields.type?.value.trim() || modalPreviewLayout?.dataset.defaultType || "",
-    city: modalFields.city?.value.trim() || modalPreviewLayout?.dataset.defaultCity || "",
+  const getValues = () => ({
+    name: fields.name?.value.trim() || previewLayout.dataset.defaultName || "",
+    type: fields.type?.value.trim() || previewLayout.dataset.defaultType || "",
+    city: fields.city?.value.trim() || previewLayout.dataset.defaultCity || "",
     text:
-      modalFields.text?.value.trim() ||
-      modalPreviewLayout?.dataset.previewText ||
-      modalPreviewLayout?.dataset.defaultText ||
+      fields.text?.value.trim() ||
+      previewLayout.dataset.previewText ||
+      previewLayout.dataset.defaultText ||
       "",
-    template: "jcw_professional",
+    template:
+      templateChoices.find((choice) => choice.checked)?.value ||
+      previewLayout.dataset.template ||
+      "classic_service",
+    templateLabel:
+      templateChoices.find((choice) => choice.checked)?.dataset.templateLabel ||
+      previewLayout.dataset.defaultTemplateLabel ||
+      "",
   });
 
-  const updateModalPreview = () => {
-    const values = getModalPreviewValues();
-    const slug = slugifyBusinessName(values.name, modalDefaultSlug);
+  const updatePreview = () => {
+    const values = getValues();
+    const slug = slugifyBusinessName(values.name, defaultSlug);
 
-    if (modalPreviewTargets.url) {
-      modalPreviewTargets.url.textContent = `${slug}.getonlinefast.eu`;
+    if (targets.url) {
+      targets.url.textContent = `${slug}.getonlinefast.eu`;
     }
-    if (modalPreviewTargets.name) modalPreviewTargets.name.textContent = values.name;
-    if (modalPreviewTargets.city) modalPreviewTargets.city.textContent = values.city;
-    if (modalPreviewTargets.title) {
-      const titleTemplate = modalPreviewLayout?.dataset.titleTemplate || "";
-      modalPreviewTargets.title.textContent = formatPreviewTemplate(titleTemplate, {
+    if (targets.name) targets.name.textContent = values.name;
+    if (targets.city) targets.city.textContent = values.city;
+    if (targets.title) {
+      const titleTemplate = previewLayout.dataset.titleTemplate || "";
+      targets.title.textContent = formatPreviewTemplate(titleTemplate, {
         type: values.type.toLowerCase(),
         city: values.city,
       });
     }
-    if (modalPreviewTargets.text) modalPreviewTargets.text.textContent = values.text;
-    if (modalPreviewTargets.type) modalPreviewTargets.type.textContent = values.type;
-    if (modalPreviewTargets.serviceLine) {
-      const serviceLineTemplate = modalPreviewLayout?.dataset.serviceLineTemplate || "";
-      modalPreviewTargets.serviceLine.textContent = formatPreviewTemplate(serviceLineTemplate, {
+    if (targets.text) targets.text.textContent = values.text;
+    if (targets.type) targets.type.textContent = values.type;
+    if (targets.serviceLine) {
+      const serviceLineTemplate = previewLayout.dataset.serviceLineTemplate || "";
+      targets.serviceLine.textContent = formatPreviewTemplate(serviceLineTemplate, {
         type: values.type,
         city: values.city,
       });
     }
 
+    if (targets.templateLabel && values.templateLabel) {
+      targets.templateLabel.textContent = values.templateLabel;
+    }
+    if (targets.templatePreview) {
+      previewTemplateClasses.forEach((className) => {
+        targets.templatePreview.classList.remove(className);
+      });
+      targets.templatePreview.dataset.templatePreview = values.template;
+      targets.templatePreview.classList.add(`template-${values.template.replace(/_/g, "-")}`);
+    }
+
     saveStoredPreview(values);
 
-    if (modalStatus) {
-      modalStatus.classList.remove("is-saved");
+    if (status) {
+      status.classList.remove("is-saved");
     }
   };
 
-  const applyStoredPreviewToModal = () => {
+  const applyStoredPreview = () => {
     const storedPreview = readStoredPreview();
 
-    if (storedPreview.name && modalFields.name) modalFields.name.value = storedPreview.name;
-    if (storedPreview.type && modalFields.type) modalFields.type.value = storedPreview.type;
-    if (storedPreview.city && modalFields.city) modalFields.city.value = storedPreview.city;
+    if (storedPreview.name && fields.name) fields.name.value = storedPreview.name;
+    if (storedPreview.type && fields.type) fields.type.value = storedPreview.type;
+    if (storedPreview.city && fields.city) fields.city.value = storedPreview.city;
+    if (storedPreview.text && fields.text) fields.text.value = storedPreview.text;
+    if (storedPreview.template && templateChoices.length) {
+      const matchingChoice = templateChoices.find((choice) => choice.value === storedPreview.template);
+      if (matchingChoice) {
+        matchingChoice.checked = true;
+      }
+    }
   };
 
+  Object.values(fields)
+    .filter(Boolean)
+    .forEach((field) => {
+      field.addEventListener("input", updatePreview);
+      field.addEventListener("change", updatePreview);
+    });
+
+  templateChoices.forEach((choice) => {
+    choice.addEventListener("change", updatePreview);
+  });
+
+  onboardingForm.addEventListener("submit", () => {
+    saveStoredPreview(getValues());
+
+    if (status) {
+      status.textContent = status.dataset.savedMessage || status.textContent;
+      status.classList.add("is-saved");
+    }
+  });
+
+  applyStoredPreview();
+  updatePreview();
+
+  return {
+    form: onboardingForm,
+    fields,
+    previewLayout,
+    updatePreview,
+  };
+};
+
+if (modal) {
+  const openTriggers = document.querySelectorAll('[data-modal-open="onboarding-modal"]');
+  const closeTriggers = modal.querySelectorAll("[data-modal-close]");
+  const modalPreviewLayout = modal.querySelector(".modal-preview-layout");
+  const modalPreview = bindOnboardingPreview(modalPreviewLayout);
+
   const openModal = () => {
-    updateModalPreview();
+    modalPreview?.updatePreview();
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -128,15 +208,15 @@ if (modal) {
 
   const syncPreviewToOnboarding = () => {
     const mappings = [
-      ["bizName", "id_business_name"],
-      ["bizType", "id_service_type"],
-      ["bizCity", "id_city"],
-      ["bizText", "id_short_description"],
+      ["bizName", "name"],
+      ["bizType", "type"],
+      ["bizCity", "city"],
+      ["bizText", "text"],
     ];
 
-    mappings.forEach(([previewId, formId]) => {
+    mappings.forEach(([previewId, fieldKey]) => {
       const previewField = document.getElementById(previewId);
-      const formField = document.getElementById(formId);
+      const formField = modalPreview?.fields?.[fieldKey];
 
       if (previewField && formField) {
         formField.value = previewField.value;
@@ -148,7 +228,21 @@ if (modal) {
       modalPreviewLayout.dataset.previewText = previewTextField.value.trim();
     }
 
-    updateModalPreview();
+    const previewTemplateChoices = Array.from(
+      document.querySelectorAll('#start input[name="template_slug_preview"][data-template-choice]')
+    );
+    const modalTemplateChoices = Array.from(
+      modal.querySelectorAll('input[name="template_slug"][data-template-choice]')
+    );
+    const selectedPreviewTemplate = previewTemplateChoices.find((choice) => choice.checked)?.value;
+    if (selectedPreviewTemplate && modalTemplateChoices.length) {
+      const matchingModalChoice = modalTemplateChoices.find((choice) => choice.value === selectedPreviewTemplate);
+      if (matchingModalChoice) {
+        matchingModalChoice.checked = true;
+      }
+    }
+
+    modalPreview?.updatePreview();
   };
 
   const closeModal = () => {
@@ -177,122 +271,13 @@ if (modal) {
     }
   });
 
-  if (onboardingForm) {
-    Object.values(modalFields)
-      .filter(Boolean)
-      .forEach((field) => {
-        field.addEventListener("input", updateModalPreview);
-        field.addEventListener("change", updateModalPreview);
-      });
-
-    onboardingForm.addEventListener("submit", () => {
-      saveStoredPreview(getModalPreviewValues());
-
-      if (modalStatus) {
-        modalStatus.textContent = modalStatus.dataset.savedMessage || modalStatus.textContent;
-        modalStatus.classList.add("is-saved");
-      }
-    });
-
-    applyStoredPreviewToModal();
-    updateModalPreview();
-  }
 }
 
-if (previewShell) {
-  const bizName = document.getElementById("bizName");
-  const bizType = document.getElementById("bizType");
-  const bizCity = document.getElementById("bizCity");
-  const bizText = document.getElementById("bizText");
-  const templateChoice = document.getElementById("templateChoice");
+const startBuilderPreviewLayout = document.querySelector("[data-onboarding-preview-page]");
 
-  const previewUrl = document.getElementById("previewUrl");
-  const previewBrand = document.getElementById("previewBrand");
-  const previewCity = document.getElementById("previewCity");
-  const previewTitle = document.getElementById("previewTitle");
-  const previewText = document.getElementById("previewText");
-  const previewTemplateLabel = document.getElementById("previewTemplateLabel");
-
-  const defaultName = previewShell.dataset.defaultName || "";
-  const defaultType = previewShell.dataset.defaultType || "";
-  const defaultCity = previewShell.dataset.defaultCity || "";
-  const defaultText = previewShell.dataset.defaultText || "";
-  const defaultSlug = previewShell.dataset.defaultSlug || "";
-  const titleTemplate = previewShell.dataset.titleTemplate || previewTitle.textContent || "";
-  const storageKey = previewShell.dataset.storageKey || publicPreviewStorageKey;
-  const defaultTemplateLabel = previewShell.dataset.defaultTemplateLabel || "";
-
-  const templatePresets = {
-    jcw_professional: {
-      label: templateChoice?.options[0]?.textContent || defaultTemplateLabel,
-    },
-  };
-
-  const previewFields = [bizName, bizType, bizCity, bizText, templateChoice].filter(Boolean);
-
-  const applyStoredPreview = () => {
-    const storedPreview = readStoredPreview(storageKey);
-
-    if (storedPreview.name && bizName) bizName.value = storedPreview.name;
-    if (storedPreview.type && bizType) bizType.value = storedPreview.type;
-    if (storedPreview.city && bizCity) bizCity.value = storedPreview.city;
-    if (storedPreview.text && bizText) bizText.value = storedPreview.text;
-    if (storedPreview.template && templateChoice) templateChoice.value = storedPreview.template;
-  };
-
-  const updatePreview = () => {
-    const name = bizName.value.trim() || defaultName;
-    const type = bizType.value.trim() || defaultType;
-    const city = bizCity.value.trim() || defaultCity;
-    const text = bizText?.value.trim() || defaultText;
-    const template = templateChoice?.value || previewShell.dataset.template || "jcw_professional";
-    const templatePreset = templatePresets[template] || templatePresets.jcw_professional;
-    const slug = slugifyBusinessName(name, defaultSlug);
-
-    if (previewUrl) {
-      previewUrl.textContent = `${slug}.getonlinefast.eu`;
-    }
-
-    previewShell.dataset.template = template;
-    previewBrand.textContent = name;
-    previewCity.textContent = city;
-    previewTitle.textContent = formatPreviewTemplate(titleTemplate, {
-      type: type.toLowerCase(),
-      city,
-    });
-    previewText.textContent = text;
-
-    if (previewTemplateLabel && templatePreset) {
-      previewTemplateLabel.textContent = templatePreset.label;
-    }
-
-    // TODO: Add simple preview suggestions using 2-3 fields:
-    // - Business name
-    // - Business type/service
-    // - City
-    // Suggested output:
-    // - suggested headline
-    // - suggested short description
-    // - suggested CTA text
-
-    saveStoredPreview({
-      name: bizName.value,
-      type: bizType.value,
-      city: bizCity.value,
-      text,
-      template,
-    }, storageKey);
-  };
-
-  previewFields.forEach((element) => {
-    element.addEventListener("input", updatePreview);
-    element.addEventListener("change", updatePreview);
-  });
-
-  applyStoredPreview();
-  updatePreview();
+if (startBuilderPreviewLayout) {
+  bindOnboardingPreview(startBuilderPreviewLayout);
 }
-
 const heroSlider = document.querySelector("[data-hero-slider]");
 
 if (heroSlider) {
@@ -393,4 +378,152 @@ if (heroSlider) {
 
   renderSlide(activeIndex);
   startAutoSlide();
+}
+
+const siteAssistant = document.querySelector("[data-site-assistant]");
+
+if (siteAssistant) {
+  const toggle = siteAssistant.querySelector("[data-assistant-toggle]");
+  const closeButton = siteAssistant.querySelector("[data-assistant-close]");
+  const panel = siteAssistant.querySelector("[data-assistant-panel]");
+  const form = siteAssistant.querySelector("[data-assistant-form]");
+  const input = siteAssistant.querySelector("[data-assistant-input]");
+  const messages = siteAssistant.querySelector("[data-assistant-messages]");
+  const suggestionButtons = Array.from(siteAssistant.querySelectorAll("[data-assistant-suggestion]"));
+  const endpoint = siteAssistant.dataset.assistantEndpoint || "";
+  const language = siteAssistant.dataset.assistantLanguage || "en";
+
+  const labels = {
+    en: {
+      loading: "Checking that for you...",
+      error: "I could not load an answer right now. Please use the contact or support page.",
+    },
+    nl: {
+      loading: "Ik kijk het even voor je na...",
+      error: "Ik kon nu geen antwoord laden. Gebruik dan de contact- of supportpagina.",
+    },
+  };
+
+  const copy = labels[language] || labels.en;
+
+  const appendMessage = (text, type, links = []) => {
+    if (!messages) return null;
+
+    const node = document.createElement("article");
+    node.className = `site-assistant-message site-assistant-message--${type}`;
+
+    const textNode = document.createElement("p");
+    textNode.className = "site-assistant-message__text";
+    textNode.textContent = text;
+    node.appendChild(textNode);
+
+    if (type === "assistant" && Array.isArray(links) && links.length) {
+      const linksNode = document.createElement("div");
+      linksNode.className = "site-assistant-message__links";
+
+      links.forEach((link) => {
+        if (!link?.url || !link?.label) {
+          return;
+        }
+
+        const anchor = document.createElement("a");
+        anchor.href = link.url;
+        anchor.textContent = link.label;
+        linksNode.appendChild(anchor);
+      });
+
+      if (linksNode.childElementCount) {
+        node.appendChild(linksNode);
+      }
+    }
+
+    messages.appendChild(node);
+    messages.scrollTop = messages.scrollHeight;
+    return node;
+  };
+
+  const requestAssistantAnswer = async (question) => {
+    if (!endpoint) {
+      throw new Error("Assistant endpoint missing");
+    }
+
+    const url = new URL(endpoint, window.location.origin);
+    url.searchParams.set("q", question);
+    url.searchParams.set("lang", language);
+
+    const response = await fetch(url.toString(), {
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Assistant request failed: ${response.status}`);
+    }
+
+    return response.json();
+  };
+
+  const submitAssistantQuestion = async (question) => {
+    const trimmedQuestion = (question || "").trim();
+    if (!trimmedQuestion) {
+      return;
+    }
+
+    appendMessage(trimmedQuestion, "user");
+    if (input) {
+      input.value = "";
+    }
+
+    const loadingNode = appendMessage(copy.loading, "assistant");
+
+    try {
+      const payload = await requestAssistantAnswer(trimmedQuestion);
+      const replacementNode = appendMessage(payload.answer || copy.error, "assistant", payload.suggested_links || []);
+      loadingNode?.remove();
+      messages?.scrollTo({ top: messages.scrollHeight, behavior: "smooth" });
+      return replacementNode;
+    } catch (error) {
+      if (loadingNode) {
+        const textNode = loadingNode.querySelector(".site-assistant-message__text");
+        if (textNode) {
+          textNode.textContent = copy.error;
+        }
+      }
+      return null;
+    }
+  };
+
+  const setOpen = (open) => {
+    if (!panel) return;
+    panel.hidden = !open;
+    siteAssistant.classList.toggle("is-open", open);
+    if (open) {
+      input?.focus();
+    }
+  };
+
+  toggle?.addEventListener("click", () => {
+    setOpen(panel?.hidden);
+  });
+
+  closeButton?.addEventListener("click", () => {
+    setOpen(false);
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!endpoint || !input) return;
+
+    await submitAssistantQuestion(input.value);
+  });
+
+  suggestionButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const question = button.dataset.assistantSuggestion || button.textContent || "";
+      setOpen(true);
+      if (input) {
+        input.value = question;
+      }
+      await submitAssistantQuestion(question);
+    });
+  });
 }

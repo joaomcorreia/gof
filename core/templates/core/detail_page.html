@@ -3,6 +3,10 @@
 
 {% block title %}{{ page_title }} | {% trans "Get Online Fast" %}{% endblock %}
 
+{% block extra_head %}
+<meta name="description" content="{{ page_meta_description|default:page_intro }}">
+{% endblock %}
+
 {% block content %}
 <section class="page-hero">
   <div class="wrap narrow">

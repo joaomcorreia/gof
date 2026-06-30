@@ -1,14 +1,26 @@
 {% load i18n %}
-<section class="site-section site-section-hero">
-  <div>
-    <span class="site-section-kicker">{{ values.kicker }}</span>
-    <h1>{{ values.title }}</h1>
-    <p>{{ values.description }}</p>
-    <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
-  </div>
-  <div class="site-section-card">
-    <span>{% trans "Suggested website setup" %}</span>
-    <strong>{{ values.highlight_title }}</strong>
-    <p>{{ values.highlight_text }}</p>
+<section class="site-section site-section-hero gof-template-row gof-template-row--hero {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:'hero' }}">
+  <div class="gof-template-inner gof-template-inner--split">
+    <div class="site-section-hero-copy">
+      <span class="site-section-kicker">{{ values.kicker }}</span>
+      <h1>{{ values.title }}</h1>
+      <p>{{ values.description }}</p>
+      <div class="site-section-actions">
+        <a class="btn btn-primary" href="#contact">{{ values.cta_text }}</a>
+        {% if values.secondary_cta_text %}
+        <a class="btn btn-secondary" href="#process">{{ values.secondary_cta_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="site-section-hero-visual">
+      <div class="site-section-image-frame">
+        <img src="{{ values.hero_image_url }}" alt="{{ values.hero_image_alt }}" class="site-section-image">
+      </div>
+      <div class="site-section-card">
+        <span>{% trans "Template note" %}</span>
+        <strong>{{ values.highlight_title }}</strong>
+        <p>{{ values.highlight_text }}</p>
+      </div>
+    </div>
   </div>
 </section>

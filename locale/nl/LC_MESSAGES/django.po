@@ -2794,6 +2794,151 @@ msgstr "Get Online Fast. Alle rechten voorbehouden."
 msgid "Get Online Fast is part of the Just Code Works platform."
 msgstr "Get Online Fast maakt deel uit van het Just Code Works-platform."
 
+msgid "Business details"
+msgstr "Bedrijfsgegevens"
+
+msgid "Contact person"
+msgstr "Contactpersoon"
+
+msgid "Website content"
+msgstr "Website-inhoud"
+
+msgid "Uploads"
+msgstr "Uploads"
+
+msgid "Website Launch Package"
+msgstr "Website Startpakket"
+
+msgid "Business Website"
+msgstr "Bedrijfswebsite"
+
+msgid "Your Area"
+msgstr "Jouw regio"
+
+msgid "Get a professional WordPress business website online quickly."
+msgstr "Zet snel een professionele WordPress-bedrijfswebsite online."
+
+msgid "Normal price"
+msgstr "Normale prijs"
+
+msgid "Meeting offer"
+msgstr "Aanbieding voor de bijeenkomst"
+
+msgid "You save"
+msgstr "Je bespaart"
+
+msgid ""
+"Usually ready within 24 to 48 hours after we receive the required business "
+"details, logo/images, services, and domain information."
+msgstr ""
+"Meestal klaar binnen 24 tot 48 uur nadat we de benodigde "
+"bedrijfsgegevens, het logo/de afbeeldingen, de diensten en de "
+"domeininformatie hebben ontvangen."
+
+msgid "Professional WordPress business website"
+msgstr "Professionele WordPress-bedrijfswebsite"
+
+msgid "Mobile-ready design"
+msgstr "Mobielvriendelijk ontwerp"
+
+msgid "SEO-ready structure"
+msgstr "SEO-klare structuur"
+
+msgid "Homepage, services, and contact area"
+msgstr "Homepage, diensten en contactgedeelte"
+
+msgid "Phone, email and/or WhatsApp contact options"
+msgstr "Contactmogelijkheden via telefoon, e-mail en/of WhatsApp"
+
+msgid "2 Facebook launch posts per week during the first month"
+msgstr "2 Facebook-lanceringsposts per week tijdens de eerste maand"
+
+msgid ""
+"Upgrade path for extra languages, SEO support, shop/catalog, and AI website "
+"assistant"
+msgstr ""
+"Uitbreidingsmogelijkheid voor extra talen, SEO-ondersteuning, shop/catalogus "
+"en een AI-websiteassistent"
+
+msgid ""
+"Thank you. We received your website request. Get Online Fast will review "
+"your details and contact you before starting."
+msgstr ""
+"Bedankt. We hebben je websiteaanvraag ontvangen. Get Online Fast bekijkt je "
+"gegevens en neemt contact met je op voordat we starten."
+
+msgid "This is a request, not automatic payment or automatic start."
+msgstr "Dit is een aanvraag, geen automatische betaling of automatische start."
+
+msgid "Request ID"
+msgstr "Aanvraag-ID"
+
+msgid "Send website request"
+msgstr "Websiteaanvraag versturen"
+
+msgid ""
+"This is a request only. Get Online Fast will review your details and "
+"contact you before starting."
+msgstr ""
+"Dit is alleen een aanvraag. Get Online Fast bekijkt je gegevens en neemt "
+"contact met je op voordat we starten."
+
+msgid "Default starter template"
+msgstr "Standaard starttemplate"
+
+msgid "Professional business website for your area"
+msgstr "Professionele bedrijfswebsite voor uw regio"
+
+msgid "Request this package"
+msgstr "Vraag dit pakket aan"
+
+msgid ""
+"Clear pages, mobile-ready structure, and a fast launch request for today's "
+"meeting."
+msgstr ""
+"Duidelijke pagina's, een mobielvriendelijke structuur en een snelle "
+"startaanvraag voor de bijeenkomst van vandaag."
+
+msgid "Business website setup for your area and nearby customers."
+msgstr "Bedrijfswebsite-opzet voor uw regio en klanten in de omgeving."
+
+msgid "Fast launch"
+msgstr "Snelle lancering"
+
+msgid "Direct contact options"
+msgstr "Directe contactopties"
+
+msgid "Website examples"
+msgstr "Websitevoorbeelden"
+
+msgid ""
+"A few examples of business websites and previews built with the Get Online "
+"Fast / Just Code Works system."
+msgstr ""
+"Enkele voorbeelden van zakelijke websites en previews gebouwd met het Get "
+"Online Fast / Just Code Works-systeem."
+
+msgid "Garage and vehicle service website example."
+msgstr "Voorbeeld van een website voor garage en voertuigservice."
+
+msgid "Construction and handyman website example."
+msgstr "Voorbeeld van een website voor bouw- en klusbedrijf."
+
+msgid "Taxi and transport website example."
+msgstr "Voorbeeld van een website voor taxi en vervoer."
+
+msgid "Garage, auto parts, and motorcycle parts concept."
+msgstr "Concept voor garage, auto-onderdelen en motoronderdelen."
+
+msgid "Open preview"
+msgstr "Bekijk preview"
+
+msgid "© 2026 Get Online Fast. All rights reserved."
+msgstr "© 2026 Get Online Fast. Alle rechten voorbehouden."
+
+msgid "Get Online Fast is a Just Code Works platform."
+msgstr "Get Online Fast is een platform van Just Code Works."
+
 msgid "Get Online Fast home"
 msgstr "Get Online Fast-homepage"
 
@@ -2814,6 +2959,38 @@ msgstr "Home"
 
 msgid "Start now"
 msgstr "Start nu"
+
+msgid "VAT"
+msgstr "btw"
+
+msgid "Current offer"
+msgstr "Actuele aanbieding"
+
+msgid "Request your website by email"
+msgstr "Vraag je website aan via e-mail"
+
+msgid ""
+"The online request form is temporarily unavailable. To use the meeting "
+"offer, email your business details, logo, photos and website request to:"
+msgstr ""
+"Het online aanvraagformulier is tijdelijk niet beschikbaar. Wil je "
+"gebruikmaken van de meeting-aanbieding? Stuur je bedrijfsgegevens, logo, "
+"foto's en websiteaanvraag naar:"
+
+msgid "Mention code GEMEENTE50 for the €50 meeting discount."
+msgstr "Vermeld code GEMEENTE50 voor de €50 korting."
+
+msgid "Send these details"
+msgstr "Stuur deze gegevens mee"
+
+msgid "Contact name, email and phone/WhatsApp"
+msgstr "Contactpersoon, e-mail en telefoon/WhatsApp"
+
+msgid "Current domain or website, if you have one"
+msgstr "Huidige domeinnaam of website, als je die hebt"
+
+msgid "Logo, photos, flyers, menu, price list or other useful files"
+msgstr "Logo, foto's, flyer, menu, prijslijst of andere nuttige bestanden"
 
 msgid "Language switcher"
 msgstr "Taalwisselaar"

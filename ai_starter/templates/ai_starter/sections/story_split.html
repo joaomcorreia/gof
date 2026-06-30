@@ -1,0 +1,17 @@
+<section class="site-section site-section-story gof-template-row gof-template-row--light {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:'about' }}">
+  <div class="gof-template-inner gof-template-inner--split">
+    <div class="site-section-copy">
+      <span class="site-section-kicker">{{ values.kicker }}</span>
+      <h2>{{ values.title }}</h2>
+      <p>{{ values.description }}</p>
+    </div>
+    <div class="site-story-card">
+      <p class="site-story-card-copy">{{ values.support_text }}</p>
+      <strong>{{ values.support_title }}</strong>
+      <ul class="site-story-points">
+        <li>{{ values.point_1 }}</li>
+        <li>{{ values.point_2 }}</li>
+      </ul>
+    </div>
+  </div>
+</section>

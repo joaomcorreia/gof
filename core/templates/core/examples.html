@@ -1,16 +1,20 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
-{% block title %}{% trans "Examples" %} | {% trans "Get Online Fast" %}{% endblock %}
+{% block title %}{% trans "Starting layouts" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
 
 {% block content %}
 <section class="page-hero">
   <div class="wrap narrow">
-    <div class="eyebrow">{% trans "Template examples" %}</div>
-    <h1>{% trans "Choose a starting design for your business" %}</h1>
-    <p class="page-copy">{% trans "These templates are practical starting points. You can test one, adjust the content, and switch direction while previewing." %}</p>
+    <div class="eyebrow">{% trans "Starting layouts" %}</div>
+    <h1>{% trans "Choose a starting layout before you start" %}</h1>
+    <p class="page-copy">{% trans "Start with a layout direction, then adapt the colours, images, content, and style to your business. These examples show structure first, not fixed final designs." %}</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="{% url 'core:home' %}#start">{% trans "Start your preview" %}</a>
+      <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us about layouts" %}</a>
       <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View plans" %}</a>
     </div>
   </div>
@@ -20,31 +24,61 @@
   <div class="wrap">
     <div class="section-head">
       <div>
-        <h2>{% trans "Starting templates you can test" %}</h2>
+        <h2>{% trans "Starting layouts" %}</h2>
       </div>
-      <p>{% trans "Pick the closest fit first. The structure can be adjusted as your website preview takes shape." %}</p>
+      <p>{% trans "Pick the structure first. Colours, images, text, and styling can be adapted later for your business." %}</p>
     </div>
-    <div class="examples">
-      <article class="card template-card" data-template="plumbing">
-        <div class="example-shot">{% trans "Plumbing" %}</div>
-        <h3>{% trans "Plumbing" %}</h3>
-        <p>{% trans "For repairs, installations, urgent jobs, service areas, and fast quote requests." %}</p>
-        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="plumbing">{% trans "Test this template" %}</a>
-      </article>
-      <article class="card template-card" data-template="cleaning">
-        <div class="example-shot">{% trans "Cleaning Services" %}</div>
-        <h3>{% trans "Cleaning Services" %}</h3>
-        <p>{% trans "For home cleaning, office cleaning, packages, availability, and quote enquiries." %}</p>
-        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="cleaning">{% trans "Test this template" %}</a>
-      </article>
-      <article class="card template-card" data-template="electrician">
-        <div class="example-shot">{% trans "Electrician" %}</div>
-        <h3>{% trans "Electrician" %}</h3>
-        <p>{% trans "For call-outs, inspections, repairs, installations, and clear contact options." %}</p>
-        <a class="btn btn-secondary" href="{% url 'core:home' %}#start" data-template="electrician">{% trans "Test this template" %}</a>
-      </article>
+
+    <div class="template-category-list">
+      {% for group in template_groups %}
+      <section class="template-category-section" aria-labelledby="template-category-{{ forloop.counter }}">
+        <div class="template-category-head">
+          <h3 id="template-category-{{ forloop.counter }}">{{ group.title }}</h3>
+          {% if group.description %}
+          <p>{{ group.description }}</p>
+          {% endif %}
+        </div>
+
+        <div class="template-category-row" role="list">
+          {% for card in group.cards %}
+          <article class="card template-gallery-card{% if card.status == 'reference' %} is-reference{% endif %}" role="listitem">
+            <div class="template-gallery-shot-wrap">
+              <img
+                class="template-gallery-shot"
+                src="{% static card.image_path %}"
+                alt="{{ card.name }}"
+                loading="lazy"
+              >
+              <span class="template-gallery-status{% if card.status == 'reference' %} is-reference{% else %} is-ready{% endif %}">
+                {% if card.status == 'ready' %}
+                {% trans "Starting layout" %}
+                {% else %}
+                {% trans "Wireframe" %}
+                {% endif %}
+              </span>
+            </div>
+
+            <div class="template-gallery-body">
+              <div class="template-gallery-meta">
+                <span>{{ group.title }}</span>
+              </div>
+              <h4>{{ card.name }}</h4>
+              <p>{{ card.description }}</p>
+              <p class="small template-gallery-bestfor">{% trans "Best for" %}: {{ card.best_for }}</p>
+
+              {% if card.status == 'reference' %}
+              <p class="small template-gallery-note">{{ reference_note }}</p>
+              {% endif %}
+
+              <a class="btn btn-secondary" href="{% url 'core:contact' %}">{% if card.status == 'ready' %}{% trans "Contact us about this layout" %}{% else %}{% trans "Ask about this layout" %}{% endif %}</a>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endfor %}
     </div>
-    <p class="small examples-note">{% trans "You can switch templates while testing." %}</p>
+    <p class="small examples-note">{% trans "Each layout can be adapted with different colours, images, services, pages, and contact options." %}</p>
   </div>
 </section>
 {% endblock %}

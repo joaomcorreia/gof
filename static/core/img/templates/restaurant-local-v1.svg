@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Restaurant and Local Shop template placeholder</title>
+  <desc id="desc">Placeholder preview image for the Restaurant and Local Shop website style reference.</desc>
+  <rect width="1600" height="1100" fill="#f7efe7"/>
+  <rect x="90" y="90" width="1420" height="920" rx="34" fill="#fffaf6" stroke="#e6d6c6"/>
+  <rect x="130" y="140" width="1340" height="60" rx="14" fill="#6b3d2c"/>
+  <rect x="130" y="230" width="520" height="340" rx="24" fill="#e7b77f"/>
+  <rect x="680" y="230" width="750" height="340" rx="24" fill="#f6e6d6"/>
+  <rect x="130" y="610" width="280" height="220" rx="20" fill="#f3e5d7"/>
+  <rect x="440" y="610" width="280" height="220" rx="20" fill="#f3e5d7"/>
+  <rect x="750" y="610" width="280" height="220" rx="20" fill="#f3e5d7"/>
+  <rect x="1060" y="610" width="370" height="220" rx="20" fill="#f3e5d7"/>
+  <text x="130" y="930" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#5c3326">Restaurant &amp; Local Shop</text>
+  <text x="130" y="985" font-family="Arial, sans-serif" font-size="34" fill="#7a6658">Reference style placeholder</text>
+</svg>

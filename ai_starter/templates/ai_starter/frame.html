@@ -4,10 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
   <title>{{ site.business_name }}</title>
   <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
-<body class="site-render-page site-palette-{{ site.color_palette }}">
+<body class="site-render-page site-palette-{{ site.color_palette }} {{ preview_template_class }} {{ preview_layout_class }}" data-template-slug="{{ preview_template_slug }}">
   <div class="site-render-shell">
     <header class="site-render-header">
       <strong>{{ site.business_name }}</strong>
@@ -19,8 +20,35 @@
     </header>
 
     {% for section in render_sections %}
-      {% include section.template_name with values=section.values %}
+      {% include section.template_name with values=section.values section_class=section.section_class section_id=section.section_id section_container_class=section.section_container_class section_layout_mode=section.section_layout_mode %}
     {% endfor %}
   </div>
+  <div class="site-floating-actions" aria-label="{% trans 'Quick actions' %}">
+    <a class="site-floating-action site-floating-action--contact" href="{{ floating_contact_href|default:'#contact' }}">
+      {{ floating_contact_label|default:_('Contact') }}
+    </a>
+    <button class="site-floating-action site-floating-action--top" type="button" aria-label="{% trans 'Back to top' %}" hidden>
+      Top
+    </button>
+  </div>
+  <script>
+    (function () {
+      var backToTopButton = document.querySelector('.site-floating-action--top');
+      if (!backToTopButton) {
+        return;
+      }
+
+      var toggleBackToTop = function () {
+        backToTopButton.hidden = window.scrollY <= 320;
+      };
+
+      backToTopButton.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      toggleBackToTop();
+      window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    }());
+  </script>
 </body>
 </html>

@@ -2803,6 +2803,150 @@ msgstr "Get Online Fast. Todos os direitos reservados."
 msgid "Get Online Fast is part of the Just Code Works platform."
 msgstr "Get Online Fast faz parte da plataforma Just Code Works."
 
+msgid "Business details"
+msgstr "Dados da empresa"
+
+msgid "Contact person"
+msgstr "Pessoa de contacto"
+
+msgid "Website content"
+msgstr "Conteudo do website"
+
+msgid "Uploads"
+msgstr "Uploads"
+
+msgid "Website Launch Package"
+msgstr "Pacote de Lancamento de Website"
+
+msgid "Business Website"
+msgstr "Website empresarial"
+
+msgid "Your Area"
+msgstr "A sua area"
+
+msgid "Get a professional WordPress business website online quickly."
+msgstr "Coloque rapidamente online um website empresarial profissional em WordPress."
+
+msgid "Normal price"
+msgstr "Preco normal"
+
+msgid "Meeting offer"
+msgstr "Oferta da reuniao"
+
+msgid "You save"
+msgstr "Poupa"
+
+msgid ""
+"Usually ready within 24 to 48 hours after we receive the required business "
+"details, logo/images, services, and domain information."
+msgstr ""
+"Normalmente fica pronto dentro de 24 a 48 horas depois de recebermos os "
+"dados da empresa, logotipo/imagens, servicos e informacoes do dominio."
+
+msgid "Professional WordPress business website"
+msgstr "Website empresarial profissional em WordPress"
+
+msgid "Mobile-ready design"
+msgstr "Design preparado para telemovel"
+
+msgid "SEO-ready structure"
+msgstr "Estrutura preparada para SEO"
+
+msgid "Homepage, services, and contact area"
+msgstr "Pagina inicial, servicos e area de contacto"
+
+msgid "Phone, email and/or WhatsApp contact options"
+msgstr "Opcoes de contacto por telefone, email e/ou WhatsApp"
+
+msgid "2 Facebook launch posts per week during the first month"
+msgstr "2 publicacoes de lancamento no Facebook por semana durante o primeiro mes"
+
+msgid ""
+"Upgrade path for extra languages, SEO support, shop/catalog, and AI website "
+"assistant"
+msgstr ""
+"Possibilidade de expansao para idiomas extra, apoio SEO, loja/catalogo e "
+"assistente de website com IA"
+
+msgid ""
+"Thank you. We received your website request. Get Online Fast will review "
+"your details and contact you before starting."
+msgstr ""
+"Obrigado. Recebemos o seu pedido de website. A Get Online Fast vai rever os "
+"seus dados e entrar em contacto antes de comecar."
+
+msgid "This is a request, not automatic payment or automatic start."
+msgstr "Isto e um pedido, nao um pagamento automatico nem um inicio automatico."
+
+msgid "Request ID"
+msgstr "ID do pedido"
+
+msgid "Send website request"
+msgstr "Enviar pedido de website"
+
+msgid ""
+"This is a request only. Get Online Fast will review your details and "
+"contact you before starting."
+msgstr ""
+"Isto e apenas um pedido. A Get Online Fast vai rever os seus dados e entrar "
+"em contacto antes de comecar."
+
+msgid "Default starter template"
+msgstr "Template inicial predefinido"
+
+msgid "Professional business website for your area"
+msgstr "Website empresarial profissional para a sua area"
+
+msgid "Request this package"
+msgstr "Pedir este pacote"
+
+msgid ""
+"Clear pages, mobile-ready structure, and a fast launch request for today's "
+"meeting."
+msgstr ""
+"Paginas claras, estrutura preparada para telemovel e um pedido de lancamento "
+"rapido para a reuniao de hoje."
+
+msgid "Business website setup for your area and nearby customers."
+msgstr "Configuracao de website empresarial para a sua area e clientes proximos."
+
+msgid "Fast launch"
+msgstr "Lancamento rapido"
+
+msgid "Direct contact options"
+msgstr "Opcoes de contacto direto"
+
+msgid "Website examples"
+msgstr "Exemplos de websites"
+
+msgid ""
+"A few examples of business websites and previews built with the Get Online "
+"Fast / Just Code Works system."
+msgstr ""
+"Alguns exemplos de websites empresariais e previews criados com o sistema "
+"Get Online Fast / Just Code Works."
+
+msgid "Garage and vehicle service website example."
+msgstr "Exemplo de website para garagem e servicos de veiculos."
+
+msgid "Construction and handyman website example."
+msgstr "Exemplo de website para construcao e servicos de manutencao."
+
+msgid "Taxi and transport website example."
+msgstr "Exemplo de website para taxi e transporte."
+
+msgid "Garage, auto parts, and motorcycle parts concept."
+msgstr "Conceito para garagem, pecas auto e pecas de motociclo."
+
+msgid "Open preview"
+msgstr "Abrir preview"
+
+msgid "© 2026 Get Online Fast. All rights reserved."
+msgstr "© 2026 Get Online Fast. Todos os direitos reservados."
+
+msgid "Get Online Fast is a Just Code Works platform."
+msgstr "Get Online Fast e uma plataforma da Just Code Works."
+
 msgid "Get Online Fast home"
 msgstr "Página inicial Get Online Fast"
 

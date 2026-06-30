@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}{{ activation_title }} | Get Online Fast{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{{ activation_eyebrow }}</div>
+    <h1>{{ activation_title }}</h1>
+    <p class="page-copy">{{ activation_intro }}</p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap legal-content payment-confirmation-page">
+    <article class="card payment-package-card">
+      <h2>Inbegrepen in deze website setup</h2>
+      <ul class="clean-list legal-page-list">
+        {% for item in activation_included_items %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>Niet standaard inbegrepen</h2>
+      <ul class="clean-list legal-page-list">
+        {% for item in activation_not_included_items %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>Handige links</h2>
+      <div class="legal-page-nav__links">
+        {% for item in activation_helpful_links %}
+          <a class="btn btn-secondary" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>Verplichte bevestigingen</h2>
+      {% if payment_error_message %}
+        <div class="payment-confirmation-alert">{{ payment_error_message }}</div>
+      {% endif %}
+      {% if not payment_link_configured and not payment_error_message %}
+        <div class="payment-confirmation-alert">{{ payment_missing_message }}</div>
+      {% endif %}
+
+      <form method="post" class="payment-confirmation-form" data-payment-confirmation-form data-payment-configured="{% if payment_link_configured %}true{% else %}false{% endif %}">
+        {% csrf_token %}
+        <div class="payment-confirmation-checks">
+          {% for item in activation_checks %}
+            <label class="payment-confirmation-check">
+              <input type="checkbox" name="{{ item.name }}"{% if item.checked %} checked{% endif %} data-payment-confirmation-check>
+              <span>
+                {% if item.name == 'confirm_legal_pages' %}
+                  Ik heb de volgende paginas gelezen:
+                  {% for link in activation_legal_links %}
+                    <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.label }}</a>{% if not forloop.last %},{% endif %}
+                  {% endfor %}.
+                {% else %}
+                  {{ item.label }}
+                {% endif %}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+        <button class="btn btn-primary" type="submit" disabled data-payment-confirmation-submit>
+          {{ payment_button_label }}
+        </button>
+        <p class="small payment-confirmation-note">{{ payment_note }}</p>
+      </form>
+    </article>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function () {
+    var form = document.querySelector('[data-payment-confirmation-form]');
+    if (!form) return;
+
+    var checks = Array.prototype.slice.call(form.querySelectorAll('[data-payment-confirmation-check]'));
+    var submit = form.querySelector('[data-payment-confirmation-submit]');
+    if (!submit) return;
+
+    var configured = form.getAttribute('data-payment-configured') === 'true';
+
+    function updateState() {
+      var allChecked = checks.every(function (checkbox) {
+        return checkbox.checked;
+      });
+
+      submit.disabled = !configured || !allChecked;
+    }
+
+    updateState();
+    checks.forEach(function (checkbox) {
+      checkbox.addEventListener('change', updateState);
+    });
+  })();
+</script>
+{% endblock %}

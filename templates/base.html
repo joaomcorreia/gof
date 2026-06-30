@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% if site_noindex|default:True %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  {% if global_site_noindex or site_noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <meta name="msvalidate.01" content="2265E66186640799AB827F84D8FAC5F1">
   <title>{% block title %}{% trans "Get Online Fast" %}{% endblock %}</title>
   <link rel="icon" type="image/png" href="{% static 'core/img/favicon.png' %}">
@@ -26,12 +26,13 @@
   </script>
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}gof-public-page{% endblock %}">
   {% include "includes/site_header.html" %}
   <main>
     {% block content %}{% endblock %}
   </main>
   {% include "includes/site_footer.html" %}
+  {% include "includes/site_assistant.html" %}
   <script src="{% static 'core/js/main.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>

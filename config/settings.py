@@ -7,6 +7,11 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOCAL_FALLBACK_SECRET_KEY = 'django-insecure-local-dev-only-change-me'
+PROJECT_ENV_OVERRIDE_KEYS = {
+    'OPENAI_API_KEY',
+    'GOF_AI_ENABLED',
+    'GOF_AI_MODEL',
+}
 
 
 def load_env_file(path):
@@ -16,10 +21,10 @@ def load_env_file(path):
     try:
         from dotenv import load_dotenv
     except ImportError:
-        pass
+        load_with_dotenv = False
     else:
         load_dotenv(path, override=False)
-        return
+        load_with_dotenv = True
 
     for line in path.read_text(encoding='utf-8').splitlines():
         line = line.strip()
@@ -29,7 +34,12 @@ def load_env_file(path):
         key, value = line.split('=', 1)
         key = key.strip()
         value = value.strip().strip('"').strip("'")
-        os.environ.setdefault(key, value)
+        if key in PROJECT_ENV_OVERRIDE_KEYS:
+            os.environ[key] = value
+            continue
+
+        if not load_with_dotenv:
+            os.environ.setdefault(key, value)
 
 
 def env_bool(name, default=False):
@@ -182,6 +192,12 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'webmaster@localhost')
 CONTACT_EMAIL_TO = os.environ.get('CONTACT_EMAIL_TO', DEFAULT_FROM_EMAIL)
+GETONLINEFAST_WEBSITE_PACKAGE_PAYMENT_URL = os.environ.get('GETONLINEFAST_WEBSITE_PACKAGE_PAYMENT_URL', '').strip()
+GETONLINEFAST_HMD_KLUSBEDRIJF_PAYMENT_URL = os.environ.get('GETONLINEFAST_HMD_KLUSBEDRIJF_PAYMENT_URL', '').strip()
+
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '').strip()
+GOF_AI_MODEL = os.environ.get('GOF_AI_MODEL', 'gpt-4.1-mini').strip() or 'gpt-4.1-mini'
+GOF_AI_ENABLED = env_bool('GOF_AI_ENABLED', bool(OPENAI_API_KEY))
 
 CSRF_TRUSTED_ORIGINS = env_list(
     'DJANGO_CSRF_TRUSTED_ORIGINS',

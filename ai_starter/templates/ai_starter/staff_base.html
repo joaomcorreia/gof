@@ -1,0 +1,149 @@
+{% load i18n %}
+<!DOCTYPE html>
+{% get_current_language as CURRENT_LANGUAGE %}
+<html lang="{{ CURRENT_LANGUAGE|default:'en' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}{% trans "Get Online Fast Staff" %}{% endblock %}</title>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+      color: #111827;
+      font-family: Georgia, "Times New Roman", serif;
+      margin: 0;
+      min-height: 100vh;
+    }
+    a {
+      color: inherit;
+    }
+    .staff-shell {
+      min-height: 100vh;
+    }
+    .staff-topbar {
+      background: rgba(15, 23, 42, 0.96);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      color: #f8fafc;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .staff-topbar-inner {
+      align-items: center;
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      margin: 0 auto;
+      padding: 14px 24px;
+      width: min(96vw, 1600px);
+    }
+    .staff-brand {
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .staff-topbar-nav {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .staff-topbar-nav a {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      color: #e5eefc;
+      padding: 8px 14px;
+      text-decoration: none;
+    }
+    .staff-topbar-nav a.is-active,
+    .staff-topbar-nav a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.28);
+      color: #fff;
+    }
+    .staff-topbar-user {
+      color: #cbd5e1;
+      font-size: 0.92rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .staff-main {
+      padding: 0;
+    }
+    .staff-page-messages {
+      display: grid;
+      gap: 10px;
+      margin: 0 auto;
+      padding: 20px 0 0;
+      width: min(96vw, 1600px);
+    }
+    .staff-page-message {
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+    .staff-page-message.success { background: #ecfdf5; color: #065f46; }
+    .staff-page-message.error { background: #fef2f2; color: #991b1b; }
+    .staff-page-message.warning { background: #fffbeb; color: #92400e; }
+    @media (max-width: 900px) {
+      .staff-topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 16px;
+      }
+      .staff-topbar-nav {
+        justify-content: flex-start;
+      }
+      .staff-topbar-user {
+        text-align: left;
+        white-space: normal;
+      }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="staff-shell">
+    <header class="staff-topbar">
+      <div class="staff-topbar-inner">
+        <a class="staff-brand" href="{% url 'ai_starter:staff_handoffs' %}">{% trans "Get Online Fast Staff" %}</a>
+        <nav class="staff-topbar-nav" aria-label="{% trans 'Staff navigation' %}">
+          <a class="{% if request.resolver_match and request.resolver_match.url_name == 'staff_handoffs' %}is-active{% endif %}" href="{% url 'ai_starter:staff_handoffs' %}">{% trans "Handoffs" %}</a>
+          <a class="{% if request.resolver_match and request.resolver_match.url_name == 'staff_assistant' %}is-active{% endif %}" href="{% url 'ai_starter:staff_assistant' %}">{% trans "Assistant" %}</a>
+          <a class="{% if request.resolver_match and request.resolver_match.url_name == 'staff_template_wireframes' %}is-active{% endif %}" href="{% url 'ai_starter:staff_template_wireframes' %}">{% trans "Wireframes" %}</a>
+          <a href="{% url 'admin:index' %}">{% trans "Django Admin" %}</a>
+          <a href="{% url 'core:home' %}">{% trans "View public site" %}</a>
+        </nav>
+        <div class="staff-topbar-user">
+          {% if request.user.is_authenticated %}
+          {{ request.user.get_username }}
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    {% if messages %}
+    <div class="staff-page-messages">
+      {% for message in messages %}
+      <div class="staff-page-message {{ message.tags|default:'info' }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="staff-main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,251 @@
+{% extends "ai_starter/staff_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Staff handoff dashboard" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .staff-handoffs-page {
+    padding: 32px 0 48px;
+  }
+  .staff-handoffs-shell {
+    margin: 0 auto;
+    width: min(96vw, 1600px);
+  }
+  .staff-handoffs-header {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .staff-handoffs-header h1 {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin: 0;
+  }
+  .staff-handoffs-header p {
+    color: #4b5563;
+    font-size: 1rem;
+    margin: 0;
+    max-width: 760px;
+  }
+  .staff-handoffs-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .staff-handoffs-filter {
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    color: #1f2937;
+    padding: 8px 14px;
+    text-decoration: none;
+  }
+  .staff-handoffs-filter.is-active {
+    background: #111827;
+    border-color: #111827;
+    color: #fff;
+  }
+  .staff-handoffs-table-wrap {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    overflow: auto;
+  }
+  .staff-handoffs-table {
+    border-collapse: collapse;
+    min-width: 1220px;
+    width: 100%;
+  }
+  .staff-handoffs-table th,
+  .staff-handoffs-table td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .staff-handoffs-table th {
+    background: #f9fafb;
+    color: #374151;
+    font-size: 0.92rem;
+  }
+  .staff-handoffs-table tr:last-child td {
+    border-bottom: 0;
+  }
+  .staff-handoffs-meta {
+    color: #6b7280;
+    display: block;
+    font-size: 0.86rem;
+    margin-top: 4px;
+  }
+  .staff-handoffs-badge {
+    border-radius: 999px;
+    display: inline-block;
+    font-size: 0.82rem;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  .staff-handoffs-badge.status-prepared { background: #dbeafe; color: #1d4ed8; }
+  .staff-handoffs-badge.status-completed { background: #dcfce7; color: #166534; }
+  .staff-handoffs-badge.status-failed { background: #fee2e2; color: #b91c1c; }
+  .staff-handoffs-badge.status-other { background: #f3f4f6; color: #374151; }
+  .staff-handoffs-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .staff-handoffs-actions form,
+  .staff-handoffs-actions a {
+    margin: 0;
+  }
+  .staff-handoffs-button {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    color: #111827;
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    padding: 8px 12px;
+    text-decoration: none;
+  }
+  .staff-handoffs-button:hover {
+    border-color: #111827;
+  }
+  .staff-handoffs-empty {
+    color: #6b7280;
+    padding: 18px 16px;
+  }
+  @media (max-width: 900px) {
+    .staff-handoffs-page {
+      padding: 24px 0 40px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="staff-handoffs-page">
+  <div class="staff-handoffs-shell">
+    <header class="staff-handoffs-header">
+      <h1>{% trans "Staff handoff dashboard" %}</h1>
+      <p>{% trans "Manage Django preview handoffs before WordPress setup." %}</p>
+      <div>
+        <a class="staff-handoffs-button" href="{% url 'ai_starter:staff_assistant' %}">{% trans "Open staff assistant" %}</a>
+      </div>
+    </header>
+
+    <nav class="staff-handoffs-filters" aria-label="{% trans 'Handoff status filters' %}">
+      {% for tab in filter_tabs %}
+      <a class="staff-handoffs-filter{% if tab.active %} is-active{% endif %}" href="{{ tab.url }}">{{ tab.label }}</a>
+      {% endfor %}
+    </nav>
+    <div class="staff-handoffs-table-wrap">
+      <table class="staff-handoffs-table">
+        <thead>
+          <tr>
+            <th>{% trans "Business" %}</th>
+            <th>{% trans "Request / contact" %}</th>
+            <th>{% trans "Service type" %}</th>
+            <th>{% trans "City" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "AI brief" %}</th>
+            <th>{% trans "Content rows" %}</th>
+            <th>{% trans "Created" %}</th>
+            <th>{% trans "Updated" %}</th>
+            <th>{% trans "Actions" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in handoff_rows %}
+          {% with handoff=row.handoff %}
+          <tr>
+            <td>
+              <strong>{{ handoff.site.business_name }}</strong>
+              <span class="staff-handoffs-meta">{{ handoff.site.public_id }}</span>
+            </td>
+            <td>
+              {% if row.request_summary.has_request %}
+              {% if row.request_summary.contact_name %}
+              <strong>{{ row.request_summary.contact_name }}</strong>
+              {% else %}
+              <strong>{% trans "Linked request" %}</strong>
+              {% endif %}
+              {% if row.request_summary.contact_email %}
+              <span class="staff-handoffs-meta">{{ row.request_summary.contact_email }}</span>
+              {% endif %}
+              {% if row.request_summary.contact_phone %}
+              <span class="staff-handoffs-meta">{{ row.request_summary.contact_phone }}</span>
+              {% endif %}
+              {% if row.request_summary.main_language %}
+              <span class="staff-handoffs-meta">{% trans "Language" %}: {{ row.request_summary.main_language }}</span>
+              {% endif %}
+              {% if row.request_summary.domain_line %}
+              <span class="staff-handoffs-meta">{{ row.request_summary.domain_line }}</span>
+              {% endif %}
+              {% if row.request_summary.status_source_line %}
+              <span class="staff-handoffs-meta">{{ row.request_summary.status_source_line }}</span>
+              {% endif %}
+              {% else %}
+              <span class="staff-handoffs-meta">{% trans "No request linked" %}</span>
+              {% endif %}
+            </td>
+            <td>{{ handoff.site.service_type }}</td>
+            <td>{{ handoff.site.city }}</td>
+            <td>
+              <span class="staff-handoffs-badge {% if handoff.status == 'prepared' %}status-prepared{% elif handoff.status == 'completed' %}status-completed{% elif handoff.status == 'failed' %}status-failed{% else %}status-other{% endif %}">
+                {{ handoff.get_status_display }}
+              </span>
+            </td>
+            <td>
+              {% if handoff.staff_ai_brief_error %}
+              <strong>{% trans "Error" %}</strong>
+              <span class="staff-handoffs-meta">{{ handoff.staff_ai_brief_generated_at|default:"-" }}</span>
+              {% elif handoff.staff_ai_brief_generated_at %}
+              <strong>{% trans "Generated" %}</strong>
+              <span class="staff-handoffs-meta">{{ handoff.staff_ai_brief_generated_at }}</span>
+              {% else %}
+              <strong>{% trans "Not generated" %}</strong>
+              {% endif %}
+            </td>
+            <td>{% if row.content_row_count is not None %}{{ row.content_row_count }}{% else %}-{% endif %}</td>
+            <td>{{ handoff.created_at }}</td>
+            <td>{{ handoff.updated_at }}</td>
+            <td>
+              <div class="staff-handoffs-actions">
+                <a class="staff-handoffs-button" href="{% url 'ai_starter:preview' public_id=handoff.site.public_id %}">{% trans "Open preview" %}</a>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="handoff_id" value="{{ handoff.id }}">
+                  <input type="hidden" name="action" value="prepare_refresh_handoff">
+                  <button class="staff-handoffs-button" type="submit">{% trans "Prepare / refresh" %}</button>
+                </form>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="handoff_id" value="{{ handoff.id }}">
+                  <input type="hidden" name="action" value="generate_ai_brief">
+                  <button class="staff-handoffs-button" type="submit">{% trans "Generate AI brief" %}</button>
+                </form>
+                {% if row.admin_url %}
+                <a class="staff-handoffs-button" href="{{ row.admin_url }}">{% trans "Open admin record" %}</a>
+                {% endif %}
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="handoff_id" value="{{ handoff.id }}">
+                  <input type="hidden" name="action" value="mark_completed">
+                  <button class="staff-handoffs-button" type="submit">{% trans "Mark completed" %}</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endwith %}
+          {% empty %}
+          <tr>
+            <td class="staff-handoffs-empty" colspan="10">{% trans "No handoffs found for this filter yet." %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -15,7 +15,7 @@
       <h1>{% trans "Get a complete website setup that helps customers find you" %}</h1>
       <p class="page-copy">{% trans "Your website, visibility, contact tools, hosting, email setup, and launch support in one clear package." %}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+        <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
         <a class="btn btn-secondary" href="{% url 'core:monthly_plan' %}">{% trans "View Monthly Plan" %}</a>
       </div>
       <div class="micro-proof">
@@ -276,22 +276,24 @@
       </div>
       <div class="plan-growth-list">
         <article class="plan-growth-option">
-          <h3>{% trans "Catalog add-on" %}</h3>
-          <p>{% trans "Show products, services, parts, or packages without a full online shop." %}</p>
-          <p class="small">{% trans "Customers can browse and contact you to request more information." %}</p>
+          <h3>{% trans "Product Catalog" %}</h3>
+          <p>{% trans "Show products without full checkout" %}</p>
+          <p class="small">{% trans "Add a product catalog to your website so visitors can browse what you offer and contact you to order." %}</p>
         </article>
         <article class="plan-growth-option">
-          <h3>{% trans "Online shop upgrade" %}</h3>
-          <p>{% trans "Add checkout and payments later without starting from scratch." %}</p>
-          <p class="small">{% trans "Best when you want to sell directly online." %}</p>
+          <h3>{% trans "Simple Online Shop" %}</h3>
+          <p>{% trans "Sell online with a simple checkout" %}</p>
+          <p class="small">{% trans "Add a small WooCommerce shop to your website for businesses that want to start selling online without a complex store setup." %}</p>
         </article>
         <article class="plan-growth-option plan-growth-option-marketing">
-          <h3>{% trans "Marketing & visibility" %}</h3>
-          <p>{% trans "Bring visitors to your website and start getting customers." %}</p>
+          <h3>{% trans "Full eCommerce Setup" %}</h3>
+          <p>{% trans "A more complete WooCommerce store" %}</p>
           <ul class="clean-list">
-            <li>{% trans "Facebook posts (10 posts over 5 weeks)" %}</li>
-            <li>{% trans "Google Ads campaigns" %}</li>
-            <li>{% trans "Designed to increase visibility and enquiries" %}</li>
+            <li>{% trans "WooCommerce setup" %}</li>
+            <li>{% trans "Product categories and shop pages" %}</li>
+            <li>{% trans "Payment method setup guidance" %}</li>
+            <li>{% trans "Shipping, tax/VAT, and checkout structure" %}</li>
+            <li>{% trans "Suitable for growing online stores" %}</li>
           </ul>
         </article>
       </div>
@@ -306,9 +308,8 @@
         <h2>{% trans "Start your website today" %}</h2>
         <p>{% trans "See your website instantly and launch when you're ready." %}</p>
       </div>
-      <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start your preview" %}</a>
+      <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
     </div>
   </div>
 </section>
-{% include "includes/onboarding_modal.html" %}
 {% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Complete your website activation" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap narrow">
+    <div class="eyebrow">{% trans "Payment" %}</div>
+    <h1>{% trans "Complete your website activation" %}</h1>
+    <p class="page-copy">
+      {% blocktrans trimmed %}
+        Review what is included, what is not included by default, and confirm the required points before continuing to secure payment.
+      {% endblocktrans %}
+    </p>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap legal-content payment-confirmation-page">
+    <article class="card payment-package-card">
+      <h2>{% trans "Included in this website setup" %}</h2>
+      <p class="payment-package-price">{{ package_price }}</p>
+      <p class="payment-package-note">{% trans "One-time activation payment" %}</p>
+      <ul class="clean-list legal-page-list">
+        <li>{% trans "Website setup based on the agreed preview and package scope" %}</li>
+        <li>{% trans "Customer dashboard access for the available website tools" %}</li>
+        <li>{% trans "Core business content setup such as services, projects, contact details, and branding where included" %}</li>
+        <li>{% trans "Standard contact form and managed sending setup where included" %}</li>
+        <li>{% trans "Launch preparation and manual follow-up after payment" %}</li>
+      </ul>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>{% trans "Not included by default" %}</h2>
+      <ul class="clean-list legal-page-list">
+        <li>{% trans "Unlimited custom design changes or unlimited revisions" %}</li>
+        <li>{% trans "Extra custom sections, technical fixes, or complex integrations outside the agreed setup" %}</li>
+        <li>{% trans "Unlimited copywriting, SEO work, or guaranteed rankings/leads" %}</li>
+        <li>{% trans "Third-party paid licences, premium stock assets, or external subscriptions unless agreed separately" %}</li>
+      </ul>
+      <p class="small">
+        {% blocktrans trimmed %}
+          If you need custom work outside the agreed setup, that work may be quoted or billed separately.
+        {% endblocktrans %}
+      </p>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>{% trans "Helpful links" %}</h2>
+      <div class="legal-page-nav__links">
+        {% for item in package_helpful_links %}
+          <a class="btn btn-secondary" href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="card payment-package-card">
+      <h2>{% trans "Required confirmations" %}</h2>
+      {% if payment_error_message %}
+        <div class="payment-confirmation-alert">{{ payment_error_message }}</div>
+      {% endif %}
+      {% if not payment_link_configured and not payment_error_message %}
+        <div class="payment-confirmation-alert">
+          {% blocktrans trimmed %}
+            Payment link is not configured yet. Please contact
+          {% endblocktrans %}
+          <a href="mailto:info@getonlinefast.eu">info@getonlinefast.eu</a>.
+        </div>
+      {% endif %}
+
+      <form method="post" class="payment-confirmation-form" data-payment-confirmation-form data-payment-configured="{% if payment_link_configured %}true{% else %}false{% endif %}">
+        {% csrf_token %}
+        <div class="payment-confirmation-checks">
+          {% for item in package_checks %}
+            <label class="payment-confirmation-check">
+              <input type="checkbox" name="{{ item.name }}" {% if item.checked %}checked{% endif %} data-payment-confirmation-check>
+              <span>
+                {% if item.name == 'confirm_legal_pages' %}
+                  {% trans "I have read and agree to the" %}
+                  <a href="{% url 'core:terms' %}" target="_blank" rel="noopener noreferrer">{% trans "Terms" %}</a>
+                  {% trans "and" %}
+                  <a href="{% url 'core:privacy_policy' %}" target="_blank" rel="noopener noreferrer">{% trans "Privacy Policy" %}</a>.
+                {% else %}
+                  {{ item.label }}
+                {% endif %}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+        <button class="btn btn-primary" type="submit" disabled data-payment-confirmation-submit>
+          {% trans "Continue to secure payment" %}
+        </button>
+        <p class="small payment-confirmation-note">
+          {% trans "Secure payment is handled through Stripe. Your button will only activate after all required confirmations are checked." %}
+        </p>
+        <noscript>
+          <p class="small payment-confirmation-note">
+            {% trans "JavaScript is required to enable the final confirmation button on this page." %}
+          </p>
+        </noscript>
+      </form>
+    </article>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function () {
+    var form = document.querySelector('[data-payment-confirmation-form]');
+    if (!form) return;
+
+    var checks = Array.prototype.slice.call(form.querySelectorAll('[data-payment-confirmation-check]'));
+    var submit = form.querySelector('[data-payment-confirmation-submit]');
+    if (!submit) return;
+
+    var configured = form.getAttribute('data-payment-configured') === 'true';
+
+    function updateState() {
+      var allChecked = checks.every(function (checkbox) {
+        return checkbox.checked;
+      });
+
+      submit.disabled = !configured || !allChecked;
+    }
+
+    updateState();
+    checks.forEach(function (checkbox) {
+      checkbox.addEventListener('change', updateState);
+    });
+  })();
+</script>
+{% endblock %}

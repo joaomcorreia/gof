@@ -67,6 +67,12 @@ ONBOARDING_INTRO_FALLBACK_TEXTS = {
 }
 
 
+def _raise_public_preview_unavailable(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return None
+    raise Http404('Not found.')
+
+
 def _require_staff_user(request):
     if not request.user.is_authenticated or not request.user.is_staff:
         return HttpResponseForbidden('Staff access required.')
@@ -948,6 +954,7 @@ def _render_start_wizard(request, *, current_step, wizard_state, selected_design
 
 @require_http_methods(['GET', 'POST'])
 def start_onboarding(request):
+    _raise_public_preview_unavailable(request)
     ensure_default_templates()
     selected_design = _selected_design_context(request)
     selected_design_query = _selected_design_query(selected_design)
@@ -1082,6 +1089,34 @@ def start_onboarding(request):
     def _default_contact_details():
         return {field: '' for field in contact_detail_fields}
 
+    def _safe_starter_draft(raw_draft):
+        draft = raw_draft if isinstance(raw_draft, dict) else {}
+        hero = draft.get('hero') if isinstance(draft.get('hero'), dict) else {}
+        intro = draft.get('intro') if isinstance(draft.get('intro'), dict) else {}
+        services = draft.get('services') if isinstance(draft.get('services'), list) else []
+
+        return {
+            'business_name': str(draft.get('business_name') or '').strip(),
+            'business_type': str(draft.get('business_type') or '').strip(),
+            'service_area': str(draft.get('service_area') or '').strip(),
+            'services': services,
+            'template_key': str(draft.get('template_key') or '').strip(),
+            'palette_key': str(draft.get('palette_key') or '').strip(),
+            'font_key': str(draft.get('font_key') or '').strip(),
+            'image_set_key': str(draft.get('image_set_key') or '').strip(),
+            'main_cta': str(draft.get('main_cta') or '').strip(),
+            'section_visibility': draft.get('section_visibility') if isinstance(draft.get('section_visibility'), dict) else {},
+            'hero': {
+                'title': str(hero.get('title') or '').strip(),
+                'description': str(hero.get('description') or '').strip(),
+                'cta': str(hero.get('cta') or '').strip(),
+            },
+            'intro': {
+                'title': str(intro.get('title') or '').strip(),
+                'text': str(intro.get('text') or '').strip(),
+            },
+        }
+
     def _normalize_contact_details(raw_details):
         raw = raw_details if isinstance(raw_details, dict) else {}
         normalized = _default_contact_details()
@@ -1154,7 +1189,7 @@ def start_onboarding(request):
             'launch_type': '',
             'selected_pages': [],
             'contact_details': _default_contact_details(),
-            'starter_draft': {},
+            'starter_draft': _safe_starter_draft({}),
         }
 
     def _has_starter_draft(state):
@@ -1267,8 +1302,7 @@ def start_onboarding(request):
             return _default_state()
         merged = _default_state()
         merged.update(saved)
-        if not isinstance(merged.get('starter_draft'), dict):
-            merged['starter_draft'] = {}
+        merged['starter_draft'] = _safe_starter_draft(merged.get('starter_draft'))
         if not isinstance(merged.get('services'), list):
             merged['services'] = []
         if not isinstance(merged.get('selected_pages'), list):
@@ -1671,13 +1705,14 @@ def start_onboarding(request):
             'current_step': requested_step,
             'wizard_steps': _wizard_steps(requested_step),
             'wizard_state': state,
-            'starter_draft': state.get('starter_draft', {}),
+            'starter_draft': _safe_starter_draft(state.get('starter_draft', {})),
             'style_values': style_values,
             'template_options': template_options,
             'palette_options': palette_options,
             'font_options': font_options,
             'image_set_options': image_set_options,
             'cta_options': cta_options,
+            'section_visibility': style_values.get('section_visibility', {}),
             'step4_page_options': step4_page_options,
             'selected_page_labels': selected_page_labels,
             'contact_details': contact_details,
@@ -1696,6 +1731,7 @@ def start_onboarding(request):
 
 @require_http_methods(['GET', 'POST'])
 def meeting_offer_request(request):
+    _raise_public_preview_unavailable(request)
     submitted_request_id = request.GET.get('submitted', '').strip()
     submitted_request = None
     if submitted_request_id:
@@ -1766,6 +1802,7 @@ def meeting_offer_request(request):
 
 @require_http_methods(['GET', 'POST'])
 def preview(request, public_id):
+    _raise_public_preview_unavailable(request)
     ensure_default_templates()
     site = get_object_or_404(Site, public_id=public_id)
     language = request.LANGUAGE_CODE
@@ -2079,6 +2116,7 @@ def staff_template_wireframes(request):
 
 @xframe_options_sameorigin
 def preview_frame(request, public_id):
+    _raise_public_preview_unavailable(request)
     ensure_default_templates()
     site = get_object_or_404(Site, public_id=public_id)
     language = request.LANGUAGE_CODE

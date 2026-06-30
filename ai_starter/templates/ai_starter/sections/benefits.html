@@ -1,20 +1,23 @@
-<section class="site-section site-section-benefits">
-  <div class="site-section-copy">
-    <h2>{{ values.title }}</h2>
-    <p>{{ values.intro }}</p>
-  </div>
-  <div class="site-benefits-grid">
-    <article class="site-benefit-card">
-      <h3>{{ values.card_1_title }}</h3>
-      <p>{{ values.card_1_text }}</p>
-    </article>
-    <article class="site-benefit-card">
-      <h3>{{ values.card_2_title }}</h3>
-      <p>{{ values.card_2_text }}</p>
-    </article>
-    <article class="site-benefit-card">
-      <h3>{{ values.card_3_title }}</h3>
-      <p>{{ values.card_3_text }}</p>
-    </article>
+<section class="site-section site-section-benefits gof-template-row gof-template-row--dark {{ section_class }} {{ section_container_class }}" id="{{ section_id|default:section_class }}">
+  <div class="gof-template-inner">
+    <div class="site-section-copy site-section-head">
+      <span class="site-section-kicker">{{ values.kicker }}</span>
+      <h2>{{ values.title }}</h2>
+      <p>{{ values.intro }}</p>
+    </div>
+    <div class="site-benefits-grid">
+      <article class="site-benefit-card">
+        <h3>{{ values.card_1_title }}</h3>
+        <p>{{ values.card_1_text }}</p>
+      </article>
+      <article class="site-benefit-card">
+        <h3>{{ values.card_2_title }}</h3>
+        <p>{{ values.card_2_text }}</p>
+      </article>
+      <article class="site-benefit-card">
+        <h3>{{ values.card_3_title }}</h3>
+        <p>{{ values.card_3_text }}</p>
+      </article>
+    </div>
   </div>
 </section>

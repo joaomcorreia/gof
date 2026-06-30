@@ -1,0 +1,73 @@
+{% load i18n %}
+<div class="template-choice-grid{% if card_group_class %} {{ card_group_class }}{% endif %}">
+  {% for option in template_cards %}
+  <label class="template-choice-card{% if option.slug == selected_template_slug %} is-selected{% endif %}">
+    <input
+      type="radio"
+      name="{{ input_name|default:'template_slug' }}"
+      value="{{ option.slug }}"
+      {% if option.slug == selected_template_slug %}checked{% endif %}
+      data-template-choice
+      data-template-label="{{ option.label }}"
+      data-template-slug="{{ option.slug }}"
+    >
+    <div class="template-choice-card__thumb template-thumb template-thumb--{{ option.thumbnail_type }}" aria-hidden="true">
+      {% if option.thumbnail_type == 'classic_service' %}
+      <div class="template-thumb__row template-thumb__row--split">
+        <span class="template-thumb__block template-thumb__block--text"></span>
+        <span class="template-thumb__block template-thumb__block--card"></span>
+      </div>
+      <div class="template-thumb__row template-thumb__row--cards">
+        <span class="template-thumb__mini"></span>
+        <span class="template-thumb__mini"></span>
+        <span class="template-thumb__mini"></span>
+      </div>
+      {% elif option.thumbnail_type == 'visual_hero' %}
+      <div class="template-thumb__hero"></div>
+      <div class="template-thumb__overlay"></div>
+      <div class="template-thumb__stack">
+        <span class="template-thumb__stripe"></span>
+        <span class="template-thumb__stripe template-thumb__stripe--offset"></span>
+        <span class="template-thumb__stripe"></span>
+      </div>
+      {% elif option.thumbnail_type == 'card_grid' %}
+      <div class="template-thumb__compact-hero"></div>
+      <div class="template-thumb__grid">
+        <span class="template-thumb__mini"></span>
+        <span class="template-thumb__mini"></span>
+        <span class="template-thumb__mini"></span>
+        <span class="template-thumb__mini"></span>
+      </div>
+      <div class="template-thumb__cta-strip"></div>
+      {% elif option.thumbnail_type == 'gof_canva_layout_test_v1' %}
+      <div class="template-thumb__editorial-hero"></div>
+      <div class="template-thumb__editorial-grid">
+        <span class="template-thumb__editorial-card template-thumb__editorial-card--large"></span>
+        <span class="template-thumb__editorial-card"></span>
+        <span class="template-thumb__editorial-card"></span>
+      </div>
+      <div class="template-thumb__editorial-band"></div>
+      {% endif %}
+    </div>
+    <div class="template-choice-card__body">
+      <div class="template-choice-card__head">
+        <strong>{{ option.label }}</strong>
+      </div>
+      {% if option.category or option.style or option.layout_label %}
+      <p class="small">
+        {% if option.category %}<strong>{% trans "Category" %}:</strong> {{ option.category }}{% endif %}
+        {% if option.style %}{% if option.category %} · {% endif %}<strong>{% trans "Style" %}:</strong> {{ option.style }}{% endif %}
+        {% if option.layout_label %}{% if option.category or option.style %} · {% endif %}<strong>{% trans "Layout" %}:</strong> {{ option.layout_label }}{% endif %}
+      </p>
+      {% endif %}
+      {% if option.layout_note %}
+      <p class="small">{{ option.layout_note }}</p>
+      {% endif %}
+      <p>{{ option.description }}</p>
+      <p class="small">
+        <strong>{% trans "Best for" %}:</strong> {{ option.best_for }}
+      </p>
+    </div>
+  </label>
+  {% endfor %}
+</div>

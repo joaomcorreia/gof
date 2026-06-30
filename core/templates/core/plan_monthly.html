@@ -15,7 +15,7 @@
       <h1>{% trans "Start your website without a large upfront cost" %}</h1>
       <p class="page-copy">{% trans "A complete website setup with ongoing support, updates, and improvements." %}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start monthly plan" %}</a>
+        <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
         <a class="btn btn-secondary" href="{% url 'core:one_time_website_plan' %}">{% trans "Compare with one-time website" %}</a>
       </div>
       <div class="micro-proof">
@@ -268,11 +268,10 @@
         <p>{% trans "Launch with lower starting cost and keep improving your website over time." %}</p>
       </div>
       <div class="cta-actions">
-        <a class="btn btn-primary" href="#onboarding-modal" data-modal-open="onboarding-modal">{% trans "Start monthly plan" %}</a>
+        <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
         <a class="btn btn-secondary" href="{% url 'core:one_time_website_plan' %}">{% trans "Compare with one-time website" %}</a>
       </div>
     </div>
   </div>
 </section>
-{% include "includes/onboarding_modal.html" %}
 {% endblock %}

@@ -1,0 +1,386 @@
+{% extends "ai_starter/staff_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Staff assistant" %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+<style>
+  .staff-assistant-page {
+    padding: 32px 0 48px;
+  }
+  .staff-assistant-shell {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    margin: 0 auto;
+    width: min(96vw, 1600px);
+  }
+  .staff-assistant-main,
+  .staff-assistant-side,
+  .staff-assistant-result {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 22px;
+  }
+  .staff-assistant-main {
+    display: grid;
+    gap: 18px;
+  }
+  .staff-assistant-header h1 {
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin: 0 0 8px;
+  }
+  .staff-assistant-header p {
+    color: #4b5563;
+    margin: 0;
+    max-width: 760px;
+  }
+  .staff-assistant-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .staff-assistant-field {
+    display: grid;
+    gap: 8px;
+  }
+  .staff-assistant-field label {
+    font-weight: 700;
+  }
+  .staff-assistant-field textarea,
+  .staff-assistant-field select {
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font: inherit;
+    padding: 12px 14px;
+    width: 100%;
+  }
+  .staff-assistant-field textarea {
+    min-height: 220px;
+    resize: vertical;
+  }
+  .staff-assistant-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .staff-assistant-button {
+    background: #111827;
+    border: 1px solid #111827;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    padding: 12px 18px;
+  }
+  .staff-assistant-side {
+    align-self: start;
+    display: grid;
+    gap: 16px;
+  }
+  .staff-assistant-side h2 {
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+  }
+  .staff-assistant-side p,
+  .staff-assistant-side li {
+    color: #4b5563;
+  }
+  .staff-assistant-side ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .staff-assistant-summary {
+    border-top: 1px solid #e5e7eb;
+    display: grid;
+    gap: 8px;
+    padding-top: 16px;
+  }
+  .staff-assistant-meta {
+    color: #6b7280;
+    display: block;
+    font-size: 0.92rem;
+  }
+  .staff-assistant-result {
+    grid-column: 1 / -1;
+  }
+  .staff-assistant-helper-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .staff-assistant-helper-item {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .staff-assistant-helper-item strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .staff-assistant-helper-item p {
+    color: #111827;
+    margin: 0;
+  }
+  .staff-assistant-result-header {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .staff-assistant-result-header p {
+    color: #4b5563;
+    margin: 0;
+  }
+  .staff-assistant-section-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    margin-bottom: 18px;
+  }
+  .staff-assistant-recommendation {
+    background: #fffaf0;
+    border: 1px solid #f5d28b;
+    border-radius: 16px;
+    display: grid;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 16px;
+  }
+  .staff-assistant-recommendation h3 {
+    margin: 0;
+  }
+  .staff-assistant-recommendation p,
+  .staff-assistant-recommendation li {
+    color: #4b5563;
+    margin: 0;
+  }
+  .staff-assistant-recommendation ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  .staff-assistant-section-card {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .staff-assistant-section-card h3 {
+    margin: 0 0 10px;
+  }
+  .staff-assistant-section-card pre,
+  .staff-assistant-copy textarea {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    margin: 0;
+    overflow: auto;
+    padding: 16px;
+    white-space: pre-wrap;
+  }
+  .staff-assistant-copy {
+    display: grid;
+    gap: 8px;
+  }
+  .staff-assistant-copy textarea {
+    font: inherit;
+    min-height: 220px;
+    resize: vertical;
+    width: 100%;
+  }
+  @media (max-width: 980px) {
+    .staff-assistant-shell {
+      grid-template-columns: 1fr;
+    }
+    .staff-assistant-grid {
+      grid-template-columns: 1fr;
+    }
+    .staff-assistant-section-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="staff-assistant-page">
+  <div class="staff-assistant-shell">
+    <div class="staff-assistant-main">
+      <header class="staff-assistant-header">
+        <h1>{% trans "Staff assistant" %}</h1>
+        <p>{% trans "Draft customer replies using preview/request context." %}</p>
+      </header>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="staff-assistant-field">
+          <label for="customer_message">{% trans "Customer message" %}</label>
+          <textarea id="customer_message" name="customer_message" required>{{ customer_message }}</textarea>
+        </div>
+
+        <div class="staff-assistant-grid">
+          <div class="staff-assistant-field">
+            <label for="handoff_id">{% trans "Optional handoff context" %}</label>
+            <select id="handoff_id" name="handoff_id">
+              <option value="">{% trans "No handoff selected" %}</option>
+              {% for option in handoff_options %}
+              <option value="{{ option.id }}"{% if selected_handoff and selected_handoff.id == option.id %} selected{% endif %}>{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="staff-assistant-field">
+            <label for="reply_language">{% trans "Reply language" %}</label>
+            <select id="reply_language" name="reply_language">
+              {% for option in reply_language_options %}
+              <option value="{{ option }}"{% if reply_language == option %} selected{% endif %}>{{ option }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="staff-assistant-field">
+            <label for="reply_tone">{% trans "Reply tone" %}</label>
+            <select id="reply_tone" name="reply_tone">
+              {% for option in reply_tone_options %}
+              <option value="{{ option.value }}"{% if reply_tone == option.value %} selected{% endif %}>{{ option.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="staff-assistant-actions">
+          <button class="staff-assistant-button" type="submit">{% trans "Draft reply" %}</button>
+        </div>
+      </form>
+
+      <section>
+        <h2>{% trans "Try a demo message" %}</h2>
+        <div class="staff-assistant-helper-list">
+          {% for example in demo_messages %}
+          <article class="staff-assistant-helper-item">
+            <strong>{{ example.title }}</strong>
+            <p>{{ example.body }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+
+    <aside class="staff-assistant-side">
+      <div>
+        <h2>{% trans "Internal only" %}</h2>
+        <ul>
+          <li>{% trans "This assistant is for staff review only." %}</li>
+          <li>{% trans "No messages are sent automatically." %}</li>
+          <li>{% trans "WordPress is not changed from this page." %}</li>
+        </ul>
+      </div>
+
+      <div class="staff-assistant-summary">
+        <h2>{% trans "Selected context" %}</h2>
+        {% if selected_handoff %}
+        <strong>{{ selected_handoff.site.business_name }}</strong>
+        <span class="staff-assistant-meta">{{ selected_handoff.site.service_type }} | {{ selected_handoff.site.city }}</span>
+        <span class="staff-assistant-meta">{{ selected_handoff.get_status_display }}</span>
+        {% if selected_handoff_request_summary %}
+          {% if selected_handoff_request_summary.contact_name %}
+          <span class="staff-assistant-meta">{{ selected_handoff_request_summary.contact_name }}</span>
+          {% endif %}
+          {% if selected_handoff_request_summary.contact_email %}
+          <span class="staff-assistant-meta">{{ selected_handoff_request_summary.contact_email }}</span>
+          {% endif %}
+          {% if selected_handoff_request_summary.contact_phone %}
+          <span class="staff-assistant-meta">{{ selected_handoff_request_summary.contact_phone }}</span>
+          {% endif %}
+          {% if selected_handoff_request_summary.main_language %}
+          <span class="staff-assistant-meta">{% trans "Language" %}: {{ selected_handoff_request_summary.main_language }}</span>
+          {% endif %}
+          {% if selected_handoff_request_summary.domain_line %}
+          <span class="staff-assistant-meta">{{ selected_handoff_request_summary.domain_line }}</span>
+          {% endif %}
+        {% endif %}
+        {% if selected_handoff_admin_url %}
+        <a href="{{ selected_handoff_admin_url }}">{% trans "Open selected handoff in admin" %}</a>
+        {% endif %}
+        {% else %}
+        <p>{% trans "No business context selected. The assistant will draft a generic reply." %}</p>
+        {% endif %}
+      </div>
+    </aside>
+
+    {% if drafted_reply %}
+    <section class="staff-assistant-result">
+      <div class="staff-assistant-result-header">
+        <div>
+          <h2>{% trans "Copy-ready draft result" %}</h2>
+          <p>{% trans "Review before sending. Nothing was sent automatically." %}</p>
+        </div>
+      </div>
+
+      {% if recommended_setup %}
+      <section class="staff-assistant-recommendation">
+        <h3>{% trans "Recommended setup" %}</h3>
+        <p><strong>{{ recommended_setup.recommended_setup_label }}</strong></p>
+        <p>{{ recommended_setup.reasoning }}</p>
+        <div>
+          <strong>{% trans "Suggested pages / sections" %}</strong>
+          <ul>
+            {% for item in recommended_setup.recommended_pages_or_sections %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div>
+          <strong>{% trans "Recommended features" %}</strong>
+          <ul>
+            {% for item in recommended_setup.recommended_features %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div>
+          <strong>{% trans "Optional add-ons" %}</strong>
+          <ul>
+            {% for item in recommended_setup.optional_addons %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div>
+          <strong>{% trans "Essential questions" %}</strong>
+          <ul>
+            {% for item in recommended_setup.essential_questions %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+      {% endif %}
+
+      {% if drafted_reply_sections %}
+      <div class="staff-assistant-section-grid">
+        <article class="staff-assistant-section-card">
+          <h3>{% trans "Suggested reply" %}</h3>
+          <pre>{{ drafted_reply_sections.suggested_reply|default:'' }}</pre>
+        </article>
+        <article class="staff-assistant-section-card">
+          <h3>{% trans "Missing information to ask" %}</h3>
+          <pre>{{ drafted_reply_sections.missing_information|default:'' }}</pre>
+        </article>
+        <article class="staff-assistant-section-card">
+          <h3>{% trans "Internal notes for staff" %}</h3>
+          <pre>{{ drafted_reply_sections.internal_notes|default:'' }}</pre>
+        </article>
+      </div>
+      {% endif %}
+
+      <div class="staff-assistant-copy">
+        <label for="drafted_reply_output"><strong>{% trans "Full draft output" %}</strong></label>
+        <textarea id="drafted_reply_output" readonly>{{ drafted_reply }}</textarea>
+      </div>
+    </section>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
