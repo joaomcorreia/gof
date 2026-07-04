@@ -48,8 +48,10 @@ class StarterOnboardingSubmission(models.Model):
 class WebsiteRequest(models.Model):
     class Status(models.TextChoices):
         NEW = 'new', 'New'
-        PENDING = 'pending', 'Pending'
         REVIEWED = 'reviewed', 'Reviewed'
+        CONTACTED = 'contacted', 'Contacted'
+        CONVERTED = 'converted', 'Converted'
+        CANCELLED = 'cancelled', 'Cancelled'
 
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     storage_key = models.CharField(max_length=40, default=build_request_storage_key, unique=True, editable=False)

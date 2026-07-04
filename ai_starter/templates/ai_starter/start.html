@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block title %}{% if offer_mode %}{{ meeting_offer.title }}{% else %}{% trans "Start your preview" %}{% endif %} | {% trans "Get Online Fast" %}{% endblock %}
+{% block title %}{% if offer_mode %}{{ meeting_offer.title }}{% elif starter_request_submitted and is_public_start_flow %}{% trans "Starter request received" %}{% elif is_public_start_flow %}{% trans "Start Your Business Website" %}{% else %}{% trans "Start your preview" %}{% endif %} | {% trans "Get Online Fast" %}{% endblock %}
+
+{% block extra_head %}
+{% if starter_wizard_v2 and is_public_start_flow %}
+<meta name="description" content="{% trans 'Create a starter website request for your business in minutes. Choose your business type, services and style, then let Get Online Fast prepare the next step.' %}">
+{% endif %}
+{% endblock %}
 
 {% block content %}
 {% if offer_mode %}
@@ -153,13 +159,48 @@
 {% elif starter_wizard_v2 %}
 <section class="start-builder-page start-wizard-page starter-wizard-v2-page">
   <div class="wrap">
-    {% if current_step == 1 %}
+    {% if starter_request_submitted and is_public_start_flow %}
+    <div class="starter-step1-shell">
+      <div class="starter-step1-panel">
+        <div class="eyebrow">{% trans "Starter request received" %}</div>
+        <h1>{% trans "Your starter website request has been received." %}</h1>
+        <p class="page-copy">{% trans "We'll review your details and prepare the next step." %}</p>
+
+        <div class="start-builder-success">
+          <p>{% trans "A starter website proposal or next-step message will be sent after review." %}</p>
+          <p>{% trans "You do not need to create an account yet." %}</p>
+          <p>{% trans "If your request is urgent, you can also contact Get Online Fast directly." %}</p>
+        </div>
+
+        {% if starter_request_summary %}
+        <div class="start-builder-form-section">
+          <h2>{% trans "Request summary" %}</h2>
+          <div class="start-wizard-summary">
+            {% if starter_request_summary.business_name %}<div><span>{% trans "Business name" %}</span><strong>{{ starter_request_summary.business_name }}</strong></div>{% endif %}
+            {% if starter_request_summary.business_type %}<div><span>{% trans "Business type" %}</span><strong>{{ starter_request_summary.business_type }}</strong></div>{% endif %}
+            {% if starter_request_summary.service_area %}<div><span>{% trans "City / service area" %}</span><strong>{{ starter_request_summary.service_area }}</strong></div>{% endif %}
+            {% if starter_request_summary.website_type %}<div><span>{% trans "Website type" %}</span><strong>{{ starter_request_summary.website_type }}</strong></div>{% endif %}
+            {% if starter_request_summary.selected_pages %}<div><span>{% trans "Pages" %}</span><strong>{{ starter_request_summary.selected_pages }}</strong></div>{% endif %}
+            {% if starter_request_summary.services %}<div><span>{% trans "Services" %}</span><strong>{{ starter_request_summary.services|join:", " }}</strong></div>{% endif %}
+            {% if starter_request_summary.contact_email %}<div><span>{% trans "Contact email" %}</span><strong>{{ starter_request_summary.contact_email }}</strong></div>{% endif %}
+            {% if starter_request_summary.contact_phone %}<div><span>{% trans "Contact phone" %}</span><strong>{{ starter_request_summary.contact_phone }}</strong></div>{% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="modal-actions start-wizard-actions">
+          <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact Get Online Fast" %}</a>
+          <a class="btn btn-secondary" href="{% url 'ai_starter:start' %}?reset=1">{% trans "Start another request" %}</a>
+        </div>
+      </div>
+    </div>
+    {% elif current_step == 1 %}
     <div class="starter-step1-shell">
       <div class="starter-step1-panel">
         <div class="eyebrow">{% trans "Starter wizard" %}</div>
         <div class="start-wizard-current-step">{% blocktrans with current=1 total=6 %}Step {{ current }} of {{ total }}{% endblocktrans %}</div>
         <h1>{% trans "Start your website preview" %}</h1>
-        <p class="page-copy">{% trans "Add the essentials first. We use this to prepare your first website preview with suggested text, services, and images." %}</p>
+        <p class="page-copy">{% trans "Add your business basics first. We use them to prepare a business-specific starter preview with suggested text, services, and images." %}</p>
 
         <form method="post" action="{% url 'ai_starter:start' %}{{ selected_design_query }}" class="start-wizard-form starter-wizard-v2-form starter-step1-form">
           {% csrf_token %}
@@ -215,7 +256,7 @@
           <p class="page-copy">{% trans "Start with one clear page or choose a full website with separate pages." %}</p>
           {% else %}
           <h1>{% trans "Start your website preview" %}</h1>
-          <p class="page-copy">{% trans "A cleaner setup flow that prepares a starter draft before you continue." %}</p>
+          <p class="page-copy">{% trans "Review your business details, contact information, and preferred website direction before you continue." %}</p>
           {% endif %}
         </div>
 
@@ -479,8 +520,8 @@
           {% elif current_step == 6 %}
           <section class="start-wizard-step" data-onboarding-step="6">
             <div class="start-builder-form-section">
-              <h2>{% trans "Review/prepare preview" %}</h2>
-              <p class="small">{% trans "Review your setup before preparing the preview." %}</p>
+              <h2>{% if is_public_start_flow %}{% trans "Review your starter request" %}{% else %}{% trans "Review and prepare preview" %}{% endif %}</h2>
+              <p class="small">{% if is_public_start_flow %}{% trans "Review your setup before sending your starter request." %}{% else %}{% trans "Review your setup before preparing the preview." %}{% endif %}</p>
 
               <div class="start-wizard-summary">
                 <div><span>{% trans "Business name" %}</span><strong>{{ starter_draft.business_name|default:'--' }}</strong></div>
@@ -508,7 +549,7 @@
             {% elif current_step < 6 %}
             <button class="btn btn-primary" type="submit" name="wizard_action" value="next">{% trans "Next" %}</button>
             {% else %}
-            <button class="btn btn-primary" type="submit" name="wizard_action" value="prepare_preview">{% trans "Prepare my preview" %}</button>
+            <button class="btn btn-primary" type="submit" name="wizard_action" value="prepare_preview">{% if is_public_start_flow %}{% trans "Send my starter preview" %}{% else %}{% trans "Prepare my preview" %}{% endif %}</button>
             {% endif %}
           </div>
         </form>
@@ -548,8 +589,8 @@
               </div>
               <div class="jcw-preview-card">
                 <span>{% trans "Image set" %}: {{ style_values.image_set_key|default:'suggested' }}</span>
-                <strong>{% trans "Starter draft" %}</strong>
-                <p>{% trans "Based on business basics from Step 1." %}</p>
+                <strong>{% trans "Business-specific preview" %}</strong>
+                <p>{% trans "Based on your business basics, services, and chosen style." %}</p>
               </div>
             </section>
 
@@ -632,7 +673,7 @@
             <section class="jcw-preview-services start-wizard-preview-section">
               <div>
                 <h3>{% trans "Next step" %}</h3>
-                <p>{% trans "Final contact call to action for your starter preview." %}</p>
+                <p>{% if is_public_start_flow %}{% trans "Your final website request stays lead-based during soft launch." %}{% else %}{% trans "Final contact call to action for your starter preview." %}{% endif %}</p>
                 <a class="btn btn-primary" href="#">{{ style_values.main_cta_label|default:'Request information' }}</a>
               </div>
             </section>

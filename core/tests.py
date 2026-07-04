@@ -1,8 +1,12 @@
+from unittest.mock import patch
+
 from django.contrib.admin.sites import site as admin_site
+from django.core.cache import cache
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import ServiceOption
+from .services_public_assistant import _prompt_context
 
 
 @override_settings(SITE_NOINDEX=False)
@@ -34,18 +38,16 @@ class PublicPagesTests(TestCase):
         self.assertContains(response, reverse('core:terms'))
         self.assertContains(response, reverse('core:cookie_policy'))
 
-    def test_homepage_does_not_link_to_public_preview_flow(self):
+    def test_homepage_links_to_public_start_flow(self):
         response = self.client.get(reverse('core:home'))
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, '/start/')
-        self.assertNotContains(response, reverse('ai_starter:start'))
+        self.assertContains(response, reverse('ai_starter:start'))
 
-    def test_public_pages_do_not_link_to_preview_start_flow(self):
+    def test_homepage_uses_public_start_flow_instead_of_old_start_anchor(self):
         response = self.client.get(reverse('core:home'))
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, '#start')
-        self.assertNotContains(response, reverse('ai_starter:start'))
-        self.assertContains(response, reverse('core:contact'))
+        self.assertContains(response, reverse('ai_starter:start'))
 
     def test_general_public_pages_do_not_mention_hmd(self):
         route_names = [
@@ -80,9 +82,56 @@ class PublicPagesTests(TestCase):
                 self.assertNotContains(response, 'localhost')
                 self.assertNotContains(response, '127.0.0.1')
 
-    def test_public_start_route_is_not_accessible(self):
+    def test_public_start_route_is_accessible(self):
         response = self.client.get(reverse('ai_starter:start'))
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Start your website preview')
+        self.assertContains(response, 'Start Your Business Website | Get Online Fast', html=False)
+        self.assertContains(
+            response,
+            'Create a starter website request for your business in minutes. Choose your business type, services and style, then let Get Online Fast prepare the next step.',
+        )
+        self.assertNotContains(response, 'noindex, nofollow')
+
+    @patch('ai_starter.views.ensure_default_templates')
+    def test_public_start_route_does_not_attempt_template_db_setup_on_get(self, mocked_ensure_default_templates):
+        response = self.client.get(reverse('ai_starter:start'))
+
+        self.assertEqual(response.status_code, 200)
+        mocked_ensure_default_templates.assert_not_called()
+        self.assertContains(response, 'Start your website preview')
+
+    @override_settings(SITE_NOINDEX=True)
+    def test_key_public_pages_remain_indexable_when_global_noindex_flag_is_enabled(self):
+        route_names = [
+            'core:home',
+            'ai_starter:start',
+            'core:plans',
+            'core:contact',
+            'core:privacy_policy',
+            'core:terms',
+            'core:faq',
+            'core:support',
+        ]
+        for route_name in route_names:
+            with self.subTest(route_name=route_name):
+                response = self.client.get(reverse(route_name))
+                self.assertEqual(response.status_code, 200)
+                self.assertNotContains(response, 'noindex, nofollow')
+
+    @override_settings(SITE_NOINDEX=True)
+    def test_robots_and_sitemap_expose_public_start_flow(self):
+        robots_response = self.client.get(reverse('robots_txt'))
+        sitemap_response = self.client.get(reverse('sitemap_xml'))
+
+        self.assertEqual(robots_response.status_code, 200)
+        self.assertEqual(sitemap_response.status_code, 200)
+        self.assertContains(robots_response, 'Sitemap:')
+        self.assertNotContains(robots_response, '/en/start/')
+        self.assertContains(sitemap_response, reverse('ai_starter:start'))
+        self.assertContains(sitemap_response, reverse('core:home'))
+        self.assertContains(sitemap_response, reverse('core:plans'))
+        self.assertContains(sitemap_response, reverse('core:contact'))
 
     def test_public_examples_routes_are_not_accessible(self):
         for route_name in ['core:examples', 'core:templates']:
@@ -108,6 +157,22 @@ class PublicPagesTests(TestCase):
         self.assertEqual(dutch_response.status_code, 200)
         self.assertContains(dutch_response, 'Catalogs and online shops')
 
+    def test_promotion_pages_are_public(self):
+        promotion_routes = [
+            ('core:facebook_posts', 'Facebook Posts'),
+            ('core:facebook_instagram_ads', 'Facebook & Instagram Ads'),
+            ('core:google_ads', 'Google Ads'),
+            ('core:linkedin_ads', 'LinkedIn Ads'),
+        ]
+        for route_name, title in promotion_routes:
+            with self.subTest(route_name=route_name):
+                response = self.client.get(reverse(route_name))
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, title)
+                self.assertContains(response, reverse('core:contact'))
+                self.assertContains(response, reverse('core:plans'))
+                self.assertContains(response, 'Ask for advice')
+
     def test_plans_and_faq_do_not_use_coming_soon_ecommerce_wording(self):
         for route_name in ['core:plans', 'core:faq']:
             with self.subTest(route_name=route_name):
@@ -130,6 +195,20 @@ class PublicPagesTests(TestCase):
         dutch_response = self.client.get('/nl/')
         self.assertEqual(dutch_response.status_code, 200)
         self.assertContains(dutch_response, 'Vanaf €149 + btw')
+
+    def test_homepage_has_promotion_section_below_ecommerce(self):
+        response = self.client.get('/en/')
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode('utf-8')
+        self.assertIn('Promote your website', content)
+        self.assertIn('View Facebook Posts', content)
+        self.assertIn('View Meta Ads', content)
+        self.assertIn(reverse('core:facebook_posts'), content)
+        self.assertIn(reverse('core:facebook_instagram_ads'), content)
+        self.assertIn(reverse('core:google_ads'), content)
+        self.assertIn(reverse('core:linkedin_ads'), content)
+        self.assertLess(content.index('id=\"catalog-ecommerce\"'), content.index('id=\"promotion\"'))
+        self.assertIn('Ad budget is not included.', content)
 
     def test_plans_page_uses_short_catalog_teaser_only(self):
         response = self.client.get(reverse('core:plans'))
@@ -163,12 +242,35 @@ class PublicPagesTests(TestCase):
         self.assertContains(detail_response, 'From €595 + VAT')
         self.assertContains(detail_response, 'From €1,250 + VAT')
 
+    def test_promotion_fallback_works_without_admin_rows(self):
+        ServiceOption.objects.all().delete()
+
+        homepage_response = self.client.get(reverse('core:home'))
+        self.assertEqual(homepage_response.status_code, 200)
+        self.assertContains(homepage_response, 'Promote your website')
+        self.assertContains(homepage_response, 'EUR 79 / month')
+        self.assertContains(homepage_response, 'From EUR 70')
+
+        promotion_response = self.client.get(reverse('core:facebook_posts'))
+        self.assertEqual(promotion_response.status_code, 200)
+        self.assertContains(promotion_response, 'EUR 79 / month')
+
     def test_service_option_model_is_registered_in_admin(self):
         self.assertIn(ServiceOption, admin_site._registry)
 
     def test_service_option_seed_rows_exist(self):
         self.assertEqual(ServiceOption.objects.filter(section_key='catalog_ecommerce', language='en').count(), 3)
         self.assertEqual(ServiceOption.objects.filter(section_key='catalog_ecommerce', language='nl').count(), 3)
+        self.assertEqual(ServiceOption.objects.filter(section_key='promotion', language='en').count(), 4)
+        self.assertEqual(ServiceOption.objects.filter(section_key='promotion', language='nl').count(), 4)
+
+    def test_footer_contains_promotion_links(self):
+        response = self.client.get(reverse('core:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse('core:facebook_posts'))
+        self.assertContains(response, reverse('core:facebook_instagram_ads'))
+        self.assertContains(response, reverse('core:google_ads'))
+        self.assertContains(response, reverse('core:linkedin_ads'))
 
 
 @override_settings(SITE_NOINDEX=True)
@@ -186,11 +288,17 @@ class SoftLaunchIndexingTests(TestCase):
 
 @override_settings(SITE_NOINDEX=False, GOF_AI_ENABLED=False, OPENAI_API_KEY='')
 class AssistantTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
     def test_assistant_greeting_returns_friendly_greeting(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'hi'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
-        self.assertEqual(payload['mode'], 'rule_based')
+        self.assertEqual(payload['mode'], 'disabled')
+        self.assertEqual(payload['fallback_reason'], 'gof_ai_disabled')
+        self.assertFalse(payload['ai_enabled'])
+        self.assertFalse(payload['has_openai_key'])
         self.assertEqual(payload['language'], 'en')
         self.assertEqual(payload['intent'], 'greeting')
         self.assertIn("I'm the Get Online Fast helper", payload['answer'])
@@ -251,17 +359,34 @@ class AssistantTests(TestCase):
     def test_assistant_widget_uses_general_public_copy(self):
         response = self.client.get('/en/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Which plan fits my business?')
-        self.assertContains(response, 'Can I create a preview right now?')
-        self.assertContains(response, 'How can I pay?')
-        self.assertContains(response, 'Hello. I can help with websites, plans, payment, support, business email, and the WordPress dashboard.')
+        self.assertContains(response, 'Start a website')
+        self.assertContains(response, 'View prices')
+        self.assertContains(response, 'How does the preview work?')
+        self.assertContains(response, 'Do you help with Google?')
+        self.assertContains(response, 'Contact support')
+        self.assertContains(response, 'Hello. I help with practical Get Online Fast questions about websites, plans, previews, payment, support, domains, and business email.')
+        self.assertContains(response, 'For Get Online Fast questions only.')
+        self.assertContains(response, reverse('core:assistant_help'))
+        self.assertContains(response, 'Mode: not run')
 
     def test_assistant_widget_shows_dutch_labels_on_dutch_page(self):
         response = self.client.get('/nl/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Hulp nodig?')
+        self.assertContains(response, 'Stel een GOF vraag')
         self.assertContains(response, 'Vraag stellen')
         self.assertContains(response, 'Bijv. Welk pakket past bij mijn bedrijf?')
+        self.assertContains(response, 'Website starten')
+        self.assertContains(response, 'Prijzen bekijken')
+        self.assertContains(response, 'Helpen jullie met Google?')
+        self.assertContains(response, 'Modus: nog niet uitgevoerd')
+
+    def test_assistant_pricing_question_uses_plans_answer(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'What are your prices?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'plans')
+        self.assertIn(reverse('core:plans'), payload['answer'])
+        self.assertIn(reverse('core:plans'), payload['suggested_links'][0]['url'])
 
     def test_assistant_preview_question_does_not_return_start_link(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'Can I create a preview right now?'})
@@ -299,6 +424,14 @@ class AssistantTests(TestCase):
         self.assertNotIn('HMD', payload['answer'])
         self.assertIn('/nl/catalogus-en-webshop/', payload['suggested_links'][0]['url'])
 
+    def test_assistant_promotion_answer_is_general(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Can you help with Google Ads?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'promotion')
+        self.assertIn('Facebook Posts', payload['answer'])
+        self.assertIn(reverse('core:facebook_posts'), payload['suggested_links'][0]['url'])
+
     def test_assistant_responses_do_not_expose_localhost_links(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'support', 'lang': 'nl'})
         self.assertEqual(response.status_code, 200)
@@ -310,6 +443,242 @@ class AssistantTests(TestCase):
             self.assertNotIn('localhost', link['url'])
             self.assertNotIn('127.0.0.1', link['url'])
             self.assertNotIn('hmd-klusbedrijf', link['url'])
+
+    @override_settings(GOF_PUBLIC_AI_ASSISTANT_ENABLED=True)
+    def test_public_ai_disabled_returns_disabled_mode(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'How can I pay?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'disabled')
+        self.assertEqual(payload['fallback_reason'], 'gof_ai_disabled')
+        self.assertEqual(payload['intent'], 'payment')
+        self.assertIn('Stripe', payload['answer'])
+
+    @override_settings(GOF_AI_ENABLED=True, GOF_PUBLIC_AI_ASSISTANT_ENABLED=True, OPENAI_API_KEY='')
+    def test_missing_openai_key_returns_disabled_mode(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'How can I pay?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'disabled')
+        self.assertEqual(payload['fallback_reason'], 'missing_openai_key')
+        self.assertFalse(payload['has_openai_key'])
+
+    @override_settings(DEBUG=True)
+    def test_assistant_proof_page_is_available_in_debug(self):
+        response = self.client.get(reverse('core:assistant_proof'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Public GOF assistant proof')
+        self.assertContains(response, reverse('core:assistant_help'))
+
+    @override_settings(GOF_SITE_STATUS='pre_launch', GOF_PUBLIC_LAUNCH_DATE=None)
+    def test_public_assistant_prompt_context_includes_site_identity_and_launch_status(self):
+        context = _prompt_context(
+            'en',
+            {
+                'contact_url': '/en/contact/',
+                'support_url': '/en/support/',
+                'plans_url': '/en/plans/',
+                'payment_url': '/en/payment-and-cancellation/',
+                'catalog_url': '/en/catalog-and-ecommerce/',
+                'promotion_url': '/en/facebook-posts/',
+            },
+        )
+        self.assertIn('The visitor is currently on the Get Online Fast website.', context)
+        self.assertIn('"this site" usually means the Get Online Fast website itself.', context)
+        self.assertIn('"my site", "my website", or "our website"', context)
+        self.assertIn('Get Online Fast status: pre_launch', context)
+        self.assertIn('There is no public launch date shown here yet.', context)
+
+
+@override_settings(
+    SITE_NOINDEX=False,
+    GOF_AI_ENABLED=True,
+    OPENAI_API_KEY='test-key',
+    GOF_PUBLIC_AI_ASSISTANT_ENABLED=True,
+    GOF_PUBLIC_AI_ASSISTANT_MAX_MESSAGES_PER_IP_PER_HOUR=5,
+    GOF_PUBLIC_AI_ASSISTANT_MAX_MESSAGES_PER_IP_PER_DAY=20,
+)
+class PublicAiAssistantTests(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    @patch('core.services_public_assistant.generate_public_assistant_answer_with_ai', return_value='Get Online Fast can show your website options, expected pricing direction, and the right next step.')
+    def test_public_ai_enabled_can_return_ai_mode(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'What are your prices?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertEqual(payload['fallback_reason'], '')
+        self.assertTrue(payload['ai_enabled'])
+        self.assertTrue(payload['public_ai_enabled'])
+        self.assertTrue(payload['has_openai_key'])
+        self.assertEqual(payload['model_used'], 'gpt-4.1-mini')
+        self.assertIn('pricing direction', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch('core.services_public_assistant.generate_public_assistant_answer_with_ai', side_effect=Exception('boom'))
+    def test_openai_error_returns_error_mode_with_fallback_answer(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'How can I pay?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'error')
+        self.assertEqual(payload['fallback_reason'], 'openai_error')
+        self.assertEqual(payload['intent'], 'payment')
+        self.assertIn('Stripe', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='I only help with Get Online Fast questions. I can explain website pricing, previews, domains, Google visibility, or the best next step for your business.',
+    )
+    def test_unrelated_question_gets_safe_refusal(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'What is the weather in Paris?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertEqual(payload['intent'], 'ai_answer')
+        self.assertIn('Get Online Fast questions', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='Get Online Fast is being prepared for launch. You can already use this page to learn about the service and, if the start form is available, send your business details for a private website preview. There is no public launch date shown here yet.',
+    )
+    def test_this_site_open_question_answers_about_get_online_fast(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'When does this site open?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('Get Online Fast is being prepared for launch', payload['answer'])
+        self.assertIn('no public launch date shown here yet', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='Get Online Fast is being prepared for launch. You can already use this page to learn about the service. There is no public launch date shown here yet.',
+    )
+    def test_this_site_open_now_question_answers_about_get_online_fast(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Is this site open now?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('Get Online Fast is being prepared for launch', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='You can already use the Get Online Fast website to learn about the service. If the start form is available, you can send your business details for a private website preview. There is no public launch date shown here yet.',
+    )
+    def test_can_i_use_this_site_now_answers_about_get_online_fast(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Can I use this site now?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('Get Online Fast website', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='Your website timeline depends on your business details, content, and review rounds. Get Online Fast can prepare a private preview first, then confirm the next steps once the scope is clear.',
+    )
+    def test_my_site_ready_question_answers_about_customer_project(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'When will my site be ready?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('Your website timeline depends on your business details', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='Your website would normally be prepared on WordPress, with a private preview before activation or handoff where relevant. The exact build depends on your business needs and scope.',
+    )
+    def test_my_website_built_question_answers_about_customer_project(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'How will my website be built?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('prepared on WordPress', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='Get Online Fast is being prepared for launch. There is no public launch date shown here yet, but you can already use this page to learn about the service and request a private preview if available.',
+    )
+    def test_get_online_fast_launch_question_answers_about_service_launch(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'When does Get Online Fast launch?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('no public launch date shown here yet', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='For a taxi business, the timeline depends on your business details, service area, and how quickly we can prepare and review your private preview. Get Online Fast can guide you through the next steps once your scope is clear.',
+    )
+    def test_business_specific_my_site_question_answers_about_customer_project(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'I need a website for my taxi business, when can it be ready?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertIn('For a taxi business, the timeline depends on your business details', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='I focus on Get Online Fast questions. I can help with website pricing, previews, domains, Google visibility, email setup, support, or how to start.',
+    )
+    def test_scope_check_question_still_uses_ai_first(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'can you chat about anything else?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertEqual(payload['fallback_reason'], '')
+        self.assertIn('Get Online Fast questions', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @patch(
+        'core.services_public_assistant.generate_public_assistant_answer_with_ai',
+        return_value='I only help with Get Online Fast questions, but I can help with website pricing, previews, domains, Google visibility, and getting started.',
+    )
+    def test_poem_request_still_uses_ai_first(self, mocked_answer):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Can you write me a poem about cats?'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'ai')
+        self.assertEqual(payload['fallback_reason'], '')
+        self.assertIn('Get Online Fast questions', payload['answer'])
+        mocked_answer.assert_called_once()
+
+    @override_settings(
+        GOF_PUBLIC_AI_ASSISTANT_MAX_MESSAGES_PER_IP_PER_HOUR=1,
+        GOF_PUBLIC_AI_ASSISTANT_MAX_MESSAGES_PER_IP_PER_DAY=2,
+    )
+    @patch('core.services_public_assistant.generate_public_assistant_answer_with_ai', return_value='A short GOF answer.')
+    def test_rate_limit_blocks_after_limit(self, mocked_answer):
+        first = self.client.get(reverse('core:assistant_help'), {'q': 'Which plan fits my business?'})
+        self.assertEqual(first.status_code, 200)
+        self.assertEqual(first.json()['mode'], 'ai')
+
+        second = self.client.get(reverse('core:assistant_help'), {'q': 'Which plan fits my business?'})
+        self.assertEqual(second.status_code, 200)
+        payload = second.json()
+        self.assertEqual(payload['mode'], 'fallback')
+        self.assertEqual(payload['fallback_reason'], 'rate_limit_hour')
+        self.assertEqual(payload['intent'], 'rate_limited')
+        self.assertIn('You can use the start form or contact support.', payload['answer'])
+        self.assertEqual(mocked_answer.call_count, 1)
+
+    def test_input_too_long_falls_back_safely(self):
+        long_question = ('How can I pay? ' * 80).strip()
+        response = self.client.get(reverse('core:assistant_help'), {'q': long_question})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['mode'], 'fallback')
+        self.assertEqual(payload['fallback_reason'], 'too_long')
+        self.assertEqual(payload['intent'], 'payment')
+        self.assertIn('Stripe', payload['answer'])
 
 
 @override_settings(SITE_NOINDEX=False)

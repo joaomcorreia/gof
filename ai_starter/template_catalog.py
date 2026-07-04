@@ -3,6 +3,53 @@ from copy import deepcopy
 from django.utils.translation import gettext_lazy as _
 
 
+STARTER_TEMPLATE_REGISTRY = [
+    {
+        'key': 'service_pro',
+        'label': _('Service Pro'),
+        'template_slug': 'classic_service',
+        'note': _('Older one-page local service template for practical and professional businesses.'),
+        'business_keywords': [
+            'auto repair', 'garage', 'mechanic', 'car repair', 'vehicle repair', 'workshop',
+            'taxi', 'transport', 'airport transfer', 'handyman', 'cleaning', 'construction',
+            'builder', 'contractor', 'electrician', 'plumber', 'painter',
+        ],
+        'preferred_image_category': 'garage',
+    },
+    {
+        'key': 'friendly_care',
+        'label': _('Friendly Care'),
+        'template_slug': 'gof-canva-layout-test-v1',
+        'note': _('Current Codex starter preview template kept for kids, family, care, tutoring, and softer service businesses.'),
+        'business_keywords': [
+            'babysitter', 'baby sitter', 'child care', 'childcare', 'kids', 'children',
+            'daycare', 'day care', 'family support', 'tutoring', 'tutor', 'lessons',
+            'caregiver', 'care', 'nanny',
+        ],
+        'preferred_image_category': 'generic_service',
+    },
+    {
+        'key': 'visual_showcase',
+        'label': _('Visual Showcase'),
+        'template_slug': 'visual_hero',
+        'note': _('Image-led starter template for visual local businesses.'),
+        'business_keywords': [
+            'beauty', 'wellness', 'salon', 'spa', 'hair', 'lashes', 'makeup', 'barber',
+            'massage', 'skincare',
+        ],
+        'preferred_image_category': 'beauty',
+    },
+    {
+        'key': 'simple_landing',
+        'label': _('Simple Landing'),
+        'template_slug': 'classic_service',
+        'note': _('Placeholder registry key using the older one-page template until a dedicated landing template is added.'),
+        'business_keywords': [],
+        'preferred_image_category': 'generic_service',
+    },
+]
+
+
 TEMPLATE_REGISTRY = [
     {
         'slug': 'classic_service',
@@ -149,12 +196,55 @@ def _template_lookup():
     return lookup
 
 
+def _starter_template_lookup():
+    return {entry['key']: entry for entry in STARTER_TEMPLATE_REGISTRY}
+
+
 def default_template_slug():
     return TEMPLATE_REGISTRY[0]['slug']
 
 
 def available_template_cards():
     return [deepcopy(template) for template in TEMPLATE_REGISTRY]
+
+
+def available_starter_template_registry():
+    return [deepcopy(entry) for entry in STARTER_TEMPLATE_REGISTRY]
+
+
+def default_starter_template_key():
+    return STARTER_TEMPLATE_REGISTRY[0]['key']
+
+
+def normalize_starter_template_key(key):
+    normalized = str(key or '').strip()
+    if normalized in _starter_template_lookup():
+        return normalized
+    return default_starter_template_key()
+
+
+def get_starter_template_entry(key):
+    normalized = normalize_starter_template_key(key)
+    return deepcopy(_starter_template_lookup()[normalized])
+
+
+def template_slug_for_starter_template_key(key):
+    entry = get_starter_template_entry(key)
+    return normalize_template_slug(entry['template_slug'])
+
+
+def infer_starter_template_key(business_type, *, fallback=None):
+    normalized_business_type = str(business_type or '').strip().lower()
+    for entry in STARTER_TEMPLATE_REGISTRY:
+        if any(keyword in normalized_business_type for keyword in entry.get('business_keywords', [])):
+            return entry['key']
+    return normalize_starter_template_key(fallback or default_starter_template_key())
+
+
+def infer_starter_template_slug(business_type, *, fallback=None):
+    return template_slug_for_starter_template_key(
+        infer_starter_template_key(business_type, fallback=fallback)
+    )
 
 
 def normalize_template_slug(slug):

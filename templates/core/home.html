@@ -26,10 +26,10 @@
               <h2 class="hero-slide-title">{% trans "Be found by local customers" %}</h2>
               <p>{% trans "Get a clear website preview built around your services, location, and contact details, so customers can understand what you do and contact you quickly." %}</p>
               <div class="hero-actions">
-                <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
+                <a class="btn btn-primary" href="{% url 'ai_starter:start' %}">{% trans "Start your website" %}</a>
                 <a class="btn btn-secondary" href="{% url 'core:plans' %}">{% trans "View plans" %}</a>
               </div>
-              <p class="hero-price-signal small">{% trans "Private preview - No public launch before activation - Built for local service businesses" %}</p>
+              <p class="hero-price-signal small">{% trans "Built for local service businesses and simple website requests" %}</p>
               <p class="hero-microcopy small">{% trans "Plumbers - Electricians - Cleaners - Garages - Local service businesses" %}</p>
               <div class="micro-proof">
                 <span>{% trans "Plumbers" %}</span>
@@ -46,14 +46,14 @@
             <div class="hero-slide-shell">
               <div class="hero-slide-copy">
                 <div class="eyebrow">{% trans "Fast websites for small local businesses" %}</div>
-              <h2 class="hero-slide-title">{% trans "Start with a private website preview" %}</h2>
-              <p>{% trans "Tell us what your business does. We'll prepare a simple preview with your services, location, contact options, and a starting design." %}</p>
+              <h2 class="hero-slide-title">{% trans "Start with a business website request" %}</h2>
+              <p>{% trans "Tell us what your business does. We'll prepare a starter direction with your services, location, contact options, and a starting design." %}</p>
               <div class="hero-actions">
-                <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
+                <a class="btn btn-primary" href="{% url 'ai_starter:start' %}">{% trans "Start your website" %}</a>
                 <a class="btn btn-secondary" href="#pricing">{% trans "See starting designs" %}</a>
               </div>
               <p class="hero-price-signal small">{% trans "Choose a starting design before you decide how to continue" %}</p>
-              <p class="hero-microcopy small">{% trans "Private first version with your services, location, and contact options" %}</p>
+              <p class="hero-microcopy small">{% trans "A guided start with your services, location, and contact options" %}</p>
               <div class="micro-proof">
                 <span>{% trans "Services" %}</span>
                 <span>{% trans "Location" %}</span>
@@ -93,7 +93,7 @@
           </button>
           <div class="hero-slider-dots" role="tablist" aria-label="{% trans 'Select hero message' %}">
             <button type="button" class="hero-slider-dot is-active" data-hero-dot data-slide-index="0" role="tab" aria-selected="true" aria-label="{% trans 'Show slide 1: Be found by local customers' %}"></button>
-            <button type="button" class="hero-slider-dot" data-hero-dot data-slide-index="1" role="tab" aria-selected="false" aria-label="{% trans 'Show slide 2: Start with a private website preview' %}"></button>
+            <button type="button" class="hero-slider-dot" data-hero-dot data-slide-index="1" role="tab" aria-selected="false" aria-label="{% trans 'Show slide 2: Start with a business website request' %}"></button>
             <button type="button" class="hero-slider-dot" data-hero-dot data-slide-index="2" role="tab" aria-selected="false" aria-label="{% trans 'Show slide 3: Keep improving after launch' %}"></button>
           </div>
           <button type="button" class="hero-slider-arrow" data-hero-next aria-label="{% trans 'Show next slide' %}">
@@ -267,11 +267,11 @@
       </article>
       <article class="card surface-card card--feature">
         <div class="step-num">3</div>
-        <h3>{% trans "Review your private preview" %}</h3>
-        <p>{% trans "See the first version of your website before deciding how you want to continue." %}</p>
+        <h3>{% trans "Review the next step" %}</h3>
+        <p>{% trans "We review your starter request and prepare the best next step for your business." %}</p>
       </article>
     </div>
-    <p class="small section-note">{% trans "Your preview stays private until activation/payment is completed." %}</p>
+    <p class="small section-note">{% trans "Your starter request is reviewed before any website work continues." %}</p>
   </div>
 </section>
 
@@ -283,7 +283,7 @@
       </div>
       <div>
         <p>
-          {% trans "Start with a private preview, then choose the option that fits your business." %}
+          {% trans "Start with a website request, then choose the option that fits your business." %}
         </p>
         <p class="small">
           {% trans "You can begin simple and add more features when your business needs them." %}
@@ -302,14 +302,14 @@
           <li>{% trans "WhatsApp or contact button" %}</li>
           <li>{% trans "Upgrade to a full website later" %}</li>
         </ul>
-        <a href="{% url 'core:ai_website' %}" class="pricing-btn pricing-btn-outline">{% trans "Start with Starter Page" %}</a>
+        <a href="{% url 'ai_starter:start' %}" class="pricing-btn pricing-btn-outline">{% trans "Start with Starter Page" %}</a>
       </article>
 
       <article class="pricing-card pricing-card-featured surface-card card--pricing">
         <div class="pricing-badge">{% trans "Most chosen" %}</div>
         <h3>{% trans "One-Time Website" %}</h3>
         <div class="price">{% trans "€325 + VAT" %}</div>
-        <div class="price-note">{% trans "A complete business website prepared once, with a private preview and optional add-ons later." %}</div>
+        <div class="price-note">{% trans "A complete business website prepared once, with a reviewed starter direction and optional add-ons later." %}</div>
         <ul>
           <li>{% trans "Full business website" %}</li>
           <li>{% trans "Structured SEO setup" %}</li>
@@ -411,6 +411,64 @@
       <span>{{ badge }}</span>
       {% endfor %}
     </div>
+  </div>
+</section>
+
+<section class="section-band section-band--light section-layout--full promotion-highlight-section" id="promotion">
+  <div class="section-inner section-inner--wide promotion-highlight-shell">
+    <div class="commerce-highlight-head promotion-highlight-head">
+      <div>
+        <div class="eyebrow">{% trans "Promotion" %}</div>
+        <h2>{{ promotion_section_title }}</h2>
+      </div>
+      <p>{{ promotion_section_intro }}</p>
+    </div>
+
+    <div class="promotion-card-grid">
+      {% for option in promotion_service_options %}
+      <article class="promotion-card">
+        <div class="promotion-card-icon" aria-hidden="true">
+          {% if option.option_key == 'facebook_posts' %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 8.5h8"></path>
+            <path d="M8 12h8"></path>
+            <path d="M8 15.5h5"></path>
+            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+          </svg>
+          {% elif option.option_key == 'meta_ads' %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="12" r="4"></circle>
+            <circle cx="16" cy="12" r="4"></circle>
+            <path d="M12.5 8.5 14 6"></path>
+            <path d="M12.5 15.5 14 18"></path>
+          </svg>
+          {% elif option.option_key == 'google_ads' %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 5v14"></path>
+            <path d="M8 12h8"></path>
+            <circle cx="17" cy="7" r="2.5"></circle>
+            <circle cx="17" cy="17" r="2.5"></circle>
+          </svg>
+          {% else %}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17V9"></path>
+            <path d="M12 17V5"></path>
+            <path d="M17 17v-6"></path>
+            <path d="M5 19h14"></path>
+          </svg>
+          {% endif %}
+        </div>
+        <h3>{{ option.title }}</h3>
+        {% if option.price_label %}
+        <div class="promotion-card-price">{{ option.price_label }}</div>
+        {% endif %}
+        <p>{{ option.summary }}</p>
+        <a class="btn btn-secondary" href="{{ option.cta_url }}">{{ option.cta_label }}</a>
+      </article>
+      {% endfor %}
+    </div>
+
+    <p class="promotion-pricing-note small">{{ promotion_service_note }}</p>
   </div>
 </section>
 

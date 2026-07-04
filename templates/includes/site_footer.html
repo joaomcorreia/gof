@@ -25,8 +25,14 @@
         <a href="{% url 'core:one_time_website_plan' %}">{% trans "One-Time Website" %}</a>
         <a href="{% url 'core:monthly_plan' %}">{% trans "Monthly Plan" %}</a>
         <a href="{% url 'core:ecommerce_plan' %}">{% trans "eCommerce Plan" %}</a>
-        <a href="{% url 'core:monthly_plan' %}">{% trans "Facebook Posts" %}</a>
-        <a href="{% url 'core:one_time_website_plan' %}">{% trans "SEO Optimization" %}</a>
+      </nav>
+
+      <nav class="site-footer-column" aria-label="{% trans 'Promotion' %}">
+        <h2>{% trans "Promotion" %}</h2>
+        <a href="{% url 'core:facebook_posts' %}">{% trans "Facebook Posts" %}</a>
+        <a href="{% url 'core:facebook_instagram_ads' %}">{% trans "Facebook & Instagram Ads" %}</a>
+        <a href="{% url 'core:google_ads' %}">{% trans "Google Ads" %}</a>
+        <a href="{% url 'core:linkedin_ads' %}">{% trans "LinkedIn Ads" %}</a>
       </nav>
 
       <nav class="site-footer-column" aria-label="{% trans 'Company and legal' %}">

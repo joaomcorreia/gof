@@ -5,9 +5,18 @@ from django.utils.translation import gettext_lazy as _
 from django.templatetags.static import static
 
 from .models import SiteContent, Template
-from .image_catalog import get_default_image_for_business_type, get_image_by_key, get_image_choices
+from .image_catalog import (
+    get_default_image_for_business_type,
+    get_image_by_key,
+    get_image_choices,
+    get_image_choices_for_business_type,
+    is_generic_placeholder_image_key,
+    resolve_business_images,
+)
+from .services_context import build_business_context
 from .template_catalog import (
     available_template_cards,
+    infer_starter_template_slug,
     get_template_card,
     get_template_layout,
     get_template_section_layout,
@@ -604,7 +613,7 @@ BUSINESS_FAMILY_RULES = [
             'construction', 'renovation', 'building', 'roofing', 'contractor', 'handyman',
             'carpenter', 'electrician', 'plumber',
         ],
-        'recommended_template_slug': 'visual_hero',
+        'recommended_template_slug': 'classic_service',
     },
     {
         'family': 'food_restaurant',
@@ -615,6 +624,11 @@ BUSINESS_FAMILY_RULES = [
         'family': 'beauty_wellness',
         'keywords': ['beauty', 'makeup', 'hair', 'nails', 'spa', 'massage', 'wellness', 'salon', 'barber'],
         'recommended_template_slug': 'visual_hero',
+    },
+    {
+        'family': 'friendly_care',
+        'keywords': ['babysitter', 'baby sitter', 'child care', 'childcare', 'kids', 'children', 'daycare', 'day care', 'tutor', 'tutoring', 'nanny', 'family support', 'caregiver'],
+        'recommended_template_slug': 'gof-canva-layout-test-v1',
     },
     {
         'family': 'creative_printing',
@@ -672,7 +686,10 @@ def _profile_payload(profile, *, display_business_type=None, family=None, key=No
         ],
         'suggested_services': [str(item) for item in profile.get('services', [])],
         'services': [str(item) for item in profile.get('services', [])],
-        'recommended_template_slug': profile.get('recommended_template_slug', 'classic_service'),
+        'recommended_template_slug': normalize_template_slug(
+            profile.get('recommended_template_slug')
+            or infer_starter_template_slug(display_value or profile_family, fallback='service_pro')
+        ),
         'exact_match': exact_match,
     }
 
@@ -692,8 +709,8 @@ def build_generic_profile(value, family=None):
     recommended_template_slug = (
         family.get('recommended_template_slug')
         if isinstance(family, dict)
-        else 'classic_service'
-    ) or 'classic_service'
+        else infer_starter_template_slug(display_value, fallback='service_pro')
+    ) or infer_starter_template_slug(display_value, fallback='service_pro')
     if isinstance(family, dict) and family.get('hero_title'):
         return _profile_payload(
             {
@@ -927,106 +944,359 @@ def _business_specific_service_candidates(service_type):
     return deduplicated
 
 
-def build_suggestions(*, business_name, service_type, city, template_slug=None, variant_index=0):
+def _first_non_empty(*values):
+    for value in values:
+        text = str(value or '').strip()
+        if text:
+            return text
+    return ''
+
+
+def _profile_key(profile):
+    return str(profile.get('key') or profile.get('family') or 'generic').strip().lower()
+
+
+def _area_label(city='', service_area='', location=''):
+    return _first_non_empty(city, service_area, location)
+
+
+def _area_phrase(city='', service_area='', location=''):
+    area = _area_label(city, service_area, location)
+    return f'in {area}' if area else 'in your area'
+
+
+def _display_business_name(business_name, service_type, profile):
+    return _first_non_empty(
+        business_name,
+        service_type,
+        profile.get('display_business_type'),
+        'Your business',
+    )
+
+
+def _display_service_type(service_type, profile):
+    return _first_non_empty(service_type, profile.get('display_business_type'), 'local business')
+
+
+def _preferred_cta(profile_key, selected_services):
+    key = str(profile_key or '').strip().lower()
+    joined_services = ' '.join(str(item).lower() for item in (selected_services or []))
+
+    if key in {'taxi', 'transport'}:
+        return _('Book a ride')
+    if key == 'garage':
+        return _('Request a repair quote')
+    if key in {'construction', 'painter'}:
+        return _('Request a quote')
+    if key in {'beauty', 'makeup_artist'}:
+        return _('Book an appointment')
+    if key == 'cleaning':
+        return _('Request cleaning help')
+    if key in {'restaurant', 'bakery'}:
+        return _('Order or book now')
+    if key in {'shop', 'shop_catalog'}:
+        if 'repair' in joined_services or 'support' in joined_services:
+            return _('Ask about products')
+        return _('See products')
+    return _('Request information')
+
+
+def _business_specific_hero_title(profile_key, business_name, service_type, city, service_area, location, selected_services):
+    area = _area_label(city, service_area, location)
+    area_tail = f' in {area}' if area else ''
+    name = _display_business_name(business_name, service_type, {'display_business_type': service_type})
+    primary_service = _first_non_empty(*(selected_services or []))
+
+    if profile_key in {'taxi', 'transport'}:
+        return f'{name}{area_tail} for local rides and transfers'
+    if profile_key == 'garage':
+        return f'{name}{area_tail} for repairs, servicing, and diagnostics'
+    if profile_key in {'construction', 'painter'}:
+        return f'{name}{area_tail} for repair and project work'
+    if profile_key in {'beauty', 'makeup_artist'}:
+        return f'{name}{area_tail} for treatments and appointments'
+    if profile_key == 'cleaning':
+        return f'{name}{area_tail} for home and business cleaning'
+    if profile_key in {'restaurant', 'bakery'}:
+        return f'{name}{area_tail} for food, orders, and bookings'
+    if profile_key in {'shop', 'shop_catalog'}:
+        return f'{name}{area_tail} for products and enquiries'
+    if primary_service and area:
+        return f'{name} in {area} for {primary_service.lower()}'
+    if primary_service:
+        return f'{name} for {primary_service.lower()}'
+    if area:
+        return f'{name} in {area}'
+    return name
+
+
+def _business_specific_hero_description(profile_key, business_name, service_type, city, service_area, location, selected_services):
+    area_phrase = _area_phrase(city, service_area, location)
+    name = _display_business_name(business_name, service_type, {'display_business_type': service_type})
+    service_bits = [str(item).strip() for item in (selected_services or []) if str(item).strip()]
+    service_summary = ', '.join(service_bits[:2]).lower()
+
+    if profile_key in {'taxi', 'transport'}:
+        return f'Show local rides, airport transfers, and booking details {area_phrase} so passengers know how to contact {name}.'
+    if profile_key == 'garage':
+        return f'Explain repairs, diagnostics, and servicing {area_phrase} with a clear path for drivers to request help from {name}.'
+    if profile_key in {'construction', 'painter'}:
+        return f'Present your repair, renovation, or project work {area_phrase} with a clear quote path for new enquiries.'
+    if profile_key in {'beauty', 'makeup_artist'}:
+        return f'Present treatments, availability, and booking details {area_phrase} so new clients can contact {name} quickly.'
+    if profile_key == 'cleaning':
+        return f'Explain regular cleaning, deep cleaning, and quote requests {area_phrase} so customers can book the right service.'
+    if profile_key in {'restaurant', 'bakery'}:
+        return f'Help visitors find your menu, opening hours, and the best way to order or reserve {area_phrase}.'
+    if profile_key in {'shop', 'shop_catalog'}:
+        return f'Show products, categories, and enquiry options {area_phrase} so visitors can quickly find what they need.'
+    if service_summary:
+        return f'Explain {service_summary} {area_phrase} with a simple way for customers to contact {name}.'
+    return f'Give visitors a clear first overview of your services {area_phrase} and how to contact {name}.'
+
+
+def _service_intro_copy(profile_key, business_name, service_type, city, service_area, location, selected_services):
+    area_phrase = _area_phrase(city, service_area, location)
+    if profile_key in {'taxi', 'transport'}:
+        return f'Help passengers see ride options, transfer routes, and booking details {area_phrase}.'
+    if profile_key == 'garage':
+        return f'Help drivers understand which repairs, servicing, and vehicle checks you handle {area_phrase}.'
+    if profile_key in {'construction', 'painter'}:
+        return f'Show the jobs you take on {area_phrase} and make it easy to request a quote.'
+    if profile_key in {'beauty', 'makeup_artist'}:
+        return f'Show your treatments, appointment options, and booking path {area_phrase}.'
+    if profile_key == 'cleaning':
+        return f'Explain the spaces you clean, the service options, and how customers can book {area_phrase}.'
+    if profile_key in {'restaurant', 'bakery'}:
+        return f'Show menu highlights, takeaway options, and the best way to order or reserve {area_phrase}.'
+    if profile_key in {'shop', 'shop_catalog'}:
+        return f'Guide visitors to the right product categories, featured items, and next steps {area_phrase}.'
+    primary_service = _first_non_empty(*(selected_services or []))
+    if primary_service:
+        return f'Give visitors a quick overview of {primary_service.lower()} and the main services you offer {area_phrase}.'
+    business_label = _display_service_type(service_type, {'display_business_type': service_type})
+    return f'Explain what your {business_label.lower()} offers {area_phrase} and how customers should contact you.'
+
+
+def _service_description_line(service_label, profile_key, city, service_area, location):
+    label = str(service_label or '').strip()
+    if not label:
+        return ''
+
+    area_phrase = _area_phrase(city, service_area, location)
+    lower_label = label.lower()
+
+    if profile_key in {'taxi', 'transport'}:
+        if 'airport' in lower_label:
+            return f'{label} with clear pickup and booking requests {area_phrase}.'
+        if 'business' in lower_label or 'appointment' in lower_label:
+            return f'{label} for planned journeys and regular transport needs {area_phrase}.'
+        return f'{label} with a simple booking path for passengers {area_phrase}.'
+    if profile_key == 'garage':
+        if 'diagnostic' in lower_label:
+            return f'{label} to help drivers understand faults and next repair steps {area_phrase}.'
+        if 'mot' in lower_label or 'apk' in lower_label:
+            return f'{label} with a clear path to book checks and related repair work {area_phrase}.'
+        return f'{label} for local drivers who need quick contact and clear workshop support {area_phrase}.'
+    if profile_key in {'construction', 'painter'}:
+        return f'{label} with straightforward quote requests and practical project information {area_phrase}.'
+    if profile_key in {'beauty', 'makeup_artist'}:
+        return f'{label} with clear appointment requests and treatment information {area_phrase}.'
+    if profile_key == 'cleaning':
+        return f'{label} with a simple way to ask about availability and pricing {area_phrase}.'
+    if profile_key in {'restaurant', 'bakery'}:
+        return f'{label} with clear ordering, booking, or collection information {area_phrase}.'
+    if profile_key in {'shop', 'shop_catalog'}:
+        return f'{label} presented clearly so visitors can compare options and ask questions {area_phrase}.'
+    return f'{label} with a clear enquiry path {area_phrase}.'
+
+
+def _trust_cards(profile_key, city, service_area, location):
+    area_phrase = _area_phrase(city, service_area, location)
+    if profile_key in {'taxi', 'transport'}:
+        return (
+            (_('Clear ride options'), f'Show transfer and journey options {area_phrase} without making visitors guess what you cover.'),
+            (_('Simple booking path'), f'Keep calls, WhatsApp, or booking requests easy for passengers {area_phrase}.'),
+            (_('Local coverage'), f'Explain the routes, areas, or transfer types you handle {area_phrase}.'),
+        )
+    if profile_key == 'garage':
+        return (
+            (_('Clear repair scope'), f'Explain the repair and servicing work you handle {area_phrase}.'),
+            (_('Fast contact path'), 'Make it easy for drivers to ask about faults, quotes, or workshop availability.'),
+            (_('Practical workshop info'), 'Show the services, vehicle support, and next steps people usually ask about first.'),
+        )
+    if profile_key in {'construction', 'painter'}:
+        return (
+            (_('Clear job types'), f'Show the repair, installation, or renovation work you take on {area_phrase}.'),
+            (_('Quote-ready enquiries'), 'Make it easy for visitors to send the details you need for a quote.'),
+            (_('Local project focus'), 'Use the page to explain where you work and what kind of jobs fit best.'),
+        )
+    if profile_key in {'beauty', 'makeup_artist'}:
+        return (
+            (_('Clear treatment list'), 'Help visitors quickly understand your most requested services and appointment options.'),
+            (_('Easy booking path'), 'Keep appointment requests simple by showing the best contact method right away.'),
+            (_('Confident first impression'), 'Use short, practical copy that makes new clients feel comfortable contacting you.'),
+        )
+    if profile_key == 'cleaning':
+        return (
+            (_('Clear cleaning options'), 'Show the spaces you clean and the service types people ask about most.'),
+            (_('Simple quote requests'), 'Make it easy to ask about regular cleaning, one-off jobs, or availability.'),
+            (_('Local service area'), f'Explain the homes, offices, or areas you cover {area_phrase}.'),
+        )
+    if profile_key in {'restaurant', 'bakery'}:
+        return (
+            (_('Menu and ordering clarity'), 'Help visitors quickly find what you serve and how to order or reserve.'),
+            (_('Opening hours and location'), 'Keep practical details easy to find before people decide to visit.'),
+            (_('Simple next step'), 'Use one clear contact or order action instead of making customers search for it.'),
+        )
+    if profile_key in {'shop', 'shop_catalog'}:
+        return (
+            (_('Clear product sections'), 'Show key categories and featured items so visitors know where to start.'),
+            (_('Easy product enquiries'), 'Make it simple to ask about stock, product details, or custom requests.'),
+            (_('Room to grow'), 'Start with a practical catalog structure that can expand later if needed.'),
+        )
+    return (
+        (_('Clear offer'), 'Explain what you do quickly so visitors know why they should contact you.'),
+        (_('Better visibility'), 'Use a page structure that helps people understand your services right away.'),
+        (_('Easy contact'), 'Keep calls, messages, and quote requests simple for new visitors.'),
+    )
+
+
+def build_suggestions(
+    *,
+    business_name,
+    service_type,
+    city,
+    template_slug=None,
+    variant_index=0,
+    service_area='',
+    selected_services=None,
+    service_descriptions=None,
+    contact_name='',
+    phone='',
+    email='',
+    address='',
+    location='',
+    website_goal='',
+    style_notes='',
+    business_description='',
+    language='',
+    context_data=None,
+):
     business_name = business_name.strip()
     service_type = service_type.strip()
     city = city.strip()
-    service_type_lower = service_type.lower()
+    service_area = service_area.strip()
+    location = location.strip()
     template_slug = normalize_template_slug(template_slug)
     variant_index = int(variant_index or 0) % SUGGESTION_VARIANTS
 
+    profile = resolve_business_profile(service_type)
+    profile_key = _profile_key(profile)
+    display_name = _display_business_name(business_name, service_type, profile)
+    display_service_type = _display_service_type(service_type, profile)
+    display_service_type_lower = display_service_type.lower()
+    area_text = _area_label(city, service_area, location)
+    service_candidates = _business_specific_service_candidates(service_type)
+    provided_selected_services = [
+        str(item).strip()
+        for item in (selected_services or [])
+        if str(item).strip()
+    ]
+    provided_service_descriptions = [
+        str(item).strip()
+        for item in (service_descriptions or [])
+        if str(item).strip()
+    ]
+    chosen_services = provided_selected_services or service_candidates[:3]
+    if not chosen_services:
+        chosen_services = [str(item).strip() for item in profile.get('suggested_services', [])[:3] if str(item).strip()]
+    if not chosen_services:
+        chosen_services = [_('Main service'), _('Popular option'), _('Customer support')]
+
     hero_title_variants = [
-        f'{business_name} for {service_type_lower} in {city}',
-        f'Trust {business_name} for {service_type_lower} work in {city}',
-        f'{business_name} helps {city} customers with {service_type_lower}',
+        _business_specific_hero_title(profile_key, display_name, display_service_type, city, service_area, location, chosen_services),
+        f'{display_name} { _area_phrase(city, service_area, location) } for {chosen_services[0].lower()}',
+        f'{display_name} helps customers { _area_phrase(city, service_area, location) } with {display_service_type_lower}',
     ]
     hero_description_variants = [
-        (
-            f'Clear website content for {service_type_lower} customers in {city}, '
-            f'with an easy way to contact {business_name}.'
-        ),
-        (
-            f'A practical first website draft for {service_type_lower} enquiries in {city}, '
-            f'with clear service explanations and contact paths.'
-        ),
-        (
-            f'A stronger starting point for {business_name} to explain {service_type_lower} services, '
-            f'build trust, and encourage customer contact in {city}.'
-        ),
+        _business_specific_hero_description(profile_key, display_name, display_service_type, city, service_area, location, chosen_services),
+        f'Show {", ".join(chosen_services[:2]).lower()} { _area_phrase(city, service_area, location) } with a clear contact path for new enquiries.',
+        f'Give visitors a quick overview of {display_service_type_lower} services, local coverage, and the best way to contact {display_name}.',
     ]
     hero_highlight_text_variants = [
-        (
-            f'{business_name} uses a practical layout for {service_type_lower} services, '
-            f'local visibility, and customer enquiries.'
-        ),
-        (
-            f'This layout helps {business_name} present services clearly, highlight local coverage, '
-            f'and guide visitors toward a quote or message.'
-        ),
-        (
-            f'Built as a simple service website foundation so {business_name} can look professional, '
-            f'explain value quickly, and make next steps obvious.'
-        ),
+        f'Built to explain {display_service_type_lower} services clearly and guide visitors to a simple next step.',
+        f'Use this layout to show what {display_name} handles { _area_phrase(city, service_area, location) } and how customers should get in touch.',
+        f'A practical starting point for clearer local service copy, stronger contact paths, and useful first-page structure.',
     ]
     services_intro_variants = [
-        f'This template explains {service_type_lower} services clearly for visitors in {city}.',
-        f'Use this structure to help visitors in {city} understand what {business_name} offers right away.',
-        f'A simple section flow that makes {service_type_lower} services easier to scan, compare, and contact.',
+        _service_intro_copy(profile_key, display_name, display_service_type, city, service_area, location, chosen_services),
+        f'Help visitors quickly understand your main services, service area, and the best next step { _area_phrase(city, service_area, location) }.',
+        f'Keep this section focused on the services people ask about most so contacting {display_name} feels easy.',
     ]
     cta_description_variants = [
-        _('A simple website foundation that can be edited, expanded, and improved over time.'),
-        _('A starter website structure designed to go live quickly and improve as your business grows.'),
-        _('A clear service website base that can be refined, extended, and promoted over time.'),
+        f'A practical first website for {display_service_type_lower} enquiries with room to refine details later.',
+        f'Use this starter setup to present services, local coverage, and contact details without overcomplicating the page.',
+        f'A clear website base for {display_name} that can be expanded as the business grows.',
     ]
     benefits_intro_variants = [
-        _('A stronger page structure for businesses that want a clearer offer and more response from visitors.'),
-        _('A practical layout direction for businesses that want better visibility, clarity, and customer trust.'),
-        _('A structured starting point for businesses that want clearer messaging and stronger conversion paths.'),
+        f'Keep the page focused on what customers need first: your services, area, and the fastest way to contact you.',
+        f'Use a stronger first-page structure to explain your offer more clearly { _area_phrase(city, service_area, location) }.',
+        f'A practical starting point for clearer messaging and better enquiry paths for {display_name}.',
     ]
+    trust_cards = _trust_cards(profile_key, city, service_area, location)
+    preferred_cta = _preferred_cta(profile_key, chosen_services)
 
     hero = {
-        'kicker': city,
+        'kicker': area_text or display_service_type,
         'title': hero_title_variants[variant_index],
         'description': hero_description_variants[variant_index],
-        'cta_text': _('Request a quote'),
+        'cta_text': preferred_cta,
         'secondary_cta_text': _('See how it works'),
         'highlight_title': _('Built for your business'),
         'highlight_text': hero_highlight_text_variants[variant_index],
     }
 
     services = {
-        'title': _('What customers can see right away'),
+        'title': _('Main services'),
         'intro': services_intro_variants[variant_index],
-        'item_1': _('Clear services and pricing direction'),
-        'item_2': _('Local visibility structure'),
-        'item_3': _('Simple contact path for new enquiries'),
+        'item_1': chosen_services[0] if len(chosen_services) > 0 else _('Main service'),
+        'item_2': chosen_services[1] if len(chosen_services) > 1 else _('Popular option'),
+        'item_3': chosen_services[2] if len(chosen_services) > 2 else _('Customer support'),
     }
+    for index in range(3):
+        item_value = services.get(f'item_{index + 1}', '')
+        provided_description = provided_service_descriptions[index] if index < len(provided_service_descriptions) else ''
+        services[f'item_{index + 1}_text'] = (
+            provided_description
+            or _service_description_line(item_value, profile_key, city, service_area, location)
+        )
 
     contact = {
-        'title': _('Ready to hear from customers'),
+        'title': _('Ready for new enquiries'),
         'description': (
-            f'Use a contact form, direct contact details, or a clear CTA so {business_name} stays easy to reach.'
+            f'Keep phone, email, WhatsApp, or a contact form easy to find so customers can reach {display_name} quickly.'
         ),
-        'primary_contact': _('Contact form ready'),
-        'secondary_contact': _('Email or phone can be added anytime'),
-        'cta_text': _('Contact us'),
+        'primary_contact': _first_non_empty(phone, email, _('Contact details ready to add')),
+        'secondary_contact': _first_non_empty(location, service_area, city, _('Add your preferred contact method or service area')),
+        'cta_text': preferred_cta,
     }
 
     cta = {
-        'title': f'{business_name} in {city}',
+        'title': _business_specific_hero_title(profile_key, display_name, display_service_type, city, service_area, location, chosen_services),
         'description': cta_description_variants[variant_index],
-        'cta_text': _('Start with this setup'),
+        'cta_text': preferred_cta,
     }
 
     benefits = {
-        'title': _('Built to support growth'),
+        'title': _('Why this structure works'),
         'intro': benefits_intro_variants[variant_index],
-        'card_1_title': _('Clear offer'),
-        'card_1_text': _('Explain what you do quickly so visitors know why they should contact you.'),
-        'card_2_title': _('More visibility'),
-        'card_2_text': _('Use a layout that supports search, promotion, and stronger first impressions.'),
-        'card_3_title': _('Easy contact'),
-        'card_3_text': _('Keep calls, messages, and quote requests simple for new visitors.'),
+        'card_1_title': trust_cards[0][0],
+        'card_1_text': trust_cards[0][1],
+        'card_2_title': trust_cards[1][0],
+        'card_2_text': trust_cards[1][1],
+        'card_3_title': trust_cards[2][0],
+        'card_3_text': trust_cards[2][1],
     }
 
     suggestions = {
@@ -1039,9 +1309,9 @@ def build_suggestions(*, business_name, service_type, city, template_slug=None, 
 
     if template_slug == 'visual_hero':
         visual_titles = [
-            f'{business_name} helps {city} customers choose {service_type_lower} with confidence',
-            f'Show {city} customers why {business_name} is a strong choice for {service_type_lower}',
-            f'A stronger first impression for {business_name} and {service_type_lower} visitors in {city}',
+            f'{display_name} helps {city} customers choose {display_service_type_lower} with confidence',
+            f'Show {city} customers why {display_name} is a strong choice for {display_service_type_lower}',
+            f'A stronger first impression for {display_name} and {display_service_type_lower} visitors in {city}',
         ]
         visual_descriptions = [
             _('Use a stronger sales-focused layout to explain your offer, show value, and guide visitors toward action.'),
@@ -1059,9 +1329,9 @@ def build_suggestions(*, business_name, service_type, city, template_slug=None, 
         suggestions['hero']['highlight_text'] = visual_highlights[variant_index]
     elif template_slug == 'card_grid':
         grid_titles = [
-            f'{business_name} - {service_type} in {city}',
-            f'Explore {business_name} services and categories in {city}',
-            f'{business_name} helps {city} customers find the right {service_type_lower} option quickly',
+            f'{display_name} - {display_service_type} in {city}',
+            f'Explore {display_name} services and categories in {city}',
+            f'{display_name} helps {city} customers find the right {display_service_type_lower} option quickly',
         ]
         grid_descriptions = [
             _('A card-based website start for businesses that want to show multiple services or product categories clearly.'),
@@ -1200,33 +1470,55 @@ def build_suggestions(*, business_name, service_type, city, template_slug=None, 
             },
         }
 
-    service_candidates = _business_specific_service_candidates(service_type)
     if isinstance(suggestions.get('services'), dict):
         for index, field_key in enumerate(('item_1', 'item_2', 'item_3')):
             current_value = str(suggestions['services'].get(field_key, '')).strip()
             if _is_generic_service_line(current_value) and index < len(service_candidates):
                 suggestions['services'][field_key] = service_candidates[index]
+                suggestions['services'][f'{field_key}_text'] = _service_description_line(
+                    service_candidates[index],
+                    profile_key,
+                    city,
+                    service_area,
+                    location,
+                )
 
-    selected_services = []
+    derived_selected_services = []
     if isinstance(suggestions.get('services'), dict):
         for field_key in ('item_1', 'item_2', 'item_3'):
             value = str(suggestions['services'].get(field_key, '')).strip()
             if value:
-                selected_services.append(value)
-    if not selected_services:
-        selected_services = service_candidates[:3]
+                derived_selected_services.append(value)
+    if not derived_selected_services:
+        derived_selected_services = service_candidates[:3]
+
+    polish_context = build_business_context(
+        source=context_data,
+        business_name=business_name,
+        business_type=service_type,
+        city=city,
+        service_area=service_area,
+        selected_services=provided_selected_services or derived_selected_services,
+        service_descriptions=provided_service_descriptions,
+        contact_name=contact_name,
+        phone=phone,
+        email=email,
+        address=address,
+        location=location,
+        website_goal=website_goal,
+        style_notes=style_notes,
+        business_description=business_description,
+        language=language,
+        template_slug=template_slug,
+        platform_mode='starter_preview',
+    )
 
     try:
         from .services_ai import polish_starter_suggestions_with_ai
 
         suggestions = polish_starter_suggestions_with_ai(
             suggestions,
-            {
-                'business_name': business_name,
-                'business_type': service_type,
-                'city': city,
-                'selected_services': selected_services,
-            },
+            polish_context,
         )
     except Exception as exc:
         logger.warning('Starter AI polish integration failed: %s', exc)
@@ -1278,12 +1570,28 @@ def save_site_content(site, language, content_map):
             )
 
 
-def ensure_default_site_images(site, language, *, business_type=None, only_if_missing=True, existing_selection=None):
+def _preferred_hero_image_key(site, business_type=None, existing_selection=None):
+    if existing_selection and not is_generic_placeholder_image_key(existing_selection):
+        return get_image_by_key(existing_selection)['key']
+    return get_default_image_for_business_type(business_type or site.service_type)['key']
+
+
+def ensure_default_site_images(
+    site,
+    language,
+    *,
+    business_type=None,
+    only_if_missing=True,
+    existing_selection=None,
+    refresh_generic_existing=False,
+):
     image_item = None
-    if existing_selection:
-        image_item = get_image_by_key(existing_selection)
-    else:
-        image_item = get_default_image_for_business_type(business_type or site.service_type)
+    preferred_key = _preferred_hero_image_key(
+        site,
+        business_type=business_type,
+        existing_selection=existing_selection,
+    )
+    image_item = get_image_by_key(preferred_key)
 
     hero_content = SiteContent.objects.filter(
         site=site,
@@ -1292,7 +1600,15 @@ def ensure_default_site_images(site, language, *, business_type=None, only_if_mi
         language=language,
     ).first()
 
-    if hero_content and only_if_missing and hero_content.value:
+    should_refresh_generic = bool(
+        hero_content
+        and refresh_generic_existing
+        and hero_content.value
+        and is_generic_placeholder_image_key(hero_content.value)
+        and not existing_selection
+    )
+
+    if hero_content and only_if_missing and hero_content.value and not should_refresh_generic:
         return hero_content.value
 
     SiteContent.objects.update_or_create(
@@ -1320,6 +1636,58 @@ def get_site_content_map(site, language):
     return content_map
 
 
+def _build_section_image_context(site):
+    business_type = site.service_type
+    image_context = {
+        'hero': resolve_business_images(business_type, purpose='hero', limit=1),
+        'gallery': resolve_business_images(business_type, purpose='gallery', limit=4),
+        'service': resolve_business_images(business_type, purpose='service', limit=6),
+        'detail': resolve_business_images(business_type, purpose='detail', limit=3),
+        'background': resolve_business_images(business_type, purpose='background', limit=2),
+        'before_after': resolve_business_images(business_type, purpose='before_after', limit=2),
+    }
+    return image_context
+
+
+def _attach_section_images(section_key, section_values, image_context):
+    if section_key == 'about':
+        story_image = (
+            image_context['detail']
+            or image_context['gallery']
+            or image_context['hero']
+        )
+        background_image = image_context['background']
+        if story_image:
+            item = story_image[0]
+            section_values['story_image_url'] = static(item['static_path'])
+            section_values['story_image_alt'] = item['alt_text']
+        if background_image:
+            item = background_image[0]
+            section_values['story_background_image_url'] = static(item['static_path'])
+    elif section_key == 'services':
+        service_images = image_context['service'] or image_context['detail'] or image_context['gallery'] or image_context['hero']
+        for index in range(6):
+            if index >= len(service_images):
+                break
+            item = service_images[index]
+            section_values[f'item_{index + 1}_image_url'] = static(item['static_path'])
+            section_values[f'item_{index + 1}_image_alt'] = item['alt_text']
+    elif section_key == 'portfolio':
+        showcase_images = (
+            image_context['gallery']
+            + image_context['before_after']
+            + image_context['detail']
+            + image_context['background']
+            + image_context['hero']
+        )
+        for index in range(4):
+            if index >= len(showcase_images):
+                break
+            item = showcase_images[index]
+            section_values[f'card_{index + 1}_image_url'] = static(item['static_path'])
+            section_values[f'card_{index + 1}_image_alt'] = item['alt_text']
+
+
 def ensure_language_content(site, language):
     if site.contents.filter(language=language).exists():
         ensure_default_site_images(site, language, only_if_missing=True)
@@ -1335,6 +1703,9 @@ def build_editor_sections(site, language):
     template_definition = get_template_definition(site.template_slug)
     content_map = get_site_content_map(site, language)
     sections = []
+    contextual_choice_sets = {
+        'hero_image_choices': get_image_choices_for_business_type(site.service_type),
+    }
 
     for section in template_definition['layout']:
         schema = SECTION_SCHEMAS[section['type']]
@@ -1358,7 +1729,10 @@ def build_editor_sections(site, language):
                     'label': field['label'],
                     'value': section_values.get(field['key'], ''),
                     'input_type': field.get('input_type', 'textarea'),
-                    'choices': EDITOR_FIELD_CHOICE_SETS.get(field.get('choices', ''), []),
+                    'choices': contextual_choice_sets.get(
+                        field.get('choices', ''),
+                        EDITOR_FIELD_CHOICE_SETS.get(field.get('choices', ''), []),
+                    ),
                     'display_value': (
                         get_image_by_key(section_values.get(field['key'], '')).get('label', '')
                         if field.get('input_type') == 'select'
@@ -1401,6 +1775,7 @@ def build_editor_sections(site, language):
 def build_render_sections(site, language):
     template_definition = get_template_definition(site.template_slug)
     content_map = get_site_content_map(site, language)
+    image_context = _build_section_image_context(site)
     render_sections = []
 
     for section in template_definition['layout']:
@@ -1413,6 +1788,8 @@ def build_render_sections(site, language):
             section_values['hero_image_url'] = static(image_item['static_path'])
             section_values['hero_image_alt'] = image_item['alt_text']
             section_values['hero_image_label'] = image_item['label']
+        else:
+            _attach_section_images(section['key'], section_values, image_context)
         render_sections.append(
             {
                 'key': section['key'],

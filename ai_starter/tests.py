@@ -2,7 +2,10 @@
 import shutil
 import stat
 import tempfile
+import json
 from unittest.mock import patch
+import sys
+import types
 from pathlib import Path
 from django.core import mail
 from django.http import QueryDict
@@ -13,12 +16,14 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 
-from .admin import SiteAdmin, SiteHandoffAdmin
+from .admin import SiteAdmin, SiteHandoffAdmin, WebsiteRequestAdmin
 from .image_catalog import (
     get_alternate_image_for_business_type,
     get_default_image_for_business_type,
     get_image_by_key,
     get_image_choices,
+    get_image_choices_for_business_type,
+    resolve_business_images,
 )
 from .models import Site, SiteContent, SiteHandoff, WebsiteRequest
 from . import project_assets as project_assets_module
@@ -29,10 +34,21 @@ from .project_assets import (
     list_project_assets,
     normalize_project_slug,
 )
-from .services_ai import clean_assistant_output, generate_handoff_brief, infer_recommended_website_setup
+from .services_ai import (
+    clean_assistant_output,
+    generate_handoff_brief,
+    infer_recommended_website_setup,
+    polish_starter_suggestions_with_ai,
+)
+from .views import STARTER_WIZARD_SESSION_KEY
+from .services_context import build_business_context, format_business_context_for_prompt
 from .services_handoff import build_site_handoff_payload
 from .services import (
+    build_render_sections,
+    build_suggestions,
     build_generic_profile,
+    build_editor_sections,
+    ensure_default_site_images,
     get_onboarding_business_profile,
     get_onboarding_intro_variants,
     get_onboarding_service_suggestions,
@@ -42,7 +58,11 @@ from .services import (
 )
 from .template_catalog import (
     available_template_cards,
+    available_starter_template_registry,
     default_template_slug,
+    get_starter_template_entry,
+    infer_starter_template_key,
+    infer_starter_template_slug,
     get_template_layout_class,
     normalize_template_slug,
 )
@@ -135,6 +155,173 @@ class SiteHandoffTests(TestCase):
         self.assertEqual(str(templates[3]['style']), 'Editorial / Sharp')
         self.assertEqual(str(templates[3]['layout_label']), 'Full-width rows')
 
+    def test_starter_template_registry_maps_business_types_to_expected_keys(self):
+        starter_templates = available_starter_template_registry()
+
+        self.assertEqual([item['key'] for item in starter_templates], ['service_pro', 'friendly_care', 'visual_showcase', 'simple_landing'])
+        self.assertEqual(get_starter_template_entry('service_pro')['template_slug'], 'classic_service')
+        self.assertEqual(get_starter_template_entry('friendly_care')['template_slug'], 'gof-canva-layout-test-v1')
+        self.assertEqual(get_starter_template_entry('visual_showcase')['template_slug'], 'visual_hero')
+        self.assertEqual(infer_starter_template_key('Auto repair garage'), 'service_pro')
+        self.assertEqual(infer_starter_template_key('Taxi service'), 'service_pro')
+        self.assertEqual(infer_starter_template_key('Babysitter and child care'), 'friendly_care')
+        self.assertEqual(infer_starter_template_key('Beauty salon'), 'visual_showcase')
+        self.assertEqual(infer_starter_template_slug('Construction contractor'), 'classic_service')
+
+    def test_auto_repair_default_image_uses_garage_photo_category(self):
+        image_item = get_default_image_for_business_type('Automotive workshop and auto repair')
+
+        self.assertEqual(image_item['category'], 'garage')
+        self.assertEqual(image_item['style_type'], 'photo')
+
+    def test_beauty_business_resolves_dynamic_purpose_images_from_new_library(self):
+        hero_images = resolve_business_images('Makeup Artist', purpose='hero', limit=2)
+        gallery_images = resolve_business_images('Nail Salon', purpose='gallery', limit=2)
+        background_images = resolve_business_images('Spa Wellness', purpose='background', limit=2)
+
+        self.assertTrue(hero_images)
+        self.assertTrue(gallery_images)
+        self.assertTrue(background_images)
+        self.assertTrue(all(item['static_path'].startswith('img/hero-library/beauty/') for item in hero_images))
+        self.assertTrue(all(item['static_path'].startswith('img/hero-library/beauty/') for item in gallery_images))
+        self.assertTrue(all(item['static_path'].startswith('img/hero-library/beauty/') for item in background_images))
+
+    def test_beauty_subtypes_prefer_subcategory_images_for_hero_slots(self):
+        makeup_hero = resolve_business_images('Makeup Artist', purpose='hero', limit=1)[0]
+        nails_hero = resolve_business_images('Nail Salon', purpose='hero', limit=1)[0]
+        spa_hero = resolve_business_images('Spa Wellness', purpose='hero', limit=1)[0]
+
+        self.assertIn('img/hero-library/beauty/makeup-facial/', makeup_hero['static_path'])
+        self.assertIn('img/hero-library/beauty/nails/', nails_hero['static_path'])
+        self.assertIn('img/hero-library/beauty/spa-wellness/', spa_hero['static_path'])
+
+    def test_soft_template_render_sections_receive_business_specific_images(self):
+        self.site.service_type = 'Beauty Salon'
+        self.site.template_slug = 'gof-canva-layout-test-v1'
+        self.site.save(update_fields=['service_type', 'template_slug', 'updated_at'])
+
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='title',
+            value='About the studio',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='description',
+            value='A calm and polished beauty space.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='support_title',
+            value='A welcoming studio',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='support_text',
+            value='Beauty support details.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='point_1',
+            value='Appointments',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='about',
+            field_key='point_2',
+            value='Treatments',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_1_title',
+            value='Featured look',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_1_text',
+            value='A showcase example.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_2_title',
+            value='Studio detail',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_2_text',
+            value='Another example.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_3_title',
+            value='Treatment area',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_3_text',
+            value='A third example.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_4_title',
+            value='Result',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='portfolio',
+            field_key='card_4_text',
+            value='A fourth example.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='services',
+            field_key='item_1',
+            value='Facials',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='services',
+            field_key='item_1_text',
+            value='Skin support.',
+            language='en',
+        )
+
+        sections = build_render_sections(self.site, 'en')
+        about_section = next(section for section in sections if section['key'] == 'about')
+        portfolio_section = next(section for section in sections if section['key'] == 'portfolio')
+        services_section = next(section for section in sections if section['key'] == 'services')
+
+        self.assertIn('img/hero-library/beauty/', about_section['values']['story_image_url'])
+        self.assertIn('img/hero-library/beauty/', portfolio_section['values']['card_1_image_url'])
+        self.assertIn('img/hero-library/beauty/', services_section['values']['item_1_image_url'])
+
     def test_image_catalog_returns_choices(self):
         choices = get_image_choices()
 
@@ -149,6 +336,19 @@ class SiteHandoffTests(TestCase):
         self.assertEqual(fallback['key'], 'generic_service_01')
         self.assertIn('core/img/', fallback['static_path'])
         self.assertEqual(fallback['style_type'], 'photo')
+
+    def test_legacy_beauty_keys_now_point_to_existing_new_beauty_library_paths(self):
+        beauty_01 = get_image_by_key('beauty_01')
+        beauty_02 = get_image_by_key('beauty_02')
+
+        self.assertEqual(
+            beauty_01['static_path'],
+            'img/hero-library/beauty/hero/beauty-hero-salon-interior-01.png',
+        )
+        self.assertEqual(
+            beauty_02['static_path'],
+            'img/hero-library/beauty/hero/beauty-hero-salon-treatment-01.png',
+        )
 
     def test_alternate_image_helper_returns_different_key_when_possible(self):
         alternate = get_alternate_image_for_business_type('Garage', current_key='garage_01')
@@ -185,19 +385,758 @@ class SiteHandoffTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Start your website preview')
-        self.assertContains(response, 'What is your website for?')
-        self.assertContains(response, 'Your intro section')
-        self.assertContains(response, 'data-onboarding-step="1"', html=False)
-        self.assertContains(response, 'Live preview')
+        self.assertContains(response, 'Step 1 of 6')
+        self.assertContains(response, 'Business type / activity')
+        self.assertContains(response, 'Main services / offers')
+        self.assertContains(response, 'Create my preview')
 
     def test_start_page_includes_progress_ui(self):
-        response = self.client.get(reverse('ai_starter:start'))
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'Glow Studio',
+                'business_type': 'Beauty Salon',
+                'service_area': 'Rotterdam',
+                'services_text': 'Facial treatments\nNail care\nLash styling',
+            },
+            follow=True,
+        )
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Onboarding progress')
-        self.assertContains(response, 'Step 1 of 8')
-        self.assertContains(response, 'Choose how you want to start')
-        self.assertContains(response, 'Your private preview is ready to prepare')
+        self.assertContains(response, 'Step 2 of 6')
+        self.assertContains(response, 'Choose your website style')
+        self.assertContains(response, 'Beauty Salon')
+        self.assertContains(response, 'Rotterdam')
+
+    def test_staff_starter_prepare_preview_creates_private_site_and_redirects(self):
+        self.client.force_login(self.staff_user)
+        session = self.client.session
+        session[STARTER_WIZARD_SESSION_KEY] = {
+            'step': 6,
+            'business_name': 'Northline Plumbing',
+            'business_type': 'Plumber',
+            'service_area': 'Breda',
+            'services_text': 'Emergency plumbing\nLeak repairs\nBoiler support',
+            'services': ['Emergency plumbing', 'Leak repairs', 'Boiler support'],
+            'template_key': 'classic_local',
+            'palette_key': 'warm_orange',
+            'font_key': 'clean',
+            'image_set_key': 'suggested',
+            'main_cta': 'request_quote',
+            'section_visibility': {
+                'show_services': True,
+                'show_gallery': True,
+                'show_reviews': False,
+                'show_location': True,
+                'show_contact_cta': True,
+            },
+            'launch_type': 'starter_page',
+            'selected_pages': [],
+            'contact_details': {
+                'contact_name': 'Jane Owner',
+                'email': 'jane@example.com',
+                'phone': '+31600000000',
+                'whatsapp': '',
+                'address': 'Example Street 12',
+                'service_area_detail': 'Breda and nearby towns',
+                'opening_hours': 'Mon-Fri 09:00-17:00',
+                'social_facebook': '',
+                'social_instagram': '',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+            'starter_draft': {
+                'business_name': 'Northline Plumbing',
+                'business_type': 'Plumber',
+                'service_area': 'Breda',
+                'services': ['Emergency plumbing', 'Leak repairs', 'Boiler support'],
+                'template_key': 'classic_service',
+                'palette_key': 'warm_orange',
+                'font_key': 'clean',
+                'image_set_key': 'suggested',
+                'main_cta': 'request_quote',
+                'section_visibility': {
+                    'show_services': True,
+                    'show_gallery': True,
+                    'show_reviews': False,
+                    'show_location': True,
+                    'show_contact_cta': True,
+                },
+                'hero': {
+                    'title': 'Plumber in Breda',
+                    'description': 'Fast plumbing help in Breda.',
+                    'cta': 'Request quote',
+                },
+                'intro': {
+                    'title': 'Reliable local plumbing',
+                    'text': 'We help with urgent repairs and planned work.',
+                },
+            },
+        }
+        session.save()
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        site = Site.objects.latest('created_at')
+        self.assertEqual(site.business_name, 'Northline Plumbing')
+        self.assertEqual(site.service_type, 'Plumber')
+        self.assertEqual(site.city, 'Breda')
+        self.assertEqual(site.template_slug, 'classic_service')
+        self.assertTrue(response['Location'].endswith(reverse('ai_starter:preview', kwargs={'public_id': site.public_id})))
+        self.assertEqual(
+            SiteContent.objects.get(site=site, section_key='starter_meta', field_key='launch_type', language='en').value,
+            'starter_page',
+        )
+        self.assertEqual(
+            SiteContent.objects.get(site=site, section_key='starter_meta', field_key='email', language='en').value,
+            'jane@example.com',
+        )
+        self.assertTrue(
+            SiteContent.objects.filter(site=site, section_key='hero', field_key='hero_image', language='en').exists()
+        )
+
+    def test_public_prepare_preview_creates_request_and_not_private_site(self):
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'AutoFix Amsterdam',
+                'business_type': 'Auto Repair',
+                'service_area': 'Amsterdam',
+                'services_text': 'Diagnostics\nBrake service\nMOT preparation',
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '2',
+                'wizard_action': 'next',
+                'template_key': 'visual_showcase',
+                'palette_key': 'soft_beige',
+                'font_key': 'elegant',
+                'image_set_key': 'suggested',
+                'main_cta': 'request_quote',
+                'show_services': 'on',
+                'show_gallery': 'on',
+                'show_location': 'on',
+                'show_contact_cta': 'on',
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '3',
+                'wizard_action': 'next',
+                'launch_type': 'starter_page',
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '5',
+                'wizard_action': 'next',
+                'contact_name': 'Jamie Driver',
+                'email': 'jamie@example.com',
+                'phone': '+31600000000',
+                'whatsapp': '',
+                'address': 'Example Street 10',
+                'service_area_detail': 'Amsterdam and nearby areas',
+                'opening_hours': 'Mon-Fri 09:00-17:00',
+                'social_facebook': '',
+                'social_instagram': '',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+        )
+        self.assertEqual(response.status_code, 302)
+
+        site_count_before = Site.objects.count()
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('?submitted=', response['Location'])
+        self.assertEqual(Site.objects.count(), site_count_before)
+        website_request = WebsiteRequest.objects.latest('created_at')
+        self.assertEqual(website_request.source_code, 'STARTER_PUBLIC')
+        self.assertEqual(website_request.business_name, 'AutoFix Amsterdam')
+        self.assertEqual(website_request.business_type, 'Auto Repair')
+        self.assertIn('Diagnostics', website_request.main_services)
+        self.assertIn('Website type: Starter Page', website_request.special_requests)
+        self.assertIn('Selected pages:', website_request.special_requests)
+        self.assertIn('Starter path: /en/start/', website_request.special_requests)
+        self.assertIn('Template choice:', website_request.style_notes)
+
+    @override_settings(
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+        DEFAULT_FROM_EMAIL='launch@test.example',
+        CONTACT_EMAIL_TO='info@getonlinefast.eu',
+    )
+    def test_public_prepare_preview_sends_staff_notification_email(self):
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'Salon Nova',
+                'business_type': 'Beauty Salon',
+                'service_area': 'Rotterdam',
+                'services_text': 'Hair styling\nColour treatments\nBridal make-up',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '2',
+                'wizard_action': 'next',
+                'template_key': 'visual_showcase',
+                'palette_key': 'soft_beige',
+                'font_key': 'elegant',
+                'image_set_key': 'beauty',
+                'main_cta': 'book_consultation',
+                'show_services': 'on',
+                'show_gallery': 'on',
+                'show_reviews': 'on',
+                'show_location': 'on',
+                'show_contact_cta': 'on',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '3',
+                'wizard_action': 'next',
+                'launch_type': 'full_website',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '4',
+                'wizard_action': 'next',
+                'selected_pages': ['home', 'services', 'contact'],
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '5',
+                'wizard_action': 'next',
+                'contact_name': 'Nina',
+                'email': 'nina@example.com',
+                'phone': '',
+                'whatsapp': '+31612345678',
+                'address': 'Salonstraat 8',
+                'service_area_detail': 'Rotterdam Centrum',
+                'opening_hours': 'Tue-Sat 10:00-18:00',
+                'social_facebook': '',
+                'social_instagram': 'https://instagram.com/salonnova',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+        )
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertEqual(email.to, ['info@getonlinefast.eu'])
+        self.assertEqual(email.reply_to, ['nina@example.com'])
+        self.assertIn('Salon Nova', email.subject)
+        self.assertIn('Business name: Salon Nova', email.body)
+        self.assertIn('Business type: Beauty Salon', email.body)
+        self.assertIn('Service area: Rotterdam Centrum', email.body)
+        self.assertIn('Main language: en', email.body)
+        self.assertIn('Website type: Full Website', email.body)
+        self.assertIn('Selected pages: Home, Services, Contact', email.body)
+        self.assertIn('Hair styling', email.body)
+        self.assertIn('nina@example.com', email.body)
+        self.assertIn('WhatsApp: +31612345678', email.body)
+        self.assertIn('/admin/ai_starter/websiterequest/', email.body)
+
+    def test_public_start_submission_shows_confirmation_summary(self):
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'Salon Nova',
+                'business_type': 'Beauty Salon',
+                'service_area': 'Rotterdam',
+                'services_text': 'Hair styling\nColour treatments\nBridal make-up',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '2',
+                'wizard_action': 'next',
+                'template_key': 'visual_showcase',
+                'palette_key': 'soft_beige',
+                'font_key': 'elegant',
+                'image_set_key': 'beauty',
+                'main_cta': 'book_consultation',
+                'show_services': 'on',
+                'show_gallery': 'on',
+                'show_reviews': 'on',
+                'show_location': 'on',
+                'show_contact_cta': 'on',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '3',
+                'wizard_action': 'next',
+                'launch_type': 'full_website',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '4',
+                'wizard_action': 'next',
+                'selected_pages': ['home', 'services', 'contact'],
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '5',
+                'wizard_action': 'next',
+                'contact_name': 'Nina',
+                'email': 'nina@example.com',
+                'phone': '',
+                'whatsapp': '+31612345678',
+                'address': 'Salonstraat 8',
+                'service_area_detail': 'Rotterdam Centrum',
+                'opening_hours': 'Tue-Sat 10:00-18:00',
+                'social_facebook': '',
+                'social_instagram': 'https://instagram.com/salonnova',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+        )
+
+        submit_response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+        self.assertEqual(submit_response.status_code, 302)
+
+        confirmation_response = self.client.get(submit_response['Location'])
+
+        self.assertEqual(confirmation_response.status_code, 200)
+        self.assertContains(confirmation_response, 'Your starter website request has been received.')
+        self.assertContains(confirmation_response, 'You do not need to create an account yet.')
+        self.assertContains(confirmation_response, 'Salon Nova')
+        self.assertContains(confirmation_response, 'Beauty Salon')
+        self.assertContains(confirmation_response, 'Rotterdam Centrum')
+        self.assertContains(confirmation_response, 'Hair styling, Colour treatments, Bridal make-up')
+        self.assertContains(confirmation_response, 'Full Website')
+        self.assertContains(confirmation_response, 'Home, Services, Contact')
+        self.assertContains(confirmation_response, 'nina@example.com')
+        self.assertContains(confirmation_response, '+31612345678')
+        self.assertNotContains(confirmation_response, 'Request ID')
+        self.assertNotContains(confirmation_response, '/preview/')
+        self.assertNotContains(confirmation_response, '/admin/')
+        self.assertNotContains(confirmation_response, 'STARTER_PUBLIC')
+        self.assertNotContains(confirmation_response, 'starter_wizard_state')
+
+    @override_settings(
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+        DEFAULT_FROM_EMAIL='launch@test.example',
+        CONTACT_EMAIL_TO='info@getonlinefast.eu',
+    )
+    def test_staff_prepare_preview_does_not_send_public_request_notification(self):
+        staff_user = self.user_model.objects.create_user(
+            username='staffpreview',
+            email='staffpreview@example.com',
+            password='testpass123',
+            is_staff=True,
+        )
+        self.client.force_login(staff_user)
+
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'Garage Pro Breda',
+                'business_type': 'Auto Repair',
+                'service_area': 'Breda',
+                'services_text': 'Diagnostics\nBrake service\nMOT preparation',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '2',
+                'wizard_action': 'next',
+                'template_key': 'service_pro',
+                'palette_key': 'graphite_blue',
+                'font_key': 'modern_sans',
+                'image_set_key': 'garage',
+                'main_cta': 'request_quote',
+                'show_services': 'on',
+                'show_gallery': 'on',
+                'show_reviews': 'on',
+                'show_location': 'on',
+                'show_contact_cta': 'on',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '3',
+                'wizard_action': 'next',
+                'launch_type': 'starter_page',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '5',
+                'wizard_action': 'next',
+                'contact_name': 'Alex',
+                'email': 'alex@example.com',
+                'phone': '+31620000000',
+                'whatsapp': '',
+                'address': '',
+                'service_area_detail': 'Breda',
+                'opening_hours': 'Mon-Fri 09:00-17:00',
+                'social_facebook': '',
+                'social_instagram': '',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+        )
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(WebsiteRequest.objects.filter(source_code='STARTER_PUBLIC').count(), 0)
+
+    @override_settings(
+        EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',
+        DEFAULT_FROM_EMAIL='launch@test.example',
+        CONTACT_EMAIL_TO='info@getonlinefast.eu',
+    )
+    @patch('ai_starter.views.EmailMessage.send', side_effect=Exception('mail failed'))
+    def test_public_prepare_preview_keeps_confirmation_flow_when_notification_fails(self, mocked_send):
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'Taxi Tilburg Direct',
+                'business_type': 'Taxi Service',
+                'service_area': 'Tilburg',
+                'services_text': 'Airport transfers\nLocal rides\nBusiness travel',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '2',
+                'wizard_action': 'next',
+                'template_key': 'service_pro',
+                'palette_key': 'warm_sunset',
+                'font_key': 'modern_sans',
+                'image_set_key': 'transport',
+                'main_cta': 'book_now',
+                'show_services': 'on',
+                'show_gallery': 'on',
+                'show_reviews': 'on',
+                'show_location': 'on',
+                'show_contact_cta': 'on',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '3',
+                'wizard_action': 'next',
+                'launch_type': 'starter_page',
+            },
+        )
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '5',
+                'wizard_action': 'next',
+                'contact_name': 'Sam Driver',
+                'email': 'sam@example.com',
+                'phone': '',
+                'whatsapp': '+31610000000',
+                'address': '',
+                'service_area_detail': 'Tilburg and nearby areas',
+                'opening_hours': '24/7',
+                'social_facebook': '',
+                'social_instagram': '',
+                'social_linkedin': '',
+                'social_tiktok': '',
+            },
+        )
+
+        response = self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '6',
+                'wizard_action': 'prepare_preview',
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('?submitted=', response['Location'])
+        self.assertEqual(WebsiteRequest.objects.filter(source_code='STARTER_PUBLIC').count(), 1)
+        mocked_send.assert_called_once()
+
+        confirmation_response = self.client.get(response['Location'])
+        self.assertEqual(confirmation_response.status_code, 200)
+        self.assertContains(confirmation_response, 'Your starter website request has been received.')
+
+    def test_step_one_draft_preserves_profile_and_cards_across_step_two_load(self):
+        self.client.post(
+            reverse('ai_starter:start'),
+            {
+                'current_step': '1',
+                'wizard_action': 'create_preview',
+                'business_name': 'AutoFix Breda',
+                'business_type': 'Auto Repair',
+                'service_area': 'Breda',
+                'services_text': 'Diagnostics\nBrake service\nMOT preparation',
+            },
+        )
+
+        session = self.client.session
+        draft_before = session[STARTER_WIZARD_SESSION_KEY]['starter_draft']
+        self.assertEqual(draft_before['resolved_profile'], 'garage')
+        self.assertTrue(draft_before['service_cards'])
+
+        response = self.client.get(f"{reverse('ai_starter:start')}?step=2")
+
+        self.assertEqual(response.status_code, 200)
+        session = self.client.session
+        draft_after = session[STARTER_WIZARD_SESSION_KEY]['starter_draft']
+        self.assertEqual(draft_after['resolved_profile'], 'garage')
+        self.assertTrue(draft_after['service_cards'])
+
+    def test_website_request_admin_summary_includes_public_starter_scan_fields(self):
+        website_request = WebsiteRequest.objects.create(
+            source_code='STARTER_PUBLIC',
+            normal_price=0,
+            offer_price=0,
+            status=WebsiteRequest.Status.NEW,
+            business_name='Salon Nova',
+            business_type='Beauty Salon',
+            business_address='Salonstraat 8',
+            service_area='Rotterdam Centrum',
+            main_language='en',
+            extra_languages='',
+            contact_name='Nina',
+            contact_email='nina@example.com',
+            contact_phone='',
+            contact_whatsapp='+31612345678',
+            main_services='Hair styling\nColour treatments',
+            business_description='Beauty and hair services.',
+            opening_hours='Tue-Sat 10:00-18:00',
+            social_links='Instagram: https://instagram.com/salonnova',
+            preferred_colors='soft_beige',
+            style_notes='Template choice: Visual showcase\nPalette: Soft beige',
+            special_requests='Website type: Full Website\nSelected pages: Home, Services, Contact',
+        )
+        model_admin = WebsiteRequestAdmin(WebsiteRequest, AdminSite())
+
+        rendered = model_admin.starter_request_admin_summary(website_request)
+
+        self.assertIn('Salon Nova', rendered)
+        self.assertIn('Beauty Salon', rendered)
+        self.assertIn('Rotterdam Centrum', rendered)
+        self.assertIn('Hair styling, Colour treatments', rendered)
+        self.assertIn('Website type: Full Website', rendered)
+
+    def test_website_request_admin_list_can_filter_public_starter_requests(self):
+        WebsiteRequest.objects.create(
+            business_name='Taxi Tilburg Direct',
+            business_type='Taxi Service',
+            service_area='Tilburg',
+            contact_name='Sam Driver',
+            contact_email='sam@example.com',
+            contact_phone='+31610000000',
+            contact_whatsapp='',
+            main_language='en',
+            main_services='Airport transfers',
+            source_code='STARTER_PUBLIC',
+            normal_price='0.00',
+            offer_price='0.00',
+            status=WebsiteRequest.Status.NEW,
+        )
+        self.client.force_login(self.staff_user)
+
+        response = self.client.get(
+            reverse('admin:ai_starter_websiterequest_changelist'),
+            {'source_code': 'STARTER_PUBLIC'},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Taxi Tilburg Direct')
+        self.assertNotContains(response, 'Northline Plumbing')
+
+    def test_website_request_admin_search_finds_by_business_name_type_and_area(self):
+        WebsiteRequest.objects.create(
+            business_name='Salon Nova',
+            business_type='Beauty Salon',
+            service_area='Rotterdam Centrum',
+            contact_name='Nina',
+            contact_email='nina@example.com',
+            contact_phone='',
+            contact_whatsapp='+31612345678',
+            main_language='en',
+            main_services='Hair styling',
+            source_code='STARTER_PUBLIC',
+            normal_price='0.00',
+            offer_price='0.00',
+            status=WebsiteRequest.Status.NEW,
+        )
+        self.client.force_login(self.staff_user)
+
+        name_response = self.client.get(
+            reverse('admin:ai_starter_websiterequest_changelist'),
+            {'q': 'Salon Nova'},
+        )
+        type_response = self.client.get(
+            reverse('admin:ai_starter_websiterequest_changelist'),
+            {'q': 'Beauty Salon'},
+        )
+        area_response = self.client.get(
+            reverse('admin:ai_starter_websiterequest_changelist'),
+            {'q': 'Rotterdam Centrum'},
+        )
+
+        self.assertContains(name_response, 'Salon Nova')
+        self.assertContains(type_response, 'Salon Nova')
+        self.assertContains(area_response, 'Salon Nova')
+
+    def test_website_request_admin_actions_update_status(self):
+        website_request = WebsiteRequest.objects.create(
+            business_name='Handyman Breda',
+            business_type='Handyman',
+            service_area='Breda',
+            contact_name='Alex Fixer',
+            contact_email='alex@example.com',
+            contact_phone='+31620000000',
+            contact_whatsapp='',
+            main_language='en',
+            main_services='Repairs',
+            source_code='STARTER_PUBLIC',
+            normal_price='0.00',
+            offer_price='0.00',
+            status=WebsiteRequest.Status.NEW,
+        )
+        model_admin = WebsiteRequestAdmin(WebsiteRequest, AdminSite())
+        request = RequestFactory().post('/admin/ai_starter/websiterequest/')
+        request.user = self.staff_user
+        setattr(request, 'session', self.client.session)
+        messages = FallbackStorage(request)
+        setattr(request, '_messages', messages)
+
+        model_admin.mark_as_reviewed(request, WebsiteRequest.objects.filter(pk=website_request.pk))
+        website_request.refresh_from_db()
+        self.assertEqual(website_request.status, WebsiteRequest.Status.REVIEWED)
+
+        model_admin.mark_as_contacted(request, WebsiteRequest.objects.filter(pk=website_request.pk))
+        website_request.refresh_from_db()
+        self.assertEqual(website_request.status, WebsiteRequest.Status.CONTACTED)
+
+        model_admin.mark_as_cancelled(request, WebsiteRequest.objects.filter(pk=website_request.pk))
+        website_request.refresh_from_db()
+        self.assertEqual(website_request.status, WebsiteRequest.Status.CANCELLED)
+
+    def test_handoff_payload_includes_starter_metadata_snapshot(self):
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='starter_meta',
+            field_key='launch_type',
+            value='starter_page',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='starter_meta',
+            field_key='selected_services',
+            value='Emergency plumbing\nLeak repairs',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='starter_meta',
+            field_key='email',
+            value='jane@example.com',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='hero',
+            field_key='description',
+            value='Fast plumbing support in Breda.',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=self.site,
+            section_key='services',
+            field_key='item_1',
+            value='Emergency plumbing',
+            language='en',
+        )
+
+        payload = build_site_handoff_payload(self.site, website_request=self.website_request)
+
+        self.assertEqual(payload['starter_meta']['launch_type'], 'starter_page')
+        self.assertEqual(payload['starter_meta']['selected_services'], ['Emergency plumbing', 'Leak repairs'])
+        self.assertEqual(payload['starter_preview']['hero_description'], 'Fast plumbing support in Breda.')
+        self.assertEqual(payload['starter_preview']['contact']['email'], 'jane@example.com')
 
     def test_business_type_suggestions_are_available_for_makeup_artist(self):
         profile = get_onboarding_business_profile('Makeup artist')
@@ -843,6 +1782,29 @@ class SiteHandoffTests(TestCase):
         self.assertContains(response, 'core/img/hero-library/garage/garage-01.png')
         self.assertContains(response, 'Garage or car repair hero photo')
 
+    @override_settings(ALLOWED_HOSTS=['testserver', 'localhost', '127.0.0.1'])
+    def test_preview_frame_does_not_render_dead_legacy_beauty_image_path(self):
+        self.site.service_type = 'Makeup Artist'
+        self.site.template_slug = 'visual_hero'
+        self.site.save(update_fields=['service_type', 'template_slug', 'updated_at'])
+        self.client.force_login(self.staff_user)
+        SiteContent.objects.update_or_create(
+            site=self.site,
+            section_key='hero',
+            field_key='hero_image',
+            language='en',
+            defaults={'value': 'beauty_01'},
+        )
+
+        response = self.client.get(
+            reverse('ai_starter:preview_frame', kwargs={'public_id': self.site.public_id})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'beauty-01.jpg')
+        self.assertNotContains(response, '/static/core/img/hero-library/beauty/')
+        self.assertContains(response, '/static/img/hero-library/beauty/hero/beauty-hero-salon-interior-01.png')
+
     def test_preview_frame_maps_legacy_template_slug_to_classic_service_class(self):
         self.site.template_slug = 'local_service'
         self.site.save(update_fields=['template_slug', 'updated_at'])
@@ -1073,6 +2035,107 @@ class SiteHandoffTests(TestCase):
         self.assertContains(response, '<select id="content_', html=False)
         self.assertContains(response, 'Photo: Local service business photo')
         self.assertContains(response, 'site-editor-image-thumb')
+
+    def test_beauty_editor_hero_image_choices_prioritize_beauty_library_images(self):
+        beauty_site = Site.objects.create(
+            business_name='Glow Studio',
+            service_type='Makeup Artist',
+            city='Rotterdam',
+            template_slug='visual_hero',
+            color_palette=Site.ColorPalette.ORANGE_BLACK,
+        )
+        SiteContent.objects.create(
+            site=beauty_site,
+            section_key='hero',
+            field_key='title',
+            value='Makeup for special moments',
+            language='en',
+        )
+        ensure_default_site_images(beauty_site, 'en', business_type='Makeup Artist', only_if_missing=True)
+
+        editor_sections = build_editor_sections(beauty_site, 'en')
+        hero_section = next(section for section in editor_sections if section['key'] == 'hero')
+        hero_field = next(field for field in hero_section['fields'] if field['key'] == 'hero_image')
+
+        self.assertTrue(hero_field['choices'])
+        self.assertTrue(hero_field['choices'][0]['static_path'].startswith('img/hero-library/beauty/'))
+        self.assertTrue(
+            any(choice['static_path'].startswith('img/hero-library/beauty/') for choice in hero_field['choices'][:6])
+        )
+
+    def test_fresh_makeup_preview_uses_beauty_hero_image_by_default(self):
+        beauty_site = Site.objects.create(
+            business_name='Glow Studio',
+            service_type='Makeup Artist',
+            city='Rotterdam',
+            template_slug='visual_hero',
+            color_palette=Site.ColorPalette.ORANGE_BLACK,
+        )
+        hero_content = SiteContent.objects.create(
+            site=beauty_site,
+            section_key='hero',
+            field_key='title',
+            value='Makeup for special moments',
+            language='en',
+        )
+
+        ensure_default_site_images(beauty_site, 'en', business_type='Makeup Artist', only_if_missing=True)
+
+        saved_hero_image = SiteContent.objects.get(
+            site=beauty_site,
+            section_key='hero',
+            field_key='hero_image',
+            language='en',
+        )
+        render_sections = build_render_sections(beauty_site, 'en')
+        hero_section = next(section for section in render_sections if section['key'] == 'hero')
+
+        self.assertNotEqual(saved_hero_image.value, 'generic_service_01')
+        self.assertIn('img/hero-library/beauty/', hero_section['values']['hero_image_url'])
+        self.assertTrue(hero_content.value)
+
+    def test_existing_generic_beauty_preview_can_refresh_to_business_specific_hero_image(self):
+        beauty_site = Site.objects.create(
+            business_name='Glow Studio',
+            service_type='Makeup Artist',
+            city='Rotterdam',
+            template_slug='visual_hero',
+            color_palette=Site.ColorPalette.ORANGE_BLACK,
+        )
+        SiteContent.objects.create(
+            site=beauty_site,
+            section_key='hero',
+            field_key='title',
+            value='Makeup for special moments',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=beauty_site,
+            section_key='hero',
+            field_key='hero_image',
+            value='generic_service_01',
+            language='en',
+        )
+
+        ensure_default_site_images(
+            beauty_site,
+            'en',
+            business_type='Makeup Artist',
+            only_if_missing=True,
+            refresh_generic_existing=True,
+        )
+
+        saved_hero_image = SiteContent.objects.get(
+            site=beauty_site,
+            section_key='hero',
+            field_key='hero_image',
+            language='en',
+        )
+        render_sections = build_render_sections(beauty_site, 'en')
+        hero_section = next(section for section in render_sections if section['key'] == 'hero')
+
+        self.assertNotEqual(saved_hero_image.value, 'generic_service_01')
+        self.assertIn('img/hero-library/beauty/', hero_section['values']['hero_image_url'])
 
     def test_saving_image_choice_persists_to_site_content(self):
         self.client.get(reverse('ai_starter:preview', kwargs={'public_id': self.site.public_id}))
@@ -1803,6 +2866,279 @@ class SiteHandoffTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(plugin_file.stat().st_mtime, plugin_mtime_before)
+
+class BusinessContextServiceTests(TestCase):
+    def test_build_suggestions_still_supports_minimal_arguments(self):
+        suggestions = build_suggestions(
+            business_name='Northline Plumbing',
+            service_type='Plumber',
+            city='Breda',
+        )
+
+        self.assertIn('hero', suggestions)
+        self.assertIn('services', suggestions)
+        self.assertIn('contact', suggestions)
+        self.assertEqual(suggestions['hero']['kicker'], 'Breda')
+
+    def test_taxi_starter_copy_is_specific_to_rides_and_transfers(self):
+        suggestions = build_suggestions(
+            business_name='CityRide Taxi',
+            service_type='Taxi service',
+            city='Rotterdam',
+            selected_services=['Airport transfers', 'Local taxi rides', 'Scheduled pickups'],
+        )
+
+        hero_text = str(suggestions['hero']['description'])
+        services_intro = str(suggestions['services']['intro'])
+        service_text = str(suggestions['services']['item_1_text'])
+
+        self.assertIn('transfers', hero_text.lower())
+        self.assertIn('booking', hero_text.lower())
+        self.assertIn('passengers', services_intro.lower())
+        self.assertIn('pickup', service_text.lower())
+
+    def test_auto_repair_copy_uses_garage_and_repair_language(self):
+        suggestions = build_suggestions(
+            business_name='Northline Garage',
+            service_type='Auto repair garage',
+            city='Breda',
+            selected_services=['Diagnostics', 'Brake service', 'APK / MOT preparation'],
+        )
+
+        hero_title = str(suggestions['hero']['title']).lower()
+        hero_text = str(suggestions['hero']['description']).lower()
+        trust_text = str(suggestions['benefits']['card_1_text']).lower()
+
+        self.assertIn('repairs', hero_title)
+        self.assertIn('drivers', hero_text)
+        self.assertTrue('workshop' in hero_text or 'servicing' in hero_text)
+        self.assertTrue('repair' in trust_text or 'servicing' in trust_text)
+
+    def test_build_suggestions_accepts_richer_optional_context(self):
+        suggestions = build_suggestions(
+            business_name='Northline Plumbing',
+            service_type='Plumber',
+            city='Breda',
+            template_slug='classic_service',
+            service_area='Breda and nearby towns',
+            selected_services=['Leak repairs', 'Boiler support'],
+            service_descriptions=['Emergency leak repairs for homes', 'Boiler checks and support'],
+            contact_name='Jane Owner',
+            phone='+31600000000',
+            email='jane@example.com',
+            address='Main Street 1, Breda',
+            location='Breda and nearby towns',
+            website_goal='Generate local quote requests',
+            style_notes='Keep it practical and clean.',
+            business_description='Trusted local plumbing support.',
+            language='en',
+            context_data={'contact_email': 'jane@example.com'},
+        )
+
+        self.assertIn('hero', suggestions)
+        self.assertIn('services', suggestions)
+        self.assertTrue(str(suggestions['hero']['title']).strip())
+
+    def test_selected_services_influence_service_descriptions(self):
+        suggestions = build_suggestions(
+            business_name='FixFast',
+            service_type='Handyman',
+            city='Tilburg',
+            selected_services=['Fence repairs', 'Door adjustments', 'Small home fixes'],
+        )
+
+        self.assertEqual(suggestions['services']['item_1'], 'Fence repairs')
+        self.assertIn('Fence repairs', suggestions['services']['item_1_text'])
+        self.assertIn('quote requests', suggestions['services']['item_1_text'].lower())
+
+    def test_missing_city_and_business_name_do_not_crash(self):
+        suggestions = build_suggestions(
+            business_name='',
+            service_type='Cleaning service',
+            city='',
+        )
+
+        self.assertTrue(str(suggestions['hero']['title']).strip())
+        self.assertTrue(str(suggestions['hero']['description']).strip())
+        self.assertTrue(str(suggestions['services']['intro']).strip())
+
+    def test_build_business_context_with_minimal_plain_dict(self):
+        context = build_business_context(
+            source={
+                'business_name': 'Northline Plumbing',
+                'business_type': 'Plumber',
+                'city': 'Breda',
+                'selected_services': ['Leak repairs', 'Bathroom installations'],
+            },
+            platform_mode='starter_preview',
+        )
+
+        self.assertEqual(context['business']['business_name'], 'Northline Plumbing')
+        self.assertEqual(context['business']['business_type'], 'Plumber')
+        self.assertEqual(context['business']['city'], 'Breda')
+        self.assertEqual(
+            context['services']['selected_services'],
+            ['Leak repairs', 'Bathroom installations'],
+        )
+        self.assertEqual(context['meta']['platform_mode'], 'starter_preview')
+
+    def test_build_business_context_merges_site_handoff_and_content_rows(self):
+        site = Site.objects.create(
+            business_name='Northline Plumbing',
+            service_type='Plumber',
+            city='Breda',
+            template_slug='local_service',
+            color_palette=Site.ColorPalette.BLUE_DARK,
+        )
+        SiteContent.objects.create(
+            site=site,
+            section_key='hero',
+            field_key='title',
+            value='Fast plumber in Breda',
+            language='en',
+        )
+        SiteContent.objects.create(
+            site=site,
+            section_key='about',
+            field_key='description',
+            value='We help homes and small businesses with urgent plumbing work.',
+            language='en',
+        )
+        website_request = WebsiteRequest.objects.create(
+            business_name='Northline Plumbing',
+            business_type='Plumber',
+            service_area='Breda and nearby towns',
+            main_language='en',
+            contact_name='Jane Owner',
+            contact_email='jane@example.com',
+            contact_phone='+31600000000',
+            business_address='Main Street 1, Breda',
+            main_services='Leak repairs\nBoiler support',
+            business_description='Trusted local plumbing support.',
+            style_notes='Keep it practical and clean.',
+        )
+        handoff = SiteHandoff.objects.create(
+            site=site,
+            website_request=website_request,
+            handoff_payload=build_site_handoff_payload(site, website_request=website_request),
+        )
+
+        context = build_business_context(
+            site=site,
+            site_content=site.contents.filter(language='en'),
+            handoff=handoff,
+            platform_mode='handoff_brief',
+        )
+
+        self.assertEqual(context['business']['business_name'], 'Northline Plumbing')
+        self.assertEqual(context['business']['service_area'], 'Breda and nearby towns')
+        self.assertEqual(context['contact']['contact_name'], 'Jane Owner')
+        self.assertEqual(context['contact']['email'], 'jane@example.com')
+        self.assertEqual(context['content']['hero_title'], 'Fast plumber in Breda')
+        self.assertEqual(
+            context['services']['selected_services'],
+            ['Leak repairs', 'Boiler support'],
+        )
+        self.assertEqual(context['meta']['language'], 'en')
+        self.assertEqual(context['meta']['platform_mode'], 'handoff_brief')
+
+    def test_format_business_context_for_prompt_handles_sparse_context(self):
+        prompt_context = format_business_context_for_prompt(
+            {
+                'business': {'business_name': 'Northline Plumbing'},
+                'services': {},
+                'contact': {},
+                'content': {},
+                'meta': {'platform_mode': 'ai_polish'},
+            }
+        )
+
+        self.assertIn('Business name: Northline Plumbing', prompt_context)
+        self.assertIn('Platform mode: ai_polish', prompt_context)
+
+    @override_settings(GOF_AI_ENABLED=True, OPENAI_API_KEY='test-key', GOF_AI_MODEL='gpt-4.1-mini')
+    def test_build_suggestions_passes_richer_context_to_ai_polish_prompt(self):
+        captured = {}
+
+        class FakeResponse:
+            output_text = json.dumps(
+                {
+                    'hero_title': 'Northline Plumbing in Breda',
+                    'hero_text': 'Plumbing support for Breda.',
+                    'intro_heading': 'Plumbing services',
+                    'intro_paragraph': 'We help with plumbing jobs in Breda.',
+                    'service_descriptions': ['Leak repairs', 'Boiler support'],
+                }
+            )
+
+        class FakeOpenAI:
+            def __init__(self, api_key):
+                captured['api_key'] = api_key
+                self.responses = self
+
+            def create(self, **kwargs):
+                captured['input'] = kwargs.get('input', '')
+                captured['model'] = kwargs.get('model')
+                return FakeResponse()
+
+        fake_openai_module = types.ModuleType('openai')
+        fake_openai_module.OpenAI = FakeOpenAI
+
+        with patch.dict(sys.modules, {'openai': fake_openai_module}):
+            suggestions = build_suggestions(
+                business_name='Northline Plumbing',
+                service_type='Plumber',
+                city='Breda',
+                service_area='Breda and nearby towns',
+                selected_services=['Leak repairs', 'Boiler support'],
+                service_descriptions=['Emergency leak repairs for homes', 'Boiler checks and support'],
+                contact_name='Jane Owner',
+                phone='+31600000000',
+                email='jane@example.com',
+                address='Main Street 1, Breda',
+                website_goal='Generate local quote requests',
+                style_notes='Keep it practical and clean.',
+                business_description='Trusted local plumbing support.',
+                language='en',
+                template_slug='classic_service',
+            )
+
+        self.assertIn('hero', suggestions)
+        self.assertIn('Service area: Breda and nearby towns', captured['input'])
+        self.assertIn('Contact name: Jane Owner', captured['input'])
+        self.assertIn('Phone: +31600000000', captured['input'])
+        self.assertIn('Email: jane@example.com', captured['input'])
+        self.assertIn('Address: Main Street 1, Breda', captured['input'])
+        self.assertIn('Website goal: Generate local quote requests', captured['input'])
+        self.assertIn('Style notes: Keep it practical and clean.', captured['input'])
+        self.assertIn('Business description: Trusted local plumbing support.', captured['input'])
+        self.assertIn('Language: en', captured['input'])
+        self.assertIn('real local business', captured['input'])
+        self.assertIn('Do not invent offers, prices, guarantees, certifications, reviews', captured['input'])
+
+    @override_settings(GOF_AI_ENABLED=True, OPENAI_API_KEY='test-key')
+    def test_ai_polish_falls_back_safely_when_openai_package_is_unavailable(self):
+        base_suggestions = {
+            'hero': {'title': 'Northline Plumbing', 'description': 'Plumbing help in Breda.'},
+            'about': {'title': 'About us', 'description': 'Reliable local support.'},
+            'services': {
+                'item_1_text': 'Leak repairs',
+                'item_2_text': 'Bathroom installations',
+            },
+        }
+
+        with patch.dict(sys.modules, {'openai': types.ModuleType('openai')}):
+            polished = polish_starter_suggestions_with_ai(
+                base_suggestions,
+                {
+                    'business_name': 'Northline Plumbing',
+                    'business_type': 'Plumber',
+                    'city': 'Breda',
+                    'selected_services': ['Leak repairs', 'Bathroom installations'],
+                },
+            )
+
+        self.assertEqual(polished, base_suggestions)
 
 
 class ProjectAssetHelperTests(TestCase):

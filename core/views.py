@@ -14,6 +14,7 @@ from ai_starter.template_catalog import available_template_cards, default_templa
 from blog.models import BlogPost
 from .forms import ContactForm
 from .models import ServiceOption
+from .services_public_assistant import build_public_assistant_response, public_assistant_status
 from .template_catalog import template_catalog, template_category_details, template_category_order
 
 CONTACT_CAPTCHA_QUESTION_SESSION_KEY = 'contact_captcha_question'
@@ -32,6 +33,10 @@ PUBLIC_INFO_PAGE_LINKS = {
     'domain_hosting_dashboard': {'url_name': 'core:domain_hosting_and_dashboard', 'label': _('Domain, hosting & dashboard')},
     'addons_upgrades': {'url_name': 'core:addons_and_upgrades', 'label': _('Add-ons & upgrades')},
     'catalog_and_ecommerce': {'url_name': 'core:catalog_and_ecommerce', 'label': _('Catalogs and online shops')},
+    'facebook_posts': {'url_name': 'core:facebook_posts', 'label': _('Facebook Posts')},
+    'facebook_instagram_ads': {'url_name': 'core:facebook_instagram_ads', 'label': _('Facebook & Instagram Ads')},
+    'google_ads': {'url_name': 'core:google_ads', 'label': _('Google Ads')},
+    'linkedin_ads': {'url_name': 'core:linkedin_ads', 'label': _('LinkedIn Ads')},
     'preview_licence': {'url_name': 'core:preview_licence', 'label': _('Preview & demo licence')},
 }
 
@@ -265,6 +270,224 @@ SERVICE_OPTION_FALLBACKS = {
     },
 }
 
+PROMOTION_SERVICE_FALLBACKS = {
+    'en': {
+        'section_title': 'Promote your website',
+        'section_intro': (
+            'A website is the foundation. Promotion helps people actually find it. Start with simple Facebook posts, local ads, '
+            'or search campaigns and improve from there.'
+        ),
+        'pricing_note': (
+            'Ad budget is not included. We help set up or prepare the promotion, but Facebook, Instagram, Google, or LinkedIn '
+            'charge separately for clicks, views, or campaign spend.'
+        ),
+        'options': [
+            {
+                'option_key': 'facebook_posts',
+                'eyebrow': 'Promotion',
+                'title': 'Facebook Posts',
+                'price_label': 'EUR 79 / month',
+                'summary': 'Keep your Facebook page active with ready-made posts for your business. Useful for services, updates, offers, recent work, and local visibility.',
+                'cta_label': 'View Facebook Posts',
+                'cta_url_name': 'core:facebook_posts',
+            },
+            {
+                'option_key': 'meta_ads',
+                'eyebrow': 'Promotion',
+                'title': 'Facebook & Instagram Ads',
+                'price_label': 'From EUR 70',
+                'summary': 'Reach local customers on Facebook and Instagram with simple campaigns for your services, offers, or website launch.',
+                'cta_label': 'View Meta Ads',
+                'cta_url_name': 'core:facebook_instagram_ads',
+            },
+            {
+                'option_key': 'google_ads',
+                'eyebrow': 'Promotion',
+                'title': 'Google Ads',
+                'price_label': 'From EUR 70',
+                'summary': 'Show your business when people search for services like yours in your area. Good for urgent jobs, local services, and high-intent visitors.',
+                'cta_label': 'View Google Ads',
+                'cta_url_name': 'core:google_ads',
+            },
+            {
+                'option_key': 'linkedin_ads',
+                'eyebrow': 'Promotion',
+                'title': 'LinkedIn Ads',
+                'price_label': 'From EUR 70',
+                'summary': 'Promote business services to professionals, companies, and decision-makers. Better for B2B offers than everyday consumer services.',
+                'cta_label': 'View LinkedIn Ads',
+                'cta_url_name': 'core:linkedin_ads',
+            },
+        ],
+    },
+    'nl': {
+        'section_title': 'Promoot je website',
+        'section_intro': (
+            'Een website is de basis. Promotie helpt mensen om die website ook echt te vinden. Begin met eenvoudige Facebook posts, '
+            'lokale advertenties of zoekcampagnes en verbeter stap voor stap.'
+        ),
+        'pricing_note': (
+            'Advertentiebudget is niet inbegrepen. Wij helpen met de opzet of voorbereiding van de promotie, maar Facebook, Instagram, '
+            'Google en LinkedIn rekenen apart voor klikken, weergaven of campagnebudget.'
+        ),
+        'options': [
+            {
+                'option_key': 'facebook_posts',
+                'eyebrow': 'Promotie',
+                'title': 'Facebook Posts',
+                'price_label': 'EUR 79 / maand',
+                'summary': 'Houd je Facebook-pagina actief met kant-en-klare posts voor je bedrijf. Handig voor diensten, updates, acties, recent werk en lokale zichtbaarheid.',
+                'cta_label': 'Bekijk Facebook Posts',
+                'cta_url_name': 'core:facebook_posts',
+            },
+            {
+                'option_key': 'meta_ads',
+                'eyebrow': 'Promotie',
+                'title': 'Facebook & Instagram Ads',
+                'price_label': 'Vanaf EUR 70',
+                'summary': 'Bereik lokale klanten op Facebook en Instagram met eenvoudige campagnes voor je diensten, acties of website-lancering.',
+                'cta_label': 'Bekijk Meta Ads',
+                'cta_url_name': 'core:facebook_instagram_ads',
+            },
+            {
+                'option_key': 'google_ads',
+                'eyebrow': 'Promotie',
+                'title': 'Google Ads',
+                'price_label': 'Vanaf EUR 70',
+                'summary': 'Laat je bedrijf zien wanneer mensen zoeken naar diensten zoals die van jou in jouw regio. Geschikt voor spoedklussen, lokale diensten en bezoekers met hoge intentie.',
+                'cta_label': 'Bekijk Google Ads',
+                'cta_url_name': 'core:google_ads',
+            },
+            {
+                'option_key': 'linkedin_ads',
+                'eyebrow': 'Promotie',
+                'title': 'LinkedIn Ads',
+                'price_label': 'Vanaf EUR 70',
+                'summary': 'Promoot zakelijke diensten bij professionals, bedrijven en beslissers. Geschikter voor B2B-aanbod dan voor alledaagse consumentendiensten.',
+                'cta_label': 'Bekijk LinkedIn Ads',
+                'cta_url_name': 'core:linkedin_ads',
+            },
+        ],
+    },
+}
+
+PROMOTION_PAGE_FALLBACKS = {
+    'en': {
+        'facebook_posts': {
+            'eyebrow': 'Promotion',
+            'title': 'Facebook Posts',
+            'price_label': 'EUR 79 / month',
+            'intro': 'Keep your business visible with regular Facebook posts prepared for your services, offers, updates, and recent work.',
+            'sections': [
+                {'title': 'What this is', 'paragraphs': ['A monthly content service for businesses that want their Facebook page to look active without having to write every post themselves.']},
+                {'title': 'Good for', 'paragraphs': ['Local service businesses, trades, salons, restaurants, shops, and small companies that want steady visibility.']},
+                {'title': 'What can be included', 'bullets': ['Service posts', 'Offer posts', 'Before/after style posts', 'Seasonal posts', 'Website launch posts', 'Trust-building posts', 'Simple call-to-action posts']},
+                {'title': 'Important note', 'paragraphs': ['This is content preparation. It does not include paid advertising budget or automatic posting unless agreed separately.']},
+            ],
+            'cta_label': 'Request Facebook Posts',
+        },
+        'meta_ads': {
+            'eyebrow': 'Promotion',
+            'title': 'Facebook & Instagram Ads',
+            'price_label': 'From EUR 70',
+            'intro': 'Run simple local campaigns on Facebook and Instagram to promote your services, offers, or new website.',
+            'sections': [
+                {'title': 'What this is', 'paragraphs': ['A basic campaign setup or support service for businesses that want to reach more people on Meta platforms.']},
+                {'title': 'Good for', 'paragraphs': ['Local offers, service awareness, website launches, seasonal campaigns, and businesses with visual work to show.']},
+                {'title': 'What can be included', 'bullets': ['Campaign structure', 'Audience direction', 'Ad copy', 'Creative suggestions', 'Basic setup support', 'Campaign improvement notes']},
+                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. Meta charges separately for ad spend.']},
+            ],
+            'cta_label': 'Request Meta Ads Help',
+        },
+        'google_ads': {
+            'eyebrow': 'Promotion',
+            'title': 'Google Ads',
+            'price_label': 'From EUR 70',
+            'intro': 'Help customers find your business when they are already searching for your services.',
+            'sections': [
+                {'title': 'What this is', 'paragraphs': ['A simple Google Ads setup or support service for local businesses that want search visibility.']},
+                {'title': 'Good for', 'paragraphs': ['Urgent services, local trades, repair services, professional services, and businesses where customers search before calling.']},
+                {'title': 'What can be included', 'bullets': ['Basic campaign structure', 'Keyword direction', 'Ad text', 'Location targeting', 'Landing page suggestions', 'Improvement notes']},
+                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. Google charges separately for clicks and campaign spend.']},
+            ],
+            'cta_label': 'Request Google Ads Help',
+        },
+        'linkedin_ads': {
+            'eyebrow': 'Promotion',
+            'title': 'LinkedIn Ads',
+            'price_label': 'From EUR 70',
+            'intro': 'Promote business services to professionals, companies, and decision-makers.',
+            'sections': [
+                {'title': 'What this is', 'paragraphs': ['A simple LinkedIn promotion setup or support service for B2B companies.']},
+                {'title': 'Good for', 'paragraphs': ['Professional services, B2B offers, recruitment-related visibility, consultants, agencies, and companies targeting other businesses.']},
+                {'title': 'What can be included', 'bullets': ['Campaign direction', 'Audience suggestions', 'Ad copy', 'Offer positioning', 'Landing page suggestions', 'Improvement notes']},
+                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. LinkedIn charges separately for campaign spend and is usually more expensive than Facebook or Google.']},
+            ],
+            'cta_label': 'Request LinkedIn Ads Help',
+        },
+        'advice_title': 'Not sure which one fits?',
+        'advice_text': 'For most small local businesses, Facebook Posts or Google Ads are usually the simplest first step.',
+        'advice_button_label': 'Ask for advice',
+    },
+    'nl': {
+        'facebook_posts': {
+            'eyebrow': 'Promotie',
+            'title': 'Facebook Posts',
+            'price_label': 'EUR 79 / maand',
+            'intro': 'Houd je bedrijf zichtbaar met regelmatige Facebook posts voor je diensten, acties, updates en recent werk.',
+            'sections': [
+                {'title': 'Wat dit is', 'paragraphs': ['Een maandelijkse contentservice voor bedrijven die hun Facebook-pagina actief willen laten ogen zonder zelf elke post te moeten schrijven.']},
+                {'title': 'Geschikt voor', 'paragraphs': ['Lokale dienstverleners, vakbedrijven, salons, restaurants, winkels en kleine bedrijven die constant zichtbaar willen blijven.']},
+                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Posts over diensten', 'Actieposts', 'Voor/na-achtige posts', 'Seizoensposts', 'Website-lanceringsposts', 'Vertrouwen-opbouwende posts', 'Eenvoudige call-to-action posts']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Dit is contentvoorbereiding. Het omvat geen advertentiebudget of automatisch posten tenzij dat apart is afgesproken.']},
+            ],
+            'cta_label': 'Vraag Facebook Posts aan',
+        },
+        'meta_ads': {
+            'eyebrow': 'Promotie',
+            'title': 'Facebook & Instagram Ads',
+            'price_label': 'Vanaf EUR 70',
+            'intro': 'Draai eenvoudige lokale campagnes op Facebook en Instagram om je diensten, acties of nieuwe website te promoten.',
+            'sections': [
+                {'title': 'Wat dit is', 'paragraphs': ['Een basisservice voor campagne-opzet of ondersteuning voor bedrijven die meer mensen willen bereiken via Meta-platformen.']},
+                {'title': 'Geschikt voor', 'paragraphs': ['Lokale acties, bekendheid voor diensten, website-lanceringen, seizoenscampagnes en bedrijven met visueel werk om te tonen.']},
+                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Campagnestructuur', 'Richting voor doelgroep', 'Advertentietekst', 'Creatieve suggesties', 'Basis hulp bij opzet', 'Verbeternotities voor campagnes']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. Meta rekent advertentiekosten apart.']},
+            ],
+            'cta_label': 'Vraag hulp bij Meta Ads',
+        },
+        'google_ads': {
+            'eyebrow': 'Promotie',
+            'title': 'Google Ads',
+            'price_label': 'Vanaf EUR 70',
+            'intro': 'Help klanten je bedrijf te vinden wanneer ze al zoeken naar jouw diensten.',
+            'sections': [
+                {'title': 'Wat dit is', 'paragraphs': ['Een eenvoudige Google Ads-opzet of ondersteuningsservice voor lokale bedrijven die zoekzichtbaarheid willen.']},
+                {'title': 'Geschikt voor', 'paragraphs': ['Spoeddiensten, lokale vakbedrijven, reparatieservices, professionele diensten en bedrijven waarbij klanten zoeken voordat ze bellen.']},
+                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Basis campagnestructuur', 'Richting voor zoekwoorden', 'Advertentietekst', 'Locatietargeting', 'Suggesties voor landingspagina', 'Verbeternotities']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. Google rekent apart voor klikken en campagnebudget.']},
+            ],
+            'cta_label': 'Vraag hulp bij Google Ads',
+        },
+        'linkedin_ads': {
+            'eyebrow': 'Promotie',
+            'title': 'LinkedIn Ads',
+            'price_label': 'Vanaf EUR 70',
+            'intro': 'Promoot zakelijke diensten bij professionals, bedrijven en beslissers.',
+            'sections': [
+                {'title': 'Wat dit is', 'paragraphs': ['Een eenvoudige LinkedIn-promotie-opzet of ondersteuningsservice voor B2B-bedrijven.']},
+                {'title': 'Geschikt voor', 'paragraphs': ['Professionele diensten, B2B-aanbiedingen, zichtbaarheid rond recruitment, consultants, agencies en bedrijven die andere bedrijven targeten.']},
+                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Campagnerichting', 'Doelgroepsuggesties', 'Advertentietekst', 'Positionering van aanbod', 'Suggesties voor landingspagina', 'Verbeternotities']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. LinkedIn rekent campagnekosten apart en is meestal duurder dan Facebook of Google.']},
+            ],
+            'cta_label': 'Vraag hulp bij LinkedIn Ads',
+        },
+        'advice_title': 'Weet je niet zeker welke past?',
+        'advice_text': 'Voor de meeste kleine lokale bedrijven zijn Facebook Posts of Google Ads meestal de eenvoudigste eerste stap.',
+        'advice_button_label': 'Vraag advies',
+    },
+}
+
 ASSISTANT_PUBLIC_KNOWLEDGE = {
     'en': {
         'greeting': (
@@ -275,6 +498,10 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'I can mainly help with website plans, payment, support, business email, and the WordPress dashboard. '
             'Try asking "Which plan fits my business?" or "How does payment work?"'
         ),
+        'plans': (
+            'Get Online Fast offers practical website options for small businesses, including starter pages, one-time website setup, '
+            'monthly website plans, and catalog or online shop options. The best starting overview is on {plans_url}.'
+        ),
         'preview': (
             'Preview creation is not publicly available right now. Please contact Get Online Fast and we will help you choose the right website setup.'
         ),
@@ -282,6 +509,10 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'Yes. Get Online Fast can help with product catalogs, WhatsApp ordering catalogs, and WordPress/WooCommerce online shops. '
             'Starter catalogs begin from €149 + VAT, full WooCommerce shop setup begins from €595 + VAT, and larger reseller eCommerce '
             'projects begin from €1,250 + VAT. Final pricing depends on products, payments, shipping, languages, and setup needs.'
+        ),
+        'promotion': (
+            'Yes. Get Online Fast can also help promote your website after launch with Facebook posts, Meta ads, Google Ads support, '
+            'or LinkedIn ads for B2B offers. A simple starting point is usually Facebook Posts or Google Ads, depending on your business.'
         ),
         'activation': (
             'When your website is ready for activation, Get Online Fast will provide the correct activation page or payment link. '
@@ -327,6 +558,10 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'Ik kan vooral helpen met vragen over websitepakketten, betaling, support, e-mailadressen en het WordPress dashboard. '
             'Probeer bijvoorbeeld: "Welk pakket past bij mijn bedrijf?" of "Hoe werkt betalen?"'
         ),
+        'plans': (
+            'Get Online Fast biedt praktische website-opties voor kleine bedrijven, waaronder starter pages, eenmalige website setup, '
+            'maandelijkse websiteplannen en catalogus- of webshopopties. Het beste startoverzicht staat op {plans_url}.'
+        ),
         'preview': (
             'Preview creation is not publicly available right now. Please contact Get Online Fast and we will help you choose the right website setup.'
         ),
@@ -334,6 +569,10 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'Ja. Get Online Fast kan helpen met productcatalogi, WhatsApp-bestelcatalogi en WordPress/WooCommerce-webshops. '
             'Starter catalogi beginnen vanaf €149 + btw, volledige WooCommerce-webshops vanaf €595 + btw en grotere reseller/eCommerce-projecten '
             'vanaf €1.250 + btw. De definitieve prijs hangt af van producten, betalingen, verzending, talen en de gewenste opzet.'
+        ),
+        'promotion': (
+            'Ja. Get Online Fast kan ook helpen om je website na livegang te promoten met Facebook posts, Meta ads, Google Ads-ondersteuning '
+            'of LinkedIn ads voor B2B-aanbiedingen. Voor veel kleine lokale bedrijven zijn Facebook Posts of Google Ads meestal de eenvoudigste eerste stap.'
         ),
         'activation': (
             'Wanneer je website klaar is voor activatie, stuurt Get Online Fast de juiste activatiepagina of betaallink. '
@@ -389,9 +628,17 @@ ASSISTANT_INTENT_KEYWORDS = {
         'en': ['catalog', 'catalogs', 'catalogue', 'shop', 'online shop', 'online shops', 'ecommerce', 'woo commerce', 'woocommerce', 'webshop', 'products', 'reseller'],
         'nl': ['catalogus', 'catalogussen', 'webshop', 'webshops', 'online shop', 'online shops', 'woocommerce', 'producten', 'reseller', 'bestellen via whatsapp'],
     },
+    'promotion': {
+        'en': ['promotion', 'promote', 'ads', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads', 'marketing'],
+        'nl': ['promotie', 'promoten', 'ads', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads', 'marketing'],
+    },
     'payment': {
-        'en': ['pay', 'payment', 'stripe', 'invoice', 'price', 'cost'],
-        'nl': ['betalen', 'betaling', 'betaallink', 'stripe', 'factuur', 'kosten', 'prijs'],
+        'en': ['pay', 'payment', 'stripe', 'invoice'],
+        'nl': ['betalen', 'betaling', 'betaallink', 'stripe', 'factuur'],
+    },
+    'plans': {
+        'en': ['plan', 'plans', 'package', 'packages', 'pricing', 'website prices', 'view prices', 'price', 'prices', 'cost', 'costs', 'start a website'],
+        'nl': ['pakket', 'pakketten', 'pricing', 'prijzen', 'website prijzen', 'prijs', 'kosten', 'website starten', 'website beginnen'],
     },
     'included': {
         'en': ['included', 'what do i get', 'package', 'website setup'],
@@ -994,6 +1241,12 @@ def _service_option_language(language):
     return language_code if language_code in SERVICE_OPTION_FALLBACKS else 'en'
 
 
+def _service_option_fallback_map(section_key):
+    if section_key == 'promotion':
+        return PROMOTION_SERVICE_FALLBACKS
+    return SERVICE_OPTION_FALLBACKS
+
+
 def _resolve_cta_url(language, option_data):
     cta_url = (option_data.get('cta_url') or '').strip()
     if cta_url:
@@ -1027,9 +1280,9 @@ def _normalized_service_option(option_data, language):
     }
 
 
-def _service_options_fallback(language):
+def _service_options_fallback(language, section_key='catalog_ecommerce'):
     language_code = _service_option_language(language)
-    fallback = SERVICE_OPTION_FALLBACKS[language_code]
+    fallback = _service_option_fallback_map(section_key)[language_code]
     options = [_normalized_service_option(option_data, language_code) for option_data in fallback['options']]
     return {
         'section_title': fallback['section_title'],
@@ -1041,7 +1294,7 @@ def _service_options_fallback(language):
 
 def _service_options_context(language, section_key='catalog_ecommerce'):
     language_code = _service_option_language(language)
-    fallback = _service_options_fallback(language_code)
+    fallback = _service_options_fallback(language_code, section_key=section_key)
     rows = list(
         ServiceOption.objects.filter(section_key=section_key, language=language_code, is_active=True)
         .order_by('sort_order', 'id')
@@ -1162,6 +1415,66 @@ def _catalog_ecommerce_detail_sections(language):
     return sections
 
 
+def _promotion_page_config(language, option_key):
+    language_code = _service_option_language(language)
+    promotion_pages = PROMOTION_PAGE_FALLBACKS[language_code]
+    return promotion_pages[option_key]
+
+
+def _promotion_related_links(option_key):
+    return [
+        'facebook_posts',
+        'facebook_instagram_ads',
+        'google_ads',
+        'linkedin_ads',
+        'plans',
+        'contact',
+    ]
+
+
+def _promotion_page_context(language, option_key):
+    language_code = _service_option_language(language)
+    service_options = _service_options_context(language_code, section_key='promotion')
+    option_map = {option['option_key']: option for option in service_options['options']}
+    option = option_map.get(option_key)
+    page = _promotion_page_config(language_code, option_key)
+
+    if option is None:
+        option = _normalized_service_option(
+            {
+                'option_key': option_key,
+                'eyebrow': page['eyebrow'],
+                'title': page['title'],
+                'price_label': page['price_label'],
+                'summary': page['intro'],
+                'cta_label': page['cta_label'],
+                'cta_url_name': 'core:contact',
+            },
+            language_code,
+        )
+
+    advice = PROMOTION_PAGE_FALLBACKS[language_code]
+
+    return {
+        'site_noindex': False,
+        'force_indexable': True,
+        'page_eyebrow': page['eyebrow'],
+        'page_title': option['title'],
+        'page_intro': page['intro'],
+        'page_price_label': option.get('price_label') or page['price_label'],
+        'page_meta_description': page['intro'],
+        'page_sections': page['sections'],
+        'related_links': _public_info_link_items(_promotion_related_links(option_key)),
+        'page_primary_cta_label': page['cta_label'],
+        'page_primary_cta_url': reverse('core:contact'),
+        'advice_title': advice['advice_title'],
+        'advice_text': advice['advice_text'],
+        'advice_button_label': advice['advice_button_label'],
+        'advice_button_url': reverse('core:contact'),
+        'contact_email': 'info@getonlinefast.eu',
+    }
+
+
 def _assistant_language(request):
     language = (request.GET.get('lang') or getattr(request, 'LANGUAGE_CODE', 'en') or 'en').split('-', 1)[0].lower()
     return language if language in ASSISTANT_PUBLIC_KNOWLEDGE else 'en'
@@ -1173,7 +1486,9 @@ def _assistant_links(language):
         return {
             'support_url': reverse('core:support'),
             'contact_url': reverse('core:contact'),
+            'plans_url': reverse('core:plans'),
             'catalog_url': reverse(catalog_url_name),
+            'promotion_url': reverse('core:facebook_posts'),
             'terms_url': reverse('core:terms'),
             'privacy_url': reverse('core:privacy_policy'),
             'cookies_url': reverse('core:cookie_policy'),
@@ -1205,6 +1520,7 @@ def _assistant_link_items(intent, language, links):
         'en': {
             'activation': 'Activation page',
             'catalog_ecommerce': 'Catalogs and online shops',
+            'promotion': 'Promotion',
             'payment': 'Payment info',
             'included': 'What is included',
             'support': 'Support',
@@ -1216,6 +1532,7 @@ def _assistant_link_items(intent, language, links):
         'nl': {
             'activation': 'Activatiepagina',
             'catalog_ecommerce': 'Catalogus en webshop',
+            'promotion': 'Promotie',
             'payment': 'Betaling en annulering',
             'included': 'Wat is inbegrepen',
             'support': 'Support',
@@ -1239,9 +1556,19 @@ def _assistant_link_items(intent, language, links):
             {'label': copy['contact'], 'url': links['contact_url']},
             {'label': copy['support'], 'url': links['support_url']},
         ]
+    if intent == 'plans':
+        return [
+            {'label': 'Plans' if language == 'en' else 'Pakketten', 'url': links['plans_url']},
+            {'label': copy['contact'], 'url': links['contact_url']},
+        ]
     if intent == 'ecommerce':
         return [
             {'label': copy['catalog_ecommerce'], 'url': links['catalog_url']},
+            {'label': copy['contact'], 'url': links['contact_url']},
+        ]
+    if intent == 'promotion':
+        return [
+            {'label': copy['promotion'], 'url': links['promotion_url']},
             {'label': copy['contact'], 'url': links['contact_url']},
         ]
     if intent == 'payment':
@@ -1334,13 +1661,16 @@ def _hmd_activation_context(*, posted_checks=None, error_message=''):
 
 
 def _public_sitemap_route_names():
-    if settings.SITE_NOINDEX:
-        return []
     return [
         'core:home',
         'core:how_it_works',
+        'ai_starter:start',
         'core:plans',
         'core:catalog_and_ecommerce',
+        'core:facebook_posts',
+        'core:facebook_instagram_ads',
+        'core:google_ads',
+        'core:linkedin_ads',
         'core:faq',
         'core:contact',
         'core:support',
@@ -1361,7 +1691,6 @@ def robots_txt(request):
         'Allow: /',
     ]
     for language_code, _label in settings.LANGUAGES:
-        lines.append(f'Disallow: /{language_code}/start/')
         lines.append(f'Disallow: /{language_code}/payment/')
         lines.append(f'Disallow: /{language_code}/pay/website-package/')
         lines.append(f'Disallow: /{language_code}/activate/website-package/')
@@ -1375,9 +1704,8 @@ def robots_txt(request):
         lines.append(f'Disallow: /{language_code}/plans/monthly-website/')
         lines.append(f'Disallow: /{language_code}/plans/monthly-plan/')
         lines.append(f'Disallow: /{language_code}/plans/ecommerce-plan/')
-    if not settings.SITE_NOINDEX:
-        sitemap_url = request.build_absolute_uri(reverse('sitemap_xml'))
-        lines.append(f'Sitemap: {sitemap_url}')
+    sitemap_url = request.build_absolute_uri(reverse('sitemap_xml'))
+    lines.append(f'Sitemap: {sitemap_url}')
     lines.append('')
     return HttpResponse('\n'.join(lines), content_type='text/plain; charset=utf-8')
 
@@ -1397,25 +1725,62 @@ def sitemap_xml(request):
 def assistant_help(request):
     language = _assistant_language(request)
     question = request.GET.get('q', '')
-    assistant_response = _assistant_answer(question, language)
     link_urls = _assistant_links(language)
-    return JsonResponse(
+    assistant_response = build_public_assistant_response(
+        request=request,
+        question=question,
+        language=language,
+        fallback_response=_assistant_answer(question, language),
+        links=link_urls,
+    )
+    payload = {
+        'language': language,
+        'intent': assistant_response['intent'],
+        'answer': assistant_response['answer'],
+        'suggested_links': assistant_response['suggested_links'],
+        'links': {
+            'support': link_urls['support_url'],
+            'contact': link_urls['contact_url'],
+            'plans': link_urls['plans_url'],
+            'catalog_and_ecommerce': link_urls['catalog_url'],
+            'promotion': link_urls['promotion_url'],
+            'terms': link_urls['terms_url'],
+            'privacy': link_urls['privacy_url'],
+            'cookies': link_urls['cookies_url'],
+            'payment_and_cancellation': link_urls['payment_url'],
+        },
+        'mode': assistant_response['mode'],
+        'fallback_reason': assistant_response['fallback_reason'],
+        'ai_enabled': assistant_response['ai_enabled'],
+        'public_ai_enabled': assistant_response['public_ai_enabled'],
+        'has_openai_key': assistant_response['has_openai_key'],
+        'model_used': assistant_response['model_used'],
+    }
+    if settings.DEBUG:
+        payload.update(assistant_response.get('diagnostics') or {})
+    return JsonResponse(payload)
+
+
+def _raise_non_staff_or_debug_page_unavailable(request):
+    if settings.DEBUG:
+        return
+    if request.user.is_authenticated and request.user.is_staff:
+        return
+    raise Http404('Not found.')
+
+
+def assistant_proof(request):
+    _raise_non_staff_or_debug_page_unavailable(request)
+    language = _assistant_language(request)
+    return render(
+        request,
+        'core/assistant_proof.html',
         {
-            'language': language,
-            'intent': assistant_response['intent'],
-            'answer': assistant_response['answer'],
-            'suggested_links': assistant_response['suggested_links'],
-            'links': {
-                'support': link_urls['support_url'],
-                'contact': link_urls['contact_url'],
-                'catalog_and_ecommerce': link_urls['catalog_url'],
-                'terms': link_urls['terms_url'],
-                'privacy': link_urls['privacy_url'],
-                'cookies': link_urls['cookies_url'],
-                'payment_and_cancellation': link_urls['payment_url'],
-            },
-            'mode': 'rule_based',
-        }
+            'assistant_proof_language': language,
+            'assistant_proof_status': public_assistant_status(),
+            'site_noindex': True,
+            'force_indexable': False,
+        },
     )
 
 
@@ -1423,6 +1788,7 @@ def home(request):
     language = (getattr(request, 'LANGUAGE_CODE', 'en') or 'en').split('-', 1)[0]
     selected_template_slug = default_template_slug()
     service_options = _service_options_context(language)
+    promotion_options = _service_options_context(language, section_key='promotion')
     return render(
         request,
         'core/home.html',
@@ -1439,7 +1805,11 @@ def home(request):
             'catalog_service_pricing_note': service_options['pricing_note'],
             'catalog_service_table_rows': _catalog_ecommerce_table_rows(language),
             'catalog_service_badges': _catalog_ecommerce_badges(language),
-            'force_indexable': False,
+            'promotion_section_title': promotion_options['section_title'],
+            'promotion_section_intro': promotion_options['section_intro'],
+            'promotion_service_options': promotion_options['options'],
+            'promotion_service_note': promotion_options['pricing_note'],
+            'force_indexable': True,
             'site_noindex': False,
             'page_meta_description': 'Get Online Fast helps small businesses launch practical WordPress websites with clear structure, support, and room to grow.',
         },
@@ -1451,7 +1821,7 @@ def how_it_works(request):
         request,
         'core/how_it_works.html',
         {
-            'force_indexable': False,
+            'force_indexable': True,
             'site_noindex': False,
             'page_meta_description': 'See how Get Online Fast helps small businesses go from business details to a live WordPress website.',
         },
@@ -1513,7 +1883,7 @@ def plans(request):
         request,
         'core/plans.html',
         {
-            'force_indexable': False,
+            'force_indexable': True,
             'site_noindex': False,
             'page_title': _('Plans'),
             'page_meta_description': _(
@@ -1529,7 +1899,7 @@ def faq(request):
         request,
         'core/faq.html',
         {
-            'force_indexable': False,
+            'force_indexable': True,
             'site_noindex': False,
             'page_meta_description': 'Read practical answers about previews, website plans, support, and launching with Get Online Fast.',
         },
@@ -1599,7 +1969,7 @@ def contact(request):
         {
             'form': form,
             'contact_captcha_question': _get_contact_captcha_question(request),
-            'force_indexable': False,
+            'force_indexable': True,
             'site_noindex': False,
             'page_meta_description': 'Contact Get Online Fast about website plans, support, launch timing, or the right setup for your business.',
         },
@@ -1730,6 +2100,30 @@ def support(request):
 
 def catalog_and_ecommerce(request):
     return _render_public_info_page(request, 'catalog_and_ecommerce')
+
+
+def _render_promotion_page(request, option_key):
+    return render(
+        request,
+        'core/public_info_page.html',
+        _promotion_page_context((getattr(request, 'LANGUAGE_CODE', 'en') or 'en').split('-', 1)[0], option_key),
+    )
+
+
+def facebook_posts(request):
+    return _render_promotion_page(request, 'facebook_posts')
+
+
+def facebook_instagram_ads(request):
+    return _render_promotion_page(request, 'meta_ads')
+
+
+def google_ads(request):
+    return _render_promotion_page(request, 'google_ads')
+
+
+def linkedin_ads(request):
+    return _render_promotion_page(request, 'linkedin_ads')
 
 
 def privacy_policy(request):

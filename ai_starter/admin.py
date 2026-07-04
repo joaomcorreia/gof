@@ -111,13 +111,167 @@ class WebsiteRequestFileInline(admin.TabularInline):
     readonly_fields = ('original_name', 'file', 'created_at')
 
 
+class WebsiteRequestBusinessTypeFilter(admin.SimpleListFilter):
+    title = _('business type')
+    parameter_name = 'business_type'
+
+    def lookups(self, request, model_admin):
+        values = (
+            WebsiteRequest.objects.exclude(business_type='')
+            .order_by('business_type')
+            .values_list('business_type', flat=True)
+            .distinct()
+        )
+        return [(value, value) for value in values[:50]]
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        if not value:
+            return queryset
+        return queryset.filter(business_type=value)
+
+
 @admin.register(WebsiteRequest)
 class WebsiteRequestAdmin(admin.ModelAdmin):
-    list_display = ('business_name', 'contact_name', 'contact_email', 'source_code', 'offer_price', 'status', 'created_at')
-    list_filter = ('status', 'source_code', 'main_language', 'created_at')
-    search_fields = ('business_name', 'business_type', 'contact_name', 'contact_email', 'current_domain')
-    readonly_fields = ('public_id', 'storage_key', 'created_at', 'normal_price', 'offer_price', 'source_code')
+    list_display = (
+        'business_name',
+        'business_type',
+        'service_area',
+        'contact_name',
+        'contact_email',
+        'main_language',
+        'source_code',
+        'status',
+        'created_at',
+    )
+    list_filter = ('status', 'source_code', 'main_language', WebsiteRequestBusinessTypeFilter, 'created_at')
+    search_fields = (
+        'business_name',
+        'business_type',
+        'service_area',
+        'business_address',
+        'contact_name',
+        'contact_email',
+        'contact_phone',
+        'contact_whatsapp',
+        'current_domain',
+    )
+    readonly_fields = (
+        'public_id',
+        'storage_key',
+        'created_at',
+        'normal_price',
+        'offer_price',
+        'source_code',
+        'starter_request_admin_summary',
+    )
     inlines = [WebsiteRequestFileInline]
+    actions = (
+        'mark_as_reviewed',
+        'mark_as_contacted',
+        'mark_as_cancelled',
+    )
+    fieldsets = (
+        (_('Starter request summary'), {
+            'fields': ('starter_request_admin_summary',),
+        }),
+        (_('Business'), {
+            'fields': (
+                'business_name',
+                'business_type',
+                'business_address',
+                'service_area',
+                'main_services',
+                'business_description',
+                'main_language',
+                'extra_languages',
+            ),
+        }),
+        (_('Contact'), {
+            'fields': (
+                'contact_name',
+                'contact_email',
+                'contact_phone',
+                'contact_whatsapp',
+                'opening_hours',
+                'social_links',
+            ),
+        }),
+        (_('Website request details'), {
+            'fields': (
+                'existing_website_url',
+                'current_domain',
+                'needs_domain_help',
+                'preferred_colors',
+                'style_notes',
+                'special_requests',
+            ),
+        }),
+        (_('Tracking'), {
+            'fields': (
+                'status',
+                'source_code',
+                'normal_price',
+                'offer_price',
+                'public_id',
+                'storage_key',
+                'created_at',
+            ),
+        }),
+    )
+
+    @admin.display(description=_('Starter request summary'))
+    def starter_request_admin_summary(self, obj):
+        summary_items = [
+            ('Business', obj.business_name or '--'),
+            ('Type', obj.business_type or '--'),
+            ('Area', obj.service_area or obj.business_address or '--'),
+            ('Language', obj.main_language or '--'),
+            ('Contact', obj.contact_name or obj.contact_email or '--'),
+            ('Email', obj.contact_email or '--'),
+        ]
+        note_lines = [line.strip() for line in (obj.special_requests or '').splitlines() if line.strip()]
+        service_lines = [line.strip() for line in (obj.main_services or '').splitlines() if line.strip()]
+        style_lines = [line.strip() for line in (obj.style_notes or '').splitlines() if line.strip()]
+
+        chunks = ['<div class="help">']
+        for label, value in summary_items:
+            chunks.append(f'<p><strong>{escape(label)}:</strong> {escape(value)}</p>')
+        if service_lines:
+            chunks.append(f"<p><strong>{escape(_('Services'))}:</strong> {escape(', '.join(service_lines[:6]))}</p>")
+        if style_lines:
+            chunks.append(f"<p><strong>{escape(_('Style'))}:</strong> {escape(' | '.join(style_lines[:4]))}</p>")
+        if note_lines:
+            chunks.append(f"<p><strong>{escape(_('Notes'))}:</strong> {escape(' | '.join(note_lines[:4]))}</p>")
+        chunks.append('</div>')
+        return format_html(''.join(chunks))
+
+    @admin.action(description=_('Mark selected starter requests as Reviewed'))
+    def mark_as_reviewed(self, request, queryset):
+        updated = queryset.update(status=WebsiteRequest.Status.REVIEWED)
+        self.message_user(
+            request,
+            _('Marked %(count)s website request(s) as Reviewed.') % {'count': updated},
+            level=messages.SUCCESS,
+        )
+
+    @admin.action(description=_('Mark selected starter requests as Contacted'))
+    def mark_as_contacted(self, request, queryset):
+        updated = queryset.update(status=WebsiteRequest.Status.CONTACTED)
+        self.message_user(
+            request,
+            _('Marked %(count)s website request(s) as Contacted.') % {'count': updated},
+            level=messages.SUCCESS,
+        )
+
+    @admin.action(description=_('Mark selected starter requests as Cancelled'))
+    def mark_as_cancelled(self, request, queryset):
+        updated = queryset.update(status=WebsiteRequest.Status.CANCELLED)
+        self.message_user(
+            request,
+            _('Marked %(count)s website request(s) as Cancelled.') % {'count': updated},
+            level=messages.SUCCESS,
+        )
 
 
 @admin.register(SiteHandoff)
