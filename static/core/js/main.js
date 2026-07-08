@@ -385,12 +385,24 @@ const siteAssistant = document.querySelector("[data-site-assistant]");
 if (siteAssistant) {
   const toggle = siteAssistant.querySelector("[data-assistant-toggle]");
   const closeButton = siteAssistant.querySelector("[data-assistant-close]");
+  const resetButton = siteAssistant.querySelector("[data-assistant-reset]");
   const panel = siteAssistant.querySelector("[data-assistant-panel]");
   const form = siteAssistant.querySelector("[data-assistant-form]");
   const input = siteAssistant.querySelector("[data-assistant-input]");
   const messages = siteAssistant.querySelector("[data-assistant-messages]");
-  const language = siteAssistant.dataset.assistantLanguage || "en";
-  const storageKey = `gof-site-assistant-v1-${language}`;
+  const csrfInput = siteAssistant.querySelector('input[name="csrfmiddlewaretoken"]');
+  const templateLanguage = siteAssistant.dataset.assistantLanguage || "en";
+  const getLanguageFromPath = () => {
+    const normalizedPath = (window.location.pathname || "/").trim();
+    const firstSegment = normalizedPath.replace(/^\/+/, "").split("/", 1)[0].toLowerCase();
+    return ["en", "nl", "fr", "pt"].includes(firstSegment) ? firstSegment : "";
+  };
+  const language = getLanguageFromPath() || templateLanguage || "en";
+  const siteKey = siteAssistant.dataset.assistantSiteKey || "getonlinefast-public";
+  const assistantVersion = siteAssistant.dataset.assistantVersion || "v2";
+  const assistantEndpoint = siteAssistant.dataset.assistantEndpoint || "/assistant/help/";
+  const storageKey = `gof_public_assistant_${assistantVersion}_${siteKey}_${language}`;
+  const legacyStorageKey = `gof-site-assistant-v1-${language}`;
   const urls = {
     websites: siteAssistant.dataset.urlWebsites || "/websites/",
     onlineShop: siteAssistant.dataset.urlOnlineShop || "/online-shop/",
@@ -443,180 +455,56 @@ if (siteAssistant) {
     en: {
       greeting: "Hello, welcome to Get Online Fast. How can I help you today?",
       shortGreeting: "Hi. What would you like help with today?",
-      emojiGreeting: "🙂 Hi. What can I help you with?",
+      emojiGreeting: "?? Hi. What can I help you with?",
       openedPage: "I opened the {page} page. You can ask me questions about it here.",
-      fallback: "I’m not sure yet. Are you asking about a website, an online shop, ads, pricing, or support?",
+      networkFallback: "Sorry, I could not load the answer just now. Please try again or use the contact page if the problem continues.",
       restricted: "Sorry, that type of project is not allowed on our platform. I can still help with general questions about websites, pricing, or allowed business services.",
-      websiteQuestion: "Sure. What kind of business is the website for?",
-      websiteRecommendation: "For that type of business, a clear business website with services, contact options, and local information is usually a good start.",
-      websiteNextQuestion: "Do you already have a website, or are you starting from zero?",
-      websiteStartingZeroAnswer: "Starting from zero is usually the easiest path. We can begin with the basics and improve later.",
-      websiteReplaceOldAnswer: "Replacing an old website is often a good moment to simplify the content and improve contact options.",
-      websiteNotSureAnswer: "That is fine. A simple business website is usually the best first step.",
-      shopIntro: "An online shop can work well if you have products, prices, images, and payment/contact details ready.",
-      shopQuestion: "Are you starting with a few products or a larger catalog?",
-      shopFewProductsAnswer: "A smaller product setup is usually the easiest way to start. You can expand the catalog later.",
-      shopLargerCatalogAnswer: "A larger catalog usually needs more structure for categories, product details, and navigation.",
-      shopNotSureAnswer: "No problem. Starting smaller is usually safer if you are still deciding.",
-      adsIntro: "Ads can help a new website get visitors faster. The cost usually has two parts: setup/service fee and advertising budget.",
-      adsQuestion: "Which platform are you thinking about?",
-      adsNotSureAnswer: "That is normal. Facebook & Instagram, Google Ads, and LinkedIn Ads each fit different business types.",
-      pricingQuestion: "That depends on what you need. Are you asking about a website, an online shop, ads, or support?",
-      pricingWebsiteAnswer: "Website pricing depends on the type of site and how much content you need.",
-      pricingOnlineShopAnswer: "Online shop pricing depends on product count, structure, and how much setup is needed.",
-      pricingAdsAnswer: "Ads pricing usually includes a setup/service fee plus the ad budget.",
-      pricingSupportAnswer: "Support pricing depends on the type of help or changes you need.",
-      supportQuestion: "Is this for an existing Get Online Fast project?",
-      supportExistingAnswer: "For an existing project, support is the right next step.",
-      supportNewAnswer: "No problem. Ask your new question and I will point you in the right direction.",
-      contactAnswer: "You can contact Get Online Fast through the contact page. I can open it for you.",
-      adviceAnswer: "No problem. Start simple. I can point you to websites, online shops, ads, or support.",
-      pageOnlineShop: "Yes. For an online shop, starting small is usually best. You can begin with a small product catalog and expand later.",
-      pageWebsites: "Yes. A simple business website is usually the best first step. Start with your services, location, and contact details.",
-      pageAds: "A small local ads campaign can be enough to start. The best option depends on your business and service area.",
-      pagePricing: "Pricing depends on whether you need a website, an online shop, ads, or support.",
-      pageContact: "If it is urgent, the contact page is the fastest next step.",
-      pageFaq: "The FAQ covers common setup, pricing, and support questions.",
-      websiteBusinessPrompt: "What kind of business is it?",
-      sendLabel: "Send",
-      buttons: {
-        website: "Website",
-        onlineShop: "Online Shop",
-        ads: "Ads",
-        support: "Support",
-        notSure: "Not sure",
-        pricing: "Pricing",
-        faq: "FAQ",
-        contact: "Contact",
-        metaAds: "Facebook & Instagram",
-        googleAds: "Google Ads",
-        linkedinAds: "LinkedIn Ads",
-        fewProducts: "Few products",
-        largerCatalog: "Larger catalog",
-        notSureYet: "Not sure yet",
-        openOnlineShopPage: "Open Online Shop page",
-        openAdsPage: "Open Ads page",
-        openPricingPage: "Open Pricing page",
-        openContactPage: "Open Contact page",
-        contactSupport: "Contact support",
-        askAnotherQuestion: "Ask another question",
-        startingFromZero: "Starting from zero",
-        replaceOldWebsite: "Replace old website",
-        existingProjectYes: "Yes, existing project",
-        newQuestionNo: "No, new question",
-      },
-      pageNames: {
-        websites: "Websites",
-        onlineShop: "Online Shop",
-        ads: "Ads",
-        pricing: "Pricing",
-        faq: "FAQ",
-        contact: "Contact",
-        support: "Support",
-        metaAds: "Facebook & Instagram Ads",
-        googleAds: "Google Ads",
-        linkedinAds: "LinkedIn Ads",
-      },
+      reset: "Reset",
     },
     nl: {
       greeting: "Hallo, welkom bij Get Online Fast. Hoe kan ik je vandaag helpen?",
       shortGreeting: "Hoi. Waarmee kan ik je vandaag helpen?",
-      emojiGreeting: "🙂 Hoi. Waarmee kan ik je helpen?",
+      emojiGreeting: "?? Hoi. Waarmee kan ik je helpen?",
       openedPage: "Ik heb de pagina {page} geopend. Je kunt hier vragen over die pagina stellen.",
-      fallback: "Ik weet het nog niet zeker. Gaat het over een website, een webshop, advertenties, prijzen of support?",
+      networkFallback: "Sorry, ik kon het antwoord net niet laden. Probeer het opnieuw of gebruik de contactpagina als het probleem blijft bestaan.",
       restricted: "Sorry, dit type project is niet toegestaan op ons platform. Ik kan nog wel helpen met algemene vragen over websites, prijzen of toegestane bedrijfsdiensten.",
-      websiteQuestion: "Natuurlijk. Voor wat voor bedrijf is de website?",
-      websiteRecommendation: "Voor dat type bedrijf is een duidelijke bedrijfswebsite met diensten, contactmogelijkheden en lokale informatie meestal een goede start.",
-      websiteNextQuestion: "Heb je al een website, of begin je vanaf nul?",
-      websiteStartingZeroAnswer: "Vanaf nul beginnen is meestal de makkelijkste route. Je kunt starten met de basis en later verbeteren.",
-      websiteReplaceOldAnswer: "Een oude website vervangen is vaak een goed moment om de inhoud eenvoudiger en duidelijker te maken.",
-      websiteNotSureAnswer: "Dat is prima. Een eenvoudige bedrijfswebsite is meestal de beste eerste stap.",
-      shopIntro: "Een webshop kan goed werken als je producten, prijzen, afbeeldingen en betaal-/contactgegevens klaar hebt.",
-      shopQuestion: "Begin je met een paar producten of met een grotere catalogus?",
-      shopFewProductsAnswer: "Een kleinere productopzet is meestal de makkelijkste manier om te starten. Je kunt later uitbreiden.",
-      shopLargerCatalogAnswer: "Een grotere catalogus vraagt meestal meer structuur voor categorieen, productdetails en navigatie.",
-      shopNotSureAnswer: "Geen probleem. Kleiner beginnen is meestal veiliger als je nog aan het kiezen bent.",
-      adsIntro: "Advertenties kunnen een nieuwe website sneller bezoekers geven. De kosten hebben meestal twee delen: setup/servicekosten en advertentiebudget.",
-      adsQuestion: "Natuurlijk. Ben je geïnteresseerd in Facebook & Instagram Ads, Google Ads, LinkedIn Ads, of weet je het nog niet?",
-      pricingQuestion: "Dat hangt af van wat je nodig hebt. Vraag je naar een website, een webshop, advertenties of support?",
-      pricingWebsiteAnswer: "De prijs van een website hangt af van het type site en hoeveel inhoud je nodig hebt.",
-      pricingOnlineShopAnswer: "De prijs van een webshop hangt af van het aantal producten, de structuur en hoeveel setup nodig is.",
-      pricingAdsAnswer: "Advertentieprijzen bestaan meestal uit setup/servicekosten plus advertentiebudget.",
-      pricingSupportAnswer: "Supportprijzen hangen af van het soort hulp of wijzigingen dat je nodig hebt.",
-      supportQuestion: "Gaat dit over een bestaand Get Online Fast-project?",
-      supportExistingAnswer: "Voor een bestaand project is support de juiste volgende stap.",
-      supportNewAnswer: "Geen probleem. Stel je nieuwe vraag en ik wijs je de juiste kant op.",
-      supportAnswer: "Zeker. Als je al een project hebt of hulp nodig hebt met wijzigingen, is support de beste start.",
-      contactPromptAnswer: "Je kunt Get Online Fast bereiken via de contactpagina. Ik kan die voor je openen.",
-      contactAnswer: "Natuurlijk. Je kunt Get Online Fast direct bereiken via telefoon, e-mail of de contactpagina.",
-      adviceAnswer: "Geen probleem. Begin eenvoudig. Ik kan je naar websites, webshops, advertenties of support sturen.",
-      pageOnlineShop: "Ja. Voor een webshop is klein beginnen meestal het beste. Je kunt starten met een kleine productcatalogus en later uitbreiden.",
-      pageWebsites: "Ja. Een eenvoudige bedrijfswebsite is meestal de beste eerste stap. Begin met je diensten, locatie en contactgegevens.",
-      pageAds: "Een kleine lokale advertentiecampagne kan al genoeg zijn om te starten. De beste optie hangt af van je bedrijf en servicegebied.",
-      pagePricing: "De prijs hangt af van of je een website, webshop, advertenties of support nodig hebt.",
-      pageContact: "Als het urgent is, is de contactpagina de snelste volgende stap.",
-      pageFaq: "In de FAQ staan veelgestelde vragen over setup, prijzen en support.",
-      websiteBusinessPrompt: "Wat voor soort bedrijf is het?",
-      sendLabel: "Verstuur",
-      buttons: {
-        website: "Website",
-        onlineShop: "Webshop",
-        ads: "Ads",
-        support: "Support",
-        notSure: "Nog niet zeker",
-        pricing: "Prijzen",
-        faq: "FAQ",
-        contact: "Contact",
-        metaAds: "Facebook & Instagram",
-        googleAds: "Google Ads",
-        linkedinAds: "LinkedIn Ads",
-        fewProducts: "Paar producten",
-        largerCatalog: "Grotere catalogus",
-        notSureYet: "Nog niet zeker",
-        openOnlineShopPage: "Open webshop-pagina",
-        openAdsPage: "Open ads-pagina",
-        openPricingPage: "Open prijzenpagina",
-        openContactPage: "Open contactpagina",
-        contactSupport: "Contact support",
-        askAnotherQuestion: "Stel een andere vraag",
-        startingFromZero: "Vanaf nul beginnen",
-        replaceOldWebsite: "Oude website vervangen",
-        existingProjectYes: "Ja, bestaand project",
-        newQuestionNo: "Nee, nieuwe vraag",
-      },
-      pageNames: {
-        websites: "Websites",
-        onlineShop: "Webshop",
-        ads: "Ads",
-        pricing: "Prijzen",
-        faq: "FAQ",
-        contact: "Contact",
-        support: "Support",
-        metaAds: "Facebook & Instagram Ads",
-        googleAds: "Google Ads",
-        linkedinAds: "LinkedIn Ads",
-      },
+      reset: "Reset",
+    },
+    fr: {
+      greeting: "Bonjour, bienvenue chez Get Online Fast. Comment puis-je vous aider aujourd'hui ?",
+      shortGreeting: "Bonjour. Que voulez-vous savoir aujourd'hui ?",
+      emojiGreeting: "?? Bonjour. Comment puis-je vous aider ?",
+      openedPage: "J'ai ouvert la page {page}. Vous pouvez poser des questions sur cette page ici.",
+      networkFallback: "Désolé, je n'ai pas pu charger la réponse pour le moment. Réessayez ou utilisez la page de contact si le problème continue.",
+      restricted: "Désolé, ce type de projet n'est pas autorisé sur notre plateforme. Je peux quand même aider avec des questions générales sur les sites web, les tarifs ou les services autorisés.",
+      reset: "Réinitialiser",
+    },
+    pt: {
+      greeting: "Olá, bem-vindo ao Get Online Fast. Como posso ajudar hoje?",
+      shortGreeting: "Olá. Em que posso ajudar hoje?",
+      emojiGreeting: "?? Olá. Como posso ajudar?",
+      openedPage: "Abri a página {page}. Pode fazer perguntas sobre essa página aqui.",
+      networkFallback: "Desculpe, não consegui carregar a resposta agora. Tente novamente ou use a página de contacto se o problema continuar.",
+      restricted: "Desculpe, esse tipo de projeto não é permitido na nossa plataforma. Ainda posso ajudar com perguntas gerais sobre websites, preços ou serviços permitidos.",
+      reset: "Limpar",
     },
   }[language] || {
     greeting: "Hello, welcome to Get Online Fast. How can I help you today?",
+    shortGreeting: "Hi. What would you like help with today?",
+    emojiGreeting: "?? Hi. What can I help you with?",
+    openedPage: "I opened the {page} page. You can ask me questions about it here.",
+    networkFallback: "Sorry, I could not load the answer just now. Please try again or use the contact page if the problem continues.",
+    restricted: "Sorry, that type of project is not allowed on our platform. I can still help with general questions about websites, pricing, or allowed business services.",
+    reset: "Reset",
   };
   const assistantOpenTriggers = Array.from(document.querySelectorAll("[data-open-site-assistant]"));
 
   const emptyState = () => ({
     isOpen: false,
-    selectedTopic: "",
-    conversationStage: "",
     pageContext: "",
     messages: [],
     pendingNavigation: null,
   });
-
-  const normalize = (value) =>
-    (value || "")
-      .toLowerCase()
-      .replace(/[?!.,/\\]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
 
   const pathNameFor = (rawUrl) => {
     try {
@@ -636,6 +524,10 @@ if (siteAssistant) {
     return "general";
   };
 
+  if (window.localStorage.getItem(legacyStorageKey)) {
+    window.localStorage.removeItem(legacyStorageKey);
+  }
+
   const loadState = () => {
     try {
       const parsed = JSON.parse(window.localStorage.getItem(storageKey) || "{}");
@@ -654,50 +546,11 @@ if (siteAssistant) {
       storageKey,
       JSON.stringify({
         isOpen: Boolean(state.isOpen),
-        selectedTopic: state.selectedTopic || "",
-        conversationStage: state.conversationStage || "",
         pageContext: state.pageContext || "general",
         messages: Array.isArray(state.messages) ? state.messages.slice(-24) : [],
         pendingNavigation: state.pendingNavigation || null,
       }),
     );
-  };
-
-  const topicButtons = (keys) =>
-    keys.map((key) => ({
-      kind: "reply",
-      value: copy.buttons[key],
-      label: copy.buttons[key],
-      topic: key,
-    }));
-
-  const replyButton = (labelKey, topic = "", stage = "") => ({
-    kind: "reply",
-    value: copy.buttons[labelKey],
-    label: copy.buttons[labelKey],
-    topic,
-    stage,
-  });
-
-  const pageButton = (key, urlKey = key) => ({
-    kind: "link",
-    label: copy.buttons[key],
-    pageName: copy.pageNames[urlKey],
-    topic: urlKey,
-    url: urls[urlKey],
-  });
-
-  const openPageButton = (labelKey, urlKey) => ({
-    kind: "link",
-    label: copy.buttons[labelKey],
-    pageName: copy.pageNames[urlKey],
-    topic: urlKey,
-    url: urls[urlKey],
-  });
-
-  const appendStoredMessage = (message) => {
-    state.messages.push(message);
-    saveState();
   };
 
   const renderMessages = () => {
@@ -725,15 +578,6 @@ if (siteAssistant) {
           button.className = "site-assistant-action";
           button.textContent = action.label;
           button.dataset.actionKind = action.kind;
-          if (action.value) {
-            button.dataset.actionValue = action.value;
-          }
-          if (action.topic) {
-            button.dataset.actionTopic = action.topic;
-          }
-          if (action.stage) {
-            button.dataset.actionStage = action.stage;
-          }
           if (action.url) {
             button.dataset.actionUrl = action.url;
           }
@@ -753,7 +597,8 @@ if (siteAssistant) {
   };
 
   const addMessage = (role, text, actions = []) => {
-    appendStoredMessage({ role, text, actions });
+    state.messages.push({ role, text, actions });
+    saveState();
     renderMessages();
   };
 
@@ -777,7 +622,14 @@ if (siteAssistant) {
     }
   };
 
-  const containsAny = (text, terms) => terms.some((term) => text.includes(term));
+  const resetAssistantState = ({ keepOpen = true } = {}) => {
+    state.isOpen = Boolean(keepOpen);
+    state.pageContext = getCurrentPageContext();
+    state.pendingNavigation = null;
+    state.messages = [{ role: "assistant", text: copy.greeting, actions: [] }];
+    saveState();
+    renderMessages();
+  };
 
   const isEmojiOnly = (message) => {
     const trimmed = (message || "").trim();
@@ -797,281 +649,83 @@ if (siteAssistant) {
   };
 
   const isGreetingOnly = (message) => {
-    const normalized = normalize(message);
+    const normalized = (message || "")
+      .toLowerCase()
+      .replace(/[?!.,/\\]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
     if (!normalized) {
       return false;
     }
-
     return [
       "hi",
       "hello",
       "hey",
       "hoi",
       "hallo",
+      "bonjour",
+      "salut",
+      "ola",
+      "olá",
       "good morning",
       "good afternoon",
       "good evening",
+      "bom dia",
+      "boa tarde",
+      "boa noite",
     ].includes(normalized);
   };
 
-  const detectIntent = (normalizedQuestion) => {
-    if (!normalizedQuestion) {
-      return "empty";
-    }
-    if (containsAny(normalizedQuestion, restrictedTerms)) {
-      return "restricted";
-    }
-    if (containsAny(normalizedQuestion, ["website", "business website", "site maken", "website maken", "website nodig", "new site", "replace old website", "old website", "nieuwe site"])) {
-      return "website";
-    }
-    if (containsAny(normalizedQuestion, ["online shop", "webshop", "ecommerce", "product", "catalog", "producten", "shop", "sell products", "producten verkopen"])) {
-      return "online_shop";
-    }
-    if (containsAny(normalizedQuestion, ["facebook", "instagram", "google ads", "linkedin", "ads", "advert", "advertising", "meta ads", "promote my business", "promoot mijn bedrijf"])) {
-      return "ads";
-    }
-    if (containsAny(normalizedQuestion, ["price", "pricing", "cost", "plans", "prijzen", "prijs", "kosten"])) {
-      return "pricing";
-    }
-    if (containsAny(normalizedQuestion, ["support", "help", "dashboard", "existing project", "bestaand project", "wijziging", "login", "change my website"])) {
-      return "support";
-    }
-    if (containsAny(normalizedQuestion, ["contact", "phone", "email", "whatsapp", "telefoon", "mail"])) {
-      return "contact";
-    }
-    if (containsAny(normalizedQuestion, ["not sure", "advice", "what do i need", "niet zeker", "advies", "wat heb ik nodig"])) {
-      return "advice";
-    }
-    if (containsAny(normalizedQuestion, ["hi", "hello", "hey", "hoi", "hallo"])) {
-      return "greeting";
-    }
-    return "fallback";
+  const mapSuggestedLinksToActions = (suggestedLinks) =>
+    (Array.isArray(suggestedLinks) ? suggestedLinks : [])
+      .filter((link) => link && link.url && link.label)
+      .slice(0, 4)
+      .map((link) => ({
+        kind: "link",
+        label: link.label,
+        pageName: link.label,
+        url: link.url,
+      }));
+
+  const readCookie = (name) => {
+    const escapedName = name.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    const match = document.cookie.match(new RegExp(`(?:^|; )${escapedName}=([^;]*)`));
+    return match ? decodeURIComponent(match[1]) : "";
   };
 
-  const resolveContextAnswer = (normalizedQuestion) => {
-    const context = state.pageContext || "general";
-    if (context === "online_shop" && containsAny(normalizedQuestion, ["few products", "small catalog", "paar producten", "kleine catalogus"])) {
-      return { text: copy.pageOnlineShop, actions: [pageButton("onlineShop", "onlineShop"), pageButton("pricing", "pricing")] };
+  const getCsrfToken = () => {
+    const formToken = csrfInput?.value?.trim();
+    if (formToken) {
+      return formToken;
     }
-    if (context === "websites" && containsAny(normalizedQuestion, ["start simple", "small website", "simple website", "eenvoudige website"])) {
-      return { text: copy.pageWebsites, actions: [pageButton("website", "websites"), pageButton("pricing", "pricing")] };
-    }
-    if (["ads", "meta_ads", "google_ads", "linkedin_ads"].includes(context) && containsAny(normalizedQuestion, ["budget", "local", "radius", "small campaign", "budget", "campagne"])) {
-      return { text: copy.pageAds, actions: [pageButton("ads", "ads"), pageButton("contact", "contact")] };
-    }
-    if (context === "pricing" && containsAny(normalizedQuestion, ["how much", "price", "prijs", "kosten"])) {
-      return { text: copy.pagePricing, actions: topicButtons(["website", "onlineShop", "ads", "support"]) };
-    }
-    if (context === "contact" && containsAny(normalizedQuestion, ["urgent", "call", "phone", "spoed", "bellen"])) {
-      return { text: copy.pageContact, actions: [pageButton("contact", "contact")] };
-    }
-    if (context === "faq" && containsAny(normalizedQuestion, ["question", "faq", "vragen"])) {
-      return { text: copy.pageFaq, actions: [pageButton("faq", "faq"), pageButton("contact", "contact")] };
-    }
-    return null;
+    return readCookie("csrftoken");
   };
 
-  const websiteNextActions = () => [
-    replyButton("startingFromZero", "website", "website_existing_status"),
-    replyButton("replaceOldWebsite", "website", "website_existing_status"),
-    replyButton("notSure", "website", "website_existing_status"),
-  ];
-
-  const pricingActions = () => [
-    replyButton("website", "website"),
-    replyButton("onlineShop", "onlineShop"),
-    replyButton("ads", "ads"),
-    replyButton("support", "support"),
-    openPageButton("openPricingPage", "pricing"),
-  ];
-
-  const fallbackActions = () => [
-    replyButton("website", "website"),
-    replyButton("onlineShop", "onlineShop"),
-    replyButton("ads", "ads"),
-    replyButton("pricing", "pricing"),
-    replyButton("support", "support"),
-  ];
-
-  const resolveStagedReply = (normalizedQuestion) => {
-    if (state.conversationStage === "website_business_type") {
-      state.conversationStage = "website_existing_status";
-      return {
-        text: `${copy.websiteRecommendation} ${copy.websiteNextQuestion}`,
-        actions: websiteNextActions(),
-      };
+  const requestAssistantAnswer = async (question) => {
+    const params = new URLSearchParams({
+      message: question,
+      q: question,
+      lang: language,
+      page_path: window.location.pathname,
+    });
+    const csrfToken = getCsrfToken();
+    const response = await window.fetch(assistantEndpoint, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        ...(csrfToken ? { "X-CSRFToken": csrfToken } : {}),
+      },
+      body: params.toString(),
+    });
+    if (!response.ok) {
+      throw new Error(`assistant_http_${response.status}`);
     }
-
-    if (state.conversationStage === "website_existing_status") {
-      state.conversationStage = "";
-      if (containsAny(normalizedQuestion, ["starting from zero", "from zero", "vanaf nul"])) {
-        return { text: copy.websiteStartingZeroAnswer, actions: [pageButton("website", "websites"), pageButton("pricing", "pricing")] };
-      }
-      if (containsAny(normalizedQuestion, ["replace old website", "old website", "vervangen", "oude website"])) {
-        return { text: copy.websiteReplaceOldAnswer, actions: [pageButton("website", "websites"), pageButton("contact", "contact")] };
-      }
-      return { text: copy.websiteNotSureAnswer, actions: [pageButton("website", "websites"), pageButton("pricing", "pricing")] };
-    }
-
-    if (state.conversationStage === "support_existing_check") {
-      state.conversationStage = "";
-      if (containsAny(normalizedQuestion, ["yes", "ja", "existing project", "bestaand project"])) {
-        return { text: copy.supportExistingAnswer, actions: [pageButton("support", "support"), pageButton("contact", "contact")] };
-      }
-      return { text: copy.supportNewAnswer, actions: fallbackActions() };
-    }
-
-    return null;
+    return response.json();
   };
 
-  const resolveKnownPricing = () => {
-    if (state.selectedTopic === "website" || state.pageContext === "websites") {
-      return { text: copy.pricingWebsiteAnswer, actions: [openPageButton("openPricingPage", "pricing")] };
-    }
-    if (state.selectedTopic === "onlineShop" || state.pageContext === "online_shop") {
-      return { text: copy.pricingOnlineShopAnswer, actions: [openPageButton("openPricingPage", "pricing")] };
-    }
-    if (state.selectedTopic === "ads" || ["ads", "meta_ads", "google_ads", "linkedin_ads"].includes(state.pageContext)) {
-      return { text: copy.pricingAdsAnswer, actions: [openPageButton("openPricingPage", "pricing")] };
-    }
-    if (state.selectedTopic === "support" || state.pageContext === "support") {
-      return { text: copy.pricingSupportAnswer, actions: [openPageButton("openPricingPage", "pricing")] };
-    }
-    return null;
-  };
-
-  const resolveSelectedTopicReply = (normalizedQuestion) => {
-    if (state.selectedTopic === "onlineShop") {
-      if (containsAny(normalizedQuestion, ["few products", "paar producten"])) {
-        return { text: copy.shopFewProductsAnswer, actions: [openPageButton("openOnlineShopPage", "onlineShop"), openPageButton("openPricingPage", "pricing")] };
-      }
-      if (containsAny(normalizedQuestion, ["larger catalog", "grotere catalogus"])) {
-        return { text: copy.shopLargerCatalogAnswer, actions: [openPageButton("openOnlineShopPage", "onlineShop"), openPageButton("openPricingPage", "pricing")] };
-      }
-      if (containsAny(normalizedQuestion, ["not sure yet", "nog niet zeker"])) {
-        return { text: copy.shopNotSureAnswer, actions: [openPageButton("openOnlineShopPage", "onlineShop"), openPageButton("openPricingPage", "pricing")] };
-      }
-    }
-
-    if (state.selectedTopic === "ads" && containsAny(normalizedQuestion, ["not sure", "nog niet zeker"])) {
-      return {
-        text: copy.adsNotSureAnswer,
-        actions: [pageButton("metaAds", "metaAds"), pageButton("googleAds", "googleAds"), pageButton("linkedinAds", "linkedinAds"), openPageButton("openAdsPage", "ads")],
-      };
-    }
-
-    if (containsAny(normalizedQuestion, ["ask another question", "stel een andere vraag"])) {
-      state.selectedTopic = "";
-      return { text: copy.fallback, actions: fallbackActions() };
-    }
-
-    return null;
-  };
-
-  const buildAssistantReply = (question) => {
-    if (isEmojiOnly(question)) {
-      state.selectedTopic = "";
-      state.conversationStage = "";
-      return { text: copy.emojiGreeting, actions: [] };
-    }
-
-    if (isGreetingOnly(question)) {
-      state.selectedTopic = "";
-      state.conversationStage = "";
-      return { text: copy.shortGreeting, actions: [] };
-    }
-
-    const normalizedQuestion = normalize(question);
-    const contextReply = resolveContextAnswer(normalizedQuestion);
-    if (contextReply) {
-      return contextReply;
-    }
-
-    const selectedTopicReply = resolveSelectedTopicReply(normalizedQuestion);
-    if (selectedTopicReply) {
-      return selectedTopicReply;
-    }
-
-    const stagedReply = resolveStagedReply(normalizedQuestion);
-    if (stagedReply && !detectIntent(normalizedQuestion).match(/website|online_shop|ads|pricing|support|contact|restricted/)) {
-      return stagedReply;
-    }
-
-    switch (detectIntent(normalizedQuestion)) {
-      case "restricted":
-        state.selectedTopic = "";
-        state.conversationStage = "";
-        return { text: copy.restricted, actions: fallbackActions() };
-      case "website":
-        state.selectedTopic = "website";
-        state.conversationStage = "website_business_type";
-        return { text: copy.websiteQuestion, actions: [] };
-      case "online_shop":
-        state.selectedTopic = "onlineShop";
-        state.conversationStage = "";
-        return {
-          text: `${copy.shopIntro} ${copy.shopQuestion}`,
-          actions: [
-            replyButton("fewProducts", "onlineShop"),
-            replyButton("largerCatalog", "onlineShop"),
-            replyButton("notSureYet", "onlineShop"),
-            openPageButton("openOnlineShopPage", "onlineShop"),
-          ],
-        };
-      case "ads":
-        state.selectedTopic = "ads";
-        state.conversationStage = "";
-        return {
-          text: `${copy.adsIntro} ${language === "nl" ? "Aan welk platform denk je?" : copy.adsQuestion}`,
-          actions: [
-            pageButton("metaAds", "metaAds"),
-            pageButton("googleAds", "googleAds"),
-            pageButton("linkedinAds", "linkedinAds"),
-            replyButton("notSure", "ads"),
-            openPageButton("openAdsPage", "ads"),
-          ],
-        };
-      case "pricing":
-        state.conversationStage = "";
-        {
-          const knownPricing = resolveKnownPricing();
-          state.selectedTopic = "pricing";
-          return knownPricing || { text: copy.pricingQuestion, actions: pricingActions() };
-        }
-      case "support":
-        state.selectedTopic = "support";
-        state.conversationStage = "support_existing_check";
-        return {
-          text: copy.supportQuestion,
-          actions: [
-            replyButton("existingProjectYes", "support", "support_existing_check"),
-            replyButton("newQuestionNo", "support", "support_existing_check"),
-            openPageButton("contactSupport", "contact"),
-          ],
-        };
-      case "contact":
-        state.selectedTopic = "contact";
-        state.conversationStage = "";
-        return {
-          text: copy.contactPromptAnswer || copy.contactAnswer,
-          actions: [openPageButton("openContactPage", "contact"), replyButton("askAnotherQuestion")],
-        };
-      case "advice":
-        state.selectedTopic = "";
-        state.conversationStage = "";
-        return { text: copy.adviceAnswer, actions: fallbackActions() };
-      case "greeting":
-        state.selectedTopic = "";
-        state.conversationStage = "";
-        return { text: copy.shortGreeting, actions: [] };
-      default:
-        state.selectedTopic = "";
-        state.conversationStage = "";
-        return { text: copy.fallback, actions: fallbackActions() };
-    }
-  };
-
-  const submitAssistantQuestion = (question) => {
+  const submitAssistantQuestion = async (question) => {
     const trimmedQuestion = (question || "").trim();
     if (!trimmedQuestion) {
       return;
@@ -1080,13 +734,34 @@ if (siteAssistant) {
     if (input) {
       input.value = "";
     }
-    const reply = buildAssistantReply(trimmedQuestion);
-    addMessage("assistant", reply.text, reply.actions || []);
+
+    if (isEmojiOnly(trimmedQuestion)) {
+      addMessage("assistant", copy.emojiGreeting, []);
+      return;
+    }
+    if (isGreetingOnly(trimmedQuestion)) {
+      addMessage("assistant", copy.shortGreeting, []);
+      return;
+    }
+    if (restrictedTerms.some((term) => trimmedQuestion.toLowerCase().includes(term))) {
+      addMessage("assistant", copy.restricted, []);
+      return;
+    }
+
+    try {
+      const payload = await requestAssistantAnswer(trimmedQuestion);
+      if (payload && typeof payload.answer === "string" && payload.answer.trim()) {
+        addMessage("assistant", payload.answer.trim(), mapSuggestedLinksToActions(payload?.suggested_links));
+        return;
+      }
+      throw new Error("assistant_missing_answer");
+    } catch (error) {
+      addMessage("assistant", copy.networkFallback, []);
+    }
   };
 
-  const navigateFromAssistant = (url, pageName, topic = "") => {
+  const navigateFromAssistant = (url, pageName) => {
     state.pendingNavigation = { url, pageName };
-    state.selectedTopic = topic || state.selectedTopic || "";
     state.isOpen = true;
     saveState();
     window.location.href = url;
@@ -1121,13 +796,18 @@ if (siteAssistant) {
     setOpen(false);
   });
 
+  resetButton?.addEventListener("click", () => {
+    resetAssistantState();
+    setOpen(true);
+  });
+
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
     if (!input) {
       return;
     }
     setOpen(true);
-    submitAssistantQuestion(input.value);
+    void submitAssistantQuestion(input.value);
   });
 
   messages?.addEventListener("click", (event) => {
@@ -1137,23 +817,11 @@ if (siteAssistant) {
     }
 
     const actionKind = button.dataset.actionKind;
-    const actionValue = button.dataset.actionValue || "";
-    const actionTopic = button.dataset.actionTopic || "";
-    const actionStage = button.dataset.actionStage || "";
     const actionUrl = button.dataset.actionUrl || "";
     const actionPageName = button.dataset.actionPageName || "";
 
-    if (actionKind === "reply") {
-      if (actionTopic) {
-        state.selectedTopic = actionTopic;
-      }
-      state.conversationStage = actionStage;
-      submitAssistantQuestion(actionValue);
-      return;
-    }
-
     if (actionKind === "link" && actionUrl) {
-      navigateFromAssistant(actionUrl, actionPageName || button.textContent || "", actionTopic);
+      navigateFromAssistant(actionUrl, actionPageName || button.textContent || "");
     }
   });
 }
@@ -1174,3 +842,4 @@ if (backToTopButton) {
   window.addEventListener("scroll", toggleBackToTop, { passive: true });
   toggleBackToTop();
 }
+

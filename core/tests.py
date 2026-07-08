@@ -266,6 +266,61 @@ class PublicPagesTests(TestCase):
         self.assertContains(response, reverse('core:linkedin_ads'))
 
 
+@override_settings(SITE_NOINDEX=False)
+class PublicLanguageEntryRedirectTests(TestCase):
+    def test_root_redirects_to_dutch_for_dutch_browser_language(self):
+        response = self.client.get('/', HTTP_ACCEPT_LANGUAGE='nl-NL,nl;q=0.9,en;q=0.8')
+        self.assertRedirects(response, '/nl/')
+
+    def test_root_redirects_to_portuguese_for_portuguese_browser_language(self):
+        response = self.client.get('/', HTTP_ACCEPT_LANGUAGE='pt-PT,pt;q=0.9,en;q=0.8')
+        self.assertRedirects(response, '/pt/')
+
+    def test_root_redirects_to_english_for_unsupported_browser_language(self):
+        response = self.client.get('/', HTTP_ACCEPT_LANGUAGE='de-DE,de;q=0.9')
+        self.assertRedirects(response, '/en/')
+
+    def test_language_cookie_takes_priority_over_browser_language(self):
+        self.client.cookies['django_language'] = 'fr'
+        response = self.client.get('/', HTTP_ACCEPT_LANGUAGE='nl-NL,nl;q=0.9,en;q=0.8')
+        self.assertRedirects(response, '/fr/')
+
+    def test_prefixed_url_does_not_redirect_away(self):
+        response = self.client.get('/fr/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_query_strings_are_preserved(self):
+        response = self.client.get('/pricing/?source=google&utm=test', HTTP_ACCEPT_LANGUAGE='nl-NL,nl;q=0.9,en;q=0.8')
+        self.assertRedirects(response, '/nl/pricing/?source=google&utm=test')
+
+    def test_safe_public_entry_routes_redirect_to_preferred_language(self):
+        cases = [
+            ('/start/', '/pt/start/'),
+            ('/contact/', '/pt/contact/'),
+            ('/help/', '/pt/help/'),
+            ('/blog/', '/pt/blog/'),
+        ]
+        for source, destination in cases:
+            with self.subTest(source=source):
+                response = self.client.get(source, HTTP_ACCEPT_LANGUAGE='pt-BR,pt;q=0.9,en;q=0.8')
+                self.assertRedirects(response, destination)
+
+    def test_admin_static_media_and_staff_routes_do_not_redirect_to_language_prefix(self):
+        cases = [
+            '/admin/',
+            '/static/core/css/style.css',
+            '/media/example.jpg',
+            '/staff/',
+        ]
+        for path in cases:
+            with self.subTest(path=path):
+                response = self.client.get(path, HTTP_ACCEPT_LANGUAGE='nl-NL,nl;q=0.9,en;q=0.8')
+                if response.has_header('Location'):
+                    self.assertNotIn('/nl/', response['Location'])
+                    self.assertNotIn('/fr/', response['Location'])
+                    self.assertNotIn('/pt/', response['Location'])
+
+
 @override_settings(SITE_NOINDEX=True)
 class SoftLaunchIndexingTests(TestCase):
     def test_homepage_is_noindex_when_soft_launch_mode_is_enabled(self):
@@ -358,6 +413,10 @@ class AssistantTests(TestCase):
         self.assertContains(response, reverse('core:websites'))
         self.assertContains(response, reverse('core:ads'))
         self.assertContains(response, reverse('core:pricing'))
+        self.assertContains(response, reverse('core:assistant_help'))
+        self.assertContains(response, 'data-assistant-version="v2"')
+        self.assertContains(response, 'data-assistant-site-key="getonlinefast-public"')
+        self.assertContains(response, 'data-assistant-reset')
         self.assertNotContains(response, 'Which plan fits my business?')
         self.assertNotContains(response, 'How does the dashboard work?')
 
@@ -365,9 +424,9 @@ class AssistantTests(TestCase):
         response = self.client.get('/nl/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Hulp nodig?')
-        self.assertContains(response, 'Snelle hulp bij websites, shops, advertenties en support.')
-        self.assertContains(response, 'Bijv. Ik heb een website nodig')
-        self.assertContains(response, 'Verstuur')
+        self.assertContains(response, 'Snelle hulp bij websites, webshops, advertenties en support.')
+        self.assertContains(response, 'Bijv. ik heb een website nodig')
+        self.assertContains(response, 'Versturen')
         self.assertContains(response, '/nl/websites/')
         self.assertContains(response, '/nl/pricing/')
         self.assertNotContains(response, 'Welk pakket past bij mijn bedrijf?')
@@ -469,12 +528,217 @@ class AssistantTests(TestCase):
                 'catalog_url': '/en/catalog-and-ecommerce/',
                 'promotion_url': '/en/facebook-posts/',
             },
+            {
+                'current_path': '/en/websites/',
+                'current_page': 'Websites page',
+            },
         )
         self.assertIn('The visitor is currently on the Get Online Fast website.', context)
         self.assertIn('"this site" usually means the Get Online Fast website itself.', context)
         self.assertIn('"my site", "my website", or "our website"', context)
         self.assertIn('Get Online Fast status: pre_launch', context)
         self.assertIn('There is no public launch date shown here yet.', context)
+        self.assertIn('Current path: /en/websites/', context)
+        self.assertIn('Current page context: Websites page', context)
+
+    def test_assistant_endpoint_returns_current_page_context(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'What website should I start with?', 'lang': 'en', 'page_path': '/en/websites/'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['current_path'], '/en/websites/')
+        self.assertEqual(payload['current_page'], 'Websites page')
+
+    def test_assistant_website_discovery_answer_lists_main_public_website_options(self):
+        question = 'what kind of website can i build here?'
+        response = self.client.get(reverse('core:assistant_help'), {'q': question, 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        if 'diagnostics' in payload:
+            self.assertEqual(payload['diagnostics']['received_message'], question)
+        elif 'received_message' in payload:
+            self.assertEqual(payload['received_message'], question)
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('One-Time Website', payload['answer'])
+        self.assertIn('Monthly Website', payload['answer'])
+        self.assertIn('product catalog', payload['answer'])
+        self.assertIn('online shop', payload['answer'])
+        self.assertIn('small local businesses', payload['answer'])
+
+    def test_assistant_website_discovery_answer_handles_simple_english_typo(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'what kiind of website can i build here?', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('One-Time Website', payload['answer'])
+        self.assertIn('Monthly Website', payload['answer'])
+        self.assertIn('product catalog', payload['answer'])
+        self.assertIn('online shop', payload['answer'])
+
+    def test_assistant_posted_dutch_message_returns_dutch_website_options(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'welke website moet ik kiezen?',
+                'lang': 'nl',
+                'page_path': '/nl/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'nl')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('bedrijfswebsite', payload['answer'])
+        self.assertIn('productcatalogus', payload['answer'])
+
+    def test_assistant_page_path_beats_wrong_posted_language_for_dutch(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'welke website moet ik kiezen?',
+                'lang': 'en',
+                'page_path': '/nl/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'nl')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('bedrijfswebsite', payload['answer'])
+
+    def test_assistant_posted_portuguese_message_returns_portuguese_website_options(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'que tipo de site posso fazer aqui?',
+                'lang': 'pt',
+                'page_path': '/pt/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'pt')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('website empresarial', payload['answer'])
+        self.assertIn('catálogo', payload['answer'])
+
+    def test_assistant_page_path_beats_wrong_posted_language_for_portuguese(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'que tipo de site posso fazer aqui?',
+                'lang': 'en',
+                'page_path': '/pt/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'pt')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('website empresarial', payload['answer'])
+
+    def test_assistant_website_discovery_answer_is_in_dutch(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'welk soort website kan ik hier starten?', 'lang': 'nl'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Je kunt beginnen met een Starter Page', payload['answer'])
+        self.assertIn('volledige bedrijfswebsite', payload['answer'])
+        self.assertIn('productcatalogus', payload['answer'])
+        self.assertIn('kleine lokale bedrijven', payload['answer'])
+
+    def test_assistant_website_discovery_answer_handles_natural_dutch_question(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'heb ik een volledige website nodig?', 'lang': 'nl'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('bedrijfswebsite', payload['answer'])
+
+    def test_assistant_website_discovery_answer_is_in_portuguese(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'que tipo de website posso criar aqui?', 'lang': 'pt'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Pode começar com uma Starter Page', payload['answer'])
+        self.assertIn('website empresarial completo', payload['answer'])
+        self.assertIn('catálogo', payload['answer'])
+        self.assertIn('pequenos negócios locais', payload['answer'])
+
+    def test_assistant_website_discovery_answer_handles_natural_portuguese_question(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'que website posso fazer?', 'lang': 'pt'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('Starter Page', payload['answer'])
+        self.assertIn('website empresarial', payload['answer'])
+
+    def test_assistant_path_only_dutch_fallback_returns_dutch(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'welke website moet ik kiezen?',
+                'page_path': '/nl/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'nl')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('bedrijfswebsite', payload['answer'])
+
+    def test_assistant_path_only_portuguese_fallback_returns_portuguese(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {
+                'message': 'que tipo de site posso fazer aqui?',
+                'page_path': '/pt/',
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['language'], 'pt')
+        self.assertEqual(payload['intent'], 'website_options')
+        self.assertIn('website empresarial', payload['answer'])
+
+    def test_assistant_ads_do_not_guarantee_customers(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Do ads guarantee customers?', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'promotion_guarantee')
+        self.assertTrue(payload['answer'].startswith('No.'))
+        self.assertIn('cannot guarantee customers', payload['answer'])
+        self.assertIn('Meta ads', payload['answer'])
+
+    def test_assistant_google_ads_do_not_guarantee_sales(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Can Google Ads guarantee sales?', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'promotion_guarantee')
+        self.assertTrue(payload['answer'].startswith('No.'))
+        self.assertIn('sales', payload['answer'])
+        self.assertIn('Google Ads support', payload['answer'])
+
+    def test_assistant_does_not_guarantee_rankings(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Do you guarantee rankings?', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'promotion_guarantee')
+        self.assertTrue(payload['answer'].startswith('No.'))
+        self.assertIn('rankings', payload['answer'])
+        self.assertIn('results', payload['answer'])
+
+    def test_assistant_dutch_ads_do_not_guarantee_results(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Garanderen Google Ads klanten?', 'lang': 'nl'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'promotion_guarantee')
+        self.assertTrue(payload['answer'].startswith('Nee.'))
+        self.assertIn('geen klanten', payload['answer'])
+        self.assertIn('Google Ads-ondersteuning', payload['answer'])
 
 
 @override_settings(

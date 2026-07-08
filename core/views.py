@@ -1,13 +1,15 @@
 import copy
 import random
+from difflib import SequenceMatcher
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _, override
 
 from ai_starter.forms import StarterOnboardingForm
@@ -20,6 +22,29 @@ from .template_catalog import template_catalog, template_category_details, templ
 
 CONTACT_CAPTCHA_QUESTION_SESSION_KEY = 'contact_captcha_question'
 CONTACT_CAPTCHA_ANSWER_SESSION_KEY = 'contact_captcha_answer'
+SUPPORTED_LANGUAGE_CODES = {code for code, _label in settings.LANGUAGES}
+
+
+def _preferred_public_language(request):
+    language = translation.get_language_from_request(request, check_path=False) or settings.LANGUAGE_CODE
+    language_code = (language or settings.LANGUAGE_CODE).split('-', 1)[0].lower()
+    if language_code in SUPPORTED_LANGUAGE_CODES:
+        return language_code
+    return 'en'
+
+
+def redirect_public_entry_to_language(request, url_name):
+    language_code = _preferred_public_language(request)
+    with override(language_code):
+        destination = reverse(url_name)
+    query_string = request.META.get('QUERY_STRING', '').strip()
+    if query_string:
+        destination = f'{destination}?{query_string}'
+    return HttpResponseRedirect(destination)
+
+
+def unprefixed_staff_route_not_found(_request):
+    return HttpResponse(status=403)
 
 
 PUBLIC_INFO_PAGE_LINKS = {
@@ -274,6 +299,182 @@ SERVICE_OPTION_FALLBACKS = {
             },
         ],
     },
+    'fr': {
+        'section_title': 'Catalogues et boutiques en ligne',
+        'section_intro': (
+            'Montrez vos produits, prenez des commandes par WhatsApp ou vendez en ligne avec une boutique WooCommerce. '
+            'Commencez simplement avec un catalogue de produits, puis ajoutez le paiement, le checkout et une structure de boutique plus solide quand votre entreprise en a besoin.'
+        ),
+        'pricing_note': (
+            'Les prix sont des prix de départ et hors TVA. Le prix final dépend du nombre de produits, de la structure du catalogue, '
+            'des moyens de paiement, de la livraison, des langues, de la préparation du contenu et des intégrations nécessaires.'
+        ),
+        'options': [
+            {
+                'option_key': 'starter_catalog',
+                'eyebrow': 'Catalogue de départ',
+                'title': 'Catalogue de départ / commandes WhatsApp',
+                'price_label': 'Demandez un conseil de mise en place',
+                'summary': (
+                    'Convient aux petits revendeurs, vendeurs de type Avon, menus, listes de stock, pièces et gammes de produits simples. '
+                    'Les visiteurs consultent les produits et commandent via WhatsApp, téléphone ou formulaire de contact.'
+                ),
+                'good_for': [
+                    'Petits revendeurs',
+                    'Vendeurs de type Avon',
+                    'Menus',
+                    'Listes de stock',
+                    'Pièces',
+                    'Gammes de produits simples',
+                ],
+                'includes': [
+                    'Pages de liste de produits ou de catalogue',
+                    'Images et détails des produits',
+                    'Catégories si nécessaire',
+                    'Bouton de commande WhatsApp/contact',
+                    'Pas de checkout complet nécessaire',
+                    'Peut évoluer plus tard vers une boutique',
+                ],
+                'cta_label': 'Demander un catalogue',
+                'cta_url_name': 'core:contact',
+            },
+            {
+                'option_key': 'full_ecommerce',
+                'eyebrow': 'eCommerce complet',
+                'title': 'Boutique eCommerce complète',
+                'price_label': 'Configuration manuelle nécessaire',
+                'summary': (
+                    'Convient aux entreprises qui veulent vendre en ligne avec panier, checkout et accompagnement pour la mise en place du paiement via WooCommerce.'
+                ),
+                'good_for': [
+                    'Entreprises prêtes à vendre en ligne avec checkout',
+                ],
+                'includes': [
+                    'Configuration WooCommerce',
+                    'Pages produit et catégories',
+                    'Panier et checkout',
+                    'Accompagnement pour la configuration des paiements',
+                    'Structure livraison et taxes/TVA',
+                    'Tableau de bord de la boutique',
+                ],
+                'cta_label': 'Demander une boutique en ligne',
+                'cta_url_name': 'core:contact',
+            },
+            {
+                'option_key': 'reseller_ecommerce',
+                'eyebrow': 'eCommerce revendeur',
+                'title': 'eCommerce pour revendeurs',
+                'price_label': 'Configuration sur mesure plus large',
+                'summary': (
+                    'Convient aux catalogues plus grands, gammes spécialisées, produits de négoce, pièces automobiles ou entreprises de type revendeur '
+                    'qui ont besoin de plus de structure qu’une boutique de base.'
+                ),
+                'good_for': [
+                    'Catalogues plus grands',
+                    'Produits de négoce',
+                    'Entreprises de pièces/véhicules',
+                ],
+                'includes': [
+                    'Structure de catalogue plus grande',
+                    'Catégories et filtres produit',
+                    'Flux de demande de devis/commande',
+                    'Présentation de produits de type revendeur',
+                    'Planification d’une configuration sur mesure',
+                    'Évolution possible vers checkout/paiement',
+                ],
+                'cta_label': 'Parler eCommerce revendeur',
+                'cta_url_name': 'core:contact',
+            },
+        ],
+    },
+    'pt': {
+        'section_title': 'Catálogos e lojas online',
+        'section_intro': (
+            'Mostre produtos, receba encomendas por WhatsApp ou venda online com uma loja WooCommerce. '
+            'Comece de forma simples com um catálogo de produtos e depois avance para checkout, pagamentos e uma estrutura de loja mais forte quando o seu negócio precisar.'
+        ),
+        'pricing_note': (
+            'Os preços são valores de partida e não incluem IVA. O preço final depende do número de produtos, da estrutura do catálogo, '
+            'dos métodos de pagamento, da entrega, dos idiomas, da preparação do conteúdo e das integrações necessárias.'
+        ),
+        'options': [
+            {
+                'option_key': 'starter_catalog',
+                'eyebrow': 'Catálogo inicial',
+                'title': 'Catálogo inicial / encomendas por WhatsApp',
+                'price_label': 'Peça orientação de configuração',
+                'summary': (
+                    'Indicado para pequenos revendedores, vendedores tipo Avon, menus, listas de stock, peças e gamas simples de produtos. '
+                    'Os visitantes veem os produtos e encomendam por WhatsApp, telefone ou formulário de contacto.'
+                ),
+                'good_for': [
+                    'Pequenos revendedores',
+                    'Vendedores tipo Avon',
+                    'Menus',
+                    'Listas de stock',
+                    'Peças',
+                    'Gamas simples de produtos',
+                ],
+                'includes': [
+                    'Páginas de lista de produtos ou catálogo',
+                    'Imagens e detalhes dos produtos',
+                    'Categorias se necessário',
+                    'Botão de encomenda por WhatsApp/contacto',
+                    'Sem checkout completo',
+                    'Pode crescer mais tarde para uma loja',
+                ],
+                'cta_label': 'Perguntar sobre um catálogo',
+                'cta_url_name': 'core:contact',
+            },
+            {
+                'option_key': 'full_ecommerce',
+                'eyebrow': 'eCommerce completo',
+                'title': 'Loja eCommerce completa',
+                'price_label': 'Configuração manual necessária',
+                'summary': (
+                    'Indicado para empresas que querem vender online com carrinho, checkout e apoio na configuração de pagamentos através do WooCommerce.'
+                ),
+                'good_for': [
+                    'Empresas prontas para vender online com checkout',
+                ],
+                'includes': [
+                    'Configuração WooCommerce',
+                    'Páginas de produto e categorias',
+                    'Carrinho e checkout',
+                    'Apoio na configuração de pagamentos',
+                    'Estrutura de envio e impostos/IVA',
+                    'Painel da loja',
+                ],
+                'cta_label': 'Perguntar sobre uma loja online',
+                'cta_url_name': 'core:contact',
+            },
+            {
+                'option_key': 'reseller_ecommerce',
+                'eyebrow': 'eCommerce para revenda',
+                'title': 'eCommerce para revendedores',
+                'price_label': 'Configuração personalizada maior',
+                'summary': (
+                    'Indicado para catálogos maiores, gamas especializadas, produtos de revenda, peças automóveis ou negócios de revenda '
+                    'que precisam de mais estrutura do que uma loja básica.'
+                ),
+                'good_for': [
+                    'Catálogos maiores',
+                    'Produtos de revenda',
+                    'Negócios de peças/veículos',
+                ],
+                'includes': [
+                    'Estrutura de catálogo maior',
+                    'Categorias e filtros de produto',
+                    'Fluxo de pedido de orçamento/encomenda',
+                    'Apresentação de produtos para revenda',
+                    'Planeamento de configuração personalizada',
+                    'Possível evolução para checkout/pagamentos',
+                ],
+                'cta_label': 'Falar sobre eCommerce de revenda',
+                'cta_url_name': 'core:contact',
+            },
+        ],
+    },
 }
 
 PROMOTION_SERVICE_FALLBACKS = {
@@ -371,6 +572,104 @@ PROMOTION_SERVICE_FALLBACKS = {
                 'price_label': 'Vanaf EUR 70',
                 'summary': 'Promoot zakelijke diensten bij professionals, bedrijven en beslissers. Geschikter voor B2B-aanbod dan voor alledaagse consumentendiensten.',
                 'cta_label': 'Bekijk LinkedIn Ads',
+                'cta_url_name': 'core:linkedin_ads',
+            },
+        ],
+    },
+    'fr': {
+        'section_title': 'Faites connaître votre site',
+        'section_intro': (
+            'Le site est la base. La promotion aide les gens à le trouver réellement. Commencez avec des publications Facebook simples, '
+            'des annonces locales ou des campagnes de recherche, puis améliorez étape par étape.'
+        ),
+        'pricing_note': (
+            'Le budget publicitaire n’est pas inclus. Nous aidons à préparer ou configurer la promotion, mais Facebook, Instagram, '
+            'Google et LinkedIn facturent séparément les clics, vues ou dépenses de campagne.'
+        ),
+        'options': [
+            {
+                'option_key': 'facebook_posts',
+                'eyebrow': 'Promotion',
+                'title': 'Publications Facebook',
+                'price_label': '79 EUR / mois',
+                'summary': 'Gardez votre page Facebook active avec des publications prêtes à l’emploi pour votre entreprise. Utile pour les services, mises à jour, offres, travaux récents et visibilité locale.',
+                'cta_label': 'Voir les publications Facebook',
+                'cta_url_name': 'core:facebook_posts',
+            },
+            {
+                'option_key': 'meta_ads',
+                'eyebrow': 'Promotion',
+                'title': 'Publicités Facebook et Instagram',
+                'price_label': 'À partir de 70 EUR',
+                'summary': 'Touchez des clients locaux sur Facebook et Instagram avec des campagnes simples pour vos services, offres ou lancement de site.',
+                'cta_label': 'Voir les pubs Meta',
+                'cta_url_name': 'core:facebook_instagram_ads',
+            },
+            {
+                'option_key': 'google_ads',
+                'eyebrow': 'Promotion',
+                'title': 'Google Ads',
+                'price_label': 'À partir de 70 EUR',
+                'summary': 'Montrez votre entreprise quand des personnes recherchent des services comme les vôtres dans votre zone. Idéal pour les demandes urgentes, services locaux et visiteurs à forte intention.',
+                'cta_label': 'Voir Google Ads',
+                'cta_url_name': 'core:google_ads',
+            },
+            {
+                'option_key': 'linkedin_ads',
+                'eyebrow': 'Promotion',
+                'title': 'LinkedIn Ads',
+                'price_label': 'À partir de 70 EUR',
+                'summary': 'Faites la promotion de services professionnels auprès de professionnels, d’entreprises et de décideurs. Plus adapté au B2B qu’aux services grand public du quotidien.',
+                'cta_label': 'Voir LinkedIn Ads',
+                'cta_url_name': 'core:linkedin_ads',
+            },
+        ],
+    },
+    'pt': {
+        'section_title': 'Promova o seu website',
+        'section_intro': (
+            'O website é a base. A promoção ajuda as pessoas a encontrá-lo de verdade. Comece com publicações simples no Facebook, '
+            'anúncios locais ou campanhas de pesquisa e melhore a partir daí.'
+        ),
+        'pricing_note': (
+            'O orçamento de anúncios não está incluído. Nós ajudamos a preparar ou configurar a promoção, mas Facebook, Instagram, '
+            'Google e LinkedIn cobram separadamente por cliques, visualizações ou gasto de campanha.'
+        ),
+        'options': [
+            {
+                'option_key': 'facebook_posts',
+                'eyebrow': 'Promoção',
+                'title': 'Publicações no Facebook',
+                'price_label': '79 EUR / mês',
+                'summary': 'Mantenha a sua página de Facebook ativa com publicações preparadas para o seu negócio. Útil para serviços, atualizações, ofertas, trabalhos recentes e visibilidade local.',
+                'cta_label': 'Ver publicações no Facebook',
+                'cta_url_name': 'core:facebook_posts',
+            },
+            {
+                'option_key': 'meta_ads',
+                'eyebrow': 'Promoção',
+                'title': 'Anúncios no Facebook e Instagram',
+                'price_label': 'Desde 70 EUR',
+                'summary': 'Chegue a clientes locais no Facebook e Instagram com campanhas simples para os seus serviços, ofertas ou lançamento do website.',
+                'cta_label': 'Ver anúncios Meta',
+                'cta_url_name': 'core:facebook_instagram_ads',
+            },
+            {
+                'option_key': 'google_ads',
+                'eyebrow': 'Promoção',
+                'title': 'Google Ads',
+                'price_label': 'Desde 70 EUR',
+                'summary': 'Mostre o seu negócio quando as pessoas procuram serviços como os seus na sua zona. Bom para trabalhos urgentes, serviços locais e visitantes com forte intenção.',
+                'cta_label': 'Ver Google Ads',
+                'cta_url_name': 'core:google_ads',
+            },
+            {
+                'option_key': 'linkedin_ads',
+                'eyebrow': 'Promoção',
+                'title': 'LinkedIn Ads',
+                'price_label': 'Desde 70 EUR',
+                'summary': 'Promova serviços empresariais junto de profissionais, empresas e decisores. Mais indicado para ofertas B2B do que para serviços do dia a dia para consumidores.',
+                'cta_label': 'Ver LinkedIn Ads',
                 'cta_url_name': 'core:linkedin_ads',
             },
         ],
@@ -762,8 +1061,19 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'What would you like to know?'
         ),
         'fallback': (
-            'I can mainly help with website plans, payment, support, business email, and the WordPress dashboard. '
-            'Try asking "Which plan fits my business?" or "How does payment work?"'
+            'I can help with Starter Page, business websites, monthly website plans, online shop options, promotion, payment, and support. '
+            'Try asking "What kind of website can I build here?" or "Which plan fits my business?"'
+        ),
+        'website_options': (
+            'You can start with a Starter Page for a quick generated page, a One-Time Website for a full business website, '
+            'or a Monthly Website if you want hosting, support, and ongoing care included. If you need products, you can also '
+            'start with a product catalog or move to an online shop with checkout later. For most small local businesses, a clear '
+            'business website is the best default unless you only need a quick page first.'
+        ),
+        'promotion_guarantee': (
+            'No. Promotion can increase visibility, but it cannot guarantee customers, sales, bookings, leads, rankings, results, or revenue. '
+            'Get Online Fast can help with launch Facebook posts, Meta ads, Google Ads support, and LinkedIn ads, but results depend on your offer, '
+            'location, competition, budget, message, and how people respond.'
         ),
         'plans': (
             'Get Online Fast offers practical website options for small businesses, including starter pages, one-time website setup, '
@@ -779,7 +1089,8 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
         ),
         'promotion': (
             'Yes. Get Online Fast can also help promote your website after launch with Facebook posts, Meta ads, Google Ads support, '
-            'or LinkedIn ads for B2B offers. A simple starting point is usually Facebook Posts or Google Ads, depending on your business.'
+            'or LinkedIn ads for B2B offers. A simple starting point is usually Facebook Posts or Google Ads, depending on your business. '
+            'Promotion can help more people find you, but it cannot guarantee customers, sales, or rankings.'
         ),
         'activation': (
             'When your website is ready for activation, Get Online Fast will provide the correct activation page or payment link. '
@@ -822,8 +1133,19 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             'Waar wil je meer over weten?'
         ),
         'fallback': (
-            'Ik kan vooral helpen met vragen over websitepakketten, betaling, support, e-mailadressen en het WordPress dashboard. '
-            'Probeer bijvoorbeeld: "Welk pakket past bij mijn bedrijf?" of "Hoe werkt betalen?"'
+            'Ik kan helpen met Starter Page, bedrijfswebsites, maandelijkse websiteplannen, webshopopties, promotie, betaling en support. '
+            'Probeer bijvoorbeeld: "Welk soort website kan ik hier starten?" of "Welk pakket past bij mijn bedrijf?"'
+        ),
+        'website_options': (
+            'Je kunt beginnen met een Starter Page voor een snelle gegenereerde pagina, een One-Time Website voor een volledige bedrijfswebsite, '
+            'of een Monthly Website als je hosting, support en doorlopende zorg inbegrepen wilt hebben. Als je producten wilt tonen, kun je ook '
+            'starten met een productcatalogus en later doorgroeien naar een online shop met checkout. Voor de meeste kleine lokale bedrijven is '
+            'een duidelijke bedrijfswebsite de beste start, tenzij je eerst alleen een snelle pagina nodig hebt.'
+        ),
+        'promotion_guarantee': (
+            'Nee. Promotie kan de zichtbaarheid vergroten, maar het kan geen klanten, verkopen, boekingen, leads, rankings, resultaten of omzet garanderen. '
+            'Get Online Fast kan helpen met launch Facebook posts, Meta ads, Google Ads-ondersteuning en LinkedIn ads, maar de uitkomst hangt af van je aanbod, '
+            'locatie, concurrentie, budget, boodschap en hoe mensen reageren.'
         ),
         'plans': (
             'Get Online Fast biedt praktische website-opties voor kleine bedrijven, waaronder starter pages, eenmalige website setup, '
@@ -839,7 +1161,8 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
         ),
         'promotion': (
             'Ja. Get Online Fast kan ook helpen om je website na livegang te promoten met Facebook posts, Meta ads, Google Ads-ondersteuning '
-            'of LinkedIn ads voor B2B-aanbiedingen. Voor veel kleine lokale bedrijven zijn Facebook Posts of Google Ads meestal de eenvoudigste eerste stap.'
+            'of LinkedIn ads voor B2B-aanbiedingen. Voor veel kleine lokale bedrijven zijn Facebook Posts of Google Ads meestal de eenvoudigste eerste stap. '
+            'Promotie kan helpen om meer mensen te bereiken, maar het garandeert geen klanten, verkopen of rankings.'
         ),
         'activation': (
             'Wanneer je website klaar is voor activatie, stuurt Get Online Fast de juiste activatiepagina of betaallink. '
@@ -876,12 +1199,153 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
             '{payment_url}. Deze assistent geeft geen juridisch advies.'
         ),
     },
+    'fr': {
+        'greeting': (
+            'Bonjour. Je suis l’assistant public de Get Online Fast. Je peux vous aider pour les sites web, les plans, le support, le paiement '
+            'et la meilleure première étape. Que voulez-vous savoir ?'
+        ),
+        'fallback': (
+            'Je peux surtout aider pour la Starter Page, les sites professionnels, les plans mensuels, les boutiques en ligne, la promotion, le paiement et le support. '
+            'Essayez par exemple : "Quel type de site puis-je créer ici ?" ou "Quel plan convient à mon entreprise ?"'
+        ),
+        'website_options': (
+            'Vous pouvez commencer avec une Starter Page pour une page rapide générée, un site en paiement unique pour un vrai site professionnel, '
+            'ou un site mensuel si vous voulez l’hébergement, le support et le suivi inclus. Si vous avez des produits, vous pouvez aussi commencer '
+            'avec un catalogue puis ajouter une boutique en ligne avec paiement plus tard. Pour la plupart des petites entreprises locales, un site '
+            'professionnel clair est le meilleur point de départ, sauf si vous avez seulement besoin d’une page rapide.'
+        ),
+        'promotion_guarantee': (
+            'Non. La promotion peut améliorer la visibilité, mais elle ne peut pas garantir des clients, des ventes, des réservations, des leads, '
+            'des classements, des résultats ou du chiffre d’affaires. Get Online Fast peut aider avec des posts Facebook de lancement, des publicités Meta, '
+            'un accompagnement Google Ads et LinkedIn Ads, mais les résultats dépendent de votre offre, de votre zone, de la concurrence, du budget, du message '
+            'et de la réaction du public.'
+        ),
+        'plans': (
+            'Get Online Fast propose des options de site pratiques pour les petites entreprises, y compris la Starter Page, un site en paiement unique, '
+            'un site mensuel et des options de catalogue ou boutique en ligne. Le meilleur aperçu de départ se trouve sur {plans_url}.'
+        ),
+        'preview': (
+            'La création publique d’aperçu n’est pas disponible pour le moment. Contactez Get Online Fast et nous vous aiderons à choisir la bonne configuration.'
+        ),
+        'ecommerce': (
+            'Oui. Get Online Fast peut aider avec les catalogues de produits, les catalogues de commande via WhatsApp et les boutiques WordPress/WooCommerce. '
+            'La bonne configuration dépend de vos produits, des paiements, de la livraison, des langues et du niveau de structure nécessaire. '
+            'Le meilleur aperçu actuel se trouve sur la page boutique en ligne.'
+        ),
+        'promotion': (
+            'Oui. Get Online Fast peut aussi aider à promouvoir votre site après le lancement avec des posts Facebook, des publicités Meta, Google Ads '
+            'ou LinkedIn Ads. Pour beaucoup de petites entreprises locales, les posts de lancement ou Google Ads sont le point de départ le plus simple.'
+        ),
+        'activation': (
+            'Quand votre site est prêt pour l’activation, Get Online Fast envoie la bonne page d’activation ou le bon lien de paiement. '
+            'Le paiement est traité en toute sécurité par Stripe. Après paiement, l’activation et la remise sont vérifiées manuellement.'
+        ),
+        'payment': (
+            'Le paiement est traité en toute sécurité par Stripe. Si vous souhaitez activer un site, Get Online Fast fournit le bon lien de paiement '
+            'ou la bonne page d’activation. Vous pouvez aussi consulter les informations de paiement sur {payment_url}.'
+        ),
+        'included': (
+            'Get Online Fast propose des services pratiques pour les petites entreprises, avec configuration WordPress, support '
+            'et options de croissance. Le meilleur aperçu se trouve sur {included_url}.'
+        ),
+        'support': (
+            'Le support passe par Get Online Fast. Utilisez {support_url} pour une aide pratique et {contact_url} si vous avez besoin d’un contact direct '
+            'au sujet de la configuration, du paiement, du support ou de travaux supplémentaires.'
+        ),
+        'dashboard': (
+            'Le tableau de bord WordPress sert aux mises à jour pratiques comme le contenu, les images, les services et les projets quand cela fait partie de votre configuration.'
+        ),
+        'email': (
+            'L’e-mail professionnel ou l’e-mail de domaine peut être demandé séparément. Si vous avez besoin d’aide pour les boîtes mail ou l’adresse d’entreprise, '
+            'utilisez {contact_url} afin que Get Online Fast confirme le périmètre.'
+        ),
+        'changes': (
+            'Oui. Des changements, ajustements ou travaux supplémentaires peuvent être demandés séparément. Ce n’est pas inclus de façon illimitée par défaut, '
+            'donc le mieux est de demander via {contact_url}.'
+        ),
+        'company_legal': (
+            'Get Online Fast est exploité par Just Code Works, basé à Amsterdam, aux Pays-Bas. Vous pouvez consulter les Conditions sur {terms_url}, '
+            'la Politique de confidentialité sur {privacy_url}, la Politique de cookies sur {cookies_url} et les informations de paiement sur {payment_url}. '
+            'Cet assistant ne donne pas de conseil juridique.'
+        ),
+    },
+    'pt': {
+        'greeting': (
+            'Olá. Sou o assistente público do Get Online Fast. Posso ajudar com websites, planos, suporte, pagamento '
+            'e o melhor próximo passo. Sobre o que quer saber?'
+        ),
+        'fallback': (
+            'Posso ajudar sobretudo com Starter Page, websites empresariais, planos mensais, loja online, promoção, pagamento e suporte. '
+            'Pode perguntar, por exemplo: "Que tipo de website posso criar aqui?" ou "Que website devo escolher?"'
+        ),
+        'website_options': (
+            'Pode começar com uma Starter Page para uma página rápida gerada, um One-Time Website para um website empresarial completo, '
+            'ou um Monthly Website se quiser alojamento, suporte e acompanhamento incluídos. Se precisar de produtos, também pode começar '
+            'com um catálogo e mais tarde avançar para uma loja online com checkout. Para a maioria dos pequenos negócios locais, um website '
+            'empresarial claro é o melhor ponto de partida, a menos que precise apenas de uma página rápida.'
+        ),
+        'promotion_guarantee': (
+            'Não. Promoção pode aumentar a visibilidade, mas não pode garantir clientes, vendas, marcações, leads, rankings, resultados ou receita. '
+            'O Get Online Fast pode ajudar com posts de lançamento no Facebook, anúncios Meta, apoio com Google Ads e LinkedIn Ads, mas os resultados '
+            'dependem da sua oferta, localização, concorrência, orçamento, mensagem e da resposta do público.'
+        ),
+        'plans': (
+            'O Get Online Fast oferece opções práticas para pequenas empresas, incluindo Starter Page, website de pagamento único, '
+            'website mensal e opções de catálogo ou loja online. A melhor visão geral inicial está em {plans_url}.'
+        ),
+        'preview': (
+            'A criação pública de pré-visualizações não está disponível neste momento. Contacte o Get Online Fast e ajudamos a escolher a configuração certa.'
+        ),
+        'ecommerce': (
+            'Sim. O Get Online Fast pode ajudar com catálogos de produtos, catálogos de encomenda por WhatsApp e lojas WordPress/WooCommerce. '
+            'A configuração certa depende dos seus produtos, pagamentos, envios, idiomas e do nível de estrutura necessário. '
+            'A melhor visão geral neste momento está na página da loja online.'
+        ),
+        'promotion': (
+            'Sim. O Get Online Fast também pode ajudar a promover o seu website depois do lançamento com posts de Facebook, anúncios Meta, Google Ads '
+            'ou LinkedIn Ads. Para muitas pequenas empresas locais, posts de lançamento ou Google Ads são o ponto de partida mais simples.'
+        ),
+        'activation': (
+            'Quando o seu website estiver pronto para ativação, o Get Online Fast envia a página de ativação ou link de pagamento correto. '
+            'O pagamento é tratado com segurança pela Stripe. Depois do pagamento, a ativação e a entrega são verificadas manualmente.'
+        ),
+        'payment': (
+            'O pagamento é tratado com segurança pela Stripe. Se quiser ativar um website, o Get Online Fast fornece o link de pagamento '
+            'ou página de ativação correta. Também pode consultar a informação de pagamento em {payment_url}.'
+        ),
+        'included': (
+            'O Get Online Fast oferece serviços práticos de website para pequenas empresas, incluindo configuração WordPress, suporte '
+            'e opções de crescimento. A melhor visão geral está em {included_url}.'
+        ),
+        'support': (
+            'O suporte é tratado através do Get Online Fast. Use {support_url} para ajuda prática e {contact_url} se precisar de contacto direto '
+            'sobre configuração, pagamento, suporte ou trabalho adicional.'
+        ),
+        'dashboard': (
+            'O painel WordPress serve para atualizações práticas como conteúdo, imagens, serviços e projetos quando isso faz parte da configuração do seu website.'
+        ),
+        'email': (
+            'O email profissional ou email de domínio pode ser pedido em separado. Se precisar de ajuda com caixas de correio ou endereço empresarial, '
+            'use {contact_url} para que o Get Online Fast confirme o âmbito.'
+        ),
+        'changes': (
+            'Sim. Alterações, edições ou trabalho extra podem ser pedidos em separado. Isso não é ilimitado por defeito, '
+            'por isso o melhor é pedir através de {contact_url}.'
+        ),
+        'company_legal': (
+            'O Get Online Fast é operado pela Just Code Works, com base em Amesterdão, Países Baixos. Pode consultar os Termos em {terms_url}, '
+            'a Política de Privacidade em {privacy_url}, a Política de Cookies em {cookies_url} e a informação de pagamento em {payment_url}. '
+            'Este assistente não dá aconselhamento jurídico.'
+        ),
+    },
 }
 
 ASSISTANT_INTENT_KEYWORDS = {
     'greeting': {
         'en': ['hi', 'hello', 'hey'],
         'nl': ['hallo', 'hoi', 'goedemorgen', 'goedemiddag', 'goedenavond'],
+        'fr': ['bonjour', 'salut', 'bonsoir', 'coucou'],
+        'pt': ['ola', 'olá', 'bom dia', 'boa tarde', 'boa noite'],
     },
     'activation': {
         'en': ['activation', 'activate', 'go live', 'handoff', 'launch'],
@@ -890,46 +1354,190 @@ ASSISTANT_INTENT_KEYWORDS = {
     'preview': {
         'en': ['preview', 'start', 'create preview', 'start preview', 'ai preview', 'starter page generator'],
         'nl': ['preview', 'voorbeeld', 'start', 'preview maken', 'start preview', 'ai preview', 'starterpagina generator'],
+        'fr': ['apercu', 'aperçu', 'starter page', 'page de depart', 'page de départ', 'commencer'],
+        'pt': ['pre-visualizacao', 'pré-visualização', 'starter page', 'pagina inicial', 'página inicial', 'comecar', 'começar'],
+    },
+    'website_options': {
+        'en': [
+            'what kind of website',
+            'what website can i make',
+            'what website can i build',
+            'what can i build here',
+            'what kind of site',
+            'which website should i start',
+            'can i build a shop',
+            'do i need a full website',
+            'website options',
+            'business website',
+            'full business website',
+            'monthly website',
+            'one-time website',
+            'starter page',
+        ],
+        'nl': [
+            'welk soort website',
+            'wat voor website',
+            'welke website kan ik hier',
+            'welke website moet ik starten',
+            'welke website moet ik kiezen',
+            'kan ik een webshop bouwen',
+            'heb ik een volledige website nodig',
+            'website opties',
+            'bedrijfswebsite',
+            'maandelijkse website',
+            'one-time website',
+            'starter page',
+        ],
+        'fr': [
+            'quel type de site',
+            'quel site puis-je creer',
+            'quel site puis-je créer',
+            'quel site puis-je faire',
+            'puis-je creer une boutique',
+            'puis-je créer une boutique',
+            'quelles options de site',
+            'site professionnel',
+            'starter page',
+            'site mensuel',
+        ],
+        'pt': [
+            'que tipo de website',
+            'que website posso criar',
+            'que site posso criar',
+            'que tipo de site posso fazer aqui',
+            'que website posso fazer aqui',
+            'que website posso fazer',
+            'posso criar uma loja',
+            'preciso de um website completo',
+            'opcoes de website',
+            'opções de website',
+            'website empresarial',
+            'monthly website',
+            'one-time website',
+            'starter page',
+        ],
+    },
+    'promotion_guarantee': {
+        'en': [
+            'do ads guarantee',
+            'can ads guarantee',
+            'google ads guarantee',
+            'meta ads guarantee',
+            'facebook ads guarantee',
+            'linkedin ads guarantee',
+            'marketing guarantee',
+            'do you guarantee rankings',
+            'guarantee rankings',
+            'guaranteed rankings',
+            'seo guarantee',
+            'seo guarantees',
+            'guarantee customers',
+            'guarantee sales',
+            'guarantee leads',
+            'guarantee results',
+        ],
+        'nl': [
+            'garanderen ads',
+            'garanderen advertenties',
+            'garandeert google ads',
+            'garanderen google ads',
+            'garanderen meta ads',
+            'garanderen facebook ads',
+            'garanderen linkedin ads',
+            'garanderen rankings',
+            'gegarandeerde rankings',
+            'seo garantie',
+            'seo garanties',
+            'garandeert klanten',
+            'garandeert verkopen',
+            'garandeert leads',
+            'garandeert resultaten',
+        ],
+        'fr': [
+            'garantissent les publicites',
+            'garantissent les publicités',
+            'google ads garantit',
+            'garantissez les classements',
+            'garantie seo',
+            'garantit des clients',
+            'garantit des ventes',
+            'garantit des resultats',
+            'garantit des résultats',
+        ],
+        'pt': [
+            'anuncios garantem',
+            'anúncios garantem',
+            'google ads garante',
+            'meta ads garante',
+            'facebook ads garante',
+            'linkedin ads garante',
+            'garante rankings',
+            'garantia seo',
+            'garante clientes',
+            'garante vendas',
+            'garante leads',
+            'garante resultados',
+        ],
     },
     'ecommerce': {
         'en': ['catalog', 'catalogs', 'catalogue', 'shop', 'online shop', 'online shops', 'ecommerce', 'woo commerce', 'woocommerce', 'webshop', 'products', 'reseller'],
         'nl': ['catalogus', 'catalogussen', 'webshop', 'webshops', 'online shop', 'online shops', 'woocommerce', 'producten', 'reseller', 'bestellen via whatsapp'],
+        'fr': ['catalogue', 'boutique', 'boutique en ligne', 'ecommerce', 'woocommerce', 'produits'],
+        'pt': ['catalogo', 'catálogo', 'loja online', 'ecommerce', 'woocommerce', 'produtos'],
     },
     'promotion': {
         'en': ['promotion', 'promote', 'ads', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads', 'marketing'],
         'nl': ['promotie', 'promoten', 'ads', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads', 'marketing'],
+        'fr': ['promotion', 'publicite', 'publicité', 'annonces', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads'],
+        'pt': ['promocao', 'promoção', 'anuncios', 'anúncios', 'google ads', 'facebook posts', 'facebook ads', 'instagram ads', 'linkedin ads', 'meta ads'],
     },
     'payment': {
         'en': ['pay', 'payment', 'stripe', 'invoice'],
         'nl': ['betalen', 'betaling', 'betaallink', 'stripe', 'factuur'],
+        'fr': ['paiement', 'payer', 'stripe', 'facture'],
+        'pt': ['pagamento', 'pagar', 'stripe', 'fatura', 'factura'],
     },
     'plans': {
         'en': ['plan', 'plans', 'package', 'packages', 'pricing', 'website prices', 'view prices', 'price', 'prices', 'cost', 'costs', 'start a website'],
         'nl': ['pakket', 'pakketten', 'pricing', 'prijzen', 'website prijzen', 'prijs', 'kosten', 'website starten', 'website beginnen'],
+        'fr': ['plan', 'plans', 'tarif', 'tarifs', 'prix', 'cout', 'coût', 'site web'],
+        'pt': ['plano', 'planos', 'preco', 'preço', 'precos', 'preços', 'custo', 'custos', 'website'],
     },
     'included': {
         'en': ['included', 'what do i get', 'package', 'website setup'],
         'nl': ['inbegrepen', 'wat krijg ik', 'pakket', 'website setup'],
+        'fr': ['inclus', 'ce que je recois', 'ce que je reçois', 'configuration du site'],
+        'pt': ['incluido', 'incluído', 'o que recebo', 'configuracao do website', 'configuração do website'],
     },
     'support': {
         'en': ['support', 'help', 'contact'],
         'nl': ['support', 'hulp', 'ondersteuning', 'vraag', 'contact'],
+        'fr': ['support', 'aide', 'contact'],
+        'pt': ['suporte', 'ajuda', 'contacto', 'contato'],
     },
     'dashboard': {
         'en': ['dashboard', 'edit', 'content', 'images', 'services', 'projects'],
         'nl': ['dashboard', 'aanpassen', 'teksten', 'afbeeldingen', 'diensten', 'projecten'],
+        'fr': ['dashboard', 'modifier', 'contenu', 'images', 'services', 'projets'],
+        'pt': ['dashboard', 'editar', 'conteudo', 'conteúdo', 'imagens', 'servicos', 'serviços', 'projetos'],
     },
     'email': {
         'en': ['email', 'mailbox', 'business email', 'domain email'],
         'nl': ['email', 'e-mail', 'mailbox', 'info@', 'domeinmail'],
+        'fr': ['email', 'e-mail', 'boite mail', 'boîte mail', 'adresse professionnelle'],
+        'pt': ['email', 'e-mail', 'caixa de correio', 'email profissional', 'email de dominio', 'email de domínio'],
     },
     'changes': {
         'en': ['changes', 'extra work', 'edits', 'updates'],
         'nl': ['wijziging', 'wijzigingen', 'extra werk', 'aanpassing', 'meerwerk'],
+        'fr': ['modification', 'modifications', 'travail supplementaire', 'travail supplémentaire', 'mise a jour', 'mise à jour'],
+        'pt': ['alteracao', 'alteração', 'alteracoes', 'alterações', 'trabalho extra', 'edicoes', 'edições', 'atualizacoes', 'atualizações'],
     },
     'company_legal': {
         'en': ['terms', 'privacy', 'cookies', 'company', 'just code works', 'amsterdam'],
         'nl': ['voorwaarden', 'privacy', 'cookies', 'bedrijf', 'just code works', 'amsterdam'],
+        'fr': ['conditions', 'confidentialite', 'confidentialité', 'cookies', 'entreprise', 'amsterdam'],
+        'pt': ['termos', 'privacidade', 'cookies', 'empresa', 'amesterdao', 'amesterdão', 'amsterdam'],
     },
 }
 
@@ -2182,6 +2790,26 @@ def _catalog_ecommerce_table_rows(language):
             {'label': 'Larger catalog/filter structure', 'values': ['Basis', 'Standaard shop', 'check']},
             {'label': 'WooCommerce dashboard', 'values': ['dash', 'check', 'Afhankelijk van setup']},
         ]
+    if language_code == 'fr':
+        return [
+            {'label': 'Pages produit', 'values': ['check', 'check', 'check']},
+            {'label': 'Commande WhatsApp/contact', 'values': ['check', 'Optionnel', 'Flux de demande']},
+            {'label': 'Panier et checkout', 'values': ['dash', 'check', 'Possible plus tard']},
+            {'label': 'Accompagnement paiement', 'values': ['dash', 'check', 'Sur mesure']},
+            {'label': 'Structure livraison/taxes', 'values': ['dash', 'check', 'Sur mesure']},
+            {'label': 'Structure catalogue/filtres plus large', 'values': ['Base', 'Boutique standard', 'check']},
+            {'label': 'Tableau de bord WooCommerce', 'values': ['dash', 'check', 'Dépend de la configuration']},
+        ]
+    if language_code == 'pt':
+        return [
+            {'label': 'Páginas de produto', 'values': ['check', 'check', 'check']},
+            {'label': 'Encomenda por WhatsApp/contacto', 'values': ['check', 'Opcional', 'Fluxo de pedido']},
+            {'label': 'Carrinho e checkout', 'values': ['dash', 'check', 'Possível mais tarde']},
+            {'label': 'Apoio à configuração de pagamentos', 'values': ['dash', 'check', 'Escopo personalizado']},
+            {'label': 'Estrutura de envio/impostos', 'values': ['dash', 'check', 'Escopo personalizado']},
+            {'label': 'Estrutura maior de catálogo/filtros', 'values': ['Básico', 'Loja standard', 'check']},
+            {'label': 'Painel WooCommerce', 'values': ['dash', 'check', 'Depende da configuração']},
+        ]
 
     return [
         {'label': 'Product pages', 'values': ['check', 'check', 'check']},
@@ -2198,6 +2826,10 @@ def _catalog_ecommerce_badges(language):
     language_code = _service_option_language(language)
     if language_code == 'nl':
         return ['SSL', 'WhatsApp-bestellingen', 'EU betaalopzet-begeleiding', 'WooCommerce', 'Catalogusstructuur']
+    if language_code == 'fr':
+        return ['SSL', 'Commandes WhatsApp', 'Accompagnement paiement UE', 'WooCommerce', 'Structure de catalogue']
+    if language_code == 'pt':
+        return ['SSL', 'Encomendas por WhatsApp', 'Apoio à configuração de pagamentos UE', 'WooCommerce', 'Estrutura de catálogo']
     return ['SSL', 'WhatsApp orders', 'EU payment setup guidance', 'WooCommerce', 'Catalog structure']
 
 
@@ -2336,14 +2968,40 @@ def _promotion_page_context(language, option_key):
 
 
 def _assistant_language(request):
-    language = (request.GET.get('lang') or getattr(request, 'LANGUAGE_CODE', 'en') or 'en').split('-', 1)[0].lower()
-    return language if language in ASSISTANT_PUBLIC_KNOWLEDGE else 'en'
+    request_data = request.POST if request.method == 'POST' else request.GET
+    page_path_language = ''
+    path_candidates = [
+        str(request_data.get('page_path', '') or ''),
+        str(request.path or ''),
+    ]
+    for raw_path in path_candidates:
+        normalized_path = str(raw_path or '').strip()
+        if not normalized_path:
+            continue
+        first_segment = normalized_path.lstrip('/').split('/', 1)[0].split('-', 1)[0].lower()
+        if first_segment in ASSISTANT_PUBLIC_KNOWLEDGE:
+            page_path_language = first_segment
+            break
+
+    if page_path_language:
+        return page_path_language
+
+    candidate_language = str(request_data.get('lang', '') or '').split('-', 1)[0].lower()
+    if candidate_language in ASSISTANT_PUBLIC_KNOWLEDGE:
+        return candidate_language
+
+    request_language = str(getattr(request, 'LANGUAGE_CODE', '') or '').split('-', 1)[0].lower()
+    if request_language in ASSISTANT_PUBLIC_KNOWLEDGE:
+        return request_language
+
+    return 'en'
 
 
 def _assistant_links(language):
     catalog_url_name = 'core:catalog_and_ecommerce_nl' if language == 'nl' else 'core:catalog_and_ecommerce'
     with override(language):
         return {
+            'websites_url': reverse('core:websites'),
             'support_url': reverse('core:support'),
             'contact_url': reverse('core:contact'),
             'plans_url': reverse('core:plans'),
@@ -2357,20 +3015,144 @@ def _assistant_links(language):
         }
 
 
+def _assistant_page_context(language, current_path):
+    normalized_path = f"/{str(current_path or '').strip().strip('/')}/"
+    context_rules = {
+        'en': [
+            ('/websites/', 'Websites page'),
+            ('/pricing/', 'Pricing page'),
+            ('/plans/', 'Pricing page'),
+            ('/online-shop/', 'Online shop page'),
+            ('/payment-methods/', 'Payment methods page'),
+            ('/ads/', 'Ads page'),
+            ('/facebook-posts/', 'Facebook launch posts page'),
+            ('/facebook-instagram-ads/', 'Facebook and Instagram ads page'),
+            ('/google-ads/', 'Google Ads page'),
+            ('/linkedin-ads/', 'LinkedIn Ads page'),
+            ('/contact/', 'Contact page'),
+            ('/support/', 'Support page'),
+            ('/start/', 'Starter Page'),
+        ],
+        'nl': [
+            ('/websites/', 'Websites-pagina'),
+            ('/pricing/', 'Prijzen-pagina'),
+            ('/plans/', 'Prijzen-pagina'),
+            ('/online-shop/', 'Online-shop pagina'),
+            ('/payment-methods/', 'Betaalmethoden-pagina'),
+            ('/ads/', 'Ads-pagina'),
+            ('/facebook-posts/', 'Facebook Posts-pagina'),
+            ('/facebook-instagram-ads/', 'Facebook en Instagram Ads-pagina'),
+            ('/google-ads/', 'Google Ads-pagina'),
+            ('/linkedin-ads/', 'LinkedIn Ads-pagina'),
+            ('/contact/', 'Contactpagina'),
+            ('/support/', 'Supportpagina'),
+            ('/start/', 'Starter Page'),
+        ],
+        'fr': [
+            ('/websites/', 'Page sites web'),
+            ('/pricing/', 'Page tarifs'),
+            ('/plans/', 'Page tarifs'),
+            ('/online-shop/', 'Page boutique en ligne'),
+            ('/payment-methods/', 'Page moyens de paiement'),
+            ('/ads/', 'Page publicités'),
+            ('/facebook-posts/', 'Page posts Facebook'),
+            ('/facebook-instagram-ads/', 'Page publicités Facebook et Instagram'),
+            ('/google-ads/', 'Page Google Ads'),
+            ('/linkedin-ads/', 'Page LinkedIn Ads'),
+            ('/contact/', 'Page contact'),
+            ('/support/', 'Page support'),
+            ('/start/', 'Starter Page'),
+        ],
+        'pt': [
+            ('/websites/', 'Página websites'),
+            ('/pricing/', 'Página preços'),
+            ('/plans/', 'Página preços'),
+            ('/online-shop/', 'Página loja online'),
+            ('/payment-methods/', 'Página métodos de pagamento'),
+            ('/ads/', 'Página anúncios'),
+            ('/facebook-posts/', 'Página posts de Facebook'),
+            ('/facebook-instagram-ads/', 'Página anúncios Facebook e Instagram'),
+            ('/google-ads/', 'Página Google Ads'),
+            ('/linkedin-ads/', 'Página LinkedIn Ads'),
+            ('/contact/', 'Página contacto'),
+            ('/support/', 'Página suporte'),
+            ('/start/', 'Starter Page'),
+        ],
+    }
+    for slug, label in context_rules.get(language, context_rules['en']):
+        if normalized_path.endswith(slug):
+            return label
+    return ''
+
+
 def _assistant_normalize_question(question):
     question_text = (question or '').strip().lower()
     return ' '.join(question_text.replace('?', ' ').replace('!', ' ').replace('.', ' ').replace(',', ' ').split())
+
+
+def _assistant_token_similarity(left_token, right_token):
+    left = str(left_token or '').strip()
+    right = str(right_token or '').strip()
+    if not left or not right:
+        return 0.0
+    if left == right:
+        return 1.0
+    return SequenceMatcher(None, left, right).ratio()
+
+
+def _assistant_keyword_matches_question(normalized_question, normalized_tokens, normalized_keyword):
+    if not normalized_keyword:
+        return False
+
+    keyword_tokens = normalized_keyword.split()
+    if not keyword_tokens:
+        return False
+
+    if len(keyword_tokens) == 1:
+        keyword_token = keyword_tokens[0]
+        if keyword_token in normalized_tokens:
+            return True
+        if len(keyword_token) < 4:
+            return False
+        return any(
+            len(candidate) >= 4 and _assistant_token_similarity(keyword_token, candidate) >= 0.86
+            for candidate in normalized_tokens
+        )
+
+    question_tokens = normalized_question.split()
+    if len(question_tokens) < len(keyword_tokens):
+        return False
+
+    for start_index in range(len(question_tokens) - len(keyword_tokens) + 1):
+        window = question_tokens[start_index:start_index + len(keyword_tokens)]
+        if all(
+            keyword_token == question_token
+            or (
+                len(keyword_token) >= 4
+                and len(question_token) >= 4
+                and _assistant_token_similarity(keyword_token, question_token) >= 0.84
+            )
+            for keyword_token, question_token in zip(keyword_tokens, window)
+        ):
+            return True
+    return False
 
 
 def _assistant_detect_intent(question, language):
     normalized_question = _assistant_normalize_question(question)
     if not normalized_question:
         return 'fallback'
+    normalized_tokens = set(normalized_question.split())
 
     for intent, language_keywords in ASSISTANT_INTENT_KEYWORDS.items():
         keywords = list(language_keywords.get(language, [])) + list(language_keywords.get('en', [])) + list(language_keywords.get('nl', []))
         for keyword in keywords:
-            if keyword and keyword in normalized_question:
+            if not keyword:
+                continue
+            normalized_keyword = _assistant_normalize_question(keyword)
+            if not normalized_keyword:
+                continue
+            if _assistant_keyword_matches_question(normalized_question, normalized_tokens, normalized_keyword):
                 return intent
     return 'fallback'
 
@@ -2379,6 +3161,7 @@ def _assistant_link_items(intent, language, links):
     labels = {
         'en': {
             'activation': 'Activation page',
+            'websites': 'Websites',
             'catalog_ecommerce': 'Catalogs and online shops',
             'promotion': 'Promotion',
             'payment': 'Payment info',
@@ -2391,6 +3174,7 @@ def _assistant_link_items(intent, language, links):
         },
         'nl': {
             'activation': 'Activatiepagina',
+            'websites': 'Websites',
             'catalog_ecommerce': 'Catalogus en webshop',
             'promotion': 'Promotie',
             'payment': 'Betaling en annulering',
@@ -2421,12 +3205,22 @@ def _assistant_link_items(intent, language, links):
             {'label': 'Pricing' if language == 'en' else 'Prijzen', 'url': links['plans_url']},
             {'label': copy['contact'], 'url': links['contact_url']},
         ]
-    if intent == 'ecommerce':
+    if intent == 'website_options':
+        with override(language):
+            online_shop_url = reverse('core:online_shop')
         return [
-            {'label': copy['catalog_ecommerce'], 'url': reverse('core:online_shop')},
+            {'label': copy['websites'], 'url': links['websites_url']},
+            {'label': 'Pricing' if language == 'en' else 'Prijzen', 'url': links['plans_url']},
+            {'label': copy['catalog_ecommerce'], 'url': online_shop_url},
+        ]
+    if intent == 'ecommerce':
+        with override(language):
+            online_shop_url = reverse('core:online_shop')
+        return [
+            {'label': copy['catalog_ecommerce'], 'url': online_shop_url},
             {'label': copy['contact'], 'url': links['contact_url']},
         ]
-    if intent == 'promotion':
+    if intent in {'promotion', 'promotion_guarantee'}:
         return [
             {'label': copy['promotion'], 'url': links['promotion_url']},
             {'label': copy['contact'], 'url': links['contact_url']},
@@ -2584,14 +3378,21 @@ def sitemap_xml(request):
 
 def assistant_help(request):
     language = _assistant_language(request)
-    question = request.GET.get('q', '')
+    request_data = request.POST if request.method == 'POST' else request.GET
+    question = request_data.get('message', '') or request_data.get('q', '')
     link_urls = _assistant_links(language)
+    current_path = request_data.get('page_path', '') or request_data.get('path', '') or ''
+    context = {
+        'current_path': current_path,
+        'current_page': _assistant_page_context(language, current_path),
+    }
     assistant_response = build_public_assistant_response(
         request=request,
         question=question,
         language=language,
         fallback_response=_assistant_answer(question, language),
         links=link_urls,
+        context=context,
     )
     payload = {
         'language': language,
@@ -2616,6 +3417,9 @@ def assistant_help(request):
         'has_openai_key': assistant_response['has_openai_key'],
         'model_used': assistant_response['model_used'],
     }
+    if current_path:
+        payload['current_path'] = current_path
+        payload['current_page'] = context['current_page']
     if settings.DEBUG:
         payload.update(assistant_response.get('diagnostics') or {})
     return JsonResponse(payload)
@@ -2671,7 +3475,9 @@ def home(request):
             'promotion_service_note': promotion_options['pricing_note'],
             'force_indexable': True,
             'site_noindex': False,
-            'page_meta_description': 'Get Online Fast helps small businesses launch practical WordPress websites with clear structure, support, and room to grow.',
+            'page_meta_description': _(
+                'Get Online Fast helps small businesses launch practical WordPress websites with clear structure, support, and room to grow.'
+            ),
         },
     )
 

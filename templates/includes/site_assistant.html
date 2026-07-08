@@ -1,8 +1,13 @@
-﻿{% load i18n %}
+{% load i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
 <div
   class="site-assistant"
   data-site-assistant
   data-assistant-language="{{ CURRENT_LANGUAGE|default:'en' }}"
+  data-assistant-site-key="getonlinefast-public"
+  data-assistant-version="v2"
+  data-assistant-endpoint="{% url 'core:assistant_help' %}"
+  data-assistant-path="{{ request.path }}"
   data-url-websites="{% url 'core:websites' %}"
   data-url-online-shop="{% url 'core:online_shop' %}"
   data-url-ads="{% url 'core:ads' %}"
@@ -15,22 +20,27 @@
   data-url-linkedin-ads="{% url 'core:linkedin_ads' %}"
 >
   <button type="button" class="site-assistant-toggle" data-assistant-toggle>
-    <span data-assistant-toggle-label>{% if CURRENT_LANGUAGE == 'nl' %}Hulp nodig?{% else %}Need help?{% endif %}</span>
+    <span data-assistant-toggle-label>{% trans "Need help?" %}</span>
   </button>
   <section class="site-assistant-panel" data-assistant-panel hidden>
     <header class="site-assistant-panel__header">
       <div>
-        <strong>{% if CURRENT_LANGUAGE == 'nl' %}GOF hulp{% else %}GOF help{% endif %}</strong>
-        <p data-assistant-intro>{% if CURRENT_LANGUAGE == 'nl' %}Snelle hulp bij websites, shops, advertenties en support.{% else %}Quick help for websites, shops, ads, and support.{% endif %}</p>
+        <strong>{% trans "Assistant" %}</strong>
+        <p data-assistant-intro>{% trans "Quick help for websites, shops, ads, and support." %}</p>
       </div>
-      <button type="button" class="site-assistant-close" data-assistant-close aria-label="{% if CURRENT_LANGUAGE == 'nl' %}Sluiten{% else %}Close{% endif %}">&times;</button>
+      <div class="site-assistant-panel__header-actions">
+        <button type="button" class="site-assistant-reset" data-assistant-reset>{% trans "Reset" %}</button>
+        <button type="button" class="site-assistant-close" data-assistant-close aria-label="{% trans 'Close' %}">&times;</button>
+      </div>
     </header>
     <div class="site-assistant-messages" data-assistant-messages></div>
     <form class="site-assistant-form" data-assistant-form>
-      <label class="sr-only" for="site-assistant-input">{% if CURRENT_LANGUAGE == 'nl' %}Vraag{% else %}Question{% endif %}</label>
-      <input id="site-assistant-input" type="text" data-assistant-input placeholder="{% if CURRENT_LANGUAGE == 'nl' %}Bijv. Ik heb een website nodig{% else %}e.g. I need a website{% endif %}">
-      <button type="submit" class="btn btn-primary">{% if CURRENT_LANGUAGE == 'nl' %}Verstuur{% else %}Send{% endif %}</button>
+      {% csrf_token %}
+      <label class="sr-only" for="site-assistant-input">{% trans "Question" %}</label>
+      <input id="site-assistant-input" type="text" data-assistant-input placeholder="{% trans 'e.g. I need a website' %}">
+      <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
     </form>
   </section>
 </div>
+
 
