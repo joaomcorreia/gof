@@ -1,5 +1,12 @@
 {% load i18n %}
 {% get_current_language as CURRENT_LANGUAGE %}
+{% url 'core:home' as home_url %}
+{% url 'core:websites' as websites_url %}
+{% url 'core:ads' as ads_url %}
+{% url 'core:online_shop' as online_shop_url %}
+{% url 'core:pricing' as pricing_url %}
+{% url 'core:faq' as faq_url %}
+{% url 'core:contact' as contact_url %}
 <header class="topbar">
   <div class="wrap topbar-inner">
     <a class="logo" href="{% url 'core:home' %}" aria-label="{% trans 'Get Online Fast home' %}">
@@ -11,14 +18,13 @@
     </a>
     <div class="header-actions">
       <nav class="nav" aria-label="{% trans 'Primary navigation' %}">
-        <a href="{% url 'core:home' %}">{% trans "Home" %}</a>
-        <a href="{% url 'core:how_it_works' %}">{% trans "How it works" %}</a>
-        <a href="{% url 'core:plans' %}">{% trans "Plans" %}</a>
-        <a href="{% url 'blog:index' %}">{% trans "Blog" %}</a>
-        <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
-        {# TODO: switch to a named URL when the help page route exists. #}
-        <a href="/help/">{% trans "Help" %}</a>
-        <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:home' %}is-active{% endif %}" href="{{ home_url }}">{% trans "Home" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:websites' or request.resolver_match.view_name == 'core:how_it_works' or request.resolver_match.view_name == 'core:ai_website' or request.resolver_match.view_name == 'core:business_website' or request.resolver_match.view_name == 'core:managed' %}is-active{% endif %}" href="{{ websites_url }}">{% trans "Websites" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:ads' or request.resolver_match.view_name == 'core:facebook_posts' or request.resolver_match.view_name == 'core:facebook_instagram_ads' or request.resolver_match.view_name == 'core:google_ads' or request.resolver_match.view_name == 'core:linkedin_ads' %}is-active{% endif %}" href="{{ ads_url }}">{% trans "Ads" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:online_shop' or request.resolver_match.view_name == 'core:catalog_and_ecommerce' or request.resolver_match.view_name == 'core:catalog_and_ecommerce_nl' or request.resolver_match.view_name == 'core:ecommerce_plan' %}is-active{% endif %}" href="{{ online_shop_url }}">{% trans "Online Shop" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:plans' or request.resolver_match.view_name == 'core:pricing' or request.resolver_match.view_name == 'core:one_time_website_plan' or request.resolver_match.view_name == 'core:monthly_plan' or request.resolver_match.view_name == 'core:monthly_plan_legacy' %}is-active{% endif %}" href="{{ pricing_url }}">{% trans "Pricing" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:faq' %}is-active{% endif %}" href="{{ faq_url }}">{% trans "FAQ" %}</a>
+        <a class="{% if request.resolver_match.view_name == 'core:contact' %}is-active{% endif %}" href="{{ contact_url }}">{% trans "Contact" %}</a>
       </nav>
       <div class="language-switcher" role="group" aria-label="{% trans 'Language switcher' %}">
         <form action="{% url 'set_language' %}" method="post">

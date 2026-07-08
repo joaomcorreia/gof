@@ -1,0 +1,81 @@
+{% widthratio ads_simulator.default_budget 1 ads_simulator.default_duration as default_ad_budget %}
+<section
+  class="promo-section promo-section-soft promo-ad-simulator"
+  data-ad-simulator
+  data-platform-name="{{ ads_simulator.platform_name }}"
+  data-setup-fee="{{ ads_simulator.setup_fee }}"
+  data-default-budget="{{ ads_simulator.default_budget }}"
+  data-default-duration="{{ ads_simulator.default_duration }}"
+  data-default-radius="{{ ads_simulator.default_radius }}"
+  data-radius-suffix="{{ ads_simulator.radius_suffix }}"
+  data-duration-suffix="{{ ads_simulator.duration_suffix }}"
+  data-daily-budget-suffix="{{ ads_simulator.daily_budget_suffix }}"
+  data-radius-result-suffix="{{ ads_simulator.radius_result_suffix }}"
+>
+  <h2>{{ ads_simulator.heading }}</h2>
+  <div class="promo-copy">
+    <p>{{ ads_simulator.intro }}</p>
+  </div>
+  <div class="promo-ad-simulator__controls">
+    <div class="promo-ad-simulator__group">
+      <h3>{{ ads_simulator.budget_label }}</h3>
+      <div class="promo-ad-simulator__preset-row">
+        {% for value in ads_simulator.budget_presets %}
+          <button class="btn btn-secondary{% if value == ads_simulator.default_budget %} is-selected{% endif %}" type="button" data-budget-preset="{{ value }}">EUR {{ value }}</button>
+        {% endfor %}
+      </div>
+      <label class="promo-ad-simulator__field">
+        <span>{{ ads_simulator.custom_budget_label }}</span>
+        <input type="number" min="1" step="1" value="{{ ads_simulator.default_budget }}" inputmode="numeric" data-budget-input>
+      </label>
+    </div>
+
+    <div class="promo-ad-simulator__group">
+      <h3>{{ ads_simulator.duration_label }}</h3>
+      <div class="promo-ad-simulator__preset-row">
+        {% for value in ads_simulator.duration_presets %}
+          <button class="btn btn-secondary{% if value == ads_simulator.default_duration %} is-selected{% endif %}" type="button" data-days-preset="{{ value }}">{{ value }} {{ ads_simulator.duration_suffix }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="promo-ad-simulator__group">
+      <h3>{{ ads_simulator.radius_label }}</h3>
+      <div class="promo-ad-simulator__preset-row">
+        {% for value in ads_simulator.radius_presets %}
+          <button class="btn btn-secondary{% if value == ads_simulator.default_radius %} is-selected{% endif %}" type="button" data-radius-preset="{{ value }}">{{ value }}{{ ads_simulator.radius_suffix }}</button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="promo-ad-simulator__results" aria-live="polite">
+    <div class="promo-ad-simulator__result-row">
+      <span>{{ ads_simulator.setup_fee_label }}</span>
+      <strong data-result-setup>EUR {{ ads_simulator.setup_fee }}</strong>
+    </div>
+    <div class="promo-ad-simulator__result-row">
+      <span>{{ ads_simulator.daily_budget_label }}</span>
+      <strong data-result-daily-budget>EUR {{ ads_simulator.default_budget }}{{ ads_simulator.daily_budget_suffix }}</strong>
+    </div>
+    <div class="promo-ad-simulator__result-row">
+      <span>{{ ads_simulator.campaign_duration_label }}</span>
+      <strong data-result-duration>{{ ads_simulator.default_duration }} {{ ads_simulator.duration_suffix }}</strong>
+    </div>
+    <div class="promo-ad-simulator__result-row">
+      <span>{{ ads_simulator.estimated_budget_label }}</span>
+      <strong data-result-budget>EUR {{ default_ad_budget }}</strong>
+    </div>
+    <div class="promo-ad-simulator__result-row promo-ad-simulator__result-row--total">
+      <span>{{ ads_simulator.estimated_total_label }}</span>
+      <strong data-result-total>EUR {{ default_ad_budget|add:ads_simulator.setup_fee }}</strong>
+    </div>
+    <div class="promo-ad-simulator__result-row">
+      <span>{{ ads_simulator.radius_result_label }}</span>
+      <strong data-result-radius>{{ ads_simulator.default_radius }}{{ ads_simulator.radius_suffix }} {{ ads_simulator.radius_result_suffix }}</strong>
+    </div>
+    <div class="promo-ad-simulator__formula" data-result-formula></div>
+  </div>
+
+  <p class="promo-ad-simulator__note">{{ ads_simulator.disclaimer }}</p>
+</section>

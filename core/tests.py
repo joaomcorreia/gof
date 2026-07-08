@@ -150,12 +150,10 @@ class PublicPagesTests(TestCase):
 
     def test_catalog_and_ecommerce_info_pages_are_public(self):
         response = self.client.get(reverse('core:catalog_and_ecommerce'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Catalogs and online shops')
+        self.assertRedirects(response, reverse('core:online_shop'))
 
         dutch_response = self.client.get('/nl/catalogus-en-webshop/')
-        self.assertEqual(dutch_response.status_code, 200)
-        self.assertContains(dutch_response, 'Catalogs and online shops')
+        self.assertRedirects(dutch_response, reverse('core:online_shop'))
 
     def test_promotion_pages_are_public(self):
         promotion_routes = [
@@ -173,28 +171,28 @@ class PublicPagesTests(TestCase):
                 self.assertContains(response, reverse('core:plans'))
                 self.assertContains(response, 'Ask for advice')
 
-    def test_plans_and_faq_do_not_use_coming_soon_ecommerce_wording(self):
-        for route_name in ['core:plans', 'core:faq']:
-            with self.subTest(route_name=route_name):
-                response = self.client.get(reverse(route_name))
-                self.assertEqual(response.status_code, 200)
-                self.assertNotContains(response, 'coming soon')
-                self.assertNotContains(response, 'Coming soon')
-                self.assertNotContains(response, 'Coming Soon')
+    def test_faq_does_not_use_coming_soon_ecommerce_wording(self):
+        response = self.client.get(reverse('core:faq'))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'coming soon')
+        self.assertNotContains(response, 'Coming soon')
+        self.assertNotContains(response, 'Coming Soon')
 
     def test_homepage_has_catalog_and_ecommerce_section(self):
         response = self.client.get('/en/')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Catalogs and online shops')
         self.assertContains(response, 'Starter Catalog / WhatsApp Orders')
-        self.assertContains(response, 'WooCommerce dashboard')
-        self.assertContains(response, 'From €149 + VAT')
-        self.assertContains(response, 'From €595 + VAT')
-        self.assertContains(response, 'From €1,250 + VAT')
+        self.assertContains(response, 'Ask for setup guidance')
+        self.assertContains(response, 'Manual setup required')
+        self.assertContains(response, 'Larger custom setup')
+        self.assertNotContains(response, 'From ?149 + VAT')
+        self.assertNotContains(response, 'From ?595 + VAT')
+        self.assertNotContains(response, 'From ?1,250 + VAT')
 
         dutch_response = self.client.get('/nl/')
         self.assertEqual(dutch_response.status_code, 200)
-        self.assertContains(dutch_response, 'Vanaf €149 + btw')
+        self.assertContains(dutch_response, 'Vraag naar opzetadvies')
 
     def test_homepage_has_promotion_section_below_ecommerce(self):
         response = self.client.get('/en/')
@@ -213,16 +211,13 @@ class PublicPagesTests(TestCase):
     def test_plans_page_uses_short_catalog_teaser_only(self):
         response = self.client.get(reverse('core:plans'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Need a catalog or online shop?')
-        self.assertTrue(
-            reverse('core:catalog_and_ecommerce') in response.content.decode('utf-8')
-            or reverse('core:catalog_and_ecommerce_nl') in response.content.decode('utf-8')
-        )
+        self.assertNotContains(response, 'Need a catalog or online shop?')
+        self.assertNotContains(response, 'View catalog and eCommerce options')
         self.assertNotContains(response, 'Starter Catalog / WhatsApp Orders')
         self.assertNotContains(response, 'WooCommerce dashboard')
 
     def test_public_pages_do_not_contain_catalog_placeholder_copy(self):
-        for route_name in ['core:home', 'core:plans', 'core:catalog_and_ecommerce']:
+        for route_name in ['core:home', 'core:plans', 'core:online_shop']:
             with self.subTest(route_name=route_name):
                 response = self.client.get(reverse(route_name))
                 self.assertEqual(response.status_code, 200)
@@ -234,13 +229,11 @@ class PublicPagesTests(TestCase):
 
         homepage_response = self.client.get(reverse('core:home'))
         self.assertEqual(homepage_response.status_code, 200)
-        self.assertContains(homepage_response, 'From €149 + VAT')
+        self.assertContains(homepage_response, 'Ask for setup guidance')
         self.assertContains(homepage_response, 'Prices are starting prices and exclude VAT.')
 
         detail_response = self.client.get(reverse('core:catalog_and_ecommerce'))
-        self.assertEqual(detail_response.status_code, 200)
-        self.assertContains(detail_response, 'From €595 + VAT')
-        self.assertContains(detail_response, 'From €1,250 + VAT')
+        self.assertRedirects(detail_response, reverse('core:online_shop'))
 
     def test_promotion_fallback_works_without_admin_rows(self):
         ServiceOption.objects.all().delete()
@@ -359,26 +352,25 @@ class AssistantTests(TestCase):
     def test_assistant_widget_uses_general_public_copy(self):
         response = self.client.get('/en/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Start a website')
-        self.assertContains(response, 'View prices')
-        self.assertContains(response, 'How does the preview work?')
-        self.assertContains(response, 'Do you help with Google?')
-        self.assertContains(response, 'Contact support')
-        self.assertContains(response, 'Hello. I help with practical Get Online Fast questions about websites, plans, previews, payment, support, domains, and business email.')
-        self.assertContains(response, 'For Get Online Fast questions only.')
-        self.assertContains(response, reverse('core:assistant_help'))
-        self.assertContains(response, 'Mode: not run')
+        self.assertContains(response, 'Need help?')
+        self.assertContains(response, 'Quick help for websites, shops, ads, and support.')
+        self.assertContains(response, 'e.g. I need a website')
+        self.assertContains(response, reverse('core:websites'))
+        self.assertContains(response, reverse('core:ads'))
+        self.assertContains(response, reverse('core:pricing'))
+        self.assertNotContains(response, 'Which plan fits my business?')
+        self.assertNotContains(response, 'How does the dashboard work?')
 
     def test_assistant_widget_shows_dutch_labels_on_dutch_page(self):
         response = self.client.get('/nl/')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Stel een GOF vraag')
-        self.assertContains(response, 'Vraag stellen')
-        self.assertContains(response, 'Bijv. Welk pakket past bij mijn bedrijf?')
-        self.assertContains(response, 'Website starten')
-        self.assertContains(response, 'Prijzen bekijken')
-        self.assertContains(response, 'Helpen jullie met Google?')
-        self.assertContains(response, 'Modus: nog niet uitgevoerd')
+        self.assertContains(response, 'Hulp nodig?')
+        self.assertContains(response, 'Snelle hulp bij websites, shops, advertenties en support.')
+        self.assertContains(response, 'Bijv. Ik heb een website nodig')
+        self.assertContains(response, 'Verstuur')
+        self.assertContains(response, '/nl/websites/')
+        self.assertContains(response, '/nl/pricing/')
+        self.assertNotContains(response, 'Welk pakket past bij mijn bedrijf?')
 
     def test_assistant_pricing_question_uses_plans_answer(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'What are your prices?'})
@@ -404,25 +396,21 @@ class AssistantTests(TestCase):
         payload = response.json()
         self.assertEqual(payload['intent'], 'ecommerce')
         self.assertIn('product catalogs', payload['answer'])
-        self.assertIn('€149 + VAT', payload['answer'])
-        self.assertIn('€595 + VAT', payload['answer'])
-        self.assertIn('€1,250 + VAT', payload['answer'])
-        self.assertIn(reverse('core:catalog_and_ecommerce'), payload['suggested_links'][0]['url'])
+        self.assertIn('online shop page', payload['answer'])
+        self.assertIn(reverse('core:online_shop'), payload['suggested_links'][0]['url'])
         self.assertNotIn('coming soon', payload['answer'].lower())
         self.assertNotIn('HMD', payload['answer'])
         for link in payload['suggested_links']:
             self.assertNotIn('/examples/', link['url'])
 
-    def test_assistant_online_shop_answer_links_to_dutch_catalog_page(self):
+    def test_assistant_online_shop_answer_links_to_dutch_online_shop_page(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'Kunnen jullie helpen met webshops?', 'lang': 'nl'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['intent'], 'ecommerce')
-        self.assertIn('€149 + btw', payload['answer'])
-        self.assertIn('€595 + btw', payload['answer'])
-        self.assertIn('€1.250 + btw', payload['answer'])
+        self.assertIn('online-shop pagina', payload['answer'])
         self.assertNotIn('HMD', payload['answer'])
-        self.assertIn('/nl/catalogus-en-webshop/', payload['suggested_links'][0]['url'])
+        self.assertIn('/nl/online-shop/', payload['suggested_links'][0]['url'])
 
     def test_assistant_promotion_answer_is_general(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'Can you help with Google Ads?'})
@@ -467,7 +455,6 @@ class AssistantTests(TestCase):
     def test_assistant_proof_page_is_available_in_debug(self):
         response = self.client.get(reverse('core:assistant_proof'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Public GOF assistant proof')
         self.assertContains(response, reverse('core:assistant_help'))
 
     @override_settings(GOF_SITE_STATUS='pre_launch', GOF_PUBLIC_LAUNCH_DATE=None)

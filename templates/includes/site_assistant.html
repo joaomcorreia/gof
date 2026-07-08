@@ -1,9 +1,18 @@
-{% load i18n %}
+﻿{% load i18n %}
 <div
   class="site-assistant"
   data-site-assistant
-  data-assistant-endpoint="{% url 'core:assistant_help' %}"
   data-assistant-language="{{ CURRENT_LANGUAGE|default:'en' }}"
+  data-url-websites="{% url 'core:websites' %}"
+  data-url-online-shop="{% url 'core:online_shop' %}"
+  data-url-ads="{% url 'core:ads' %}"
+  data-url-pricing="{% url 'core:pricing' %}"
+  data-url-faq="{% url 'core:faq' %}"
+  data-url-contact="{% url 'core:contact' %}"
+  data-url-support="{% url 'core:support' %}"
+  data-url-meta-ads="{% url 'core:facebook_instagram_ads' %}"
+  data-url-google-ads="{% url 'core:google_ads' %}"
+  data-url-linkedin-ads="{% url 'core:linkedin_ads' %}"
 >
   <button type="button" class="site-assistant-toggle" data-assistant-toggle>
     <span data-assistant-toggle-label>{% if CURRENT_LANGUAGE == 'nl' %}Hulp nodig?{% else %}Need help?{% endif %}</span>
@@ -12,42 +21,16 @@
     <header class="site-assistant-panel__header">
       <div>
         <strong>{% if CURRENT_LANGUAGE == 'nl' %}GOF hulp{% else %}GOF help{% endif %}</strong>
-        <p data-assistant-intro>{% if CURRENT_LANGUAGE == 'nl' %}Stel een korte vraag over websites, pakketten, betaling, support of het dashboard.{% else %}Ask a short question about websites, plans, payment, support, or the dashboard.{% endif %}</p>
+        <p data-assistant-intro>{% if CURRENT_LANGUAGE == 'nl' %}Snelle hulp bij websites, shops, advertenties en support.{% else %}Quick help for websites, shops, ads, and support.{% endif %}</p>
       </div>
-      <button type="button" class="site-assistant-close" data-assistant-close aria-label="{% if CURRENT_LANGUAGE == 'nl' %}Sluiten{% else %}Close{% endif %}">×</button>
+      <button type="button" class="site-assistant-close" data-assistant-close aria-label="{% if CURRENT_LANGUAGE == 'nl' %}Sluiten{% else %}Close{% endif %}">&times;</button>
     </header>
-    <div class="site-assistant-messages" data-assistant-messages>
-      <article class="site-assistant-message site-assistant-message--assistant" data-assistant-default-message>
-        {% if CURRENT_LANGUAGE == 'nl' %}
-          Hallo. Ik kan helpen met websites, pakketten, betaling, support, e-mailadressen en het WordPress dashboard.
-        {% else %}
-          Hello. I can help with websites, plans, payment, support, business email, and the WordPress dashboard.
-        {% endif %}
-      </article>
-    </div>
-    <div class="site-assistant-suggestions" data-assistant-suggestions>
-      {% if CURRENT_LANGUAGE == 'nl' %}
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Welk pakket past bij mijn bedrijf?">Welk pakket past bij mijn bedrijf?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Kan ik nu een preview maken?">Kan ik nu een preview maken?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Hoe kan ik betalen?">Hoe kan ik betalen?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Kunnen jullie helpen met webshops?">Kunnen jullie helpen met webshops?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Wat is inbegrepen?">Wat is inbegrepen?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Welke support krijg ik?">Welke support krijg ik?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Hoe werkt het dashboard?">Hoe werkt het dashboard?</button>
-      {% else %}
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Which plan fits my business?">Which plan fits my business?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Can I create a preview right now?">Can I create a preview right now?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="How can I pay?">How can I pay?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="Can you help with online shops?">Can you help with online shops?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="What is included?">What is included?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="What support do I get?">What support do I get?</button>
-        <button type="button" class="site-assistant-chip" data-assistant-suggestion="How does the dashboard work?">How does the dashboard work?</button>
-      {% endif %}
-    </div>
+    <div class="site-assistant-messages" data-assistant-messages></div>
     <form class="site-assistant-form" data-assistant-form>
       <label class="sr-only" for="site-assistant-input">{% if CURRENT_LANGUAGE == 'nl' %}Vraag{% else %}Question{% endif %}</label>
-      <input id="site-assistant-input" type="text" data-assistant-input placeholder="{% if CURRENT_LANGUAGE == 'nl' %}Bijv. Welk pakket past bij mijn bedrijf?{% else %}e.g. Which plan fits my business?{% endif %}">
-      <button type="submit" class="btn btn-primary">{% if CURRENT_LANGUAGE == 'nl' %}Vraag stellen{% else %}Send{% endif %}</button>
+      <input id="site-assistant-input" type="text" data-assistant-input placeholder="{% if CURRENT_LANGUAGE == 'nl' %}Bijv. Ik heb een website nodig{% else %}e.g. I need a website{% endif %}">
+      <button type="submit" class="btn btn-primary">{% if CURRENT_LANGUAGE == 'nl' %}Verstuur{% else %}Send{% endif %}</button>
     </form>
   </section>
 </div>
+

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }} | Get Online Fast{% endblock %}
+
+{% block extra_head %}
+  <meta name="description" content="{{ page_meta_description }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="wrap promo-hero-shell websites-page">
+    <div class="websites-hero">
+      <div class="websites-hero__copy">
+        <div class="eyebrow">{{ page_eyebrow }}</div>
+        <h1>{{ page_title }}</h1>
+        {% if page_subtitle %}<p class="page-copy"><strong>{{ page_subtitle }}</strong></p>{% endif %}
+        <p class="page-copy websites-main-copy">{{ page_intro }}</p>
+        {% if page_primary_cta_label or page_secondary_cta_label %}
+        <div class="hero-actions">
+          {% if page_primary_cta_label %}<a class="btn btn-primary" href="{{ page_primary_cta_url }}">{{ page_primary_cta_label }}</a>{% endif %}
+          {% if page_secondary_cta_label %}<a class="btn btn-secondary" href="{{ page_secondary_cta_url }}">{{ page_secondary_cta_label }}</a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="websites-hero__media">
+        <img src="{% static 'core/img/websites/websites-hero.jpeg' %}" alt="{{ page_title }}">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    {% if page_highlights %}
+      <div class="promo-summary-grid">
+        {% for item in page_highlights %}
+          <article class="promo-summary-card">
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.text }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+
+        {% for section in page_sections %}
+          <section{% if section.anchor %} id="{{ section.anchor }}"{% endif %} class="promo-section websites-section{% if section.layout %} websites-section--{{ section.layout|slugify }}{% endif %}">
+            <h2>{{ section.title }}</h2>
+
+            {% if section.layout == 'included_grid' %}
+              <div class="promo-copy websites-included-grid-copy websites-section-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-included-grid">
+                {% for item in section.items %}
+                  <article class="websites-included-item">
+                    <strong>{{ item }}</strong>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif section.layout == 'dashboard_band' %}
+              <div class="websites-dashboard-office">
+                <div class="promo-copy websites-section-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                <div class="websites-dashboard-office__grid">
+                  {% for item in section.items %}
+                    <article class="websites-dashboard-office__item">
+                      <strong>{{ item }}</strong>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif section.layout == 'steps_grid' %}
+              <div class="promo-copy websites-section-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-steps-grid">
+                {% for step in section.steps %}
+                  <article class="websites-step-card">
+                    <span class="websites-step-card__num">{{ forloop.counter }}</span>
+                    <h3>{{ step.title }}</h3>
+                    <p>{{ step.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif section.layout == 'upgrade_band' %}
+              <div class="websites-upgrade-band">
+                <div class="promo-copy websites-section-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                <div class="websites-upgrade-band__grid">
+                  {% for item in section.items %}
+                    <article class="websites-upgrade-band__item">
+                      <strong>{{ item }}</strong>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif section.layout == 'writing_help' %}
+              <div class="websites-writing-help">
+                <div class="promo-copy websites-section-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                {% if section.actions %}
+                  <div class="websites-writing-help__actions">
+                    {% for action in section.actions %}
+                      <a class="btn {% if forloop.first %}btn-primary{% else %}btn-secondary{% endif %}" href="{{ action.url }}">{{ action.label }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% elif forloop.first and section.image_label %}
+              <div class="promo-split promo-split--feature">
+                <div class="promo-visual promo-image-stage promo-image-stage--feature" aria-hidden="true">
+                  <div class="promo-image-art promo-image-art--feature">
+                    <img src="{% static 'core/img/websites/websites-practical-start.jpeg' %}" alt="{{ section.image_label }}">
+                  </div>
+                </div>
+                <div class="promo-copy promo-split-copy websites-section-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="promo-copy websites-section-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+                {% if section.bullets %}
+                  <ul class="clean-list promo-list">
+                    {% for item in section.bullets %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endif %}
+          </section>
+        {% endfor %}
+
+        {% if related_links %}
+          <section class="promo-growth">
+            <h2>{{ page_sidebar_title }}</h2>
+            <div class="promo-link-grid promo-growth-links">
+              {% for item in related_links %}
+                <a class="btn btn-secondary" href="{{ item.url }}">{{ item.label }}</a>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+
+        {% if page_faqs %}
+          <section class="promo-faq">
+            <h2>{{ page_faq_title }}</h2>
+            {% for item in page_faqs %}
+              <article class="promo-faq-item">
+                <h3>{{ item.question }}</h3>
+                <p>{{ item.answer }}</p>
+              </article>
+            {% endfor %}
+          </section>
+        {% endif %}
+
+        {% if page_cta_block_title %}
+          <section class="cta promo-bottom-cta">
+            <div>
+              <h2>{{ page_cta_block_title }}</h2>
+              <p>{{ page_cta_block_text }}</p>
+            </div>
+            <div class="cta-actions">
+              {% if page_cta_block_primary_label %}<a class="btn btn-primary" href="{{ page_cta_block_primary_url }}">{{ page_cta_block_primary_label }}</a>{% endif %}
+              {% if page_cta_block_secondary_label %}<a class="btn btn-secondary" href="{{ page_cta_block_secondary_url }}">{{ page_cta_block_secondary_label }}</a>{% endif %}
+            </div>
+          </section>
+        {% endif %}
+
+  </div>
+</section>
+{% endblock %}

@@ -12,7 +12,7 @@
   <div class="wrap narrow">
     <div class="eyebrow">{% trans "Contact" %}</div>
     <h1>{% trans "Need a quick way to reach us?" %}</h1>
-    <p class="page-copy">{% trans "Get Online Fast is built as a self-service, AI-assisted platform. For practical questions before launch, you can reach us directly." %}</p>
+    <p class="page-copy">{% trans "Ask a question about your website, pricing, launch timing, promotion, or the best setup for your business." %}</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#contact-form">{% trans "Open contact form" %}</a>
     </div>
@@ -21,120 +21,140 @@
 
 <section class="section-band section-plain">
   <div class="wrap">
-    <div class="detail-grid">
-      <article class="card contact-card" id="contact-form">
-        <h3>{% trans "Send a message" %}</h3>
-        <p>{% trans "Use the form below for questions about plans, launch timing, or the right setup for your business." %}</p>
+    <div class="contact-page">
+      <section class="contact-method-grid">
+        <article class="contact-method-card">
+          <h3>{% trans "WhatsApp / Phone" %}</h3>
+          <p>{% trans "For quick questions before launch or when you prefer a direct message." %}</p>
+          <strong class="contact-method-value">+31 617 014936</strong>
+          <a class="btn btn-secondary" href="https://wa.me/31617014936" target="_blank" rel="noopener noreferrer">{% trans "Message on WhatsApp" %}</a>
+        </article>
 
-        {% if messages %}
-          <div class="field-errors">
-            {% for message in messages %}
-              <p>{{ message }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
+        <article class="contact-method-card">
+          <h3>{% trans "Email" %}</h3>
+          <p>{% trans "Best for questions about plans, billing, domains, or project details." %}</p>
+          <strong class="contact-method-value">info@getonlinefast.eu</strong>
+          <a class="btn btn-secondary" href="mailto:info@getonlinefast.eu">{% trans "Send email" %}</a>
+        </article>
 
-        <form method="post">
-          {% csrf_token %}
-          {{ form.honeypot }}
+        <article class="contact-method-card">
+          <h3>{% trans "Location" %}</h3>
+          <p>{% trans "Based in Amsterdam, serving small businesses across Europe." %}</p>
+          <strong class="contact-method-value">{% trans "Amsterdam, The Netherlands" %}</strong>
+        </article>
 
-          <div class="field">
-            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-            {{ form.name }}
-            {% if form.name.errors %}
-              <div class="field-errors">
-                {% for error in form.name.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
+        <article class="contact-method-card contact-assistant-card">
+          <h3>{% trans "Website assistant" %}</h3>
+          <p>{% trans "The assistant can answer practical questions about websites, pricing, promotion, online shops, payment methods, and getting started." %}</p>
+          <button type="button" class="btn btn-secondary" data-open-site-assistant>{% trans "Ask the assistant" %}</button>
+        </article>
 
-          <div class="field">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-            {% if form.email.errors %}
-              <div class="field-errors">
-                {% for error in form.email.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
+        <article class="contact-method-card contact-language-card">
+          <h3>{% trans "Languages" %}</h3>
+          <p>{% trans "The website is being prepared in English, French, Dutch, and Portuguese. Assistant language support will be improved during the multilingual pass." %}</p>
+        </article>
+      </section>
 
-          <div class="field">
-            <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-            {{ form.phone }}
-            {% if form.phone.errors %}
-              <div class="field-errors">
-                {% for error in form.phone.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
+      <section class="contact-form-section" id="contact-form">
+        <div class="contact-form-panel">
+          <div class="section-head">
+            <div>
+              <h2>{% trans "Send a message" %}</h2>
+            </div>
+            <p>{% trans "Use the form for questions about plans, launch timing, your current website, or the best setup for your business." %}</p>
           </div>
 
-          <div class="field">
-            <label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
-            {{ form.message }}
-            {% if form.message.errors %}
-              <div class="field-errors">
-                {% for error in form.message.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
+          <p class="contact-form-note">{% trans "For faster help, include your business type, website address if you already have one, preferred language, and what you want to achieve." %}</p>
 
-          <div class="field">
-            <label for="{{ form.security_question.id_for_label }}">
-              {{ form.security_question.label }}: {{ contact_captcha_question }}
-            </label>
-            {{ form.security_question }}
-            {% if form.security_question.errors %}
-              <div class="field-errors">
-                {% for error in form.security_question.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
-              </div>
-            {% endif %}
-          </div>
-
-          {% if form.non_field_errors %}
+          {% if messages %}
             <div class="field-errors">
-              {% for error in form.non_field_errors %}
-                <p>{{ error }}</p>
+              {% for message in messages %}
+                <p>{{ message }}</p>
               {% endfor %}
             </div>
           {% endif %}
 
-          <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button>
-        </form>
-      </article>
+          <form method="post">
+            {% csrf_token %}
+            {{ form.honeypot }}
 
-      <article class="card contact-card">
-        <h3>{% trans "Email" %}</h3>
-        <p>{% trans "Best for questions about plans, billing, or whether the platform fits your business." %}</p>
-        <a class="btn btn-secondary" href="mailto:info@getonlinefast.eu">info@getonlinefast.eu</a>
-      </article>
-      <article class="card contact-card">
-        <h3>{% trans "Phone" %}</h3>
-        <p>{% trans "Use phone for simple pre-launch questions. The product itself is designed so you can manage your website independently." %}</p>
-        <a class="btn btn-secondary" href="tel:+31617014936">+31 617 014936</a>
-      </article>
-    </div>
-  </div>
-</section>
+            <div class="contact-form-grid">
+              <div class="field contact-form-field">
+                <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                  <div class="field-errors">
+                    {% for error in form.name.errors %}
+                      <p>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
 
-<section class="section-band section-soft">
-  <div class="wrap">
-    <div class="section-head">
-      <div>
-        <h2>{% trans "Prefer to talk it through first?" %}</h2>
-      </div>
-      <p>{% trans "Contact Get Online Fast and we will help you choose the right website setup for your business." %}</p>
+              <div class="field contact-form-field">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <div class="field-errors">
+                    {% for error in form.email.errors %}
+                      <p>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="field contact-form-field contact-form-field--full">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                  <div class="field-errors">
+                    {% for error in form.phone.errors %}
+                      <p>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="field contact-form-field contact-form-field--full">
+                <label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+                {{ form.message }}
+                {% if form.message.errors %}
+                  <div class="field-errors">
+                    {% for error in form.message.errors %}
+                      <p>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="field contact-form-field contact-form-field--full">
+                <label for="{{ form.security_question.id_for_label }}">
+                  {{ form.security_question.label }}: {{ contact_captcha_question }}
+                </label>
+                {{ form.security_question }}
+                {% if form.security_question.errors %}
+                  <div class="field-errors">
+                    {% for error in form.security_question.errors %}
+                      <p>{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            {% if form.non_field_errors %}
+              <div class="field-errors">
+                {% for error in form.non_field_errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button>
+          </form>
+        </div>
+      </section>
     </div>
-    <a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>
   </div>
 </section>
 {% endblock %}

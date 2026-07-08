@@ -1,3 +1,4 @@
+import copy
 import random
 
 from django.conf import settings
@@ -23,7 +24,12 @@ CONTACT_CAPTCHA_ANSWER_SESSION_KEY = 'contact_captcha_answer'
 
 PUBLIC_INFO_PAGE_LINKS = {
     'contact': {'url_name': 'core:contact', 'label': _('Contact')},
-    'plans': {'url_name': 'core:plans', 'label': _('Plans')},
+    'plans': {'url_name': 'core:plans', 'label': _('Pricing')},
+    'pricing': {'url_name': 'core:pricing', 'label': _('Pricing')},
+    'websites': {'url_name': 'core:websites', 'label': _('Websites')},
+    'ads': {'url_name': 'core:ads', 'label': _('Ads')},
+    'online_shop': {'url_name': 'core:online_shop', 'label': _('Online Shop')},
+    'payment_methods': {'url_name': 'core:payment_methods', 'label': _('Payment Methods')},
     'terms': {'url_name': 'core:terms', 'label': _('Terms')},
     'privacy': {'url_name': 'core:privacy_policy', 'label': _('Privacy Policy')},
     'support': {'url_name': 'core:support', 'label': _('Support')},
@@ -107,7 +113,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'starter_catalog',
                 'eyebrow': 'Starter Catalog',
                 'title': 'Starter Catalog / WhatsApp Orders',
-                'price_label': 'From €149 + VAT',
+                'price_label': 'Ask for setup guidance',
                 'summary': (
                     'Best for small resellers, Avon-style sellers, menus, stock lists, parts, and simple product ranges. '
                     'Visitors browse products and order through WhatsApp, phone, or a contact form.'
@@ -135,7 +141,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'full_ecommerce',
                 'eyebrow': 'Full eCommerce',
                 'title': 'Full eCommerce Shop',
-                'price_label': 'From €595 + VAT',
+                'price_label': 'Manual setup required',
                 'summary': (
                     'Best for businesses that want customers to buy online with cart, checkout, and payment setup guidance through WooCommerce.'
                 ),
@@ -157,7 +163,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'reseller_ecommerce',
                 'eyebrow': 'Reseller eCommerce',
                 'title': 'eCommerce for Resellers',
-                'price_label': 'From €1,250 + VAT',
+                'price_label': 'Larger custom setup',
                 'summary': (
                     'Best for larger catalogs, specialist product ranges, trade products, vehicle parts, or reseller-style businesses '
                     'that need more structure than a basic shop.'
@@ -195,7 +201,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'starter_catalog',
                 'eyebrow': 'Starter Catalog',
                 'title': 'Starter Catalog / WhatsApp Orders',
-                'price_label': 'Vanaf €149 + btw',
+                'price_label': 'Vraag naar opzetadvies',
                 'summary': (
                     'Geschikt voor kleine resellers, Avon-achtige verkopers, menu’s, voorraadoverzichten, onderdelen en eenvoudige productreeksen. '
                     'Bezoekers bekijken producten en bestellen via WhatsApp, telefoon of een contactformulier.'
@@ -223,7 +229,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'full_ecommerce',
                 'eyebrow': 'Full eCommerce',
                 'title': 'Full eCommerce Shop',
-                'price_label': 'Vanaf €595 + btw',
+                'price_label': 'Handmatige setup nodig',
                 'summary': (
                     'Geschikt voor bedrijven die online willen verkopen met winkelwagen, checkout en begeleiding bij de betaalopzet via WooCommerce.'
                 ),
@@ -245,7 +251,7 @@ SERVICE_OPTION_FALLBACKS = {
                 'option_key': 'reseller_ecommerce',
                 'eyebrow': 'Reseller eCommerce',
                 'title': 'eCommerce for Resellers',
-                'price_label': 'Vanaf €1.250 + btw',
+                'price_label': 'Grotere maatwerk setup',
                 'summary': (
                     'Geschikt voor grotere catalogi, specialistische productreeksen, handelsproducten, voertuigonderdelen of reseller-achtige bedrijven '
                     'die meer structuur nodig hebben dan een basiswebshop.'
@@ -374,17 +380,103 @@ PROMOTION_SERVICE_FALLBACKS = {
 PROMOTION_PAGE_FALLBACKS = {
     'en': {
         'facebook_posts': {
-            'eyebrow': 'Promotion',
-            'title': 'Facebook Posts',
-            'price_label': 'EUR 79 / month',
-            'intro': 'Keep your business visible with regular Facebook posts prepared for your services, offers, updates, and recent work.',
-            'sections': [
-                {'title': 'What this is', 'paragraphs': ['A monthly content service for businesses that want their Facebook page to look active without having to write every post themselves.']},
-                {'title': 'Good for', 'paragraphs': ['Local service businesses, trades, salons, restaurants, shops, and small companies that want steady visibility.']},
-                {'title': 'What can be included', 'bullets': ['Service posts', 'Offer posts', 'Before/after style posts', 'Seasonal posts', 'Website launch posts', 'Trust-building posts', 'Simple call-to-action posts']},
-                {'title': 'Important note', 'paragraphs': ['This is content preparation. It does not include paid advertising budget or automatic posting unless agreed separately.']},
+            'eyebrow': 'Free with new websites',
+            'title': 'Facebook Launch Posts',
+            'price_label': 'Free with new website customers',
+            'subtitle': 'Keep your new website and Facebook page active from day one.',
+            'intro': 'Your new website should not launch alone. With Facebook Launch Posts, your business starts with ready-made posts and stories that point people to your website, Facebook page, phone, WhatsApp, and email.',
+            'highlights': [
+                {
+                    'title': 'Included with setup',
+                    'text': 'Need a Facebook page? We can help prepare one with your business details and website link.',
+                },
+                {
+                    'title': 'Launch posts ready',
+                    'text': 'Get 10 Facebook posts and 5 stories prepared for your first 5 weeks online.',
+                },
+                {
+                    'title': 'More ways to be found',
+                    'text': 'Send people to your website, Facebook page, phone, WhatsApp, or email.',
+                },
             ],
-            'cta_label': 'Request Facebook Posts',
+            'sections': [
+                {
+                    'title': 'A simple Facebook start for your business',
+                    'paragraphs': [
+                        'When your website goes online, your Facebook page should also look active. Facebook Launch Posts help announce your services, recent work, offers, opening hours, photos, and contact details.',
+                        'For new website customers, this launch pack can be included as a free start. You receive 10 Facebook posts and 5 Facebook stories, planned as 2 posts per week for 5 weeks, plus 1 story per week.',
+                    ],
+                    'image_label': 'Facebook launch example image',
+                },
+                {
+                    'title': 'If you already have a Facebook page',
+                    'paragraphs': [
+                        'You do not need to add Get Online Fast as an admin. We can send the prepared posts to you by email with simple instructions, so you can copy, paste, and publish them yourself.',
+                        'If you want us to publish the posts for you, you can add Get Online Fast as a publisher or editor on your Facebook page.',
+                    ],
+                },
+                {
+                    'title': 'What the posts can be about',
+                    'bullets': [
+                        'Your main services',
+                        'Recent projects or work',
+                        'Before and after photos',
+                        'Offers or seasonal reminders',
+                        'Opening hours',
+                        'Website launch announcement',
+                        'Phone, WhatsApp, and email contact',
+                        'Trust and local business posts',
+                    ],
+                    'image_label': 'Post ideas preview',
+                },
+                {
+                    'title': 'How often should a small business post?',
+                    'paragraphs': [
+                        'For most freelancers, handymen, salons, garages, shops, restaurants, and local service businesses, 2 to 3 posts per week is a good start. It keeps your page active without becoming too much work.',
+                        'Stories are useful for quick updates, offers, photos, reminders, and simple "we are available" messages.',
+                    ],
+                },
+                {
+                    'title': 'After the launch pack',
+                    'paragraphs': [
+                        'The free launch pack helps your business start active after your website goes online. If you want your Facebook page to stay active every month, Get Online Fast also offers monthly Facebook post packages.',
+                    ],
+                },
+            ],
+            'faqs': [
+                {
+                    'question': 'Will these Facebook Launch Posts guarantee me new customers?',
+                    'answer': 'No. No Facebook post service can promise guaranteed customers. The goal is to help your business look active, show your services, guide people to your website, and make it easier for them to contact you.',
+                },
+                {
+                    'question': 'Do I need a Facebook Business Page?',
+                    'answer': 'Yes, but if you do not have one yet, we can help prepare it as part of your website setup package.',
+                },
+                {
+                    'question': 'Do I need to give Get Online Fast admin access?',
+                    'answer': 'No. By default, we send the posts and simple instructions to you by email, so you can publish them yourself.',
+                },
+                {
+                    'question': 'Can you publish the posts for me?',
+                    'answer': 'Yes. If you want us to publish the posts, you can add Get Online Fast as a publisher or editor on your Facebook page.',
+                },
+                {
+                    'question': 'Are Facebook ads included?',
+                    'answer': 'No. This page is about prepared Facebook posts and stories. Paid Facebook ads are a separate service.',
+                },
+                {
+                    'question': 'What happens after the first 5 weeks?',
+                    'answer': 'You can continue posting yourself, or choose a monthly Facebook posts package if you want help keeping your page active.',
+                },
+            ],
+            'faq_title': 'Questions about Facebook Launch Posts',
+            'cta_label': 'Questions? Contact Get Online Fast',
+            'cta_block_title': 'Ready to start your website and Facebook launch?',
+            'cta_block_text': 'Start with your website today, and we can help prepare your first Facebook posts so your business looks active from day one.',
+            'cta_block_primary_label': 'Start your website',
+            'cta_block_primary_url_name': 'ai_starter:start',
+            'cta_block_secondary_label': 'Contact Get Online Fast',
+            'cta_block_secondary_url_name': 'core:contact',
         },
         'meta_ads': {
             'eyebrow': 'Promotion',
@@ -392,10 +484,11 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'From EUR 70',
             'intro': 'Run simple local campaigns on Facebook and Instagram to promote your services, offers, or new website.',
             'sections': [
-                {'title': 'What this is', 'paragraphs': ['A basic campaign setup or support service for businesses that want to reach more people on Meta platforms.']},
-                {'title': 'Good for', 'paragraphs': ['Local offers, service awareness, website launches, seasonal campaigns, and businesses with visual work to show.']},
-                {'title': 'What can be included', 'bullets': ['Campaign structure', 'Audience direction', 'Ad copy', 'Creative suggestions', 'Basic setup support', 'Campaign improvement notes']},
-                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. Meta charges separately for ad spend.']},
+                {'title': 'What this is', 'paragraphs': ['A practical Facebook and Instagram ads setup service for small businesses that want more local visibility around a service area, offer, launch, or seasonal campaign.']},
+                {'title': 'How the costs work', 'paragraphs': ['You pay a setup fee for the first campaign setup and guidance. You also choose the ad budget that is spent through Meta on Facebook and Instagram.', 'For this estimator, campaign budget is calculated as daily budget multiplied by the number of campaign days. Real delivery depends on the audience, service area, offer, creative, landing page, and competition.']},
+                {'title': 'How it works', 'paragraphs': ['The first campaign is kept simple so you can review the direction before launch.'], 'bullets': ['Choose the platform', 'Choose your daily budget and campaign length', 'Choose the local targeting radius', 'We prepare the campaign', 'You review and launch', 'We check the basic campaign setup and performance']},
+                {'title': 'What can affect results', 'bullets': ['Audience targeting', 'Service area and radius', 'Offer strength', 'Ad image or creative', 'Landing page quality', 'Local competition and seasonality']},
+                {'title': 'Important note', 'paragraphs': ['Ad spend is paid separately through Meta. Results are not guaranteed.']},
             ],
             'cta_label': 'Request Meta Ads Help',
         },
@@ -405,10 +498,11 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'From EUR 70',
             'intro': 'Help customers find your business when they are already searching for your services.',
             'sections': [
-                {'title': 'What this is', 'paragraphs': ['A simple Google Ads setup or support service for local businesses that want search visibility.']},
-                {'title': 'Good for', 'paragraphs': ['Urgent services, local trades, repair services, professional services, and businesses where customers search before calling.']},
-                {'title': 'What can be included', 'bullets': ['Basic campaign structure', 'Keyword direction', 'Ad text', 'Location targeting', 'Landing page suggestions', 'Improvement notes']},
-                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. Google charges separately for clicks and campaign spend.']},
+                {'title': 'What this is', 'paragraphs': ['A practical Google Ads setup service for local businesses that want to appear when people are already searching for a service or urgent solution.']},
+                {'title': 'How the costs work', 'paragraphs': ['You pay a setup fee for the campaign setup, targeting direction, and first campaign structure. You also choose the ad budget that Google Ads uses during the campaign.', 'Google Ads often works with cost per click. Click prices can change based on keywords, location, industry, and competition. Daily budget helps control approximate spend, but results are not guaranteed.']},
+                {'title': 'How it works', 'paragraphs': ['The first campaign is kept simple so you can review the direction before launch.'], 'bullets': ['Choose the platform', 'Choose your daily budget and campaign length', 'Choose the local targeting radius', 'We prepare the campaign', 'You review and launch', 'We check the basic campaign setup and performance']},
+                {'title': 'What can affect results', 'bullets': ['Keyword competition', 'Search demand in your area', 'Service urgency', 'Landing page quality', 'Location targeting', 'Competitor activity']},
+                {'title': 'Important note', 'paragraphs': ['Ad spend is paid separately through Google Ads. Results are not guaranteed.']},
             ],
             'cta_label': 'Request Google Ads Help',
         },
@@ -418,10 +512,11 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'From EUR 70',
             'intro': 'Promote business services to professionals, companies, and decision-makers.',
             'sections': [
-                {'title': 'What this is', 'paragraphs': ['A simple LinkedIn promotion setup or support service for B2B companies.']},
-                {'title': 'Good for', 'paragraphs': ['Professional services, B2B offers, recruitment-related visibility, consultants, agencies, and companies targeting other businesses.']},
-                {'title': 'What can be included', 'bullets': ['Campaign direction', 'Audience suggestions', 'Ad copy', 'Offer positioning', 'Landing page suggestions', 'Improvement notes']},
-                {'title': 'Important note', 'paragraphs': ['Ad budget is not included. LinkedIn charges separately for campaign spend and is usually more expensive than Facebook or Google.']},
+                {'title': 'What this is', 'paragraphs': ['A practical LinkedIn Ads setup service for B2B companies, consultants, agencies, and professional services that want targeted visibility among business audiences.']},
+                {'title': 'How the costs work', 'paragraphs': ['You pay a setup fee for the campaign setup, audience direction, and first campaign structure. You also choose the ad budget that LinkedIn uses during the campaign.', 'LinkedIn Ads are often more expensive than Facebook or Google because the targeting is more business and professional focused. Cost can depend on audience size, job roles, location, competition, and campaign objective. Results are not guaranteed.']},
+                {'title': 'How it works', 'paragraphs': ['The first campaign is kept simple so you can review the direction before launch.'], 'bullets': ['Choose the platform', 'Choose your daily budget and campaign length', 'Choose the local targeting radius', 'We prepare the campaign', 'You review and launch', 'We check the basic campaign setup and performance']},
+                {'title': 'What can affect results', 'bullets': ['Audience size and job roles', 'Business location and market', 'Campaign objective', 'Offer quality', 'Landing page quality', 'Competition for the same audience']},
+                {'title': 'Important note', 'paragraphs': ['Ad spend is paid separately through LinkedIn Ads. Results are not guaranteed.']},
             ],
             'cta_label': 'Request LinkedIn Ads Help',
         },
@@ -449,10 +544,11 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'Vanaf EUR 70',
             'intro': 'Draai eenvoudige lokale campagnes op Facebook en Instagram om je diensten, acties of nieuwe website te promoten.',
             'sections': [
-                {'title': 'Wat dit is', 'paragraphs': ['Een basisservice voor campagne-opzet of ondersteuning voor bedrijven die meer mensen willen bereiken via Meta-platformen.']},
-                {'title': 'Geschikt voor', 'paragraphs': ['Lokale acties, bekendheid voor diensten, website-lanceringen, seizoenscampagnes en bedrijven met visueel werk om te tonen.']},
-                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Campagnestructuur', 'Richting voor doelgroep', 'Advertentietekst', 'Creatieve suggesties', 'Basis hulp bij opzet', 'Verbeternotities voor campagnes']},
-                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. Meta rekent advertentiekosten apart.']},
+                {'title': 'Wat dit is', 'paragraphs': ['Een praktische Facebook en Instagram ads-opzet voor kleine bedrijven die lokaal beter zichtbaar willen zijn rond een dienst, actie, lancering of seizoenscampagne.']},
+                {'title': 'Hoe de kosten werken', 'paragraphs': ['Je betaalt een setup fee voor de eerste campagne-opzet en begeleiding. Daarnaast kies je zelf het advertentiebudget dat via Meta op Facebook en Instagram wordt uitgegeven.', 'Voor deze simulator wordt het campagnebudget berekend als dagbudget maal het aantal campagnedagen. Werkelijke levering hangt af van doelgroep, servicegebied, aanbod, creatieve uiting, landingspagina en concurrentie.']},
+                {'title': 'Hoe het werkt', 'paragraphs': ['De eerste campagne blijft eenvoudig zodat je de richting eerst kunt controleren voor de livegang.'], 'bullets': ['Kies het platform', 'Kies je dagbudget en campagneduur', 'Kies de lokale targeting-straal', 'Wij bereiden de campagne voor', 'Je controleert en lanceert', 'Wij controleren de basisopzet en prestaties van de campagne']},
+                {'title': 'Wat invloed heeft op resultaat', 'bullets': ['Doelgroepselectie', 'Servicegebied en straal', 'Sterkte van het aanbod', 'Advertentiebeeld of creatieve uiting', 'Kwaliteit van de landingspagina', 'Lokale concurrentie en seizoen']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget wordt apart via Meta betaald. Resultaten zijn niet gegarandeerd.']},
             ],
             'cta_label': 'Vraag hulp bij Meta Ads',
         },
@@ -462,10 +558,11 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'Vanaf EUR 70',
             'intro': 'Help klanten je bedrijf te vinden wanneer ze al zoeken naar jouw diensten.',
             'sections': [
-                {'title': 'Wat dit is', 'paragraphs': ['Een eenvoudige Google Ads-opzet of ondersteuningsservice voor lokale bedrijven die zoekzichtbaarheid willen.']},
-                {'title': 'Geschikt voor', 'paragraphs': ['Spoeddiensten, lokale vakbedrijven, reparatieservices, professionele diensten en bedrijven waarbij klanten zoeken voordat ze bellen.']},
-                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Basis campagnestructuur', 'Richting voor zoekwoorden', 'Advertentietekst', 'Locatietargeting', 'Suggesties voor landingspagina', 'Verbeternotities']},
-                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. Google rekent apart voor klikken en campagnebudget.']},
+                {'title': 'Wat dit is', 'paragraphs': ['Een praktische Google Ads-opzet voor lokale bedrijven die zichtbaar willen worden wanneer mensen al actief zoeken naar een dienst of snelle oplossing.']},
+                {'title': 'Hoe de kosten werken', 'paragraphs': ['Je betaalt een setup fee voor de campagne-opzet, targeting-richting en eerste campagnestructuur. Daarnaast kies je het advertentiebudget dat tijdens de campagne via Google Ads wordt gebruikt.', 'Google Ads werkt vaak met kosten per klik. Klikprijzen kunnen veranderen op basis van zoekwoorden, locatie, branche en concurrentie. Het dagbudget helpt om de uitgaven ongeveer te sturen, maar resultaten zijn niet gegarandeerd.']},
+                {'title': 'Hoe het werkt', 'paragraphs': ['De eerste campagne blijft eenvoudig zodat je de richting eerst kunt controleren voor de livegang.'], 'bullets': ['Kies het platform', 'Kies je dagbudget en campagneduur', 'Kies de lokale targeting-straal', 'Wij bereiden de campagne voor', 'Je controleert en lanceert', 'Wij controleren de basisopzet en prestaties van de campagne']},
+                {'title': 'Wat invloed heeft op resultaat', 'bullets': ['Concurrentie op zoekwoorden', 'Zoekvolume in jouw regio', 'Spoed van de dienst', 'Kwaliteit van de landingspagina', 'Locatietargeting', 'Activiteit van concurrenten']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget wordt apart via Google Ads betaald. Resultaten zijn niet gegarandeerd.']},
             ],
             'cta_label': 'Vraag hulp bij Google Ads',
         },
@@ -475,16 +572,186 @@ PROMOTION_PAGE_FALLBACKS = {
             'price_label': 'Vanaf EUR 70',
             'intro': 'Promoot zakelijke diensten bij professionals, bedrijven en beslissers.',
             'sections': [
-                {'title': 'Wat dit is', 'paragraphs': ['Een eenvoudige LinkedIn-promotie-opzet of ondersteuningsservice voor B2B-bedrijven.']},
-                {'title': 'Geschikt voor', 'paragraphs': ['Professionele diensten, B2B-aanbiedingen, zichtbaarheid rond recruitment, consultants, agencies en bedrijven die andere bedrijven targeten.']},
-                {'title': 'Wat kan inbegrepen zijn', 'bullets': ['Campagnerichting', 'Doelgroepsuggesties', 'Advertentietekst', 'Positionering van aanbod', 'Suggesties voor landingspagina', 'Verbeternotities']},
-                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget is niet inbegrepen. LinkedIn rekent campagnekosten apart en is meestal duurder dan Facebook of Google.']},
+                {'title': 'Wat dit is', 'paragraphs': ['Een praktische LinkedIn Ads-opzet voor B2B-bedrijven, consultants, agencies en professionele diensten die gericht zichtbaar willen zijn bij zakelijke doelgroepen.']},
+                {'title': 'Hoe de kosten werken', 'paragraphs': ['Je betaalt een setup fee voor de campagne-opzet, doelgroep-richting en eerste campagnestructuur. Daarnaast kies je het advertentiebudget dat tijdens de campagne via LinkedIn wordt gebruikt.', 'LinkedIn Ads zijn vaak duurder dan Facebook of Google, omdat de targeting sterker op zakelijke en professionele doelgroepen is gericht. De kosten hangen af van doelgroepgrootte, functierollen, locatie, concurrentie en campagnedoel. Resultaten zijn niet gegarandeerd.']},
+                {'title': 'Hoe het werkt', 'paragraphs': ['De eerste campagne blijft eenvoudig zodat je de richting eerst kunt controleren voor de livegang.'], 'bullets': ['Kies het platform', 'Kies je dagbudget en campagneduur', 'Kies de lokale targeting-straal', 'Wij bereiden de campagne voor', 'Je controleert en lanceert', 'Wij controleren de basisopzet en prestaties van de campagne']},
+                {'title': 'Wat invloed heeft op resultaat', 'bullets': ['Grootte van de doelgroep en functierollen', 'Zakelijke locatie en markt', 'Campagnedoel', 'Sterkte van het aanbod', 'Kwaliteit van de landingspagina', 'Concurrentie voor dezelfde doelgroep']},
+                {'title': 'Belangrijke opmerking', 'paragraphs': ['Advertentiebudget wordt apart via LinkedIn Ads betaald. Resultaten zijn niet gegarandeerd.']},
             ],
             'cta_label': 'Vraag hulp bij LinkedIn Ads',
         },
         'advice_title': 'Weet je niet zeker welke past?',
         'advice_text': 'Voor de meeste kleine lokale bedrijven zijn Facebook Posts of Google Ads meestal de eenvoudigste eerste stap.',
         'advice_button_label': 'Vraag advies',
+    },
+}
+
+ADS_SIMULATOR_CONFIGS = {
+    'en': {
+        'meta_ads': {
+            'platform_name': 'Facebook & Instagram Ads',
+            'setup_fee': 49,
+            'budget_presets': [5, 10, 15, 20],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [5, 10, 20, 30, 50],
+            'default_budget': 5,
+            'default_duration': 7,
+            'default_radius': 20,
+            'heading': 'Estimate your first campaign cost',
+            'intro': 'Choose a daily budget, campaign length, and local targeting radius to see a simple estimate before you contact us.',
+            'budget_label': 'Daily ad budget',
+            'custom_budget_label': 'Custom daily budget',
+            'duration_label': 'Campaign duration',
+            'radius_label': 'Targeting radius',
+            'radius_suffix': 'km',
+            'duration_suffix': 'days',
+            'daily_budget_suffix': '/day',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Daily ad budget',
+            'campaign_duration_label': 'Campaign duration',
+            'estimated_budget_label': 'Estimated ad budget',
+            'estimated_total_label': 'Estimated first campaign total',
+            'radius_result_label': 'Selected targeting radius',
+            'radius_result_suffix': 'around your selected service area',
+            'disclaimer': 'This simulator is only an estimate. The selected radius is an estimated targeting area, not a guarantee that ads will show to every person inside it. Final cost and delivery depend on the selected budget, campaign settings, platform rules, competition, and audience availability. Results are not guaranteed.',
+        },
+        'google_ads': {
+            'platform_name': 'Google Ads',
+            'setup_fee': 69,
+            'budget_presets': [10, 15, 25, 50],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [5, 10, 20, 30, 50],
+            'default_budget': 10,
+            'default_duration': 14,
+            'default_radius': 20,
+            'heading': 'Estimate your first campaign cost',
+            'intro': 'Choose a daily budget, campaign length, and local targeting radius to see a simple estimate before you contact us.',
+            'budget_label': 'Daily ad budget',
+            'custom_budget_label': 'Custom daily budget',
+            'duration_label': 'Campaign duration',
+            'radius_label': 'Targeting radius',
+            'radius_suffix': 'km',
+            'duration_suffix': 'days',
+            'daily_budget_suffix': '/day',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Daily ad budget',
+            'campaign_duration_label': 'Campaign duration',
+            'estimated_budget_label': 'Estimated ad budget',
+            'estimated_total_label': 'Estimated first campaign total',
+            'radius_result_label': 'Selected targeting radius',
+            'radius_result_suffix': 'around your selected service area',
+            'disclaimer': 'This simulator is only an estimate. The selected radius is an estimated targeting area, not a guarantee that ads will show to every person inside it. Final cost and delivery depend on the selected budget, campaign settings, platform rules, competition, and audience availability. Results are not guaranteed.',
+        },
+        'linkedin_ads': {
+            'platform_name': 'LinkedIn Ads',
+            'setup_fee': 89,
+            'budget_presets': [15, 25, 50, 100],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [10, 20, 30, 50, 100],
+            'default_budget': 15,
+            'default_duration': 14,
+            'default_radius': 30,
+            'heading': 'Estimate your first campaign cost',
+            'intro': 'Choose a daily budget, campaign length, and local targeting radius to see a simple estimate before you contact us.',
+            'budget_label': 'Daily ad budget',
+            'custom_budget_label': 'Custom daily budget',
+            'duration_label': 'Campaign duration',
+            'radius_label': 'Targeting radius',
+            'radius_suffix': 'km',
+            'duration_suffix': 'days',
+            'daily_budget_suffix': '/day',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Daily ad budget',
+            'campaign_duration_label': 'Campaign duration',
+            'estimated_budget_label': 'Estimated ad budget',
+            'estimated_total_label': 'Estimated first campaign total',
+            'radius_result_label': 'Selected targeting radius',
+            'radius_result_suffix': 'around your selected service area',
+            'disclaimer': 'This simulator is only an estimate. The selected radius is an estimated targeting area, not a guarantee that ads will show to every person inside it. Final cost and delivery depend on the selected budget, campaign settings, platform rules, competition, and audience availability. Results are not guaranteed.',
+        },
+    },
+    'nl': {
+        'meta_ads': {
+            'platform_name': 'Facebook & Instagram Ads',
+            'setup_fee': 49,
+            'budget_presets': [5, 10, 15, 20],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [5, 10, 20, 30, 50],
+            'default_budget': 5,
+            'default_duration': 7,
+            'default_radius': 20,
+            'heading': 'Bereken een eenvoudige eerste campagneprijs',
+            'intro': 'Kies een dagbudget, campagneduur en lokale targeting-straal om eerst een eenvoudige schatting te zien voordat je contact opneemt.',
+            'budget_label': 'Dagelijks advertentiebudget',
+            'custom_budget_label': 'Aangepast dagbudget',
+            'duration_label': 'Campagneduur',
+            'radius_label': 'Targeting-straal',
+            'radius_suffix': 'km',
+            'duration_suffix': 'dagen',
+            'daily_budget_suffix': '/dag',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Dagelijks advertentiebudget',
+            'campaign_duration_label': 'Campagneduur',
+            'estimated_budget_label': 'Geschat advertentiebudget',
+            'estimated_total_label': 'Geschatte totale eerste campagne',
+            'radius_result_label': 'Geselecteerde targeting-straal',
+            'radius_result_suffix': 'rond je gekozen servicegebied',
+            'disclaimer': 'Deze simulator is alleen een schatting. De gekozen straal is een geschat targeting-gebied en geen garantie dat advertenties aan iedere persoon binnen die straal worden getoond. De uiteindelijke kosten en levering hangen af van het gekozen budget, campagne-instellingen, platformregels, concurrentie en beschikbaarheid van doelgroepen. Resultaten zijn niet gegarandeerd.',
+        },
+        'google_ads': {
+            'platform_name': 'Google Ads',
+            'setup_fee': 69,
+            'budget_presets': [10, 15, 25, 50],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [5, 10, 20, 30, 50],
+            'default_budget': 10,
+            'default_duration': 14,
+            'default_radius': 20,
+            'heading': 'Bereken een eenvoudige eerste campagneprijs',
+            'intro': 'Kies een dagbudget, campagneduur en lokale targeting-straal om eerst een eenvoudige schatting te zien voordat je contact opneemt.',
+            'budget_label': 'Dagelijks advertentiebudget',
+            'custom_budget_label': 'Aangepast dagbudget',
+            'duration_label': 'Campagneduur',
+            'radius_label': 'Targeting-straal',
+            'radius_suffix': 'km',
+            'duration_suffix': 'dagen',
+            'daily_budget_suffix': '/dag',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Dagelijks advertentiebudget',
+            'campaign_duration_label': 'Campagneduur',
+            'estimated_budget_label': 'Geschat advertentiebudget',
+            'estimated_total_label': 'Geschatte totale eerste campagne',
+            'radius_result_label': 'Geselecteerde targeting-straal',
+            'radius_result_suffix': 'rond je gekozen servicegebied',
+            'disclaimer': 'Deze simulator is alleen een schatting. De gekozen straal is een geschat targeting-gebied en geen garantie dat advertenties aan iedere persoon binnen die straal worden getoond. De uiteindelijke kosten en levering hangen af van het gekozen budget, campagne-instellingen, platformregels, concurrentie en beschikbaarheid van doelgroepen. Resultaten zijn niet gegarandeerd.',
+        },
+        'linkedin_ads': {
+            'platform_name': 'LinkedIn Ads',
+            'setup_fee': 89,
+            'budget_presets': [15, 25, 50, 100],
+            'duration_presets': [7, 14, 30],
+            'radius_presets': [10, 20, 30, 50, 100],
+            'default_budget': 15,
+            'default_duration': 14,
+            'default_radius': 30,
+            'heading': 'Bereken een eenvoudige eerste campagneprijs',
+            'intro': 'Kies een dagbudget, campagneduur en lokale targeting-straal om eerst een eenvoudige schatting te zien voordat je contact opneemt.',
+            'budget_label': 'Dagelijks advertentiebudget',
+            'custom_budget_label': 'Aangepast dagbudget',
+            'duration_label': 'Campagneduur',
+            'radius_label': 'Targeting-straal',
+            'radius_suffix': 'km',
+            'duration_suffix': 'dagen',
+            'daily_budget_suffix': '/dag',
+            'setup_fee_label': 'Setup fee',
+            'daily_budget_label': 'Dagelijks advertentiebudget',
+            'campaign_duration_label': 'Campagneduur',
+            'estimated_budget_label': 'Geschat advertentiebudget',
+            'estimated_total_label': 'Geschatte totale eerste campagne',
+            'radius_result_label': 'Geselecteerde targeting-straal',
+            'radius_result_suffix': 'rond je gekozen servicegebied',
+            'disclaimer': 'Deze simulator is alleen een schatting. De gekozen straal is een geschat targeting-gebied en geen garantie dat advertenties aan iedere persoon binnen die straal worden getoond. De uiteindelijke kosten en levering hangen af van het gekozen budget, campagne-instellingen, platformregels, concurrentie en beschikbaarheid van doelgroepen. Resultaten zijn niet gegarandeerd.',
+        },
     },
 }
 
@@ -507,8 +774,8 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
         ),
         'ecommerce': (
             'Yes. Get Online Fast can help with product catalogs, WhatsApp ordering catalogs, and WordPress/WooCommerce online shops. '
-            'Starter catalogs begin from €149 + VAT, full WooCommerce shop setup begins from €595 + VAT, and larger reseller eCommerce '
-            'projects begin from €1,250 + VAT. Final pricing depends on products, payments, shipping, languages, and setup needs.'
+            'The right setup depends on your products, payments, shipping, languages, and how much structure you need. '
+            'The best current overview is on the online shop page.'
         ),
         'promotion': (
             'Yes. Get Online Fast can also help promote your website after launch with Facebook posts, Meta ads, Google Ads support, '
@@ -567,8 +834,8 @@ ASSISTANT_PUBLIC_KNOWLEDGE = {
         ),
         'ecommerce': (
             'Ja. Get Online Fast kan helpen met productcatalogi, WhatsApp-bestelcatalogi en WordPress/WooCommerce-webshops. '
-            'Starter catalogi beginnen vanaf €149 + btw, volledige WooCommerce-webshops vanaf €595 + btw en grotere reseller/eCommerce-projecten '
-            'vanaf €1.250 + btw. De definitieve prijs hangt af van producten, betalingen, verzending, talen en de gewenste opzet.'
+            'De juiste opzet hangt af van je producten, betalingen, verzending, talen en hoeveel structuur je nodig hebt. '
+            'Het beste huidige overzicht staat op de online-shop pagina.'
         ),
         'promotion': (
             'Ja. Get Online Fast kan ook helpen om je website na livegang te promoten met Facebook posts, Meta ads, Google Ads-ondersteuning '
@@ -1075,14 +1342,536 @@ PUBLIC_INFO_PAGES = {
         'related_links': ['what_is_included', 'domain_hosting_dashboard', 'payment_and_cancellation'],
     },
     'catalog_and_ecommerce': {
-        'eyebrow': 'Catalogs and online shops',
-        'title': 'Catalogs and online shops',
-        'meta_description': 'See the difference between starter catalogs, WooCommerce shops, and larger reseller-style catalog or eCommerce projects.',
+        'eyebrow': 'Online Shop',
+        'title': 'Online shop and product catalog',
+        'meta_description': 'See how Get Online Fast can prepare a small online shop or product catalog for your business.',
         'intro': (
-            'Start simple with a product catalog and WhatsApp orders, or grow into a full WooCommerce shop with checkout, payments, and a stronger store structure.'
+            'Start simple with a product catalog or a small online shop, then grow into payments, checkout, and a stronger store structure when your business is ready.'
         ),
+        'promotion_layout': True,
         'sections': [],
-        'related_links': ['plans', 'contact'],
+        'related_links': ['pricing', 'contact'],
+        'sidebar_title': 'Online shop links',
+        'cta_block_title': 'Need a small online shop or product catalog?',
+        'cta_block_text': 'Contact Get Online Fast and we can help you choose the right shop setup for your business.',
+        'cta_block_primary_label': 'Contact Get Online Fast',
+        'cta_block_primary_url_name': 'core:contact',
+        'cta_block_secondary_label': 'View pricing',
+        'cta_block_secondary_url_name': 'core:pricing',
+    },
+    'websites': {
+        'eyebrow': 'Websites',
+        'title': 'Simple professional websites for small businesses',
+        'meta_description': 'Get Online Fast builds simple professional websites for small businesses. Send your details, review the first version, and go live after approval.',
+        'intro': (
+            'Send your business details, services, photos, and contact information. Get Online Fast prepares the first version for you, you review it, and your website can be published after approval and payment.'
+        ),
+        'promotion_layout': True,
+        'cta_label': 'View pricing',
+        'cta_url_name': 'core:pricing',
+        'cta_secondary_label': 'Contact us',
+        'cta_secondary_url_name': 'core:contact',
+        'highlights': [
+            {'title': 'Built for small businesses', 'text': 'Clear service pages, contact details, local information, and simple calls to action so customers understand what you do.'},
+            {'title': 'Prepared for you', 'text': 'You do not need to write the whole website alone. Send the basics and we prepare the first version.'},
+            {'title': 'Ready to grow later', 'text': 'Add extra pages, product options, images, posts, ads, email, or support when your business needs them.'},
+        ],
+        'sections': [
+            {
+                'layout': 'feature',
+                'title': 'A practical website start',
+                'paragraphs': [
+                    'This is for freelancers, local services, trades, garages, restaurants, salons, shops, cleaning companies, moving services, transport, consultants, and other small businesses that need a clear public website without a long project.',
+                    'Your first version is prepared around your business type, services, location, and contact details, so visitors can quickly understand what you offer and how to reach you.',
+                ],
+                'image_label': 'Website example',
+            },
+            {
+                'layout': 'included_grid',
+                'title': 'What your first website can include',
+                'paragraphs': [
+                    'A first business website can stay simple while still covering the pages and contact details customers expect.',
+                ],
+                'items': [
+                    'Home page',
+                    'Services page',
+                    'About section',
+                    'Contact page',
+                    'Local service area',
+                    'Phone, email, and WhatsApp buttons',
+                    'Mobile-friendly layout',
+                    'Basic search-friendly structure',
+                    'Dashboard access',
+                    'Room for future upgrades',
+                ],
+            },
+            {
+                'layout': 'dashboard_band',
+                'title': 'Your dashboard is your online business office',
+                'paragraphs': [
+                    'After your website is prepared, you get a simple dashboard where your business can manage important website details, request help, check useful information, and improve your content over time.',
+                    'It is not only a website launch. It becomes a practical place where your online business can grow step by step.',
+                ],
+                'items': [
+                    'Business details',
+                    'Contact details',
+                    'Services',
+                    'Images',
+                    'Support',
+                    'Content suggestions',
+                    'Helpful guides',
+                    'Upgrade options',
+                    'Promotion options',
+                ],
+            },
+            {
+                'layout': 'steps_grid',
+                'title': 'How it works',
+                'paragraphs': [
+                    'The process is practical and built for business owners who want to get online without writing every page from zero.',
+                ],
+                'steps': [
+                    {
+                        'title': 'You send the basics',
+                        'text': 'Business name, services, location, contact details, and photos if available.',
+                    },
+                    {
+                        'title': 'We prepare the first version',
+                        'text': 'We structure the website so customers can understand what you do.',
+                    },
+                    {
+                        'title': 'You review it',
+                        'text': 'You check the text, services, contact details, and general direction.',
+                    },
+                    {
+                        'title': 'We publish after approval and payment',
+                        'text': 'The website goes live only when the setup is ready.',
+                    },
+                    {
+                        'title': 'You improve over time',
+                        'text': 'Add pages, products, content, posts, ads, email, or support later.',
+                    },
+                ],
+            },
+            {
+                'layout': 'upgrade_band',
+                'title': 'Start simple. Upgrade later.',
+                'paragraphs': [
+                    'You do not need to know everything on day one. Start with the essential website, then add more when your business needs it.',
+                    'If your business changes later, you do not need to start again with a completely new website. A Get Online Fast website can grow with your business.',
+                ],
+                'items': [
+                    'Extra pages',
+                    'Product catalog',
+                    'Online shop',
+                    'Business email',
+                    'Launch posts',
+                    'Facebook and Instagram Ads',
+                    'Google Ads',
+                    'LinkedIn Ads',
+                    'Support',
+                ],
+            },
+            {
+                'layout': 'writing_help',
+                'title': 'Not sure what to write?',
+                'paragraphs': [
+                    'You do not need to write every page alone. Send rough notes, services, business details, photos, or examples, and Get Online Fast can help turn them into clearer website text.',
+                    'You can also use helpful guides and content suggestions to improve your website after launch.',
+                ],
+                'actions': [
+                    {'label': 'Contact us', 'url_name': 'core:contact'},
+                    {'label': 'View helpful guides', 'url_name': 'blog:index'},
+                ],
+            },
+        ],
+        'related_links': ['pricing', 'online_shop', 'ads', 'contact'],
+        'sidebar_title': 'Useful next steps',
+        'cta_block_title': 'Ready to start your website?',
+        'cta_block_text': 'Send your business details and Get Online Fast can help you choose the right website setup for your business.',
+        'cta_block_primary_label': 'Contact Get Online Fast',
+        'cta_block_primary_url_name': 'core:contact',
+        'cta_block_secondary_label': 'View pricing',
+        'cta_block_secondary_url_name': 'core:pricing',
+    },
+    'ads': {
+        'eyebrow': 'Ads',
+        'title': 'Simple local promotion for small businesses',
+        'meta_description': 'Learn how Get Online Fast handles launch posts, Facebook content, and local ads for small businesses after a website goes live.',
+        'intro': (
+            'Your website gives customers a place to understand your business and contact you. Promotion helps more people discover that website through launch posts, social media content, and local advertising options.'
+        ),
+        'promotion_layout': True,
+        'cta_label': 'View promotion options',
+        'cta_url': '#promotion-options',
+        'cta_secondary_label': 'Contact us',
+        'cta_secondary_url_name': 'core:contact',
+        'highlights': [
+            {'title': 'Website first', 'text': 'Your website is the base where people can read about your business, services, location, and contact options.'},
+            {'title': 'Posts after launch', 'text': 'When a customer registers or activates a website, Get Online Fast can help with initial Facebook posts so there is something ready to share and send people to the new website from day one.'},
+            {'title': 'Ads when ready', 'text': 'When you are ready to spend on visibility, local ads can help more people see your business in your chosen area.'},
+        ],
+        'sections': [
+            {
+                'layout': 'feature',
+                'title': 'Your website is the base for promotion',
+                'paragraphs': [
+                    'Before spending money on ads, your business needs a clear place to send people. A Get Online Fast website gives visitors your services, contact details, location, photos, and next steps.',
+                    'Promotion works better when people arrive on a page that explains what you do and makes it easy to call, message, or request more information.',
+                ],
+                'image_label': 'Promotion base',
+            },
+            {
+                'layout': 'facebook_posts',
+                'title': 'Start with Facebook posts',
+                'paragraphs': [
+                    'When your website is ready, Facebook posts can help announce the launch, explain what your business offers, and point people back to your website.',
+                    'These posts are useful because they give you something practical to share with customers, local groups, friends, and business pages. They can help your new website start receiving attention from day one, without needing to begin with a paid ad campaign immediately.',
+                ],
+                'items': [
+                    'Launch announcement',
+                    'Service explanation posts',
+                    'Contact / website link posts',
+                    'Local visibility posts',
+                ],
+            },
+            {
+                'layout': 'options_grid',
+                'anchor': 'promotion-options',
+                'title': 'Promotion options',
+                'paragraphs': [
+                    'Start with simple launch content or move into paid visibility when the business is ready. The best option depends on your offer, audience, and how quickly you want to test reach.',
+                ],
+                'options': [
+                    {
+                        'title': 'Facebook posts',
+                        'text': 'Simple content that keeps your business active and sends people back to your website.',
+                    },
+                    {
+                        'title': 'Facebook and Instagram Ads',
+                        'text': 'Useful for local visibility, offers, visual services, and reaching people in a chosen area.',
+                    },
+                    {
+                        'title': 'Google Ads',
+                        'text': 'Useful when people are already searching for a service and you want to appear for relevant searches.',
+                    },
+                    {
+                        'title': 'LinkedIn Ads',
+                        'text': 'Useful for professional, B2B, or business-focused offers when the audience fits.',
+                    },
+                ],
+            },
+            {
+                'layout': 'cost_band',
+                'title': 'How ad costs usually work',
+                'paragraphs': [
+                    'Ads usually have two parts: a setup or service fee, and the advertising budget spent through the platform.',
+                    'The setup fee covers campaign structure, guidance, basic preparation, and launch support. The ad budget is separate and is spent through platforms such as Meta, Google, or LinkedIn during the campaign.',
+                    'Results are not guaranteed. Delivery and results can change based on budget, location, targeting radius, audience size, competition, creative quality, your offer, your website, and platform rules.',
+                ],
+            },
+            {
+                'layout': 'fit_grid',
+                'title': 'Which option fits your business?',
+                'paragraphs': [
+                    'Different promotion tools fit different businesses. Start with the one that matches how your customers discover your service.',
+                ],
+                'options': [
+                    {
+                        'title': 'Choose Facebook posts if:',
+                        'text': 'You want to announce your website, stay active, and share updates without starting ads yet.',
+                    },
+                    {
+                        'title': 'Choose Facebook and Instagram Ads if:',
+                        'text': 'You want local visibility for a service, offer, event, shop, or visual business.',
+                    },
+                    {
+                        'title': 'Choose Google Ads if:',
+                        'text': 'People already search for your type of service and you want to test search visibility.',
+                    },
+                    {
+                        'title': 'Choose LinkedIn Ads if:',
+                        'text': 'Your offer is business-focused, professional, or aimed at companies.',
+                    },
+                ],
+            },
+            {
+                'layout': 'steps_grid',
+                'title': 'How it works',
+                'paragraphs': [
+                    'Promotion works best when the website, launch content, and the first platform choice all support the same business goal.',
+                ],
+                'steps': [
+                    {
+                        'title': 'Your website goes live',
+                        'text': 'Your website becomes the place where people can learn about your business and contact you.',
+                    },
+                    {
+                        'title': 'We prepare launch content',
+                        'text': 'Facebook posts or launch content can help point people to your website.',
+                    },
+                    {
+                        'title': 'You choose a promotion direction',
+                        'text': 'Start with posts, Facebook and Instagram Ads, Google Ads, LinkedIn Ads, or a combination.',
+                    },
+                    {
+                        'title': 'Budget and targeting are agreed',
+                        'text': 'The campaign area, budget, platform, and goal are chosen before launch.',
+                    },
+                    {
+                        'title': 'You improve over time',
+                        'text': 'Promotion can be adjusted based on what you learn from the first results.',
+                    },
+                ],
+            },
+            {
+                'layout': 'expectations_band',
+                'title': 'What promotion can and cannot do',
+                'paragraphs': [
+                    'Promotion can help more people see your business, visit your website, and contact you. It cannot guarantee customers, sales, or rankings.',
+                    'The best results usually come when your offer is clear, your website is easy to understand, your contact options are visible, and your budget matches the audience you want to reach.',
+                ],
+            },
+        ],
+        'related_links': ['facebook_posts', 'facebook_instagram_ads', 'google_ads', 'linkedin_ads', 'pricing', 'contact'],
+        'sidebar_title': 'Useful next steps',
+        'cta_block_title': 'Need help choosing the right promotion option?',
+        'cta_block_text': 'Contact Get Online Fast and we can help you choose the right first campaign direction for your business.',
+        'cta_block_primary_label': 'Contact Get Online Fast',
+        'cta_block_primary_url_name': 'core:contact',
+        'cta_block_secondary_label': 'View pricing',
+        'cta_block_secondary_url_name': 'core:pricing',
+    },
+    'online_shop': {
+        'eyebrow': 'Online Shop',
+        'title': 'Start with a small online shop',
+        'meta_description': 'Learn how Get Online Fast can prepare a small online shop, product catalog, and payment-ready store structure for your business.',
+        'intro': (
+            'Get Online Fast can help small businesses start with a practical online shop, one product page, or product catalog. You can begin with a smaller setup, then expand later as your products, payments, and store needs grow.'
+        ),
+        'promotion_layout': True,
+        'cta_label': 'View pricing',
+        'cta_url_name': 'core:pricing',
+        'cta_secondary_label': 'Contact us',
+        'cta_secondary_url_name': 'core:contact',
+        'highlights': [
+            {'title': 'Start small', 'text': 'Begin with one product page, a small shop, or a product catalog instead of a large store from day one.'},
+            {'title': 'Products first', 'text': 'Products, images, prices, and contact or payment details are the key starting information.'},
+            {'title': 'Expand later', 'text': 'You can add more products, payments, categories, delivery details, and features later when the business is ready.'},
+        ],
+        'sections': [
+            {
+                'layout': 'shop_options_summary',
+                'title': 'Start simple and grow later',
+                'paragraphs': [
+                    'Not every business needs a full online shop immediately. Some businesses only need one product page, some need a catalog, and others need checkout and online payments.',
+                    'Get Online Fast websites can be upgraded step by step, so you can start smaller and grow into a shop when your business is ready.',
+                ],
+                'options': [
+                    {
+                        'title': 'One product page',
+                        'text': 'A focused page for one product, package, offer, event, course, promotion, or campaign. Useful when you want to explain one offer clearly and send customers to contact you or pay through a simple link.',
+                    },
+                    {
+                        'title': 'Micro shop',
+                        'text': 'A small shop for roughly 1 to 4-6 products. Useful for businesses that want to test selling online without starting with a large catalog.',
+                    },
+                    {
+                        'title': 'Product catalog',
+                        'text': 'Show products, images, prices, categories, or stock examples without a full checkout. Customers can browse and contact you to order.',
+                    },
+                    {
+                        'title': 'Small online shop',
+                        'text': 'Sell a limited number of products with product pages, cart, checkout, and payment options.',
+                    },
+                    {
+                        'title': 'Larger shop',
+                        'text': 'For more products, categories, delivery details, suppliers, reseller items, or future growth.',
+                    },
+                ],
+                'note': 'More detailed pages for each shop type will be added later.',
+            },
+            {
+                'layout': 'comparison_table',
+                'title': 'Choose the shop setup that fits now',
+                'intro': 'You can start with one product, a small generated shop page, a catalog, or a manual online shop with checkout. Start simple and upgrade later when your business is ready.',
+                'columns': ['Option', 'Best for', 'Products', 'Payments', 'Setup type', 'Status'],
+                'rows': [
+                    {
+                        'option': 'One product page',
+                        'best_for': 'One offer, product, package, course, event, or campaign',
+                        'products': '1',
+                        'payments': 'Contact, payment link, or checkout later',
+                        'setup_type': 'Quick-start page',
+                        'status': 'Coming soon',
+                    },
+                    {
+                        'option': 'Micro shop',
+                        'best_for': 'A very small product range',
+                        'products': 'Up to 4-6',
+                        'payments': 'Contact, WhatsApp, payment link, or checkout later',
+                        'setup_type': 'Generated shop page',
+                        'status': 'Coming soon',
+                    },
+                    {
+                        'option': 'Product catalog',
+                        'best_for': 'Showing products without full checkout',
+                        'products': 'Small to medium catalog',
+                        'payments': 'No checkout needed',
+                        'setup_type': 'Quick-start or manual depending on size',
+                        'status': 'Coming soon',
+                    },
+                    {
+                        'option': 'Small online shop',
+                        'best_for': 'Selling online with checkout',
+                        'products': 'Small shop',
+                        'payments': 'Checkout and payment provider',
+                        'setup_type': 'Manual setup',
+                        'status': 'Coming soon',
+                    },
+                    {
+                        'option': 'Larger online shop',
+                        'best_for': 'More products, categories, delivery, suppliers, reseller items, or future growth',
+                        'products': 'Larger catalog',
+                        'payments': 'Checkout and payment provider',
+                        'setup_type': 'Manual project',
+                        'status': 'Coming soon',
+                    },
+                ],
+                'note': 'A catalog is useful when customers only need to view products and contact you. A full online shop is better when customers need cart, checkout, payment handling, delivery options, and order management.',
+            },
+            {
+                'layout': 'feature',
+                'title': 'A simple online shop for small businesses',
+                'paragraphs': [
+                    'This page is for small businesses that want to sell products online, show a product catalog, or prepare a small shop with product pages, images, prices, and online payment options.',
+                    'You do not need to launch a large complex store immediately. A small shop can be a practical first step.',
+                ],
+                'image_label': 'Online shop example',
+            },
+            {
+                'layout': 'requirements_grid',
+                'title': 'What we need to start',
+                'paragraphs': [
+                    'If you do not have everything ready yet, you can start with the essentials and improve product information later.',
+                ],
+                'items': [
+                    'Product names',
+                    'Product images',
+                    'Prices',
+                    'Short product descriptions',
+                    'Product categories if needed',
+                    'Delivery or pickup information if relevant',
+                    'Business contact details',
+                    'Payment preference or checkout needs',
+                    'VAT/invoice details if relevant',
+                ],
+            },
+            {
+                'layout': 'payment_band',
+                'title': 'Payment options can be added when you are ready',
+                'paragraphs': [
+                    'Some businesses start with contact-based orders or payment links. Others need a checkout with online payment methods. The right setup depends on your products, country, business type, and payment provider availability.',
+                ],
+                'actions': [
+                    {'label': 'Read about payment methods', 'url_name': 'core:payment_methods'},
+                ],
+            },
+            {
+                'layout': 'steps_grid',
+                'title': 'How it works',
+                'paragraphs': [
+                    'The shop setup is prepared in practical stages so you can review the structure before launch.',
+                ],
+                'steps': [
+                    {
+                        'title': 'You send product details',
+                        'text': 'Product names, images, prices, categories, and contact or payment details.',
+                    },
+                    {
+                        'title': 'We prepare the shop structure',
+                        'text': 'We prepare the product pages, catalog, or shop layout.',
+                    },
+                    {
+                        'title': 'Products and pages are added',
+                        'text': 'Your products, descriptions, images, and key information are added.',
+                    },
+                    {
+                        'title': 'You review the shop',
+                        'text': 'You check products, text, prices, contact details, and checkout direction.',
+                    },
+                    {
+                        'title': 'We publish after approval and payment',
+                        'text': 'The shop goes live only when the setup is ready.',
+                    },
+                ],
+            },
+            {
+                'layout': 'upgrade_band',
+                'title': 'Start with a website. Upgrade to a shop later.',
+                'paragraphs': [
+                    'If you already have or start with a Get Online Fast website, you do not need to buy a completely new website when you begin selling products. Your website can grow into a product page, catalog, micro shop, or full online shop later.',
+                    'This is important for businesses that are not ready to sell online today but may want to add products in the future.',
+                ],
+            },
+        ],
+        'related_links': ['pricing', 'websites', 'payment_methods', 'contact'],
+        'sidebar_title': 'Online shop links',
+        'cta_block_title': 'Need a small online shop or product catalog?',
+        'cta_block_text': 'Contact Get Online Fast and we can help you choose the right starting shop structure for your business.',
+        'cta_block_primary_label': 'Contact Get Online Fast',
+        'cta_block_primary_url_name': 'core:contact',
+        'cta_block_secondary_label': 'View pricing',
+        'cta_block_secondary_url_name': 'core:pricing',
+    },
+    'payment_methods': {
+        'eyebrow': 'Payment Methods',
+        'title': 'Payment methods for Get Online Fast services',
+        'meta_description': 'Learn how payment methods work for Get Online Fast websites, online shops, promotion services, and add-ons.',
+        'intro': (
+            'Get Online Fast offers practical payment options for websites, online shops, promotion services, and add-ons. Available payment methods can depend on your country, the selected service, and the payment provider settings shown at checkout.'
+        ),
+        'promotion_layout': True,
+        'cta_label': 'Contact us',
+        'cta_url_name': 'core:contact',
+        'sections': [
+            {
+                'title': 'Common online payments',
+                'paragraphs': [
+                    'For many EU customers, online payments may include card payments and selected local payment methods supported by the payment provider. The exact options available are shown during checkout or payment confirmation.',
+                ],
+            },
+            {
+                'title': 'Dutch and EU customers',
+                'paragraphs': [
+                    'Get Online Fast is built for small businesses across Europe. Some payment methods may be available in most EU countries, while local methods can depend on the customer country and the payment provider.',
+                ],
+            },
+            {
+                'title': 'Payment links and invoices',
+                'paragraphs': [
+                    'For some services, payment may be completed through a payment link, invoice, or manual arrangement when needed.',
+                ],
+            },
+            {
+                'title': 'VAT and confirmation',
+                'paragraphs': [
+                    'Prices may include or exclude VAT depending on the page or offer. Payment confirmation and next steps are provided after payment or manual confirmation.',
+                ],
+            },
+            {
+                'title': 'Online shop payments',
+                'paragraphs': [
+                    'Online shop payment methods for customer shops depend on the selected shop setup, country, payment provider, and business requirements. You can start with a catalog or payment links first, then add checkout later when ready.',
+                ],
+            },
+        ],
+        'related_links': ['online_shop', 'pricing', 'contact'],
+        'sidebar_title': 'Useful next steps',
+        'cta_block_title': 'Questions about payment?',
+        'cta_block_text': 'Contact Get Online Fast and we can help explain the practical payment direction for your service or shop setup.',
+        'cta_block_primary_label': 'Contact us',
+        'cta_block_primary_url_name': 'core:contact',
     },
     'preview_licence': {
         'eyebrow': 'Preview rules',
@@ -1169,9 +1958,9 @@ def _public_info_link_items(keys):
     return links
 
 
-def _render_public_info_page(request, key):
+def _public_info_page_context(request, key):
     language = (getattr(request, 'LANGUAGE_CODE', 'en') or 'en').split('-', 1)[0]
-    page = dict(PUBLIC_INFO_PAGES[key])
+    page = copy.deepcopy(PUBLIC_INFO_PAGES[key])
     page_sections = page['sections']
     extra_context = {}
 
@@ -1183,21 +1972,58 @@ def _render_public_info_page(request, key):
         extra_context['service_options'] = service_options['options']
         extra_context['service_pricing_note'] = service_options['pricing_note']
 
+    for section in page_sections:
+        actions = section.get('actions', [])
+        if not actions:
+            continue
+        resolved_actions = []
+        for action in actions:
+            resolved = dict(action)
+            url_name = resolved.pop('url_name', '')
+            direct_url = resolved.get('url', '')
+            if url_name:
+                resolved['url'] = reverse(url_name)
+            elif direct_url:
+                resolved['url'] = direct_url
+            resolved_actions.append(resolved)
+        section['actions'] = resolved_actions
+
+    return {
+        'page_key': key,
+        'site_noindex': page.get('site_noindex', False),
+        'force_indexable': page.get('force_indexable', True),
+        'promotion_layout': page.get('promotion_layout', False),
+        'page_eyebrow': page['eyebrow'],
+        'page_title': page['title'],
+        'page_subtitle': page.get('subtitle', ''),
+        'page_intro': page['intro'],
+        'page_meta_description': page['meta_description'],
+        'page_sections': page_sections,
+        'page_highlights': page.get('highlights', []),
+        'page_faq_title': page.get('faq_title', ''),
+        'page_faqs': page.get('faqs', []),
+        'page_sidebar_title': page.get('sidebar_title', 'More ways to grow'),
+        'page_cta_block_title': page.get('cta_block_title', ''),
+        'page_cta_block_text': page.get('cta_block_text', ''),
+        'page_cta_block_primary_label': page.get('cta_block_primary_label', ''),
+        'page_cta_block_primary_url': reverse(page.get('cta_block_primary_url_name', 'core:contact')) if page.get('cta_block_primary_label') else '',
+        'page_cta_block_secondary_label': page.get('cta_block_secondary_label', ''),
+        'page_cta_block_secondary_url': reverse(page.get('cta_block_secondary_url_name', 'core:contact')) if page.get('cta_block_secondary_label') else '',
+        'page_primary_cta_label': page.get('cta_label', ''),
+        'page_primary_cta_url': page.get('cta_url', '') or (reverse(page.get('cta_url_name', 'core:contact')) if page.get('cta_label') else ''),
+        'page_secondary_cta_label': page.get('cta_secondary_label', ''),
+        'page_secondary_cta_url': reverse(page.get('cta_secondary_url_name', 'core:contact')) if page.get('cta_secondary_label') else '',
+        'related_links': _public_info_link_items(page.get('related_links', [])),
+        'contact_email': 'info@getonlinefast.eu',
+        **extra_context,
+    }
+
+
+def _render_public_info_page(request, key):
     return render(
         request,
         'core/public_info_page.html',
-        {
-            'site_noindex': page.get('site_noindex', False),
-            'force_indexable': page.get('force_indexable', True),
-            'page_eyebrow': page['eyebrow'],
-            'page_title': page['title'],
-            'page_intro': page['intro'],
-            'page_meta_description': page['meta_description'],
-            'page_sections': page_sections,
-            'related_links': _public_info_link_items(page.get('related_links', [])),
-            'contact_email': 'info@getonlinefast.eu',
-            **extra_context,
-        },
+        _public_info_page_context(request, key),
     )
 
 
@@ -1303,14 +2129,29 @@ def _service_options_context(language, section_key='catalog_ecommerce'):
         return fallback
 
     options = []
+    public_catalog_price_labels = {
+        'en': {
+            'starter_catalog': 'Ask for setup guidance',
+            'full_ecommerce': 'Manual setup required',
+            'reseller_ecommerce': 'Larger custom setup',
+        },
+        'nl': {
+            'starter_catalog': 'Vraag naar opzetadvies',
+            'full_ecommerce': 'Handmatige setup nodig',
+            'reseller_ecommerce': 'Grotere maatwerk setup',
+        },
+    }
     for row in rows:
+        price_label = row.price_label
+        if section_key == 'catalog_ecommerce':
+            price_label = public_catalog_price_labels.get(language_code, {}).get(row.option_key, price_label)
         options.append(
             _normalized_service_option(
                 {
                     'option_key': row.option_key,
                     'eyebrow': row.eyebrow,
                     'title': row.title,
-                    'price_label': row.price_label,
+                    'price_label': price_label,
                     'summary': row.summary,
                     'good_for': row.good_for,
                     'includes': row.includes,
@@ -1432,6 +2273,11 @@ def _promotion_related_links(option_key):
     ]
 
 
+def _ads_simulator_context(language_code, option_key):
+    language_configs = ADS_SIMULATOR_CONFIGS.get(language_code, ADS_SIMULATOR_CONFIGS['en'])
+    return language_configs.get(option_key)
+
+
 def _promotion_page_context(language, option_key):
     language_code = _service_option_language(language)
     service_options = _service_options_context(language_code, section_key='promotion')
@@ -1458,13 +2304,27 @@ def _promotion_page_context(language, option_key):
     return {
         'site_noindex': False,
         'force_indexable': True,
+        'promotion_layout': True,
+        'page_option_key': option_key,
         'page_eyebrow': page['eyebrow'],
-        'page_title': option['title'],
+        'page_title': page['title'],
+        'page_subtitle': page.get('subtitle', ''),
         'page_intro': page['intro'],
-        'page_price_label': option.get('price_label') or page['price_label'],
+        'page_price_label': page['price_label'],
         'page_meta_description': page['intro'],
+        'page_highlights': page.get('highlights', []),
         'page_sections': page['sections'],
+        'page_faq_title': page.get('faq_title', ''),
+        'page_faqs': page.get('faqs', []),
+        'page_sidebar_title': page.get('sidebar_title', 'More ways to grow'),
+        'page_cta_block_title': page.get('cta_block_title', ''),
+        'page_cta_block_text': page.get('cta_block_text', ''),
+        'page_cta_block_primary_label': page.get('cta_block_primary_label', ''),
+        'page_cta_block_primary_url': reverse(page.get('cta_block_primary_url_name', 'core:contact')),
+        'page_cta_block_secondary_label': page.get('cta_block_secondary_label', ''),
+        'page_cta_block_secondary_url': reverse(page.get('cta_block_secondary_url_name', 'core:contact')),
         'related_links': _public_info_link_items(_promotion_related_links(option_key)),
+        'ads_simulator': _ads_simulator_context(language_code, option_key),
         'page_primary_cta_label': page['cta_label'],
         'page_primary_cta_url': reverse('core:contact'),
         'advice_title': advice['advice_title'],
@@ -1558,12 +2418,12 @@ def _assistant_link_items(intent, language, links):
         ]
     if intent == 'plans':
         return [
-            {'label': 'Plans' if language == 'en' else 'Pakketten', 'url': links['plans_url']},
+            {'label': 'Pricing' if language == 'en' else 'Prijzen', 'url': links['plans_url']},
             {'label': copy['contact'], 'url': links['contact_url']},
         ]
     if intent == 'ecommerce':
         return [
-            {'label': copy['catalog_ecommerce'], 'url': links['catalog_url']},
+            {'label': copy['catalog_ecommerce'], 'url': reverse('core:online_shop')},
             {'label': copy['contact'], 'url': links['contact_url']},
         ]
     if intent == 'promotion':
@@ -1885,11 +2745,16 @@ def plans(request):
         {
             'force_indexable': True,
             'site_noindex': False,
-            'page_title': _('Plans'),
+            'page_title': _('Pricing'),
             'page_meta_description': _(
-                'Compare website plans from Get Online Fast, including starter websites, one-time or monthly website plans, and catalog or online shop options.'
+                'Compare pricing for websites, online shops, ads, and practical add-ons from Get Online Fast.'
             ),
-            'plans': website_plans_overview_cards(),
+            'pricing_sections': pricing_overview_sections(),
+            'pricing_faqs': pricing_overview_faqs(),
+            'website_plans': website_plans_overview_cards(),
+            'online_shop_plans': online_shop_pricing_cards(),
+            'marketing_services': marketing_pricing_cards(),
+            'addons': addon_pricing_cards(),
         },
     )
 
@@ -1901,7 +2766,7 @@ def faq(request):
         {
             'force_indexable': True,
             'site_noindex': False,
-            'page_meta_description': 'Read practical answers about previews, website plans, support, and launching with Get Online Fast.',
+            'page_meta_description': 'Read practical answers about website delivery time, promotion, online shops, payments, support, and getting online with Get Online Fast.',
         },
     )
 
@@ -2098,8 +2963,28 @@ def support(request):
     return _render_public_info_page(request, 'support')
 
 
+def websites(request):
+    return render(
+        request,
+        'core/websites.html',
+        _public_info_page_context(request, 'websites'),
+    )
+
+
+def ads(request):
+    return _render_public_info_page(request, 'ads')
+
+
+def online_shop(request):
+    return _render_public_info_page(request, 'online_shop')
+
+
+def payment_methods(request):
+    return _render_public_info_page(request, 'payment_methods')
+
+
 def catalog_and_ecommerce(request):
-    return _render_public_info_page(request, 'catalog_and_ecommerce')
+    return redirect('core:online_shop')
 
 
 def _render_promotion_page(request, option_key):
@@ -2315,6 +3200,382 @@ def website_plans_overview_cards():
             ],
             'cta': _('See Monthly Website'),
             'url_name': 'core:monthly_plan',
+        },
+    ]
+
+
+def online_shop_pricing_cards():
+    return [
+        {
+            'title': _('Small Online Shop'),
+            'price': _('Coming soon'),
+            'text': _('A simple product catalog or small shop structure for businesses that want to start selling online without a large store build.'),
+            'items': [
+                _('Product pages'),
+                _('Images and prices'),
+                _('Simple ordering or payment direction'),
+            ],
+            'cta': _('Ask for setup price'),
+            'url_name': 'core:online_shop',
+        },
+        {
+            'title': _('Online Shop Pro'),
+            'price': _('Coming soon'),
+            'text': _('A stronger online shop setup with checkout, payments, and a larger store structure for businesses that need more.'),
+            'items': [
+                _('Checkout-ready shop structure'),
+                _('Product categories'),
+                _('Payment and store setup guidance'),
+            ],
+            'cta': _('Discuss online shop setup'),
+            'url_name': 'core:online_shop',
+        },
+    ]
+
+
+def marketing_pricing_cards():
+    return [
+        {
+            'title': _('Facebook & Instagram Ads'),
+            'price': _('From €49 + ad budget'),
+            'text': _('Local ads for services, offers, and launch campaigns on Facebook and Instagram.'),
+            'items': [
+                _('Setup fee'),
+                _('Ad budget chosen by you'),
+                _('Local targeting options'),
+            ],
+            'cta': _('View Facebook & Instagram Ads'),
+            'url_name': 'core:facebook_instagram_ads',
+        },
+        {
+            'title': _('Google Ads'),
+            'price': _('From €69 + ad budget'),
+            'text': _('Search ads for businesses that want to appear when people are already looking for a service.'),
+            'items': [
+                _('Setup fee'),
+                _('Ad budget chosen by you'),
+                _('Keyword and local targeting direction'),
+            ],
+            'cta': _('View Google Ads'),
+            'url_name': 'core:google_ads',
+        },
+        {
+            'title': _('LinkedIn Ads'),
+            'price': _('From €89 + ad budget'),
+            'text': _('Professional and B2B ads for services that need business-focused targeting.'),
+            'items': [
+                _('Setup fee'),
+                _('Ad budget chosen by you'),
+                _('Business audience targeting'),
+            ],
+            'cta': _('View LinkedIn Ads'),
+            'url_name': 'core:linkedin_ads',
+        },
+        {
+            'title': _('Facebook Launch Posts'),
+            'price': _('Free with some new website setups'),
+            'text': _('Prepared launch posts that help a new website and Facebook page look active from day one.'),
+            'items': [
+                _('Launch posts and stories'),
+                _('Facebook page support'),
+                _('Clear links back to your website'),
+            ],
+            'cta': _('View Facebook Launch Posts'),
+            'url_name': 'core:facebook_posts',
+        },
+    ]
+
+
+def addon_pricing_cards():
+    return [
+        {
+            'title': _('Business Email Setup'),
+            'price': _('Ask for setup price'),
+            'text': _('Set up a business email address that matches your domain and website.'),
+            'items': [
+                _('Mailbox setup'),
+                _('Domain-based business email'),
+            ],
+            'cta': _('Ask about business email'),
+            'url_name': 'core:contact',
+        },
+        {
+            'title': _('Extra Page'),
+            'price': _('Ask for setup price'),
+            'text': _('Add another service page, area page, or supporting information page later.'),
+            'items': [
+                _('Extra content page'),
+                _('Fits future growth'),
+            ],
+            'cta': _('Ask about extra pages'),
+            'url_name': 'core:contact',
+        },
+        {
+            'title': _('Logo Starter Pack'),
+            'price': _('Ask for setup price'),
+            'text': _('A simple starter logo direction for businesses that need a cleaner first visual identity.'),
+            'items': [
+                _('Starter logo direction'),
+                _('Basic branding support'),
+            ],
+            'cta': _('Ask about logo help'),
+            'url_name': 'core:contact',
+        },
+        {
+            'title': _('Website Support'),
+            'price': _('Ask for setup price'),
+            'text': _('Get practical help with small changes, support questions, or follow-up website work.'),
+            'items': [
+                _('Practical support'),
+                _('Small follow-up changes'),
+            ],
+            'cta': _('Contact support'),
+            'url_name': 'core:contact',
+        },
+    ]
+
+
+def pricing_overview_sections():
+    return [
+        {
+            'title': _('Quick-start tools'),
+            'intro': _(
+                'Simple starter options for businesses that want to get online fast, test an idea, or show a small offer without starting a large project.'
+            ),
+            'note': _(
+                'Quick-start pages are prepared from your details. They are useful when you want to start small and improve later.'
+            ),
+            'rows': [
+                {
+                    'title': _('Starter Page'),
+                    'good_for': _('A simple generated page to get online fast. Own domain possible.'),
+                    'price': _('€20/month'),
+                    'status': _('Available'),
+                    'actions': [
+                        {'label': _('Buy now'), 'href': reverse('ai_starter:start'), 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Generated Catalog up to 6 products'),
+                    'good_for': _('Show products, prices, images, and categories without full checkout. Own domain possible.'),
+                    'price': _('€20/month'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Generated Shop Page up to 6 products'),
+                    'good_for': _('A small product/shop page for testing sales without a full manual shop setup. Own domain possible.'),
+                    'price': _('€20/month'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+            ],
+        },
+        {
+            'title': _('Websites'),
+            'intro': _(
+                'For businesses that need a clear public website with services, location, contact details, and room to grow.'
+            ),
+            'rows': [
+                {
+                    'title': _('One-Time Website'),
+                    'good_for': _('A full small business website prepared around your services, location, contact details, and future upgrades.'),
+                    'price': _('€325 + VAT'),
+                    'status': _('Available'),
+                    'actions': [
+                        {'label': _('Buy now'), 'href': reverse('core:website_package_payment'), 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Monthly Website'),
+                    'good_for': _('A website with hosting, support, and ongoing website care included.'),
+                    'price': _('From €49.90/month'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+            ],
+        },
+        {
+            'title': _('Online shops and catalogs'),
+            'intro': _(
+                'Start with a product page or catalog first, then move to checkout and payment options when your business is ready.'
+            ),
+            'lead': _(
+                'If payments are needed, the setup is manual. If you only need to show products first, you can start with a generated catalog or generated shop page.'
+            ),
+            'rows': [
+                {
+                    'title': _('Product Catalog Setup'),
+                    'good_for': _('A more complete product catalog with categories, images, product details, and room to grow.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Online Shop with Payments'),
+                    'good_for': _('A manual shop setup with checkout and payment options.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Larger Shop'),
+                    'good_for': _('More products, categories, delivery details, suppliers, reseller items, or future growth.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+            ],
+        },
+        {
+            'title': _('Promotion'),
+            'intro': _(
+                'Promotion helps more people discover your website after launch. Your website is the base; posts and ads can send people back to it.'
+            ),
+            'note': _('Ad budget is separate and is spent through the ad platform.'),
+            'rows': [
+                {
+                    'title': _('Launch Facebook Posts'),
+                    'good_for': _('Announce your new website and send people to it after activation.'),
+                    'price': _('Included with website activation'),
+                    'included': True,
+                    'status': _('Included'),
+                    'actions': [
+                        {'label': _('Read more'), 'href': reverse('core:facebook_posts'), 'variant': 'secondary'},
+                    ],
+                },
+                {
+                    'title': _('Facebook Posts'),
+                    'good_for': _('Keep your business active with simple posts that point people back to your website.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Facebook & Instagram Ads Setup'),
+                    'good_for': _('Local visibility campaigns for services, offers, shops, and visual businesses. Ad budget is separate.'),
+                    'price': _('€49 setup'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Google Ads Setup'),
+                    'good_for': _('Campaign setup for people already searching for your service. Ad budget is separate.'),
+                    'price': _('€69 setup'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('LinkedIn Ads Setup'),
+                    'good_for': _('Business-focused ads for professional or B2B offers. Ad budget is separate.'),
+                    'price': _('€89 setup'),
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+            ],
+        },
+        {
+            'title': _('Add-ons and business tools'),
+            'intro': _(
+                'Extra tools can be added when your business needs them.'
+            ),
+            'rows': [
+                {
+                    'title': _('Business Email Setup'),
+                    'good_for': _('Professional email for your domain.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Available soon'), 'disabled': True, 'variant': 'primary'},
+                    ],
+                },
+                {
+                    'title': _('Payment Methods / Checkout Setup'),
+                    'good_for': _('Help choosing the right payment setup for your website or shop.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Read more'), 'href': reverse('core:payment_methods'), 'variant': 'secondary'},
+                    ],
+                },
+                {
+                    'title': _('Extra Page'),
+                    'good_for': _('Add an extra service, landing, product, or information page.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Contact us'), 'href': reverse('core:contact'), 'variant': 'secondary'},
+                    ],
+                },
+                {
+                    'title': _('Website Support'),
+                    'good_for': _('Help with updates, small fixes, and improvements.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Contact us'), 'href': reverse('core:contact'), 'variant': 'secondary'},
+                    ],
+                },
+                {
+                    'title': _('Content Help'),
+                    'good_for': _('Help turning rough notes into clearer website text.'),
+                    'price': _('Coming soon'),
+                    'coming_soon': True,
+                    'status': _('Coming soon'),
+                    'actions': [
+                        {'label': _('Contact us'), 'href': reverse('core:contact'), 'variant': 'secondary'},
+                    ],
+                },
+            ],
+        },
+    ]
+
+
+def pricing_overview_faqs():
+    return [
+        {
+            'question': _('Can I start small and upgrade later?'),
+            'answer': _('Yes. You can start with a simple page, website, catalog, or generated shop page and add more later.'),
+        },
+        {
+            'question': _('Do I need an online shop immediately?'),
+            'answer': _('No. Many businesses start with a website or catalog first, then add checkout and payments later.'),
+        },
+        {
+            'question': _('Are ad budgets included?'),
+            'answer': _('No. Ads setup and ad budget are separate. The setup fee covers preparation and launch support. The ad budget is spent through the advertising platform.'),
+        },
+        {
+            'question': _('Why are some prices marked Coming soon?'),
+            'answer': _('Some services need more setup, payment provider details, or manual handling before a fixed public price is shown.'),
         },
     ]
 

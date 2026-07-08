@@ -7,16 +7,516 @@
 {% endblock %}
 
 {% block content %}
+{% if promotion_layout %}
+<section class="page-hero">
+  <div class="wrap promo-hero-shell{% if page_key == 'websites' %} websites-page{% endif %}{% if page_key == 'ads' %} ads-page{% endif %}{% if page_key == 'online_shop' %} online-shop-page{% endif %}{% if page_key == 'payment_methods' %} payment-methods-page{% endif %}">
+    <div class="eyebrow">{{ page_eyebrow }}</div>
+    <h1>{{ page_title }}</h1>
+    {% if page_subtitle %}<p class="page-copy"><strong>{{ page_subtitle }}</strong></p>{% endif %}
+    <p class="page-copy">{{ page_intro }}</p>
+    {% if page_price_label or page_primary_cta_label or page_secondary_cta_label %}
+    <div class="hero-actions">
+      {% if page_primary_cta_label %}<a class="btn btn-primary" href="{{ page_primary_cta_url }}">{{ page_primary_cta_label }}</a>{% endif %}
+      {% if page_secondary_cta_label %}<a class="btn btn-secondary" href="{{ page_secondary_cta_url }}">{{ page_secondary_cta_label }}</a>{% endif %}
+      {% if page_price_label %}<span class="pricing-badge">{{ page_price_label }}</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section-band section-plain">
+  <div class="wrap">
+    {% if page_highlights %}
+      <div class="promo-summary-grid">
+        {% for item in page_highlights %}
+          <article class="promo-summary-card">
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.text }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="promo-page-flow">
+      <div class="promo-main promo-container{% if page_key == 'websites' %} websites-page{% endif %}{% if page_key == 'ads' %} ads-page{% endif %}{% if page_key == 'online_shop' %} online-shop-page{% endif %}{% if page_key == 'payment_methods' %} payment-methods-page{% endif %}">
+        {% for section in page_sections %}
+          <section{% if section.anchor %} id="{{ section.anchor }}"{% endif %} class="promo-section{% if page_key == 'websites' %} websites-section{% endif %}{% if page_key == 'ads' %} ads-section{% endif %}{% if section.layout and page_key == 'websites' %} websites-section--{{ section.layout|slugify }}{% elif section.layout and page_key == 'ads' %} ads-section--{{ section.layout|slugify }}{% endif %}">
+            <h2>{{ section.title }}</h2>
+            {% if page_key == 'websites' and section.layout == 'included_grid' %}
+              <div class="promo-copy websites-included-grid-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-included-grid">
+                {% for item in section.items %}
+                  <article class="websites-included-item">
+                    <strong>{{ item }}</strong>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'websites' and section.layout == 'dashboard_band' %}
+              <div class="websites-dashboard-office">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                <div class="websites-dashboard-office__grid">
+                  {% for item in section.items %}
+                    <article class="websites-dashboard-office__item">
+                      <strong>{{ item }}</strong>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif page_key == 'websites' and section.layout == 'steps_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-steps-grid">
+                {% for step in section.steps %}
+                  <article class="websites-step-card">
+                    <span class="websites-step-card__num">{{ forloop.counter }}</span>
+                    <h3>{{ step.title }}</h3>
+                    <p>{{ step.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'websites' and section.layout == 'upgrade_band' %}
+              <div class="websites-upgrade-band">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                <div class="websites-upgrade-band__grid">
+                  {% for item in section.items %}
+                    <article class="websites-upgrade-band__item">
+                      <strong>{{ item }}</strong>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif page_key == 'websites' and section.layout == 'writing_help' %}
+              <div class="websites-writing-help">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                {% if section.actions %}
+                  <div class="websites-writing-help__actions">
+                    {% for action in section.actions %}
+                      <a class="btn {% if forloop.first %}btn-primary{% else %}btn-secondary{% endif %}" href="{{ action.url }}">{{ action.label }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'facebook_posts' %}
+              <div class="ads-facebook-posts">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                <div class="ads-facebook-posts__grid">
+                  {% for item in section.items %}
+                    <article class="ads-facebook-posts__item">
+                      <strong>{{ item }}</strong>
+                    </article>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'options_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="ads-options-grid">
+                {% for option in section.options %}
+                  <article class="ads-option-card">
+                    <h3>{{ option.title }}</h3>
+                    <p>{{ option.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'cost_band' %}
+              <div class="ads-cost-band">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'fit_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="ads-fit-grid">
+                {% for option in section.options %}
+                  <article class="ads-fit-card">
+                    <h3>{{ option.title }}</h3>
+                    <p>{{ option.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'steps_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="ads-steps-grid">
+                {% for step in section.steps %}
+                  <article class="ads-step-card">
+                    <span class="ads-step-card__num">{{ forloop.counter }}</span>
+                    <h3>{{ step.title }}</h3>
+                    <p>{{ step.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'ads' and section.layout == 'expectations_band' %}
+              <div class="ads-expectations-band">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif page_key == 'online_shop' and section.layout == 'shop_options_summary' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="shop-options-grid">
+                {% for option in section.options %}
+                  <article class="shop-option-card">
+                    <h3>{{ option.title }}</h3>
+                    <p>{{ option.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+              {% if section.note %}
+                <p class="shop-options-note small">{{ section.note }}</p>
+              {% endif %}
+            {% elif page_key == 'online_shop' and section.layout == 'comparison_table' %}
+              <div class="shop-comparison-section">
+                {% if section.intro %}
+                  <div class="promo-copy">
+                    <p>{{ section.intro }}</p>
+                  </div>
+                {% endif %}
+                <div class="shop-comparison-table" role="table" aria-label="{{ section.title }}">
+                  <div class="shop-comparison-head" role="rowgroup">
+                    <div class="shop-comparison-row shop-comparison-row--head" role="row">
+                      {% for column in section.columns %}
+                        <div role="columnheader">{{ column }}</div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div role="rowgroup">
+                    {% for row in section.rows %}
+                      <div class="shop-comparison-row" role="row">
+                        <div role="cell" data-label="{{ section.columns.0 }}"><strong>{{ row.option }}</strong></div>
+                        <div role="cell" data-label="{{ section.columns.1 }}">{{ row.best_for }}</div>
+                        <div role="cell" data-label="{{ section.columns.2 }}">{{ row.products }}</div>
+                        <div role="cell" data-label="{{ section.columns.3 }}">{{ row.payments }}</div>
+                        <div role="cell" data-label="{{ section.columns.4 }}">{{ row.setup_type }}</div>
+                        <div role="cell" data-label="{{ section.columns.5 }}"><span class="shop-comparison-status">{{ row.status }}</span></div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% if section.note %}
+                  <div class="shop-note-band">
+                    <p>{{ section.note }}</p>
+                  </div>
+                {% endif %}
+              </div>
+            {% elif page_key == 'online_shop' and section.layout == 'requirements_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-included-grid shop-requirements-grid">
+                {% for item in section.items %}
+                  <article class="websites-included-item shop-requirements-item">
+                    <strong>{{ item }}</strong>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'online_shop' and section.layout == 'payment_band' %}
+              <div class="shop-payment-band">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+                {% if section.actions %}
+                  <div class="websites-writing-help__actions">
+                    {% for action in section.actions %}
+                      <a class="btn {% if forloop.first %}btn-primary{% else %}btn-secondary{% endif %}" href="{{ action.url }}">{{ action.label }}</a>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% elif page_key == 'online_shop' and section.layout == 'steps_grid' %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+              </div>
+              <div class="websites-steps-grid shop-steps-grid">
+                {% for step in section.steps %}
+                  <article class="websites-step-card shop-step-card">
+                    <span class="websites-step-card__num">{{ forloop.counter }}</span>
+                    <h3>{{ step.title }}</h3>
+                    <p>{{ step.text }}</p>
+                  </article>
+                {% endfor %}
+              </div>
+            {% elif page_key == 'online_shop' and section.layout == 'upgrade_band' %}
+              <div class="shop-upgrade-band">
+                <div class="promo-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif forloop.first and section.image_label %}
+              <div class="promo-split promo-split--feature">
+                <div class="promo-visual promo-image-stage promo-image-stage--feature" aria-hidden="true">
+                  <div class="promo-image-art promo-image-art--feature"></div>
+                  <span class="sr-only">{{ section.image_label }}</span>
+                </div>
+                <div class="promo-copy promo-split-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                </div>
+              </div>
+            {% elif section.bullets and section.image_label %}
+              <div class="promo-split">
+                <div class="promo-copy promo-split-copy">
+                  {% for paragraph in section.paragraphs %}
+                    <p>{{ paragraph }}</p>
+                  {% endfor %}
+                  <ul class="clean-list promo-list">
+                    {% for item in section.bullets %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="promo-visual promo-image-stage promo-image-stage--side" aria-hidden="true">
+                  <div class="promo-image-art promo-image-art--side"></div>
+                  <span class="sr-only">{{ section.image_label }}</span>
+                </div>
+              </div>
+            {% else %}
+              <div class="promo-copy">
+                {% for paragraph in section.paragraphs %}
+                  <p>{{ paragraph }}</p>
+                {% endfor %}
+                {% if section.bullets %}
+                  <ul class="clean-list promo-list">
+                    {% for item in section.bullets %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            {% endif %}
+          </section>
+        {% endfor %}
+
+        {% if ads_simulator %}
+          {% include "core/includes/ad_cost_simulator.html" %}
+        {% endif %}
+
+        {% if related_links %}
+          <section class="promo-growth">
+            <h2>{{ page_sidebar_title }}</h2>
+            <div class="promo-link-grid promo-growth-links">
+              {% for item in related_links %}
+                <a class="btn btn-secondary" href="{{ item.url }}">{{ item.label }}</a>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+
+        {% if page_faqs %}
+          <section class="promo-faq">
+            <h2>{{ page_faq_title }}</h2>
+            {% for item in page_faqs %}
+              <article class="promo-faq-item">
+                <h3>{{ item.question }}</h3>
+                <p>{{ item.answer }}</p>
+              </article>
+            {% endfor %}
+          </section>
+        {% endif %}
+
+        {% if page_cta_block_title %}
+          <section class="cta promo-bottom-cta">
+            <div>
+              <h2>{{ page_cta_block_title }}</h2>
+              <p>{{ page_cta_block_text }}</p>
+            </div>
+            <div class="cta-actions">
+              {% if page_cta_block_primary_label %}<a class="btn btn-primary" href="{{ page_cta_block_primary_url }}">{{ page_cta_block_primary_label }}</a>{% endif %}
+              {% if page_cta_block_secondary_label %}<a class="btn btn-secondary" href="{{ page_cta_block_secondary_url }}">{{ page_cta_block_secondary_label }}</a>{% endif %}
+            </div>
+          </section>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% if ads_simulator %}
+<script>
+  (() => {
+    const simulator = document.querySelector("[data-ad-simulator]");
+    if (!simulator) return;
+
+    const setupFee = Number(simulator.dataset.setupFee || 0);
+    const radiusSuffix = simulator.dataset.radiusSuffix || "km";
+    const durationSuffix = simulator.dataset.durationSuffix || "days";
+    const dailyBudgetSuffix = simulator.dataset.dailyBudgetSuffix || "/day";
+    const radiusResultSuffix = simulator.dataset.radiusResultSuffix || "";
+    const budgetButtons = Array.from(simulator.querySelectorAll("[data-budget-preset]"));
+    const dayButtons = Array.from(simulator.querySelectorAll("[data-days-preset]"));
+    const radiusButtons = Array.from(simulator.querySelectorAll("[data-radius-preset]"));
+    const budgetInput = simulator.querySelector("[data-budget-input]");
+    const dailyBudgetResult = simulator.querySelector("[data-result-daily-budget]");
+    const durationResult = simulator.querySelector("[data-result-duration]");
+    const budgetResult = simulator.querySelector("[data-result-budget]");
+    const totalResult = simulator.querySelector("[data-result-total]");
+    const radiusResult = simulator.querySelector("[data-result-radius]");
+    const setupResult = simulator.querySelector("[data-result-setup]");
+    const formulaResult = simulator.querySelector("[data-result-formula]");
+
+    const formatEuro = (value) => `EUR ${Math.round(value)}`;
+
+    const readBudget = () => {
+      const parsed = Number(budgetInput?.value || 0);
+      return parsed >= 1 ? parsed : 1;
+    };
+
+    const readDays = () => {
+      const active = dayButtons.find((button) => button.classList.contains("is-selected"));
+      return Number(active?.dataset.daysPreset || 7);
+    };
+
+    const readRadius = () => {
+      const active = radiusButtons.find((button) => button.classList.contains("is-selected"));
+      return Number(active?.dataset.radiusPreset || simulator.dataset.defaultRadius || 20);
+    };
+
+    const syncBudgetButtons = () => {
+      const budget = readBudget();
+      budgetButtons.forEach((button) => {
+        const matches = Number(button.dataset.budgetPreset) === budget;
+        button.classList.toggle("is-selected", matches);
+      });
+    };
+
+    const syncRadiusButtons = () => {
+      const radius = readRadius();
+      radiusButtons.forEach((button) => {
+        const matches = Number(button.dataset.radiusPreset) === radius;
+        button.classList.toggle("is-selected", matches);
+      });
+    };
+
+    const updateResults = () => {
+      const budget = readBudget();
+      const days = readDays();
+      const radius = readRadius();
+      const adBudget = budget * days;
+      const total = setupFee + adBudget;
+
+      if (budgetInput && Number(budgetInput.value || 0) < 1) {
+        budgetInput.value = "1";
+      }
+
+      if (setupResult) setupResult.textContent = formatEuro(setupFee);
+      if (dailyBudgetResult) dailyBudgetResult.textContent = `${formatEuro(budget)}${dailyBudgetSuffix}`;
+      if (durationResult) durationResult.textContent = `${days} ${durationSuffix}`;
+      if (budgetResult) budgetResult.textContent = formatEuro(adBudget);
+      if (totalResult) totalResult.textContent = formatEuro(total);
+      if (radiusResult) radiusResult.textContent = `${radius}${radiusSuffix} ${radiusResultSuffix}`.trim();
+      if (formulaResult) formulaResult.textContent = `${formatEuro(budget)}${dailyBudgetSuffix} x ${days} ${durationSuffix} = ${formatEuro(adBudget)}`;
+      syncBudgetButtons();
+      syncRadiusButtons();
+    };
+
+    budgetButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (budgetInput) budgetInput.value = button.dataset.budgetPreset || "5";
+        updateResults();
+      });
+    });
+
+    dayButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        dayButtons.forEach((item) => item.classList.remove("is-selected"));
+        button.classList.add("is-selected");
+        updateResults();
+      });
+    });
+
+    radiusButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        radiusButtons.forEach((item) => item.classList.remove("is-selected"));
+        button.classList.add("is-selected");
+        updateResults();
+      });
+    });
+
+    budgetInput?.addEventListener("input", updateResults);
+    updateResults();
+  })();
+</script>
+{% endif %}
+{% else %}
 <section class="page-hero">
   <div class="wrap narrow">
     <div class="eyebrow">{{ page_eyebrow }}</div>
     <h1>{{ page_title }}</h1>
+    {% if page_subtitle %}<p class="page-copy"><strong>{{ page_subtitle }}</strong></p>{% endif %}
     <p class="page-copy">{{ page_intro }}</p>
+    {% if page_price_label or page_primary_cta_label %}
+    <div class="hero-actions">
+      {% if page_primary_cta_label %}<a class="btn btn-primary" href="{{ page_primary_cta_url }}">{{ page_primary_cta_label }}</a>{% endif %}
+      {% if page_price_label %}<span class="pricing-badge">{{ page_price_label }}</span>{% endif %}
+    </div>
+    {% endif %}
   </div>
 </section>
 
 <section class="section-band section-plain">
   <div class="wrap legal-content">
+    {% if page_highlights %}
+      <article class="card legal-page-section">
+        <div class="pricing-addon-grid">
+          {% for item in page_highlights %}
+            <div class="pricing-addon-item">
+              <strong>{{ item.title }}</strong>
+              <p>{{ item.text }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </article>
+    {% endif %}
+
     {% if related_links %}
       <article class="card legal-page-nav">
         <h2>Related information</h2>
@@ -44,6 +544,16 @@
       </article>
     {% endfor %}
 
+    {% if page_faqs %}
+      <article class="card legal-page-section">
+        <h2>{{ page_faq_title }}</h2>
+        {% for item in page_faqs %}
+          <h3>{{ item.question }}</h3>
+          <p>{{ item.answer }}</p>
+        {% endfor %}
+      </article>
+    {% endif %}
+
     {% if service_options %}
       <article class="card legal-page-section">
         <h2>{{ page_title }}</h2>
@@ -66,10 +576,11 @@
     {% endif %}
 
     <article class="card legal-page-section legal-page-section--note">
-      <h2>Need clarification?</h2>
+      <h2>Questions?</h2>
       <p>If you have questions about package scope, renewals, or support, contact <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
       <p>This information is practical website guidance for customers. It is not legal advice, and some rights or obligations can depend on the customer type, package, and local law.</p>
     </article>
   </div>
 </section>
+{% endif %}
 {% endblock %}
