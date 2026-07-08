@@ -72,6 +72,7 @@ POST_DATA = [
         'category': 'Hosting & Performance',
         'visibility': BlogPost.Visibility.PUBLIC,
         'order': 1,
+        'featured_image': '/static/core/img/blog/shared-hosting-vs-vps.jpeg',
         'excerpt': 'A simple explanation of the difference between shared hosting and VPS hosting, and when a small business should upgrade.',
         'body': (
             '## Shared hosting keeps costs low\n\n'
@@ -443,6 +444,7 @@ class Command(BaseCommand):
         defaults = {
             'title': post_data['title'],
             'category': category,
+            'featured_image': post_data.get('featured_image', ''),
             'excerpt': post_data['excerpt'],
             'body': self._clean_body(post_data['body']),
             'visibility': post_data['visibility'],
