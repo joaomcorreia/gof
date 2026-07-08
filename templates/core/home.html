@@ -655,10 +655,16 @@
   <div class="section-inner">
     <div class="section-head">
       <div>
-        <h2>{% trans "Helpful guides" %}</h2>
+        <h2>
+          {% blocktranslate trimmed %}
+            <span class="text-orange">Helpful</span> guides
+          {% endblocktranslate %}
+        </h2>
       </div>
       <p>
-        {% trans "Quick explanations for common questions before and after your website goes online." %}
+        {% blocktranslate trimmed %}
+        <span class="text-orange">Quick explanations</span> for common questions before and after your website goes online.
+        {% endblocktranslate %}
       </p>
     </div>
     <div class="examples">
@@ -689,8 +695,8 @@
     <div class="section-head">
       <div>
         <h2>{% trans "FAQ" %}</h2>
+         <p>{% trans "Short answers to the practical questions business owners usually ask before they continue." %}</p>
       </div>
-      <p>{% trans "Short answers to the practical questions business owners usually ask before they continue." %}</p>
     </div>
     <div class="faq">
       <article class="card surface-card card--feature">
