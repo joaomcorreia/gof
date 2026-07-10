@@ -103,11 +103,11 @@ class PublicPagesTests(TestCase):
     def test_public_start_route_is_accessible(self):
         response = self.client.get(reverse('ai_starter:start'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Start your website preview')
-        self.assertContains(response, 'Start Your Business Website | Get Online Fast', html=False)
+        self.assertContains(response, 'Start je website')
+        self.assertContains(response, 'Start je bedrijfswebsite | Get Online Fast', html=False)
         self.assertContains(
             response,
-            'Create a starter website request for your business in minutes. Choose your business type, services and style, then let Get Online Fast prepare the next step.',
+            'Start je bedrijfswebsite in enkele minuten. Voeg je bedrijfstype, diensten en stijl toe en ga daarna verder met Get Online Fast.',
         )
         self.assertNotContains(response, 'noindex, nofollow')
 
@@ -117,7 +117,7 @@ class PublicPagesTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         mocked_ensure_default_templates.assert_not_called()
-        self.assertContains(response, 'Start your website preview')
+        self.assertContains(response, 'Start je website')
 
     @override_settings(SITE_NOINDEX=True)
     def test_key_public_pages_remain_indexable_when_global_noindex_flag_is_enabled(self):

@@ -157,6 +157,7 @@
   </div>
 </section>
 {% elif starter_wizard_v2 %}
+{# Active starter flow: session-backed 6-step wizard currently used by /start/. #}
 <section class="start-builder-page start-wizard-page starter-wizard-v2-page">
   <div class="wrap">
     {% if starter_request_submitted and is_public_start_flow %}
@@ -686,6 +687,7 @@
   </div>
 </section>
 {% else %}
+{# Legacy/stale branch: older 8-step onboarding flow kept temporarily for reference during the redesign. #}
 {% trans "Your business type" as default_business_type %}
 {% trans "Your business" as default_business_name %}
 {% trans "Not set yet" as default_not_set %}

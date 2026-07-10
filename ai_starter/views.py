@@ -51,6 +51,106 @@ ONBOARDING_TOTAL_STEPS = 8
 STARTER_WIZARD_TOTAL_STEPS = 6
 STARTER_WIZARD_SESSION_KEY = 'starter_wizard_state'
 logger = logging.getLogger(__name__)
+STARTER_TEMPLATE_OPTIONS = [
+    {'key': 'classic_local', 'label': 'Classic local business'},
+    {'key': 'visual_showcase', 'label': 'Visual showcase'},
+    {'key': 'service_focused', 'label': 'Service-focused'},
+    {'key': 'simple_landing', 'label': 'Simple landing page'},
+]
+STARTER_PALETTE_OPTIONS = [
+    {'key': 'warm_orange', 'label': 'Warm orange'},
+    {'key': 'clean_bw', 'label': 'Clean black and white'},
+    {'key': 'soft_beige', 'label': 'Soft beige'},
+    {'key': 'elegant_dark', 'label': 'Elegant dark'},
+    {'key': 'fresh_green', 'label': 'Fresh green'},
+    {'key': 'blue_professional', 'label': 'Blue professional'},
+]
+STARTER_FONT_OPTIONS = [
+    {'key': 'clean', 'label': 'Clean'},
+    {'key': 'modern', 'label': 'Modern'},
+    {'key': 'elegant', 'label': 'Elegant'},
+    {'key': 'bold', 'label': 'Bold'},
+]
+STARTER_IMAGE_SET_BASE_OPTIONS = [
+    {'key': 'suggested', 'label': 'Suggested (auto-selected)'},
+    {'key': 'generic_service', 'label': 'Generic service images'},
+    {'key': 'none', 'label': 'No images for now'},
+]
+STARTER_CTA_OPTIONS = [
+    {'key': 'request_information', 'label': 'Request information'},
+    {'key': 'request_quote', 'label': 'Request quote'},
+    {'key': 'book_appointment', 'label': 'Book appointment'},
+    {'key': 'call_now', 'label': 'Call now'},
+    {'key': 'whatsapp', 'label': 'WhatsApp'},
+]
+STARTER_LAUNCH_TYPE_OPTIONS = [
+    {
+        'key': 'starter_page',
+        'label': 'Starter Page',
+        'summary': 'One clear page to get online fast.',
+        'details': [
+            'Best for quick visibility',
+            'Good for landing pages, small services, temporary offers, and simple businesses',
+            'Includes hero, services, images, contact section, and main call to action',
+        ],
+        'note': '',
+    },
+    {
+        'key': 'full_website',
+        'label': 'Full Website',
+        'summary': 'A complete website with separate pages.',
+        'details': [
+            'Best for businesses that need stronger structure and future growth',
+            'Includes Home, About, Services, Contact, and optional extra pages',
+            'Delivered as a full website after activation',
+        ],
+        'note': 'Full websites are prepared for WordPress delivery after activation.',
+    },
+]
+STARTER_PAGE_OPTIONS = [
+    {'key': 'home', 'label': 'Home', 'required': True, 'recommended': False},
+    {'key': 'about', 'label': 'About', 'required': False, 'recommended': True},
+    {'key': 'services', 'label': 'Services', 'required': False, 'recommended': True},
+    {'key': 'contact', 'label': 'Contact', 'required': True, 'recommended': False},
+    {'key': 'projects', 'label': 'Projects / Portfolio', 'required': False, 'recommended': False},
+    {'key': 'gallery', 'label': 'Gallery', 'required': False, 'recommended': False},
+    {'key': 'reviews', 'label': 'Reviews', 'required': False, 'recommended': False},
+    {'key': 'faq', 'label': 'FAQ', 'required': False, 'recommended': False},
+    {'key': 'prices_menu', 'label': 'Prices / Menu', 'required': False, 'recommended': False},
+    {'key': 'service_area', 'label': 'Service Area', 'required': False, 'recommended': False},
+    {'key': 'blog_news', 'label': 'Blog / News', 'required': False, 'recommended': False},
+]
+STARTER_PAGE_OPTION_KEYS = [item['key'] for item in STARTER_PAGE_OPTIONS]
+STARTER_PAGE_LABEL_MAP = {item['key']: item['label'] for item in STARTER_PAGE_OPTIONS}
+STARTER_REQUIRED_PAGE_KEYS = {'home', 'contact'}
+STARTER_DEFAULT_FULL_WEBSITE_PAGES = ['home', 'about', 'services', 'contact']
+STARTER_CONTACT_DETAIL_FIELDS = [
+    'contact_name',
+    'email',
+    'phone',
+    'whatsapp',
+    'address',
+    'service_area_detail',
+    'opening_hours',
+    'social_facebook',
+    'social_instagram',
+    'social_linkedin',
+    'social_tiktok',
+]
+STARTER_SECTION_VISIBILITY_KEYS = [
+    'show_services',
+    'show_gallery',
+    'show_reviews',
+    'show_location',
+    'show_contact_cta',
+]
+STARTER_TEMPLATE_OPTION_KEYS = {item['key'] for item in STARTER_TEMPLATE_OPTIONS}
+STARTER_PALETTE_OPTION_KEYS = {item['key'] for item in STARTER_PALETTE_OPTIONS}
+STARTER_FONT_OPTION_KEYS = {item['key'] for item in STARTER_FONT_OPTIONS}
+STARTER_IMAGE_SET_OPTION_KEYS = {item['key'] for item in STARTER_IMAGE_SET_BASE_OPTIONS}
+STARTER_CTA_OPTION_KEYS = {item['key'] for item in STARTER_CTA_OPTIONS}
+STARTER_LAUNCH_OPTION_KEYS = {item['key'] for item in STARTER_LAUNCH_TYPE_OPTIONS}
+STARTER_LAUNCH_TYPE_LABELS = {item['key']: item['label'] for item in STARTER_LAUNCH_TYPE_OPTIONS}
 ONBOARDING_FIELD_FALLBACKS = {
     'hero_title': 'Professional website preview for your business',
     'hero_description': 'A clear starting website with your services, contact details, and next steps ready to review.',
@@ -461,6 +561,878 @@ def _website_request_sections(form):
             ],
         },
     ]
+
+
+def _safe_step(value, default=1):
+    try:
+        parsed = int(value or default)
+    except (TypeError, ValueError):
+        parsed = default
+    return max(1, min(parsed, STARTER_WIZARD_TOTAL_STEPS))
+
+
+def _normalize_single_line(value, *, max_length=140):
+    return ' '.join(str(value or '').strip().split())[:max_length]
+
+
+def _starter_step_url(selected_design_query, step_number):
+    base = f"{reverse('ai_starter:start')}?step={step_number}"
+    if selected_design_query:
+        return f"{base}&{selected_design_query.lstrip('?')}"
+    return base
+
+
+def _normalize_choice(value, allowed_keys, fallback):
+    candidate = str(value or '').strip()
+    if candidate in allowed_keys:
+        return candidate
+    return fallback
+
+
+def _default_contact_details():
+    return {field: '' for field in STARTER_CONTACT_DETAIL_FIELDS}
+
+
+def _normalize_contact_details(raw_details):
+    raw = raw_details if isinstance(raw_details, dict) else {}
+    normalized = _default_contact_details()
+    for field in STARTER_CONTACT_DETAIL_FIELDS:
+        value = str(raw.get(field) or '').strip()
+        max_length = 500 if field == 'opening_hours' else 200
+        normalized[field] = value[:max_length]
+    return normalized
+
+
+def _sanitize_selected_pages(raw_pages, *, default_when_empty=False):
+    raw_list = raw_pages if isinstance(raw_pages, list) else []
+    selected_set = {str(item).strip() for item in raw_list if str(item).strip() in STARTER_PAGE_OPTION_KEYS}
+    if default_when_empty and not selected_set:
+        selected_set = set(STARTER_DEFAULT_FULL_WEBSITE_PAGES)
+    selected_set.update(STARTER_REQUIRED_PAGE_KEYS)
+    return [key for key in STARTER_PAGE_OPTION_KEYS if key in selected_set]
+
+
+def _selected_page_labels(selected_pages):
+    return [STARTER_PAGE_LABEL_MAP[key] for key in selected_pages if key in STARTER_PAGE_LABEL_MAP]
+
+
+def _is_true(value):
+    if isinstance(value, bool):
+        return value
+    normalized = str(value or '').strip().lower()
+    return normalized in {'1', 'true', 'yes', 'on'}
+
+
+def _cta_label(cta_key):
+    for option in STARTER_CTA_OPTIONS:
+        if option['key'] == cta_key:
+            return option['label']
+    return 'Request information'
+
+
+def _parse_services_text(value):
+    seen = set()
+    parsed = []
+    for raw_line in str(value or '').splitlines():
+        clean = raw_line.strip().lstrip('-*â€¢').strip()
+        if not clean:
+            continue
+        clean = clean[:120]
+        lowered = clean.lower()
+        if lowered in seen:
+            continue
+        seen.add(lowered)
+        parsed.append(clean)
+        if len(parsed) >= 6:
+            break
+    return parsed
+
+
+def _safe_starter_draft(raw_draft):
+    draft = raw_draft if isinstance(raw_draft, dict) else {}
+    hero = draft.get('hero') if isinstance(draft.get('hero'), dict) else {}
+    intro = draft.get('intro') if isinstance(draft.get('intro'), dict) else {}
+    services = draft.get('services') if isinstance(draft.get('services'), list) else []
+    service_cards = draft.get('service_cards') if isinstance(draft.get('service_cards'), list) else []
+    contact_details = (
+        _normalize_contact_details(draft.get('contact_details'))
+        if isinstance(draft.get('contact_details'), dict)
+        else _default_contact_details()
+    )
+    section_visibility = draft.get('section_visibility') if isinstance(draft.get('section_visibility'), dict) else {}
+    selected_pages = _sanitize_selected_pages(draft.get('selected_pages', []))
+
+    return {
+        'business_name': str(draft.get('business_name') or '').strip(),
+        'business_type': str(draft.get('business_type') or '').strip(),
+        'service_area': str(draft.get('service_area') or '').strip(),
+        'services': services,
+        'resolved_profile': str(draft.get('resolved_profile') or '').strip(),
+        'template_key': str(draft.get('template_key') or '').strip(),
+        'palette_key': str(draft.get('palette_key') or '').strip(),
+        'font_key': str(draft.get('font_key') or '').strip(),
+        'image_set_key': str(draft.get('image_set_key') or '').strip(),
+        'main_cta': str(draft.get('main_cta') or '').strip(),
+        'section_visibility': section_visibility,
+        'hero': {
+            'title': str(hero.get('title') or '').strip(),
+            'description': str(hero.get('description') or '').strip(),
+            'cta': str(hero.get('cta') or '').strip(),
+            'image_key': str(hero.get('image_key') or '').strip(),
+            'image_category': str(hero.get('image_category') or '').strip(),
+        },
+        'intro': {
+            'title': str(intro.get('title') or '').strip(),
+            'text': str(intro.get('text') or '').strip(),
+        },
+        'service_cards': [
+            {
+                'title': str(item.get('title') or '').strip(),
+                'text': str(item.get('text') or '').strip(),
+            }
+            for item in service_cards
+            if isinstance(item, dict) and (str(item.get('title') or '').strip() or str(item.get('text') or '').strip())
+        ],
+        'launch_type': str(draft.get('launch_type') or '').strip(),
+        'selected_pages': selected_pages,
+        'contact_details': contact_details,
+    }
+
+
+def _default_starter_state():
+    return {
+        'step': 1,
+        'business_name': '',
+        'business_type': '',
+        'service_area': '',
+        'services_text': '',
+        'services': [],
+        'template_key': 'classic_local',
+        'palette_key': 'warm_orange',
+        'font_key': 'clean',
+        'image_set_key': 'suggested',
+        'main_cta': 'request_information',
+        'section_visibility': {
+            'show_services': True,
+            'show_gallery': True,
+            'show_reviews': False,
+            'show_location': True,
+            'show_contact_cta': True,
+        },
+        'launch_type': '',
+        'selected_pages': [],
+        'contact_details': _default_contact_details(),
+        'starter_draft': _safe_starter_draft({}),
+    }
+
+
+def _has_starter_draft(state):
+    draft = state.get('starter_draft')
+    if not isinstance(draft, dict):
+        return False
+    return bool(draft.get('business_name'))
+
+
+def _resolve_style_state(state):
+    draft = state.get('starter_draft') if isinstance(state.get('starter_draft'), dict) else {}
+
+    profile_template_map = {
+        'classic_service': 'classic_local',
+        'visual_hero': 'visual_showcase',
+        'clean_professional': 'service_focused',
+        'landing_page': 'simple_landing',
+    }
+    draft_template = profile_template_map.get(str(draft.get('template_key') or '').strip(), 'classic_local')
+    template_key = _normalize_choice(
+        state.get('template_key') or draft.get('template_key'),
+        STARTER_TEMPLATE_OPTION_KEYS,
+        draft_template,
+    )
+    palette_key = _normalize_choice(state.get('palette_key') or draft.get('palette_key'), STARTER_PALETTE_OPTION_KEYS, 'warm_orange')
+    font_key = _normalize_choice(state.get('font_key') or draft.get('font_key'), STARTER_FONT_OPTION_KEYS, 'clean')
+
+    auto_image_set_key = str(draft.get('image_set_key') or 'generic_service').strip() or 'generic_service'
+    image_set_key = str(state.get('image_set_key') or '').strip() or auto_image_set_key
+    if image_set_key != auto_image_set_key:
+        image_set_key = _normalize_choice(image_set_key, STARTER_IMAGE_SET_OPTION_KEYS, auto_image_set_key)
+
+    main_cta = _normalize_choice(state.get('main_cta') or draft.get('main_cta'), STARTER_CTA_OPTION_KEYS, 'request_information')
+
+    previous_visibility = state.get('section_visibility') if isinstance(state.get('section_visibility'), dict) else {}
+    gallery_default = bool(image_set_key == 'suggested' or image_set_key not in {'none', ''})
+    resolved_visibility = {
+        'show_services': _is_true(previous_visibility.get('show_services', True)),
+        'show_gallery': _is_true(previous_visibility.get('show_gallery', gallery_default)),
+        'show_reviews': _is_true(previous_visibility.get('show_reviews', False)),
+        'show_location': _is_true(previous_visibility.get('show_location', True)),
+        'show_contact_cta': _is_true(previous_visibility.get('show_contact_cta', True)),
+    }
+
+    return {
+        'template_key': template_key,
+        'palette_key': palette_key,
+        'font_key': font_key,
+        'image_set_key': image_set_key,
+        'auto_image_set_key': auto_image_set_key,
+        'main_cta': main_cta,
+        'section_visibility': resolved_visibility,
+        'main_cta_label': _cta_label(main_cta),
+    }
+
+
+def _apply_style_to_state(state, style_values):
+    state['template_key'] = style_values['template_key']
+    state['palette_key'] = style_values['palette_key']
+    state['font_key'] = style_values['font_key']
+    state['image_set_key'] = style_values['image_set_key']
+    state['main_cta'] = style_values['main_cta']
+    state['section_visibility'] = dict(style_values['section_visibility'])
+
+    draft = state.get('starter_draft') if isinstance(state.get('starter_draft'), dict) else {}
+    if isinstance(draft, dict):
+        draft['template_key'] = style_values['template_key']
+        draft['palette_key'] = style_values['palette_key']
+        draft['font_key'] = style_values['font_key']
+        draft['image_set_key'] = style_values['image_set_key']
+        draft['main_cta'] = style_values['main_cta']
+        draft['section_visibility'] = dict(style_values['section_visibility'])
+        if isinstance(draft.get('hero'), dict):
+            draft['hero']['cta'] = style_values['main_cta_label']
+        state['starter_draft'] = draft
+
+
+def _parse_step2_style_submission(post_data, state):
+    current_values = _resolve_style_state(state)
+    auto_image_set_key = current_values['auto_image_set_key']
+
+    template_key = _normalize_choice(post_data.get('template_key'), STARTER_TEMPLATE_OPTION_KEYS, current_values['template_key'])
+    palette_key = _normalize_choice(post_data.get('palette_key'), STARTER_PALETTE_OPTION_KEYS, current_values['palette_key'])
+    font_key = _normalize_choice(post_data.get('font_key'), STARTER_FONT_OPTION_KEYS, current_values['font_key'])
+    requested_image_set = str(post_data.get('image_set_key') or '').strip()
+    if requested_image_set in STARTER_IMAGE_SET_OPTION_KEYS:
+        image_set_key = requested_image_set
+    elif requested_image_set == auto_image_set_key:
+        image_set_key = auto_image_set_key
+    else:
+        image_set_key = current_values['image_set_key']
+
+    main_cta = _normalize_choice(post_data.get('main_cta'), STARTER_CTA_OPTION_KEYS, current_values['main_cta'])
+    section_visibility = {
+        'show_services': 'show_services' in post_data,
+        'show_gallery': 'show_gallery' in post_data,
+        'show_reviews': 'show_reviews' in post_data,
+        'show_location': 'show_location' in post_data,
+        'show_contact_cta': 'show_contact_cta' in post_data,
+    }
+
+    return {
+        'template_key': template_key,
+        'palette_key': palette_key,
+        'font_key': font_key,
+        'image_set_key': image_set_key,
+        'auto_image_set_key': auto_image_set_key,
+        'main_cta': main_cta,
+        'section_visibility': section_visibility,
+        'main_cta_label': _cta_label(main_cta),
+    }
+
+
+def _load_starter_state(request):
+    saved = request.session.get(STARTER_WIZARD_SESSION_KEY)
+    if not isinstance(saved, dict):
+        return _default_starter_state()
+    merged = _default_starter_state()
+    merged.update(saved)
+    merged['starter_draft'] = _safe_starter_draft(merged.get('starter_draft'))
+    if not isinstance(merged.get('services'), list):
+        merged['services'] = []
+    if not isinstance(merged.get('selected_pages'), list):
+        merged['selected_pages'] = []
+    if not isinstance(merged.get('section_visibility'), dict):
+        merged['section_visibility'] = _default_starter_state()['section_visibility']
+    merged['contact_details'] = _normalize_contact_details(merged.get('contact_details'))
+    merged['step'] = _safe_step(merged.get('step'), default=1)
+    return merged
+
+
+def _save_starter_state(request, state):
+    request.session[STARTER_WIZARD_SESSION_KEY] = state
+    request.session.modified = True
+
+
+def _clear_starter_state(request):
+    request.session.pop(STARTER_WIZARD_SESSION_KEY, None)
+    request.session.modified = True
+
+
+def _starter_image_set_key(profile):
+    profile_key = str(profile.get('key') or '').strip().lower()
+    profile_family = str(profile.get('family') or '').strip().lower()
+    key_source = profile_key or profile_family
+    mapping = {
+        'makeup_artist': 'makeup',
+        'beauty': 'beauty',
+        'garage': 'garage',
+        'transport': 'taxi',
+        'taxi': 'taxi',
+        'construction': 'trades',
+        'cleaning': 'generic_service',
+        'restaurant': 'restaurant',
+        'shop': 'generic_service',
+        'printing': 'generic_service',
+        'service_local': 'generic_service',
+        'construction_trades': 'trades',
+        'beauty_wellness': 'beauty',
+        'food_restaurant': 'food',
+    }
+    if key_source in mapping:
+        return mapping[key_source]
+    if 'garage' in key_source or 'auto' in key_source:
+        return 'garage'
+    if 'taxi' in key_source or 'transport' in key_source:
+        return 'taxi'
+    if 'beauty' in key_source or 'makeup' in key_source or 'salon' in key_source:
+        return 'beauty'
+    if 'restaurant' in key_source or 'food' in key_source:
+        return 'food'
+    if 'paint' in key_source or 'handyman' in key_source or 'electric' in key_source or 'trade' in key_source:
+        return 'trades'
+    return 'generic_service'
+
+
+def _build_starter_draft(*, business_name, business_type, service_area, services):
+    suggestion_type = _effective_business_type_for_suggestions(business_type, business_name)
+    profile = resolve_business_profile(suggestion_type)
+
+    profile_services = [
+        str(item).strip()
+        for item in profile.get('services', profile.get('suggested_services', []))
+        if str(item).strip()
+    ]
+    chosen_services = list(services) if services else profile_services[:6]
+    if not chosen_services:
+        chosen_services = ['Main service', 'Popular option', 'Customer support']
+
+    display_business_type = _normalize_single_line(
+        business_type or profile.get('display_business_type') or profile.get('key') or 'Local business',
+        max_length=120,
+    )
+    display_name = _normalize_single_line(business_name or display_business_type, max_length=120)
+    display_area = _normalize_single_line(service_area, max_length=120)
+
+    service_phrase = ', '.join(chosen_services[:3]).lower()
+    if display_area:
+        hero_title = f'{display_business_type} in {display_area}'
+        if service_phrase:
+            hero_title = f'{display_business_type} in {display_area} for {service_phrase}'
+        hero_description = (
+            f'{display_name} helps customers in {display_area} with {service_phrase}. '
+            'Review this starter preview and adjust details before continuing.'
+        )
+    else:
+        hero_title = f'{display_business_type} website preview'
+        hero_description = (
+            f'{display_name} helps customers with {service_phrase}. '
+            'Review this starter preview and adjust details before continuing.'
+        )
+
+    hero_cta = str(profile.get('hero_cta') or 'Request information').strip() or 'Request information'
+    main_cta_key = _starter_main_cta_key(profile.get('key') or profile.get('family'))
+    intro_title = str(profile.get('intro_title') or profile.get('intro_heading') or 'Your business introduction').strip()
+    intro_text = str(profile.get('intro_text') or '').strip()
+    if not intro_text:
+        intro_text = (
+            f'Introduce {display_name}, highlight {display_business_type.lower()}, '
+            'and explain how customers can contact you quickly.'
+        )
+
+    default_image = get_default_image_for_business_type(display_business_type)
+    template_key = normalize_template_slug(profile.get('recommended_template_slug'))
+
+    return {
+        'business_name': display_name,
+        'business_type': display_business_type,
+        'service_area': display_area,
+        'services': chosen_services,
+        'resolved_profile': str(profile.get('key') or profile.get('family') or 'generic'),
+        'image_set_key': _starter_image_set_key(profile),
+        'template_key': template_key,
+        'palette_key': 'warm_orange',
+        'font_key': 'clean',
+        'main_cta': main_cta_key,
+        'hero': {
+            'title': hero_title,
+            'description': hero_description,
+            'cta': hero_cta,
+            'image_key': default_image.get('key', ''),
+            'image_category': default_image.get('category', ''),
+        },
+        'intro': {
+            'title': intro_title,
+            'text': intro_text,
+        },
+        'service_cards': [{'title': item, 'text': ''} for item in chosen_services[:6]],
+        'section_visibility': {
+            'show_services': True,
+            'show_gallery': True,
+            'show_reviews': False,
+            'show_location': True,
+            'show_contact_cta': True,
+        },
+        'launch_type': '',
+        'selected_pages': [],
+        'contact_details': {},
+    }
+
+
+def _apply_draft_to_suggestions(suggestions, draft, contact_details, style_values):
+    if not isinstance(suggestions, dict):
+        return suggestions
+
+    draft_hero = draft.get('hero') if isinstance(draft.get('hero'), dict) else {}
+    draft_intro = draft.get('intro') if isinstance(draft.get('intro'), dict) else {}
+    service_cards = draft.get('service_cards') if isinstance(draft.get('service_cards'), list) else []
+    selected_services = [str(item).strip() for item in (draft.get('services') or []) if str(item).strip()]
+    main_cta_label = style_values.get('main_cta_label') or draft_hero.get('cta') or 'Request information'
+
+    hero_section = suggestions.setdefault('hero', {})
+    if draft_hero.get('title'):
+        hero_section['title'] = draft_hero['title']
+    if draft_hero.get('description'):
+        hero_section['description'] = draft_hero['description']
+    hero_section['cta_text'] = main_cta_label
+
+    services_section = suggestions.setdefault('services', {})
+    if draft_intro.get('title'):
+        services_section['title'] = draft_intro['title']
+    if draft_intro.get('text'):
+        services_section['intro'] = draft_intro['text']
+
+    for index, service in enumerate(selected_services[:6], start=1):
+        services_section[f'item_{index}'] = service
+    for index, card in enumerate(service_cards[:6], start=1):
+        card_text = str(card.get('text') or '').strip()
+        if card_text:
+            services_section[f'item_{index}_text'] = card_text
+
+    contact_section = suggestions.setdefault('contact', {})
+    contact_section['cta_text'] = main_cta_label
+    if contact_details.get('phone') or contact_details.get('whatsapp') or contact_details.get('email'):
+        contact_section['primary_contact'] = (
+            contact_details.get('phone')
+            or contact_details.get('whatsapp')
+            or contact_details.get('email')
+        )
+    if contact_details.get('address') or contact_details.get('service_area_detail') or draft.get('service_area'):
+        contact_section['secondary_contact'] = (
+            contact_details.get('address')
+            or contact_details.get('service_area_detail')
+            or draft.get('service_area')
+        )
+
+    cta_section = suggestions.setdefault('cta', {})
+    cta_section['cta_text'] = main_cta_label
+    if draft_hero.get('title'):
+        cta_section['title'] = draft_hero['title']
+
+    return suggestions
+
+
+def _template_slug_from_style_key(template_key):
+    mapping = {
+        'classic_local': 'classic_service',
+        'visual_showcase': 'visual_hero',
+        'service_focused': 'classic_service',
+        'simple_landing': 'classic_service',
+        'friendly_care': 'gof-canva-layout-test-v1',
+        'service_pro': 'classic_service',
+    }
+    return normalize_template_slug(mapping.get(str(template_key or '').strip(), default_template_slug()))
+
+
+def _palette_choice_from_style_key(palette_key):
+    mapping = {
+        'warm_orange': Site.ColorPalette.ORANGE_BLACK,
+        'clean_bw': Site.ColorPalette.BLUE_DARK,
+        'soft_beige': Site.ColorPalette.GREEN_NEUTRAL,
+        'elegant_dark': Site.ColorPalette.RED_CHARCOAL,
+        'fresh_green': Site.ColorPalette.GREEN_NEUTRAL,
+        'blue_professional': Site.ColorPalette.BLUE_DARK,
+    }
+    return mapping.get(str(palette_key or '').strip(), Site.ColorPalette.ORANGE_BLACK)
+
+
+def _save_starter_metadata(site, language, state, style_values):
+    contact_details = _normalize_contact_details(state.get('contact_details'))
+    selected_pages = _sanitize_selected_pages(
+        state.get('selected_pages', []),
+        default_when_empty=state.get('launch_type') == 'full_website',
+    )
+    metadata_values = {
+        'launch_type': str(state.get('launch_type') or '').strip(),
+        'selected_pages': '\n'.join(selected_pages),
+        'selected_services': '\n'.join(state.get('services') or []),
+        'service_area': str(state.get('service_area') or '').strip(),
+        'template_key': style_values['template_key'],
+        'template_slug': _template_slug_from_style_key(style_values['template_key']),
+        'palette_key': style_values['palette_key'],
+        'font_key': style_values['font_key'],
+        'image_set_key': style_values['image_set_key'],
+        'main_cta_key': style_values['main_cta'],
+        'main_cta_label': style_values['main_cta_label'],
+        'contact_name': contact_details.get('contact_name', ''),
+        'email': contact_details.get('email', ''),
+        'phone': contact_details.get('phone', ''),
+        'whatsapp': contact_details.get('whatsapp', ''),
+        'address': contact_details.get('address', ''),
+        'service_area_detail': contact_details.get('service_area_detail', ''),
+        'opening_hours': contact_details.get('opening_hours', ''),
+        'social_facebook': contact_details.get('social_facebook', ''),
+        'social_instagram': contact_details.get('social_instagram', ''),
+        'social_linkedin': contact_details.get('social_linkedin', ''),
+        'social_tiktok': contact_details.get('social_tiktok', ''),
+    }
+    for field_key, value in metadata_values.items():
+        SiteContent.objects.update_or_create(
+            site=site,
+            section_key='starter_meta',
+            field_key=field_key,
+            language=language,
+            defaults={'value': value},
+        )
+
+
+def _create_preview_site_from_state(request, state, style_values):
+    draft = _safe_starter_draft(state.get('starter_draft'))
+    template_slug = _template_slug_from_style_key(style_values['template_key'])
+    contact_details = _normalize_contact_details(state.get('contact_details'))
+    service_area = str(draft.get('service_area') or state.get('service_area') or '').strip()
+    selected_services = list(state.get('services') or draft.get('services') or [])
+
+    site = Site.objects.create(
+        user=request.user if request.user.is_authenticated else None,
+        template_slug=template_slug,
+        color_palette=_palette_choice_from_style_key(style_values['palette_key']),
+        business_name=str(draft.get('business_name') or state.get('business_name') or '').strip(),
+        service_type=str(draft.get('business_type') or state.get('business_type') or '').strip(),
+        city=service_area[:120],
+    )
+
+    suggestions = build_suggestions(
+        business_name=site.business_name,
+        service_type=site.service_type,
+        city=site.city,
+        service_area=service_area,
+        selected_services=selected_services,
+        service_descriptions=selected_services,
+        contact_name=contact_details.get('contact_name'),
+        phone=contact_details.get('phone') or contact_details.get('whatsapp'),
+        email=contact_details.get('email'),
+        address=contact_details.get('address'),
+        location=contact_details.get('service_area_detail') or service_area,
+        website_goal='starter_page' if state.get('launch_type') == 'starter_page' else 'full_website',
+        style_notes=' / '.join(
+            bit for bit in [
+                style_values['template_key'],
+                style_values['palette_key'],
+                style_values['font_key'],
+                style_values['image_set_key'],
+            ] if bit
+        ),
+        business_description=draft.get('intro', {}).get('text', ''),
+        language=request.LANGUAGE_CODE,
+        template_slug=template_slug,
+        context_data={
+            **state,
+            'language': request.LANGUAGE_CODE,
+            'template_slug': template_slug,
+        },
+    )
+    suggestions = _apply_draft_to_suggestions(
+        suggestions,
+        draft,
+        contact_details,
+        style_values,
+    )
+    save_site_content(site, request.LANGUAGE_CODE, suggestions)
+    ensure_default_site_images(
+        site,
+        request.LANGUAGE_CODE,
+        business_type=site.service_type,
+        only_if_missing=True,
+        existing_selection=draft.get('hero', {}).get('image_key') or None,
+    )
+    _save_starter_metadata(site, request.LANGUAGE_CODE, state, style_values)
+    return site
+
+
+def _parse_request_notes(text):
+    parsed = {}
+    for raw_line in (text or '').splitlines():
+        line = str(raw_line).strip()
+        if not line or ':' not in line:
+            continue
+        key, value = line.split(':', 1)
+        parsed[key.strip()] = value.strip()
+    return parsed
+
+
+def _create_public_starter_request_from_state(request, state, style_values):
+    draft = _safe_starter_draft(state.get('starter_draft'))
+    contact_details = _normalize_contact_details(state.get('contact_details'))
+    selected_pages = _sanitize_selected_pages(
+        state.get('selected_pages', []),
+        default_when_empty=state.get('launch_type') == 'full_website',
+    )
+    selected_page_labels = _selected_page_labels(selected_pages)
+    launch_type_label = STARTER_LAUNCH_TYPE_LABELS.get(state.get('launch_type'), 'Starter page')
+    template_label = next(
+        (item['label'] for item in STARTER_TEMPLATE_OPTIONS if item['key'] == style_values['template_key']),
+        style_values['template_key'],
+    )
+    palette_label = next(
+        (item['label'] for item in STARTER_PALETTE_OPTIONS if item['key'] == style_values['palette_key']),
+        style_values['palette_key'],
+    )
+    font_label = next(
+        (item['label'] for item in STARTER_FONT_OPTIONS if item['key'] == style_values['font_key']),
+        style_values['font_key'],
+    )
+    image_set_label = next(
+        (item['label'] for item in STARTER_IMAGE_SET_BASE_OPTIONS if item['key'] == style_values['image_set_key']),
+        style_values['image_set_key'],
+    )
+    social_links = '\n'.join(
+        line for line in [
+            f"Facebook: {contact_details['social_facebook']}" if contact_details.get('social_facebook') else '',
+            f"Instagram: {contact_details['social_instagram']}" if contact_details.get('social_instagram') else '',
+            f"LinkedIn: {contact_details['social_linkedin']}" if contact_details.get('social_linkedin') else '',
+            f"TikTok: {contact_details['social_tiktok']}" if contact_details.get('social_tiktok') else '',
+        ]
+        if line
+    )
+    special_requests = '\n'.join(
+        line for line in [
+            f"Website type: {launch_type_label}",
+            f"Selected pages: {', '.join(selected_page_labels) if selected_page_labels else 'Starter page only'}",
+            f"Preferred CTA: {style_values['main_cta_label']}",
+            f"Starter path: {request.path}",
+            'Request source: public starter wizard',
+        ]
+        if line
+    )
+
+    return WebsiteRequest.objects.create(
+        source_code='STARTER_PUBLIC',
+        normal_price=0,
+        offer_price=0,
+        status=WebsiteRequest.Status.NEW,
+        business_name=str(draft.get('business_name') or state.get('business_name') or '').strip(),
+        business_type=str(draft.get('business_type') or state.get('business_type') or '').strip(),
+        existing_website_url='',
+        current_domain='',
+        needs_domain_help=False,
+        business_address=contact_details.get('address', ''),
+        service_area=contact_details.get('service_area_detail') or str(draft.get('service_area') or state.get('service_area') or '').strip(),
+        main_language=request.LANGUAGE_CODE,
+        extra_languages='',
+        contact_name=contact_details.get('contact_name', ''),
+        contact_email=contact_details.get('email', ''),
+        contact_phone=contact_details.get('phone', ''),
+        contact_whatsapp=contact_details.get('whatsapp', ''),
+        main_services='\n'.join(state.get('services') or draft.get('services') or []),
+        business_description=draft.get('intro', {}).get('text', ''),
+        opening_hours=contact_details.get('opening_hours', ''),
+        social_links=social_links,
+        preferred_colors=style_values['palette_key'],
+        style_notes='\n'.join(
+            line for line in [
+                f"Template choice: {template_label}" if template_label else '',
+                f"Palette: {palette_label}" if palette_label else '',
+                f"Font: {font_label}" if font_label else '',
+                f"Image set: {image_set_label}" if image_set_label else '',
+            ]
+            if line
+        ),
+        special_requests=special_requests,
+    )
+
+
+def _build_public_starter_request_email_body(request, website_request):
+    request_notes = _parse_request_notes(website_request.special_requests)
+    service_lines = [
+        line.strip()
+        for line in (website_request.main_services or '').splitlines()
+        if line.strip()
+    ]
+    style_lines = [
+        line.strip()
+        for line in (website_request.style_notes or '').splitlines()
+        if line.strip()
+    ]
+    contact_lines = [
+        website_request.contact_name.strip() if website_request.contact_name else '',
+        website_request.contact_email.strip() if website_request.contact_email else '',
+        f"Phone: {website_request.contact_phone.strip()}" if website_request.contact_phone else '',
+        f"WhatsApp: {website_request.contact_whatsapp.strip()}" if website_request.contact_whatsapp else '',
+    ]
+    admin_url = request.build_absolute_uri(
+        reverse('admin:ai_starter_websiterequest_change', args=[website_request.pk])
+    )
+
+    return '\n'.join(
+        line for line in [
+            'New public starter request received.',
+            '',
+            f"Business name: {website_request.business_name}",
+            f"Business type: {website_request.business_type}",
+            f"Service area: {website_request.service_area or website_request.business_address or '-'}",
+            f"Main language: {website_request.main_language}",
+            f"Website type: {request_notes.get('Website type', '-')}",
+            f"Selected pages: {request_notes.get('Selected pages', '-')}",
+            '',
+            'Selected services:',
+            *([f"- {item}" for item in service_lines] if service_lines else ['- None provided']),
+            '',
+            'Contact details:',
+            *([f"- {item}" for item in contact_lines if item] or ['- None provided']),
+            '',
+            'Style summary:',
+            *([f"- {item}" for item in style_lines] if style_lines else ['- None provided']),
+            '',
+            'Special request notes:',
+            *([f"- {line}" for line in (website_request.special_requests or '').splitlines() if line.strip()] or ['- None provided']),
+            '',
+            f'Admin link: {admin_url}',
+        ]
+        if line is not None
+    )
+
+
+def _send_public_starter_request_notification(request, website_request):
+    if website_request.source_code != 'STARTER_PUBLIC':
+        return False
+    if not settings.CONTACT_EMAIL_TO:
+        logger.warning(
+            'Public starter request %s was created but CONTACT_EMAIL_TO is empty.',
+            website_request.public_id,
+        )
+        return False
+
+    email = EmailMessage(
+        subject=f"New public starter request - {website_request.business_name or 'Unnamed business'}",
+        body=_build_public_starter_request_email_body(request, website_request),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[settings.CONTACT_EMAIL_TO],
+        reply_to=[website_request.contact_email] if website_request.contact_email else None,
+    )
+    try:
+        sent_count = email.send(fail_silently=False)
+    except Exception:
+        logger.exception(
+            'Could not send public starter request notification for WebsiteRequest %s.',
+            website_request.public_id,
+        )
+        return False
+    if not sent_count:
+        logger.warning(
+            'Email backend reported zero sends for public starter request %s.',
+            website_request.public_id,
+        )
+        return False
+    return True
+
+
+def _starter_request_summary(website_request):
+    if website_request is None:
+        return None
+
+    parsed_special_requests = {
+        key.strip().lower(): value
+        for key, value in _parse_request_notes(website_request.special_requests).items()
+    }
+    services = [
+        line.strip()
+        for line in (website_request.main_services or '').splitlines()
+        if line.strip()
+    ]
+    service_area = (
+        str(website_request.service_area or '').strip()
+        or str(website_request.business_address or '').strip()
+    )
+
+    return {
+        'business_name': str(website_request.business_name or '').strip(),
+        'business_type': str(website_request.business_type or '').strip(),
+        'service_area': service_area,
+        'services': services,
+        'website_type': parsed_special_requests.get('website type', ''),
+        'selected_pages': parsed_special_requests.get('selected pages', ''),
+        'contact_email': str(website_request.contact_email or '').strip(),
+        'contact_phone': str(website_request.contact_phone or website_request.contact_whatsapp or '').strip(),
+    }
+
+
+def _wizard_steps(current_step):
+    definitions = [
+        {'number': 1, 'title': 'Business basics'},
+        {'number': 2, 'title': 'Style and preview'},
+        {'number': 3, 'title': 'Website type'},
+        {'number': 4, 'title': 'Pages to include'},
+        {'number': 5, 'title': 'Contact/location details'},
+        {'number': 6, 'title': 'Review/prepare preview'},
+    ]
+    for item in definitions:
+        item['is_active'] = item['number'] == current_step
+        item['is_complete'] = item['number'] < current_step
+    return definitions
+
+
+def _starter_style_summary(style_values):
+    return {
+        'template': next((item['label'] for item in STARTER_TEMPLATE_OPTIONS if item['key'] == style_values['template_key']), style_values['template_key']),
+        'palette': next((item['label'] for item in STARTER_PALETTE_OPTIONS if item['key'] == style_values['palette_key']), style_values['palette_key']),
+        'font': next((item['label'] for item in STARTER_FONT_OPTIONS if item['key'] == style_values['font_key']), style_values['font_key']),
+    }
+
+
+def _starter_contact_method_summary(contact_details):
+    summary = []
+    if contact_details.get('email'):
+        summary.append('Email')
+    if contact_details.get('phone'):
+        summary.append('Phone')
+    if contact_details.get('whatsapp'):
+        summary.append('WhatsApp')
+    return summary
+
+
+def _starter_step4_page_options(selected_pages_for_display):
+    selected_page_keys = set(selected_pages_for_display)
+    options = []
+    for item in STARTER_PAGE_OPTIONS:
+        option = dict(item)
+        option['selected'] = item['key'] in selected_page_keys
+        options.append(option)
+    return options
+
+
+def _starter_image_set_options(style_values):
+    options = [
+        {'key': style_values['auto_image_set_key'], 'label': f'Auto selected ({style_values["auto_image_set_key"]})'}
+    ]
+    options.extend(STARTER_IMAGE_SET_BASE_OPTIONS)
+    return options
+
+
+def _starter_preview_classes(style_values):
+    return ' '.join(
+        [
+            f"template-{style_values['template_key']}",
+            f"palette-{style_values['palette_key']}",
+            f"font-{style_values['font_key']}",
+        ]
+    )
 
 
 def _meeting_offer_context(form, request_obj=None):
@@ -983,7 +1955,9 @@ def _render_start_wizard(request, *, current_step, wizard_state, selected_design
 
 
 @require_http_methods(['GET', 'POST'])
-def start_onboarding(request):
+def _legacy_start_onboarding_impl(request):
+    # Legacy 8-step implementation kept temporarily while the active /start/ flow
+    # is moved into smaller helpers ahead of the redesign.
     selected_design = _selected_design_context(request)
     selected_design_query = _selected_design_query(selected_design)
     submitted_request_id = request.GET.get('submitted', '').strip()
@@ -2190,6 +3164,288 @@ def start_onboarding(request):
             'section_visibility_keys': section_visibility_keys,
             'launch_type_options': launch_type_options,
             'preview_classes': preview_classes,
+            'wizard_errors': wizard_errors,
+            'selected_design': selected_design,
+            'selected_design_query': selected_design_query,
+            'starter_request_submitted': submitted_request,
+            'starter_request_summary': _starter_request_summary(submitted_request),
+            'is_public_start_flow': not _is_staff_preview_user(request),
+            'force_indexable': True,
+            'site_noindex': False,
+        },
+    )
+
+
+@require_http_methods(['GET', 'POST'])
+def start_onboarding(request):
+    # Active starter flow: smaller orchestrator for the current 6-step wizard.
+    selected_design = _selected_design_context(request)
+    selected_design_query = _selected_design_query(selected_design)
+    submitted_request_id = request.GET.get('submitted', '').strip()
+    submitted_request = None
+    if submitted_request_id:
+        submitted_request = WebsiteRequest.objects.filter(
+            public_id=submitted_request_id,
+            source_code='STARTER_PUBLIC',
+        ).first()
+
+    def step_redirect(step_number):
+        return redirect(_starter_step_url(selected_design_query, step_number))
+
+    state = _load_starter_state(request)
+    wizard_errors = []
+
+    if not _has_starter_draft(state):
+        state.update(_default_starter_state())
+
+    style_values = _resolve_style_state(state)
+    _apply_style_to_state(state, style_values)
+
+    if request.GET.get('reset') == '1':
+        state = _default_starter_state()
+        _save_starter_state(request, state)
+        return step_redirect(1)
+
+    if request.method == 'POST':
+        wizard_action = (request.POST.get('wizard_action') or '').strip()
+        current_step = _safe_step(request.POST.get('current_step') or state.get('step'), default=1)
+
+        if wizard_action == 'create_preview':
+            business_name = _normalize_single_line(request.POST.get('business_name'), max_length=120)
+            business_type = _normalize_single_line(request.POST.get('business_type'), max_length=120)
+            service_area = _normalize_single_line(request.POST.get('service_area'), max_length=120)
+            services_text = str(request.POST.get('services_text') or '').strip()
+            services = _parse_services_text(services_text)
+
+            if not business_name:
+                wizard_errors.append('Business name is required.')
+            if not business_type:
+                wizard_errors.append('Business type or activity is required.')
+            if not service_area:
+                wizard_errors.append('City or service area is required.')
+
+            state.update(
+                {
+                    'step': 1 if wizard_errors else 2,
+                    'business_name': business_name,
+                    'business_type': business_type,
+                    'service_area': service_area,
+                    'services_text': services_text,
+                    'services': services,
+                }
+            )
+            if not wizard_errors:
+                state['starter_draft'] = _build_starter_draft(
+                    business_name=business_name,
+                    business_type=business_type,
+                    service_area=service_area,
+                    services=services,
+                )
+                style_values = _resolve_style_state(state)
+                _apply_style_to_state(state, style_values)
+                _save_starter_state(request, state)
+                return step_redirect(2)
+
+        elif wizard_action == 'next':
+            if current_step == 2:
+                if not _has_starter_draft(state):
+                    state = _default_starter_state()
+                    _save_starter_state(request, state)
+                    return step_redirect(1)
+                style_values = _parse_step2_style_submission(request.POST, state)
+                _apply_style_to_state(state, style_values)
+                state['step'] = 3
+                _save_starter_state(request, state)
+                return step_redirect(3)
+
+            if current_step == 3:
+                if not _has_starter_draft(state):
+                    state = _default_starter_state()
+                    _save_starter_state(request, state)
+                    return step_redirect(1)
+                launch_type = str(request.POST.get('launch_type') or '').strip()
+                if launch_type not in STARTER_LAUNCH_OPTION_KEYS:
+                    wizard_errors.append('Please choose how you want to launch.')
+                    state['step'] = 3
+                else:
+                    state['launch_type'] = launch_type
+                    if isinstance(state.get('starter_draft'), dict):
+                        state['starter_draft']['launch_type'] = launch_type
+                    if launch_type == 'full_website' and not state.get('selected_pages'):
+                        state['selected_pages'] = _sanitize_selected_pages([], default_when_empty=True)
+                    state['step'] = 5 if launch_type == 'starter_page' else 4
+                    _save_starter_state(request, state)
+                    return step_redirect(state['step'])
+
+            if current_step == 4:
+                if not _has_starter_draft(state):
+                    state = _default_starter_state()
+                    _save_starter_state(request, state)
+                    return step_redirect(1)
+                if state.get('launch_type') == 'starter_page':
+                    state['step'] = 5
+                    _save_starter_state(request, state)
+                    return step_redirect(5)
+                if not state.get('launch_type'):
+                    state['step'] = 3
+                    _save_starter_state(request, state)
+                    return step_redirect(3)
+
+                selected_pages = _sanitize_selected_pages(request.POST.getlist('selected_pages'))
+                state['selected_pages'] = selected_pages
+                if isinstance(state.get('starter_draft'), dict):
+                    state['starter_draft']['selected_pages'] = selected_pages
+                state['step'] = 5
+                _save_starter_state(request, state)
+                return step_redirect(5)
+
+            if current_step == 5:
+                if not _has_starter_draft(state):
+                    state = _default_starter_state()
+                    _save_starter_state(request, state)
+                    return step_redirect(1)
+                if not state.get('launch_type'):
+                    state['step'] = 3
+                    _save_starter_state(request, state)
+                    return step_redirect(3)
+
+                contact_details = _normalize_contact_details(
+                    {field: request.POST.get(field, '') for field in STARTER_CONTACT_DETAIL_FIELDS}
+                )
+                has_contact_method = bool(
+                    contact_details['email'] or contact_details['phone'] or contact_details['whatsapp']
+                )
+                if not has_contact_method:
+                    wizard_errors.append('Please add at least one contact method: email, phone, or WhatsApp.')
+                    state['contact_details'] = contact_details
+                    state['step'] = 5
+                else:
+                    state['contact_details'] = contact_details
+                    if isinstance(state.get('starter_draft'), dict):
+                        state['starter_draft']['contact_details'] = contact_details
+                    state['step'] = 6
+                    _save_starter_state(request, state)
+                    return step_redirect(6)
+
+            state['step'] = _safe_step(current_step + 1, default=2)
+            _save_starter_state(request, state)
+            return step_redirect(state['step'])
+
+        elif wizard_action == 'previous':
+            if current_step == 2:
+                state['step'] = 1
+            elif current_step == 3:
+                state['step'] = 2
+            elif current_step == 4:
+                state['step'] = 3
+            elif current_step == 5:
+                state['step'] = 3 if state.get('launch_type') == 'starter_page' else 4
+            elif current_step == 6:
+                state['step'] = 5
+            else:
+                state['step'] = _safe_step(current_step - 1, default=1)
+            _save_starter_state(request, state)
+            return step_redirect(state['step'])
+
+        elif wizard_action == 'prepare_preview':
+            if not _has_starter_draft(state):
+                state = _default_starter_state()
+                _save_starter_state(request, state)
+                return step_redirect(1)
+            if not state.get('launch_type'):
+                state['step'] = 3
+                _save_starter_state(request, state)
+                return step_redirect(3)
+
+            contact_details = _normalize_contact_details(state.get('contact_details'))
+            has_contact_method = bool(
+                contact_details['email'] or contact_details['phone'] or contact_details['whatsapp']
+            )
+            if not has_contact_method:
+                state['step'] = 5
+                state['contact_details'] = contact_details
+                wizard_errors.append('Please add at least one contact method: email, phone, or WhatsApp.')
+                _save_starter_state(request, state)
+                return step_redirect(5)
+
+            if _is_staff_preview_user(request):
+                site = _create_preview_site_from_state(request, state, style_values)
+                _clear_starter_state(request)
+                messages.success(
+                    request,
+                    _('Private preview prepared. Review the generated page and choose the next step from the preview screen.'),
+                )
+                return redirect('ai_starter:preview', public_id=site.public_id)
+
+            website_request = _create_public_starter_request_from_state(request, state, style_values)
+            _send_public_starter_request_notification(request, website_request)
+            _clear_starter_state(request)
+            return redirect(f"{reverse('ai_starter:start')}?submitted={website_request.public_id}")
+
+        else:
+            state['step'] = _safe_step(current_step, default=1)
+
+    requested_step = _safe_step(request.GET.get('step') or state.get('step'), default=1)
+    if requested_step > 1 and not _has_starter_draft(state):
+        state = _default_starter_state()
+        _save_starter_state(request, state)
+        return step_redirect(1)
+
+    if requested_step == 4 and state.get('launch_type') == 'starter_page':
+        state['step'] = 5
+        _save_starter_state(request, state)
+        return step_redirect(5)
+
+    if requested_step > 3 and not state.get('launch_type'):
+        state['step'] = 3
+        _save_starter_state(request, state)
+        return step_redirect(3)
+
+    if requested_step == 4 and state.get('launch_type') == 'full_website' and not state.get('selected_pages'):
+        state['selected_pages'] = _sanitize_selected_pages([], default_when_empty=True)
+        if isinstance(state.get('starter_draft'), dict):
+            state['starter_draft']['selected_pages'] = state['selected_pages']
+
+    state['step'] = requested_step
+    style_values = _resolve_style_state(state)
+    _apply_style_to_state(state, style_values)
+    _save_starter_state(request, state)
+
+    selected_pages_for_display = []
+    if state.get('launch_type') == 'full_website':
+        selected_pages_for_display = _sanitize_selected_pages(
+            state.get('selected_pages', []),
+            default_when_empty=True,
+        )
+
+    contact_details = _normalize_contact_details(state.get('contact_details'))
+    state['contact_details'] = contact_details
+
+    return render(
+        request,
+        'ai_starter/start.html',
+        {
+            'starter_wizard_v2': True,
+            'current_step': requested_step,
+            'wizard_steps': _wizard_steps(requested_step),
+            'wizard_state': state,
+            'starter_draft': _safe_starter_draft(state.get('starter_draft', {})),
+            'style_values': style_values,
+            'template_options': STARTER_TEMPLATE_OPTIONS,
+            'palette_options': STARTER_PALETTE_OPTIONS,
+            'font_options': STARTER_FONT_OPTIONS,
+            'image_set_options': _starter_image_set_options(style_values),
+            'cta_options': STARTER_CTA_OPTIONS,
+            'section_visibility': style_values.get('section_visibility', {}),
+            'step4_page_options': _starter_step4_page_options(selected_pages_for_display),
+            'selected_page_labels': _selected_page_labels(selected_pages_for_display),
+            'contact_details': contact_details,
+            'launch_type_label': STARTER_LAUNCH_TYPE_LABELS.get(state.get('launch_type'), ''),
+            'style_summary': _starter_style_summary(style_values),
+            'contact_method_summary': _starter_contact_method_summary(contact_details),
+            'section_visibility_keys': STARTER_SECTION_VISIBILITY_KEYS,
+            'launch_type_options': STARTER_LAUNCH_TYPE_OPTIONS,
+            'preview_classes': _starter_preview_classes(style_values),
             'wizard_errors': wizard_errors,
             'selected_design': selected_design,
             'selected_design_query': selected_design_query,

@@ -761,7 +761,7 @@ class SiteHandoffTests(TestCase):
         confirmation_response = self.client.get(submit_response['Location'])
 
         self.assertEqual(confirmation_response.status_code, 200)
-        self.assertContains(confirmation_response, 'Your starter website request has been received.')
+        self.assertContains(confirmation_response, 'Your website details have been received.')
         self.assertContains(confirmation_response, 'You do not need to create an account yet.')
         self.assertContains(confirmation_response, 'Salon Nova')
         self.assertContains(confirmation_response, 'Beauty Salon')
@@ -935,7 +935,7 @@ class SiteHandoffTests(TestCase):
 
         confirmation_response = self.client.get(response['Location'])
         self.assertEqual(confirmation_response.status_code, 200)
-        self.assertContains(confirmation_response, 'Your starter website request has been received.')
+        self.assertContains(confirmation_response, 'Your website details have been received.')
 
     def test_step_one_draft_preserves_profile_and_cards_across_step_two_load(self):
         self.client.post(
