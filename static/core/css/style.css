@@ -127,6 +127,36 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: flex-end;
   gap: 14px;
   min-width: 0;
+  position: relative;
+}
+
+.mobile-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(30, 26, 23, 0.14);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(30, 26, 23, 0.08);
+}
+
+.mobile-nav-toggle__bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobile-nav-toggle {
+  gap: 4px;
+  flex-direction: column;
 }
 
 .nav {
@@ -7993,7 +8023,14 @@ section { padding: 72px 0; }
 }
 
 @media (max-width: 720px) {
-  .nav { display: none; }
+  .mobile-nav-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .nav {
+    display: none;
+  }
 
   .topbar-inner {
     min-height: 70px;
@@ -8002,10 +8039,58 @@ section { padding: 72px 0; }
 
   .header-actions {
     gap: 10px;
+    align-items: center;
   }
 
   .language-switcher {
     padding: 3px;
+  }
+
+  .header-actions.is-mobile-open .mobile-nav-toggle__bar:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .header-actions.is-mobile-open .mobile-nav-toggle__bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header-actions.is-mobile-open .mobile-nav-toggle__bar:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .header-actions.is-mobile-open .nav {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 90;
+    display: grid;
+    width: min(320px, calc(100vw - 24px));
+    padding: 18px;
+    border: 1px solid rgba(30, 26, 23, 0.12);
+    border-radius: 20px;
+    background: rgba(255, 252, 248, 0.98);
+    box-shadow: 0 22px 40px rgba(30, 26, 23, 0.18);
+    gap: 4px;
+  }
+
+  .header-actions.is-mobile-open .nav a:not(.btn) {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .header-actions.is-mobile-open .nav a:not(.btn)::after {
+    display: none;
+  }
+
+  .header-actions.is-mobile-open .nav a.is-active {
+    min-height: 44px;
+    justify-content: flex-start;
+  }
+
+  .site-menu-open .site-floating-actions {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .btn {

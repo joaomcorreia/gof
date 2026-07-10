@@ -380,6 +380,61 @@ if (heroSlider) {
   startAutoSlide();
 }
 
+const mobileNavShell = document.querySelector("[data-mobile-nav-shell]");
+
+if (mobileNavShell) {
+  const mobileNavToggle = mobileNavShell.querySelector("[data-mobile-nav-toggle]");
+  const mobileNav = mobileNavShell.querySelector(".nav");
+  const mobileNavLinks = Array.from(mobileNavShell.querySelectorAll(".nav a"));
+  const mobileNavBreakpoint = window.matchMedia("(max-width: 720px)");
+  const mobileNavOpenLabel = mobileNavToggle?.dataset.labelOpen || "Open navigation menu";
+  const mobileNavCloseLabel = mobileNavToggle?.dataset.labelClose || "Close navigation menu";
+
+  const setMobileNavState = (isOpen) => {
+    const open = Boolean(isOpen);
+    mobileNavShell.classList.toggle("is-mobile-open", open);
+    document.body.classList.toggle("site-menu-open", open);
+    if (mobileNavToggle) {
+      mobileNavToggle.setAttribute("aria-expanded", String(open));
+      mobileNavToggle.setAttribute("aria-label", open ? mobileNavCloseLabel : mobileNavOpenLabel);
+    }
+  };
+
+  const closeMobileNav = () => {
+    setMobileNavState(false);
+  };
+
+  const syncMobileNavForViewport = () => {
+    if (!mobileNavBreakpoint.matches) {
+      closeMobileNav();
+    }
+  };
+
+  mobileNavToggle?.addEventListener("click", () => {
+    setMobileNavState(!mobileNavShell.classList.contains("is-mobile-open"));
+  });
+
+  mobileNavLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      closeMobileNav();
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && mobileNavShell.classList.contains("is-mobile-open")) {
+      closeMobileNav();
+    }
+  });
+
+  if (typeof mobileNavBreakpoint.addEventListener === "function") {
+    mobileNavBreakpoint.addEventListener("change", syncMobileNavForViewport);
+  } else if (typeof mobileNavBreakpoint.addListener === "function") {
+    mobileNavBreakpoint.addListener(syncMobileNavForViewport);
+  }
+
+  syncMobileNavForViewport();
+}
+
 const siteAssistant = document.querySelector("[data-site-assistant]");
 
 if (siteAssistant) {

@@ -38,6 +38,24 @@ class PublicPagesTests(TestCase):
         self.assertContains(response, reverse('core:terms'))
         self.assertContains(response, reverse('core:cookie_policy'))
 
+    def test_header_contains_mobile_nav_toggle_and_public_links(self):
+        response = self.client.get(reverse('core:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-mobile-nav-toggle')
+        self.assertContains(response, reverse('core:home'))
+        self.assertContains(response, reverse('core:websites'))
+        self.assertContains(response, reverse('core:ads'))
+        self.assertContains(response, reverse('core:online_shop'))
+        self.assertContains(response, reverse('core:pricing'))
+        self.assertContains(response, reverse('core:faq'))
+        self.assertContains(response, reverse('core:contact'))
+
+    def test_mobile_nav_toggle_is_present_on_localized_start_page(self):
+        response = self.client.get('/nl/start/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-mobile-nav-toggle')
+        self.assertContains(response, '/nl/contact/')
+
     def test_homepage_links_to_public_start_flow(self):
         response = self.client.get(reverse('core:home'))
         self.assertEqual(response.status_code, 200)

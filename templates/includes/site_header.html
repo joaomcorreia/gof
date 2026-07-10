@@ -16,8 +16,22 @@
       </span>
       <span class="logo-word logo-word-fast">{% trans "Fast" %}</span>
     </a>
-    <div class="header-actions">
-      <nav class="nav" aria-label="{% trans 'Primary navigation' %}">
+    <div class="header-actions" data-mobile-nav-shell>
+      <button
+        type="button"
+        class="mobile-nav-toggle"
+        data-mobile-nav-toggle
+        aria-expanded="false"
+        aria-controls="site-primary-nav"
+        aria-label="{% trans 'Open navigation menu' %}"
+        data-label-open="{% trans 'Open navigation menu' %}"
+        data-label-close="{% trans 'Close navigation menu' %}"
+      >
+        <span class="mobile-nav-toggle__bar" aria-hidden="true"></span>
+        <span class="mobile-nav-toggle__bar" aria-hidden="true"></span>
+        <span class="mobile-nav-toggle__bar" aria-hidden="true"></span>
+      </button>
+      <nav class="nav" id="site-primary-nav" aria-label="{% trans 'Primary navigation' %}">
         <a class="{% if request.resolver_match.view_name == 'core:home' %}is-active{% endif %}" href="{{ home_url }}">{% trans "Home" %}</a>
         <a class="{% if request.resolver_match.view_name == 'core:websites' or request.resolver_match.view_name == 'core:how_it_works' or request.resolver_match.view_name == 'core:ai_website' or request.resolver_match.view_name == 'core:business_website' or request.resolver_match.view_name == 'core:managed' %}is-active{% endif %}" href="{{ websites_url }}">{% trans "Websites" %}</a>
         <a class="{% if request.resolver_match.view_name == 'core:ads' or request.resolver_match.view_name == 'core:facebook_posts' or request.resolver_match.view_name == 'core:facebook_instagram_ads' or request.resolver_match.view_name == 'core:google_ads' or request.resolver_match.view_name == 'core:linkedin_ads' %}is-active{% endif %}" href="{{ ads_url }}">{% trans "Ads" %}</a>
