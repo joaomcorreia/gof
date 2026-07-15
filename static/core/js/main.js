@@ -703,32 +703,33 @@ if (siteAssistant) {
     return withoutCommonEmoji === "";
   };
 
-  const isGreetingOnly = (message) => {
+  const greetingReplyFor = (message) => {
     const normalized = (message || "")
       .toLowerCase()
       .replace(/[?!.,/\\]+/g, " ")
       .replace(/\s+/g, " ")
       .trim();
     if (!normalized) {
-      return false;
+      return "";
     }
-    return [
-      "hi",
-      "hello",
-      "hey",
-      "hoi",
-      "hallo",
-      "bonjour",
-      "salut",
-      "ola",
-      "olá",
-      "good morning",
-      "good afternoon",
-      "good evening",
-      "bom dia",
-      "boa tarde",
-      "boa noite",
-    ].includes(normalized);
+    if (["bom dia", "boa tarde", "boa noite", "ola", "olá"].includes(normalized)) {
+      return "Olá. Como posso ajudar hoje?";
+    }
+    if (["hoi", "hallo", "goedemorgen", "goedemiddag", "goedenavond"].includes(normalized)) {
+      return "Hoi. Waarmee kan ik je vandaag helpen?";
+    }
+    if (["bonjour", "salut", "bonsoir"].includes(normalized)) {
+      return "Bonjour. Comment puis-je vous aider aujourd’hui ?";
+    }
+    if (["hola", "buenos dias", "buenas tardes", "buenas noches"].includes(normalized)) {
+      return "Hola. ¿Cómo puedo ayudarle hoy?";
+    }
+    if (["hallo", "guten morgen", "guten tag", "guten abend"].includes(normalized)) {
+      return "Hallo. Wie kann ich Ihnen heute helfen?";
+    }
+    return ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"].includes(normalized)
+      ? "Hi. What would you like help with today?"
+      : "";
   };
 
   const mapSuggestedLinksToActions = (suggestedLinks) =>
@@ -794,8 +795,9 @@ if (siteAssistant) {
       addMessage("assistant", copy.emojiGreeting, []);
       return;
     }
-    if (isGreetingOnly(trimmedQuestion)) {
-      addMessage("assistant", copy.shortGreeting, []);
+    const greetingReply = greetingReplyFor(trimmedQuestion);
+    if (greetingReply) {
+      addMessage("assistant", greetingReply, []);
       return;
     }
     if (restrictedTerms.some((term) => trimmedQuestion.toLowerCase().includes(term))) {
@@ -897,4 +899,3 @@ if (backToTopButton) {
   window.addEventListener("scroll", toggleBackToTop, { passive: true });
   toggleBackToTop();
 }
-

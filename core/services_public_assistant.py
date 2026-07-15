@@ -35,6 +35,7 @@ Identity and interpretation rules:
 - If a question uses only "site" and the meaning is unclear, answer briefly and ask one short clarifying question.
 - For questions about whether "this site" is open, launched, or usable, answer about Get Online Fast itself, not about the visitor's future website build.
 - Get Online Fast is already open and visitors can use it now. If asked when it opens or launches, say it is already open, then naturally explain how Get Online Fast can help with the visitor's website or online presence.
+- The page language is only the default. If the visitor writes in another European language or asks to switch languages, reply in that language and continue using it.
 
 Constraints:
 - Keep normal replies to 2 or 3 short sentences and preferably under 60 words.
@@ -170,6 +171,25 @@ def _new_business_answer(message, language):
         'fr': 'Félicitations pour votre nouvelle entreprise. Get Online Fast peut vous aider à créer un site clair, présenter vos services et permettre aux clients de vous contacter facilement. Expliquez-moi votre activité et votre zone de service, et je vous aiderai à choisir le bon départ.',
         'pt': 'Parabéns pela nova empresa. O Get Online Fast pode ajudar a criar um website claro, apresentar os seus serviços e facilitar o contacto dos clientes. Diga-me o que a empresa faz e onde trabalha, e ajudo a escolher o melhor ponto de partida.',
     }[language]
+
+
+def _language_switch_answer(message):
+    normalized = ' '.join(str(message or '').strip().lower().split())
+    requests = {
+        'portuguese': ('fala portugues', 'fala português', 'pode falar portugues', 'pode falar português', 'speak portuguese'),
+        'dutch': ('spreek je nederlands', 'kan je nederlands', 'speak dutch'),
+        'french': ('parlez vous francais', 'parlez-vous français', 'speak french'),
+        'spanish': ('hablas espanol', 'hablas español', 'speak spanish'),
+        'german': ('sprechen sie deutsch', 'sprichst du deutsch', 'speak german'),
+    }
+    selected = next((name for name, phrases in requests.items() if any(phrase in normalized for phrase in phrases)), '')
+    return {
+        'portuguese': 'Sim, posso falar português. Como posso ajudar com o seu negócio?',
+        'dutch': 'Ja, ik kan Nederlands spreken. Hoe kan ik je helpen met je bedrijf?',
+        'french': 'Oui, je peux parler français. Comment puis-je vous aider avec votre entreprise ?',
+        'spanish': 'Sí, puedo hablar español. ¿Cómo puedo ayudarle con su negocio?',
+        'german': 'Ja, ich kann Deutsch sprechen. Wie kann ich Ihnen mit Ihrem Unternehmen helfen?',
+    }.get(selected, '')
 
 
 def _site_status_context(language):
@@ -379,7 +399,7 @@ def generate_public_assistant_answer_with_ai(message, language, links, context):
     prompt = (
         f'{PUBLIC_ASSISTANT_SYSTEM_PROMPT}\n\n'
         f'{_prompt_context(language, links, context)}\n'
-        f'Reply language: {language_name}\n'
+        f'Default page language: {language_name}. Follow the visitor\'s language when they clearly use or request another language.\n'
         f'Visitor message: {message}\n\n'
         'Return only the answer text. Use 2 or 3 short sentences and stay under 60 words unless the visitor explicitly asks for detailed information.'
     )
@@ -440,6 +460,11 @@ def build_public_assistant_response(*, request, question, language, fallback_res
             {'label': 'Plans', 'url': links.get('plans_url', '')},
             {'label': 'Contact', 'url': links.get('contact_url', '')},
         ]
+    language_switch_answer = _language_switch_answer(question)
+    if language_switch_answer:
+        fallback_intent = 'language_switch'
+        fallback_answer = language_switch_answer
+        fallback_links = []
     status = public_assistant_status()
     diagnostics = {
         'received_message': str(question or ''),
