@@ -34,12 +34,13 @@ Identity and interpretation rules:
 - "my site", "my website", "our website", "my business site", or business-specific wording usually refer to the visitor's future website project.
 - If a question uses only "site" and the meaning is unclear, answer briefly and ask one short clarifying question.
 - For questions about whether "this site" is open, launched, or usable, answer about Get Online Fast itself, not about the visitor's future website build.
+- Get Online Fast is already open and visitors can use it now. If asked when it opens or launches, say it is already open, then naturally explain how Get Online Fast can help with the visitor's website or online presence.
 
 Constraints:
 - Keep replies short, practical, and customer-safe.
 - Do not behave like a general chatbot.
 - If a visitor asks an unrelated question, politely say you only help with Get Online Fast topics and redirect them back to website setup, pricing, previews, domains, Google visibility, or support.
-- Do not invent a public launch date for Get Online Fast if none is provided in context.
+- Do not describe Get Online Fast as pre-launch, closed, coming soon, or waiting for a future public launch date.
 - Do not invent guarantees, rankings, certifications, reviews, prices, payment status, or activation status.
 - Do not claim a website is already paid, activated, or live unless explicitly provided.
 - Do not provide legal, financial, or medical advice.
@@ -132,67 +133,56 @@ def _language_copy(language):
     return language if language in {'en', 'nl', 'fr', 'pt'} else 'en'
 
 
+def _site_availability_answer(message, language):
+    normalized = ' '.join(str(message or '').strip().lower().split())
+    phrases = {
+        'en': ('when do you open', 'when does this site open', 'when does get online fast open', 'when does get online fast launch', 'is this site open', 'are you open', 'can i use this site now'),
+        'nl': ('wanneer gaan jullie open', 'wanneer opent deze site', 'is deze site open', 'zijn jullie open', 'kan ik deze site nu gebruiken'),
+        'fr': ('quand ouvrez-vous', 'quand ce site ouvre', 'ce site est-il ouvert', 'etes-vous ouvert', 'êtes-vous ouvert'),
+        'pt': ('quando abrem', 'quando abre este site', 'este site esta aberto', 'este site está aberto', 'ja estao abertos', 'já estão abertos'),
+    }
+    if not any(phrase in normalized for phrase in phrases.get(language, phrases['en'])):
+        return ''
+    return {
+        'en': 'Get Online Fast is already open. We can help you choose and set up a website, online shop, business email, or promotion for your business. Tell me what your business needs and I’ll guide you to the best next step.',
+        'nl': 'Get Online Fast is al open. We kunnen je helpen met het kiezen en opzetten van een website, webshop, zakelijke e-mail of promotie voor je bedrijf. Vertel wat je bedrijf nodig heeft, dan help ik je met de beste volgende stap.',
+        'fr': 'Get Online Fast est déjà ouvert. Nous pouvons vous aider à choisir et créer un site, une boutique en ligne, une adresse e-mail professionnelle ou une solution de promotion. Expliquez-moi votre activité et je vous guiderai vers la prochaine étape.',
+        'pt': 'O Get Online Fast já está aberto. Podemos ajudar a escolher e criar um website, loja online, email profissional ou promoção para o seu negócio. Diga-me o que precisa e indico o melhor próximo passo.',
+    }[language]
+
+
 def _site_status_context(language):
-    site_status = getattr(settings, 'GOF_SITE_STATUS', 'pre_launch')
-    launch_date = getattr(settings, 'GOF_PUBLIC_LAUNCH_DATE', None)
+    site_status = getattr(settings, 'GOF_SITE_STATUS', 'open')
     if language == 'nl':
-        if launch_date:
-            launch_line = f'- Publieke launchdatum getoond in configuratie: {launch_date}\n'
-        else:
-            launch_line = '- Er wordt momenteel geen vaste publieke launchdatum getoond in de configuratie.\n'
         return (
             'Site-statuscontext:\n'
             f'- Get Online Fast status: {site_status}\n'
-            f'{launch_line}'
+            '- Get Online Fast is al open en bezoekers kunnen de dienst nu gebruiken.\n'
             '- Als iemand vraagt wanneer "deze site" opent of lanceert, bedoelen ze meestal Get Online Fast zelf.\n'
-            '- Veilige antwoordstijl voor launch/open-vragen zonder datum: '
-            'Get Online Fast wordt voorbereid voor launch. Je kunt deze pagina nu al gebruiken om de dienst te bekijken '
-            'en, als het startformulier beschikbaar is, je bedrijfsgegevens te sturen voor een private website preview. '
-            'Er staat hier nog geen vaste publieke launchdatum.\n'
+            '- Zeg dan duidelijk dat Get Online Fast al open is en leg daarna natuurlijk uit hoe we met een website, webshop, online zichtbaarheid of support kunnen helpen.\n'
         )
     if language == 'fr':
-        if launch_date:
-            launch_line = f'- Date de lancement public affichée dans la configuration : {launch_date}\n'
-        else:
-            launch_line = '- Aucune date de lancement public fixe n’est affichée dans la configuration pour le moment.\n'
         return (
             'Contexte du statut du site :\n'
             f'- Statut de Get Online Fast : {site_status}\n'
-            f'{launch_line}'
+            '- Get Online Fast est déjà ouvert et les visiteurs peuvent utiliser le service maintenant.\n'
             '- Si quelqu’un demande quand "ce site" ouvre ou se lance, il parle généralement de Get Online Fast lui-même.\n'
-            '- Réponse sûre pour les questions sur l’ouverture/le lancement sans date : '
-            'Get Online Fast est en cours de préparation pour le lancement. Vous pouvez déjà utiliser cette page pour découvrir le service '
-            'et, si le formulaire de démarrage est disponible, envoyer les détails de votre entreprise pour l’étape suivante. '
-            'Aucune date de lancement public fixe n’est affichée ici.\n'
+            '- Dites clairement que Get Online Fast est déjà ouvert, puis expliquez naturellement comment nous pouvons aider avec un site, une boutique, la visibilité en ligne ou le support.\n'
         )
     if language == 'pt':
-        if launch_date:
-            launch_line = f'- Data de lançamento público mostrada na configuração: {launch_date}\n'
-        else:
-            launch_line = '- Neste momento não existe uma data pública de lançamento fixa mostrada na configuração.\n'
         return (
             'Contexto do estado do site:\n'
             f'- Estado do Get Online Fast: {site_status}\n'
-            f'{launch_line}'
+            '- O Get Online Fast já está aberto e os visitantes podem usar o serviço agora.\n'
             '- Se alguém perguntar quando "este site" abre ou é lançado, normalmente está a falar do próprio Get Online Fast.\n'
-            '- Resposta segura para perguntas sobre abertura/lançamento sem data: '
-            'O Get Online Fast está a ser preparado para o lançamento. Já pode usar esta página para conhecer o serviço '
-            'e, se o formulário inicial estiver disponível, enviar os dados da sua empresa para o próximo passo. '
-            'Ainda não existe aqui uma data pública de lançamento fixa.\n'
+            '- Diga claramente que o Get Online Fast já está aberto e explique depois, de forma natural, como podemos ajudar com um website, loja online, visibilidade ou suporte.\n'
         )
-    if launch_date:
-        launch_line = f'- Public launch date shown in configuration: {launch_date}\n'
-    else:
-        launch_line = '- No fixed public launch date is shown in configuration right now.\n'
     return (
         'Site status context:\n'
         f'- Get Online Fast status: {site_status}\n'
-        f'{launch_line}'
+        '- Get Online Fast is already open and visitors can use the service now.\n'
         '- If someone asks when "this site" opens or launches, they usually mean Get Online Fast itself.\n'
-        '- Safe answer style for launch/open questions without a date: '
-        'Get Online Fast is being prepared for launch. You can already use this page to learn about the service and, '
-        'if the start form is available, send your business details for a private website preview. There is no public '
-        'launch date shown here yet.\n'
+        '- Clearly say that Get Online Fast is already open, then naturally explain how we can help with a website, online shop, online visibility, or support.\n'
     )
 
 
@@ -412,6 +402,14 @@ def build_public_assistant_response(*, request, question, language, fallback_res
     fallback_answer = str(fallback.get('answer') or '').strip()
     fallback_links = fallback.get('suggested_links') if isinstance(fallback.get('suggested_links'), list) else []
     language_code = _language_copy(language)
+    availability_answer = _site_availability_answer(question, language_code)
+    if availability_answer:
+        fallback_intent = 'site_availability'
+        fallback_answer = availability_answer
+        fallback_links = [
+            {'label': 'Websites', 'url': links.get('websites_url', '')},
+            {'label': 'Contact', 'url': links.get('contact_url', '')},
+        ]
     status = public_assistant_status()
     diagnostics = {
         'received_message': str(question or ''),

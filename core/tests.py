@@ -534,7 +534,7 @@ class AssistantTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, reverse('core:assistant_help'))
 
-    @override_settings(GOF_SITE_STATUS='pre_launch', GOF_PUBLIC_LAUNCH_DATE=None)
+    @override_settings(GOF_SITE_STATUS='open')
     def test_public_assistant_prompt_context_includes_site_identity_and_launch_status(self):
         context = _prompt_context(
             'en',
@@ -554,10 +554,28 @@ class AssistantTests(TestCase):
         self.assertIn('The visitor is currently on the Get Online Fast website.', context)
         self.assertIn('"this site" usually means the Get Online Fast website itself.', context)
         self.assertIn('"my site", "my website", or "our website"', context)
-        self.assertIn('Get Online Fast status: pre_launch', context)
-        self.assertIn('There is no public launch date shown here yet.', context)
+        self.assertIn('Get Online Fast status: open', context)
+        self.assertIn('Get Online Fast is already open', context)
         self.assertIn('Current path: /en/websites/', context)
         self.assertIn('Current page context: Websites page', context)
+
+    def test_opening_question_has_authoritative_fallback_when_ai_is_unavailable(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'When does this site open?', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'site_availability')
+        self.assertIn('already open', payload['answer'])
+        self.assertIn('website', payload['answer'])
+
+    def test_dutch_opening_question_has_authoritative_fallback(self):
+        response = self.client.post(
+            reverse('core:assistant_help'),
+            {'message': 'Wanneer gaan jullie open?', 'lang': 'nl', 'page_path': '/nl/'},
+        )
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'site_availability')
+        self.assertIn('al open', payload['answer'])
 
     def test_assistant_endpoint_returns_current_page_context(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'What website should I start with?', 'lang': 'en', 'page_path': '/en/websites/'})
@@ -811,39 +829,38 @@ class PublicAiAssistantTests(TestCase):
 
     @patch(
         'core.services_public_assistant.generate_public_assistant_answer_with_ai',
-        return_value='Get Online Fast is being prepared for launch. You can already use this page to learn about the service and, if the start form is available, send your business details for a private website preview. There is no public launch date shown here yet.',
+        return_value='Get Online Fast is already open. We can help you choose and set up the right website, online shop, or promotion for your business.',
     )
     def test_this_site_open_question_answers_about_get_online_fast(self, mocked_answer):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'When does this site open?'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['mode'], 'ai')
-        self.assertIn('Get Online Fast is being prepared for launch', payload['answer'])
-        self.assertIn('no public launch date shown here yet', payload['answer'])
+        self.assertIn('Get Online Fast is already open', payload['answer'])
         mocked_answer.assert_called_once()
 
     @patch(
         'core.services_public_assistant.generate_public_assistant_answer_with_ai',
-        return_value='Get Online Fast is being prepared for launch. You can already use this page to learn about the service. There is no public launch date shown here yet.',
+        return_value='Yes. Get Online Fast is already open, and we can help you choose a website, online shop, or promotion for your business.',
     )
     def test_this_site_open_now_question_answers_about_get_online_fast(self, mocked_answer):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'Is this site open now?'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['mode'], 'ai')
-        self.assertIn('Get Online Fast is being prepared for launch', payload['answer'])
+        self.assertIn('Get Online Fast is already open', payload['answer'])
         mocked_answer.assert_called_once()
 
     @patch(
         'core.services_public_assistant.generate_public_assistant_answer_with_ai',
-        return_value='You can already use the Get Online Fast website to learn about the service. If the start form is available, you can send your business details for a private website preview. There is no public launch date shown here yet.',
+        return_value='Yes. Get Online Fast is already open. You can use the website now to explore website, online shop, promotion, and support options.',
     )
     def test_can_i_use_this_site_now_answers_about_get_online_fast(self, mocked_answer):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'Can I use this site now?'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['mode'], 'ai')
-        self.assertIn('Get Online Fast website', payload['answer'])
+        self.assertIn('Get Online Fast is already open', payload['answer'])
         mocked_answer.assert_called_once()
 
     @patch(
@@ -872,14 +889,14 @@ class PublicAiAssistantTests(TestCase):
 
     @patch(
         'core.services_public_assistant.generate_public_assistant_answer_with_ai',
-        return_value='Get Online Fast is being prepared for launch. There is no public launch date shown here yet, but you can already use this page to learn about the service and request a private preview if available.',
+        return_value='Get Online Fast is already open. We can help you choose a website setup and guide you through the next steps now.',
     )
     def test_get_online_fast_launch_question_answers_about_service_launch(self, mocked_answer):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'When does Get Online Fast launch?'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['mode'], 'ai')
-        self.assertIn('no public launch date shown here yet', payload['answer'])
+        self.assertIn('Get Online Fast is already open', payload['answer'])
         mocked_answer.assert_called_once()
 
     @patch(
