@@ -136,7 +136,7 @@ def _language_copy(language):
 def _site_availability_answer(message, language):
     normalized = ' '.join(str(message or '').strip().lower().split())
     phrases = {
-        'en': ('when do you open', 'when does this site open', 'when does get online fast open', 'when does get online fast launch', 'is this site open', 'are you open', 'can i use this site now'),
+        'en': ('when do you open', 'when does this open', 'when does this site open', 'when does get online fast open', 'when does get online fast launch', 'is this open', 'is this site open', 'are you open', 'can i use this now', 'can i use this site now'),
         'nl': ('wanneer gaan jullie open', 'wanneer opent deze site', 'is deze site open', 'zijn jullie open', 'kan ik deze site nu gebruiken'),
         'fr': ('quand ouvrez-vous', 'quand ce site ouvre', 'ce site est-il ouvert', 'etes-vous ouvert', 'êtes-vous ouvert'),
         'pt': ('quando abrem', 'quando abre este site', 'este site esta aberto', 'este site está aberto', 'ja estao abertos', 'já estão abertos'),

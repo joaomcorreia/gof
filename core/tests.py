@@ -560,7 +560,7 @@ class AssistantTests(TestCase):
         self.assertIn('Current page context: Websites page', context)
 
     def test_opening_question_has_authoritative_fallback_when_ai_is_unavailable(self):
-        response = self.client.get(reverse('core:assistant_help'), {'q': 'When does this site open?', 'lang': 'en'})
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'When does this open?', 'lang': 'en'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['intent'], 'site_availability')
