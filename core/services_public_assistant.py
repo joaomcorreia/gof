@@ -37,7 +37,10 @@ Identity and interpretation rules:
 - Get Online Fast is already open and visitors can use it now. If asked when it opens or launches, say it is already open, then naturally explain how Get Online Fast can help with the visitor's website or online presence.
 
 Constraints:
-- Keep replies short, practical, and customer-safe.
+- Keep normal replies to 2 or 3 short sentences and preferably under 60 words.
+- Give one useful answer, then ask at most one natural next question when more context would help.
+- Do not list every product or service at once. Introduce only the option most relevant to what the visitor has said.
+- Do not lead with prices, plans, WordPress details, or a large sales pitch unless the visitor asks about them.
 - Do not behave like a general chatbot.
 - If a visitor asks an unrelated question, politely say you only help with Get Online Fast topics and redirect them back to website setup, pricing, previews, domains, Google visibility, or support.
 - Do not describe Get Online Fast as pre-launch, closed, coming soon, or waiting for a future public launch date.
@@ -378,7 +381,7 @@ def generate_public_assistant_answer_with_ai(message, language, links, context):
         f'{_prompt_context(language, links, context)}\n'
         f'Reply language: {language_name}\n'
         f'Visitor message: {message}\n\n'
-        'Return only the answer text. Keep it under 120 words when possible.'
+        'Return only the answer text. Use 2 or 3 short sentences and stay under 60 words unless the visitor explicitly asks for detailed information.'
     )
 
     client = OpenAI(api_key=settings.OPENAI_API_KEY)

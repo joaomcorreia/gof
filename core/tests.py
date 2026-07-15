@@ -6,7 +6,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from .models import ServiceOption
-from .services_public_assistant import _prompt_context
+from .services_public_assistant import PUBLIC_ASSISTANT_SYSTEM_PROMPT, _prompt_context
 
 
 @override_settings(SITE_NOINDEX=False)
@@ -796,6 +796,11 @@ class AssistantTests(TestCase):
 class PublicAiAssistantTests(TestCase):
     def setUp(self):
         cache.clear()
+
+    def test_public_assistant_prompt_requires_short_conversational_replies(self):
+        self.assertIn('2 or 3 short sentences', PUBLIC_ASSISTANT_SYSTEM_PROMPT)
+        self.assertIn('preferably under 60 words', PUBLIC_ASSISTANT_SYSTEM_PROMPT)
+        self.assertIn('Do not list every product or service at once', PUBLIC_ASSISTANT_SYSTEM_PROMPT)
 
     @patch('core.services_public_assistant.generate_public_assistant_answer_with_ai', return_value='Get Online Fast can show your website options, expected pricing direction, and the right next step.')
     def test_public_ai_enabled_can_return_ai_mode(self, mocked_answer):
