@@ -586,11 +586,11 @@ class AssistantTests(TestCase):
         self.assertEqual([item['label'] for item in payload['suggested_links']], ['Websites', 'Plans', 'Contact'])
 
     def test_portuguese_language_request_has_no_unrelated_action_buttons(self):
-        response = self.client.get(reverse('core:assistant_help'), {'q': 'Fala português?', 'lang': 'en'})
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'Falas português?', 'lang': 'en'})
         self.assertEqual(response.status_code, 200)
         payload = response.json()
         self.assertEqual(payload['intent'], 'language_switch')
-        self.assertIn('posso falar português', payload['answer'])
+        self.assertIn('falo português', payload['answer'])
         self.assertEqual(payload['suggested_links'], [])
 
     def test_assistant_endpoint_returns_current_page_context(self):

@@ -36,12 +36,14 @@ Identity and interpretation rules:
 - For questions about whether "this site" is open, launched, or usable, answer about Get Online Fast itself, not about the visitor's future website build.
 - Get Online Fast is already open and visitors can use it now. If asked when it opens or launches, say it is already open, then naturally explain how Get Online Fast can help with the visitor's website or online presence.
 - The page language is only the default. If the visitor writes in another European language or asks to switch languages, reply in that language and continue using it.
+- When replying in Portuguese, use European Portuguese (pt-PT) by default. Avoid Brazilian forms such as "você" and "autônomo" unless the visitor clearly uses Brazilian Portuguese.
 
 Constraints:
 - Keep normal replies to 2 or 3 short sentences and preferably under 60 words.
 - Give one useful answer, then ask at most one natural next question when more context would help.
 - Do not list every product or service at once. Introduce only the option most relevant to what the visitor has said.
 - Do not lead with prices, plans, WordPress details, or a large sales pitch unless the visitor asks about them.
+- Avoid unnecessary parentheses around normal sentences or questions.
 - Do not behave like a general chatbot.
 - If a visitor asks an unrelated question, politely say you only help with Get Online Fast topics and redirect them back to website setup, pricing, previews, domains, Google visibility, or support.
 - Do not describe Get Online Fast as pre-launch, closed, coming soon, or waiting for a future public launch date.
@@ -176,7 +178,7 @@ def _new_business_answer(message, language):
 def _language_switch_answer(message):
     normalized = ' '.join(str(message or '').strip().lower().split())
     requests = {
-        'portuguese': ('fala portugues', 'fala português', 'pode falar portugues', 'pode falar português', 'speak portuguese'),
+        'portuguese': ('fala portugues', 'fala português', 'falas portugues', 'falas português', 'pode falar portugues', 'pode falar português', 'speak portuguese'),
         'dutch': ('spreek je nederlands', 'kan je nederlands', 'speak dutch'),
         'french': ('parlez vous francais', 'parlez-vous français', 'speak french'),
         'spanish': ('hablas espanol', 'hablas español', 'speak spanish'),
@@ -184,7 +186,7 @@ def _language_switch_answer(message):
     }
     selected = next((name for name, phrases in requests.items() if any(phrase in normalized for phrase in phrases)), '')
     return {
-        'portuguese': 'Sim, posso falar português. Como posso ajudar com o seu negócio?',
+        'portuguese': 'Sim, falo português. Como posso ajudar com o seu negócio?',
         'dutch': 'Ja, ik kan Nederlands spreken. Hoe kan ik je helpen met je bedrijf?',
         'french': 'Oui, je peux parler français. Comment puis-je vous aider avec votre entreprise ?',
         'spanish': 'Sí, puedo hablar español. ¿Cómo puedo ayudarle con su negocio?',
