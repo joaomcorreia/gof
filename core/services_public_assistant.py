@@ -151,6 +151,24 @@ def _site_availability_answer(message, language):
     }[language]
 
 
+def _new_business_answer(message, language):
+    normalized = ' '.join(str(message or '').strip().lower().split())
+    phrases = {
+        'en': ('i have a company', 'i have a business', 'opened a company', 'opened a business', 'started a company', 'started a business', 'new company', 'new business'),
+        'nl': ('ik heb een bedrijf', 'bedrijf begonnen', 'bedrijf gestart', 'nieuwe onderneming', 'nieuw bedrijf'),
+        'fr': ('j ai une entreprise', "j'ai une entreprise", 'cree une entreprise', 'créé une entreprise', 'nouvelle entreprise'),
+        'pt': ('tenho uma empresa', 'abri uma empresa', 'criei uma empresa', 'nova empresa', 'novo negocio', 'novo negócio'),
+    }
+    if not any(phrase in normalized for phrase in phrases.get(language, phrases['en'])):
+        return ''
+    return {
+        'en': 'Congratulations on your new business. Get Online Fast can help you build a clear website, present your services, and create practical ways for customers to contact you. Tell me what your company does and where you work, and I’ll help you choose the right starting point.',
+        'nl': 'Gefeliciteerd met je nieuwe bedrijf. Get Online Fast kan helpen met een duidelijke website, je diensten presenteren en makkelijke contactmogelijkheden voor klanten. Vertel wat je bedrijf doet en waar je werkt, dan help ik je de juiste start te kiezen.',
+        'fr': 'Félicitations pour votre nouvelle entreprise. Get Online Fast peut vous aider à créer un site clair, présenter vos services et permettre aux clients de vous contacter facilement. Expliquez-moi votre activité et votre zone de service, et je vous aiderai à choisir le bon départ.',
+        'pt': 'Parabéns pela nova empresa. O Get Online Fast pode ajudar a criar um website claro, apresentar os seus serviços e facilitar o contacto dos clientes. Diga-me o que a empresa faz e onde trabalha, e ajudo a escolher o melhor ponto de partida.',
+    }[language]
+
+
 def _site_status_context(language):
     site_status = getattr(settings, 'GOF_SITE_STATUS', 'open')
     if language == 'nl':
@@ -408,6 +426,15 @@ def build_public_assistant_response(*, request, question, language, fallback_res
         fallback_answer = availability_answer
         fallback_links = [
             {'label': 'Websites', 'url': links.get('websites_url', '')},
+            {'label': 'Contact', 'url': links.get('contact_url', '')},
+        ]
+    new_business_answer = _new_business_answer(question, language_code)
+    if new_business_answer:
+        fallback_intent = 'business_start'
+        fallback_answer = new_business_answer
+        fallback_links = [
+            {'label': 'Websites', 'url': links.get('websites_url', '')},
+            {'label': 'Plans', 'url': links.get('plans_url', '')},
             {'label': 'Contact', 'url': links.get('contact_url', '')},
         ]
     status = public_assistant_status()

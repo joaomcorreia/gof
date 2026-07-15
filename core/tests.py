@@ -577,6 +577,14 @@ class AssistantTests(TestCase):
         self.assertEqual(payload['intent'], 'site_availability')
         self.assertIn('al open', payload['answer'])
 
+    def test_new_company_question_does_not_fall_into_legal_links(self):
+        response = self.client.get(reverse('core:assistant_help'), {'q': 'I just opened a company', 'lang': 'en'})
+        self.assertEqual(response.status_code, 200)
+        payload = response.json()
+        self.assertEqual(payload['intent'], 'business_start')
+        self.assertIn('new business', payload['answer'])
+        self.assertEqual([item['label'] for item in payload['suggested_links']], ['Websites', 'Plans', 'Contact'])
+
     def test_assistant_endpoint_returns_current_page_context(self):
         response = self.client.get(reverse('core:assistant_help'), {'q': 'What website should I start with?', 'lang': 'en', 'page_path': '/en/websites/'})
         self.assertEqual(response.status_code, 200)
